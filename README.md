@@ -1,4 +1,4 @@
-<img src="../trixtaJS/docs/images/trixta-logo.png" alt="trixta logo"  />
+<img src="./docs/images/trixta-logo.png" alt="trixta logo"  />
 # JS
 <br />
 

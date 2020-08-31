@@ -1,7 +1,7 @@
-# Trixta
+# Trixta React
 
-## State
-[state](state.md)
+## Redux
+[redux](redux.md)
 
 ## Selectors
 [selectors](selectors.md)
@@ -9,12 +9,11 @@
 ## Actions
 [actions](actions.md)
 
-## Saga
-[saga](saga.md)
-
+## Components
+[components](components.md)
 
 ### Learn more
 - [actions](actions.md)
+- [components](components.md)
 - [selectors](selectors.md)
-- [state](state.md)
-- [saga](saga.md)
+- [redux](redux.md)

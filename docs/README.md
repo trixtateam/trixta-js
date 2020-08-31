@@ -1,14 +1,10 @@
 # Documentation
 ## Table of Contents
-
-
-
-
-
-
-
-
-
+- [REACT](react)
+  - [Actions](react/trixta/actions.md)
+  - [Components](react/trixta/components.md)
+  - [Redux](react/trixta/redux.md)
+  - [Selectors](react/trixta/selectors.md)
 
 ## Overview
 
@@ -217,6 +213,6 @@ export function* socketConnectedSaga({ isAnonymous }) {
 
 export default function* rootSaga() {
   yield all([setupTrixtaSaga()]);
-   yield takeEvery(socketActionTypes.SOCKET_OPEN, socketConnectedSaga);
+  yield takeEvery(socketActionTypes.SOCKET_OPEN, socketConnectedSaga);
 }
 ```

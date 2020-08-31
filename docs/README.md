@@ -1,8 +1,18 @@
-<img src="../trixtaJS/docs/images/trixta-logo.png" alt="trixta logo"  />
-# JS
-<br />
+# Documentation
+## Table of Contents
 
-# Quick Start Guide
+
+
+
+
+
+
+
+
+
+## Overview
+
+### Quickstart
 ## Install
 Install the package with npm
 
@@ -181,10 +191,3 @@ export default function configureStore(initialState = {}) {
   return store;
 }
 ```
-
-## Documentation
-- [**The detailed Guide to `trixtaJS`**](docs/README.md)
-
-## License
-
-This project is licensed under the MIT license, Copyright (c) 2020 Trixta Inc. For more information see `LICENSE.md`.

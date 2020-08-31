@@ -1,5 +1,5 @@
 <img src="./docs/images/trixta-logo.png" alt="trixta logo"  />
-# JS
+JS
 <br />
 
 # Quick Start Guide

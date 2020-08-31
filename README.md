@@ -182,6 +182,35 @@ export default function configureStore(initialState = {}) {
 }
 ```
 
+## 4. Setup Trixta Roles
+```javascript
+import { put, select, takeLatest, takeEvery, all } from 'redux-saga/effects';
+import { updateTrixtaRoles } from '@trixta/trixtaJS';
+import {
+  socketActionTypes,
+} from '@trixta/phoenix-to-redux';
+
+
+/**
+ * After the socket is connected,
+ * @param {*} params
+ */
+export function* socketConnectedSaga({ isAnonymous }) {
+  // handle connection response
+  const currentSession = yield select(makeSelectCurrentSession());
+  // save roles in reducer or somewhere to passs to trixta action
+  const roles = _.get(currentSession, 'roles', []);
+  if (!isAnonymous && roles) {
+    yield put(updateTrixtaRoles({ roles }));
+  }
+}
+
+export default function* rootSaga() {
+  yield all([setupTrixtaSaga()]);
+   yield takeEvery(socketActionTypes.SOCKET_OPEN, socketConnectedSaga);
+}
+```
+
 ## Documentation
 - [**The detailed Guide to `trixtaJS`**](docs/README.md)
 

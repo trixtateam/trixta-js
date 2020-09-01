@@ -1,15 +1,15 @@
-import * as reducers from './React/reducers';
-import * as actions from './React/reduxActions';
+import { trixtaReducer } from './React/reducers';
+import * as reduxActions from './React/reduxActions';
 import * as utils from './utils';
 import * as selectors from './React/selectors';
 import * as constants from './React/constants';
-import * as sagas from './React/sagas/index';
+import { setupTrixtaSaga } from './React/sagas';
 
 module.exports = {
-  ...reducers,
-  ...sagas,
+  trixtaReducer,
+  setupTrixtaSaga,
   ...constants,
   ...selectors,
-  ...actions,
+  ...reduxActions,
   ...utils,
 };

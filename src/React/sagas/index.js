@@ -1,1 +1,1 @@
-export * from './setupTrixtaSaga';
+export { setupTrixtaSaga } from './setupTrixtaSaga';

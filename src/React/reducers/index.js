@@ -1,1 +1,1 @@
-export * from './trixtaReducer';
+export { trixtaReducer, initialState } from './trixtaReducer';

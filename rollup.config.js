@@ -17,7 +17,7 @@ const GLOBALS = EXTERNAL.map((key) => {
     case 'immer':
       return 'immer';
     case 'redux-saga':
-      return 'reduxsaga';
+      return 'reduxSaga';
     case 'react-dom':
       return 'ReactDOM';
     case 'react':
@@ -32,10 +32,8 @@ const GLOBALS = EXTERNAL.map((key) => {
 });
 const BABEL_OPTIONS = {
   extensions,
-  babelrc: false, // to ignore @babel/transform-runtime
   exclude: 'node_modules/**',
-  presets: ['@babel/env'],
-  babelHelpers: 'bundled',
+  babelHelpers: 'runtime',
 };
 
 const COMMON_PLUGINS = [
@@ -100,7 +98,7 @@ const OUTPUT_DATA = [
 ];
 
 // https://github.com/rollup/plugins/tree/master/packages/babel#babelhelpers
-// const CJS_AND_ES_EXTERNALS = EXTERNAL.concat(/@babel\/runtime/);
+const CJS_AND_ES_EXTERNALS = EXTERNAL.concat(/@babel\/runtime/);
 const config = OUTPUT_DATA.map(({ file, format, includeTerser }) => ({
   input: INPUT_FILE_PATH,
   output: {
@@ -109,7 +107,7 @@ const config = OUTPUT_DATA.map(({ file, format, includeTerser }) => ({
     name: OUTPUT_NAME,
     globals: GLOBALS,
   },
-  external: EXTERNAL,
+  external: ['cjs', 'es'].includes(format) ? CJS_AND_ES_EXTERNALS : EXTERNAL,
   plugins: includeTerser ? PLUGINS_WITH_TERSER : PLUGINS,
 }));
 

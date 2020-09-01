@@ -38,7 +38,7 @@ import {
 export function* checkTrixtaRolesSaga({ data }) {
   const roles = get(data, 'roles', []);
   try {
-    if (roles) {
+    if (!isNullOrEmpty(roles)) {
       yield all(
         roles.map((role) =>
           fork(checkLoggedInRoleSaga, {
@@ -327,7 +327,7 @@ export function* submitReactionResponseFailure({ error, loadingStatusKey }) {
   );
 }
 
-export function* setupTrixtaSaga() {
+export const setupTrixtaSaga = function* setupTrixtaSaga() {
   yield takeLatest(UPDATE_TRIXTA_ROLES, checkTrixtaRolesSaga);
   yield takeEvery(SUBMIT_ACTION_RESPONSE, submitActionResponseSaga);
   yield takeEvery(SUBMIT_ACTION_RESPONSE_SUCCESS, submitActionResponseSuccess);
@@ -336,4 +336,4 @@ export function* setupTrixtaSaga() {
   yield takeEvery(SUBMIT_REACTION_RESPONSE, submitResponseForReactionSaga);
   yield takeEvery(REACTION_RESPONSE, checkReactionResponseSaga);
   yield takeEvery(channelActionTypes.CHANNEL_JOIN, handleChannelJoinSaga);
-}
+};

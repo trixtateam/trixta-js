@@ -20,6 +20,7 @@
     "react",
     "redux",
     "redux-saga",
+    "phoenix-channels",
     "reselect",
     "node",
     "js",

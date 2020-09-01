@@ -6,10 +6,10 @@ JS
 ## Install
 Install the package with npm
 
-```npm i @trixta/trixtaJS```
+```npm i @trixta/trixtajs```
 or yarn - whichever you prefer
 
-```yarn add @trixta/trixtaJS```
+```yarn add @trixta/trixtajs```
 
 ## 1. Setup Reducer
 ```javascript
@@ -18,7 +18,7 @@ or yarn - whichever you prefer
  */
 
 import { combineReducers } from 'redux';
-import { trixtaReducer } from '@trixta/trixtaJS';
+import { trixtaReducer } from '@trixta/trixtajs';
 import { phoenixReducer } from '@trixta/phoenix-to-redux';
 export default function createReducer() {
   const rootReducer = combineReducers({
@@ -80,7 +80,7 @@ export default function configureStore(initialState = {}) {
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'connected-react-router';
 import { createPhoenixChannelMiddleware } from '@trixta/phoenix-to-redux';
-import { setupTrixtaSaga } from '@trixta/trixtaJS';
+import { setupTrixtaSaga } from '@trixta/trixtajs';
 import createReducer from './reducers';
 
 const phoenixChannelMiddleWare = createPhoenixChannelMiddleware();
@@ -126,7 +126,7 @@ export default function configureStore(initialState = {}) {
 ### Option 2
 ```javascript
 import { put, select, takeLatest, takeEvery, all } from 'redux-saga/effects';
-import { setupTrixtaSaga } from '@trixta/trixtaJS';
+import { setupTrixtaSaga } from '@trixta/trixtajs';
 
 export default function* rootSaga() {
   yield all([setupTrixtaSaga()]);
@@ -185,7 +185,7 @@ export default function configureStore(initialState = {}) {
 ## 4. Setup Trixta Roles
 ```javascript
 import { put, select, takeLatest, takeEvery, all } from 'redux-saga/effects';
-import { updateTrixtaRoles } from '@trixta/trixtaJS';
+import { updateTrixtaRoles } from '@trixta/trixtajs';
 import {
   socketActionTypes,
 } from '@trixta/phoenix-to-redux';
@@ -212,7 +212,7 @@ export default function* rootSaga() {
 ```
 
 ## Documentation
-- [**The detailed Guide to `trixtaJS`**](docs/README.md)
+- [**The detailed Guide to `trixtajs`**](docs/README.md)
 
 ## License
 

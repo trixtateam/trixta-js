@@ -3,7 +3,7 @@
 
 ## Reducer Structure Diagram
 
-<img src="../trixtaJS/docs/../../../images/reducer_structure.png" alt="reducer structure" align="center" />
+<img src="../../images/reducer_structure.png" alt="reducer structure" align="center" />
 
 
 

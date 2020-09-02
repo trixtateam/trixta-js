@@ -1,114 +1,93 @@
-import resolve from '@rollup/plugin-node-resolve';
-import babel from '@rollup/plugin-babel';
+import nodeResolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
+import babel from '@rollup/plugin-babel';
+import replace from 'rollup-plugin-replace';
 import filesize from 'rollup-plugin-filesize';
 import { terser } from 'rollup-plugin-terser';
+
 import pkg from './package.json';
 const destinationDirectory = 'lib';
 const destinationFileName = 'bundle';
 const INPUT_FILE_PATH = 'src/index.js';
 const OUTPUT_NAME = 'trixtajs';
-const extensions = ['.js'];
-const EXTERNAL = Object.keys(pkg.dependencies);
-const GLOBALS = EXTERNAL.map((key) => {
-  switch (key) {
-    case 'prop-types':
-      return 'PropTypes';
-    case 'immer':
-      return 'immer';
-    case 'redux-saga':
-      return 'reduxSaga';
-    case 'react-dom':
-      return 'ReactDOM';
-    case 'react':
-      return 'React';
-    case 'react-redux':
-      return 'reactRedux';
-    case '@trixta/phoenix-to-redux':
-      return 'phoenixToRedux';
-    default:
-      return key;
+
+const makeExternalPredicate = (externalArr) => {
+  if (!externalArr.length) {
+    return () => false;
   }
-});
-const BABEL_OPTIONS = {
-  extensions,
-  exclude: 'node_modules/**',
-  babelHelpers: 'runtime',
+  const pattern = new RegExp(`^(${externalArr.join('|')})($|/)`);
+  return (id) => pattern.test(id);
 };
 
-const COMMON_PLUGINS = [
-  commonjs(),
-  filesize(),
-  resolve({
-    extensions,
-    // pass custom options to the resolve plugin
-    customResolveOptions: {
-      moduleDirectory: 'node_modules',
-    },
-  }),
-  babel({
-    ...BABEL_OPTIONS,
-  }),
-];
+const deps = Object.keys(pkg.dependencies || {});
+const peerDeps = Object.keys(pkg.peerDependencies || {});
 
-const PLUGINS = COMMON_PLUGINS;
-const PLUGINS_WITH_TERSER = [
-  terser(),
-  commonjs(),
-  filesize(),
-  resolve({
-    extensions,
-    // pass custom options to the resolve plugin
-    customResolveOptions: {
-      moduleDirectory: 'node_modules',
-    },
-  }),
-  babel({
-    ...BABEL_OPTIONS,
-  }),
-];
-const OUTPUT_DATA = [
-  {
-    file: pkg.main,
-    format: 'cjs',
-    includeTerser: true,
-  },
-  {
-    file: `${destinationDirectory}/${destinationFileName}.cjs.js`,
-    format: 'cjs',
-  },
-  {
-    file: pkg.browser,
-    format: 'umd',
-    includeTerser: true,
-  },
-  {
-    file: `${destinationDirectory}/${destinationFileName}.umd.js`,
-    format: 'umd',
-  },
-  {
-    file: pkg.module,
-    format: 'es',
-    includeTerser: true,
-  },
-  {
-    file: `${destinationDirectory}/${destinationFileName}.esm.js`,
-    format: 'es',
-  },
-];
+const GLOBALS = makeExternalPredicate(deps.concat(peerDeps));
 
-// https://github.com/rollup/plugins/tree/master/packages/babel#babelhelpers
-const CJS_AND_ES_EXTERNALS = EXTERNAL.concat(/@babel\/runtime/);
-const config = OUTPUT_DATA.map(({ file, format, includeTerser }) => ({
-  input: INPUT_FILE_PATH,
+const createConfig = ({ input, output, external, env }) => ({
+  input,
   output: {
-    file,
-    format,
+    sourcemap: true,
     name: OUTPUT_NAME,
     globals: GLOBALS,
+    ...output,
   },
-  external: ['cjs', 'es'].includes(format) ? CJS_AND_ES_EXTERNALS : EXTERNAL,
-  plugins: includeTerser ? PLUGINS_WITH_TERSER : PLUGINS,
-}));
+  external: makeExternalPredicate(external === 'peers' ? peerDeps : deps.concat(peerDeps)),
+  plugins: [
+    env === 'production' && terser(),
+    commonjs(),
+    filesize(),
+    nodeResolve({
+      jsnext: true,
+    }),
+    babel({
+      exclude: 'node_modules/**',
+      babelHelpers: 'runtime',
+    }),
+    env &&
+      replace({
+        'process.env.NODE_ENV': JSON.stringify(env),
+      }),
+  ],
+  onwarn(warning, warn) {
+    if (warning.code === 'UNUSED_EXTERNAL_IMPORT') {
+      return;
+    }
+    warn(warning);
+  },
+});
 
-export default config;
+export default [
+  createConfig({
+    input: INPUT_FILE_PATH,
+    output: {
+      file: `${destinationDirectory}/${destinationFileName}.dev.esm.js`,
+      format: 'es',
+    },
+    env: 'development',
+  }),
+  createConfig({
+    input: INPUT_FILE_PATH,
+    output: {
+      file: pkg.module,
+      format: 'es',
+    },
+    env: 'production',
+  }),
+  createConfig({
+    input: INPUT_FILE_PATH,
+    output: {
+      file: pkg.main,
+      format: 'cjs',
+    },
+    env: 'production',
+  }),
+  createConfig({
+    input: INPUT_FILE_PATH,
+    output: {
+      format: 'cjs',
+      file: `${destinationDirectory}/${destinationFileName}.dev.cjs.js`,
+    },
+    env: 'development',
+  }),
+];

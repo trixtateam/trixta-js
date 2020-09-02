@@ -327,13 +327,15 @@ export function* submitReactionResponseFailure({ error, loadingStatusKey }) {
   );
 }
 
-export const setupTrixtaSaga = function* setupTrixtaSaga() {
-  yield takeLatest(UPDATE_TRIXTA_ROLES, checkTrixtaRolesSaga);
-  yield takeEvery(SUBMIT_ACTION_RESPONSE, submitActionResponseSaga);
-  yield takeEvery(SUBMIT_ACTION_RESPONSE_SUCCESS, submitActionResponseSuccess);
-  yield takeEvery(SUBMIT_REACTION_RESPONSE_FAILURE, submitReactionResponseFailure);
-  yield takeEvery(SUBMIT_ACTION_RESPONSE_FAILURE, submitActionResponseFailure);
-  yield takeEvery(SUBMIT_REACTION_RESPONSE, submitResponseForReactionSaga);
-  yield takeEvery(REACTION_RESPONSE, checkReactionResponseSaga);
-  yield takeEvery(channelActionTypes.CHANNEL_JOIN, handleChannelJoinSaga);
-};
+export function* setupTrixtaSaga() {
+  yield all([
+    takeLatest(UPDATE_TRIXTA_ROLES, checkTrixtaRolesSaga),
+    takeEvery(SUBMIT_ACTION_RESPONSE, submitActionResponseSaga),
+    takeEvery(SUBMIT_ACTION_RESPONSE_SUCCESS, submitActionResponseSuccess),
+    takeEvery(SUBMIT_REACTION_RESPONSE_FAILURE, submitReactionResponseFailure),
+    takeEvery(SUBMIT_ACTION_RESPONSE_FAILURE, submitActionResponseFailure),
+    takeEvery(SUBMIT_REACTION_RESPONSE, submitResponseForReactionSaga),
+    takeEvery(REACTION_RESPONSE, checkReactionResponseSaga),
+    takeEvery(channelActionTypes.CHANNEL_JOIN, handleChannelJoinSaga),
+  ]);
+}

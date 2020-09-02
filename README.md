@@ -207,7 +207,7 @@ export function* socketConnectedSaga({ isAnonymous }) {
 
 export default function* rootSaga() {
   yield all([setupTrixtaSaga()]);
-   yield takeEvery(socketActionTypes.SOCKET_OPEN, socketConnectedSaga);
+  yield takeEvery(socketActionTypes.SOCKET_OPEN, socketConnectedSaga);
 }
 ```
 

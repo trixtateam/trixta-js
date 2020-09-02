@@ -16,6 +16,13 @@ export const UPDATE_REACTION = 'trixta/UPDATE_REACTION';
 export const UPDATE_REACTION_RESPONSE = 'trixta/UPDATE_REACTION_RESPONSE';
 export const UPDATE_TRIXTA_ERROR = 'trixta/UPDATE_TRIXTA_ERROR';
 export const UPDATE_TRIXTA_LOADING_ERROR_STATUS = 'trixta/UPDATE_LOADING_ERROR_STATUS';
+
+export const trixtaActionTypes = {
+  REACTION_RESPONSE,
+  UPDATE_TRIXTA_ERROR,
+  UPDATE_TRIXTA_LOADING_ERROR_STATUS,
+};
+
 export const TRIXTA_FIELDS = {
   requestForEffect: 'requestForEffect',
   requestForResponse: 'requestForResponse',

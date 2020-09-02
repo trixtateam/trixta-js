@@ -4,7 +4,7 @@ import babel from '@rollup/plugin-babel';
 import replace from 'rollup-plugin-replace';
 import filesize from 'rollup-plugin-filesize';
 import { terser } from 'rollup-plugin-terser';
-
+import json from '@rollup/plugin-json';
 import pkg from './package.json';
 const destinationDirectory = 'lib';
 const destinationFileName = 'bundle';
@@ -35,6 +35,25 @@ const createConfig = ({ input, output, external, env }) => ({
   external: makeExternalPredicate(external === 'peers' ? peerDeps : deps.concat(peerDeps)),
   plugins: [
     env === 'production' && terser(),
+    json({
+      // All JSON files will be parsed by default,
+      // but you can also specifically include/exclude files
+      exclude: ['node_modules/**'],
+
+      // for tree-shaking, properties will be declared as
+      // variables, using either `var` or `const`
+      preferConst: true, // Default: false
+
+      // specify indentation for the generated default export —
+      // defaults to '\t'
+      indent: '  ',
+
+      // ignores indent and generates the smallest code
+      compact: true, // Default: false
+
+      // generate a named export for every property of the JSON object
+      namedExports: true, // Default: true
+    }),
     commonjs(),
     filesize(),
     nodeResolve({

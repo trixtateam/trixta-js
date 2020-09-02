@@ -7,15 +7,15 @@ import {
   PHOENIX_CHANNEL_LOADING_STATUS,
 } from '@trixta/phoenix-to-redux';
 import {
-  SUBMIT_ACTION_RESPONSE_FAILURE,
-  UPDATE_ACTION_RESPONSE,
-  UPDATE_REACTION_RESPONSE,
-  SUBMIT_REACTION_RESPONSE_FAILURE,
-  SUBMIT_REACTION_RESPONSE_SUCCESS,
+  SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
+  UPDATE_TRIXTA_ACTION_RESPONSE,
+  UPDATE_TRIXTA_REACTION_RESPONSE,
+  SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
+  SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
   ROLE_REACTION_RESPONSE_FIELDS,
   UPDATE_TRIXTA_ROLES,
-  UPDATE_ACTION,
-  UPDATE_REACTION,
+  UPDATE_TRIXTA_ACTION,
+  UPDATE_TRIXTA_REACTION,
   UPDATE_TRIXTA_ERROR,
   TRIXTA_FIELDS,
   UPDATE_TRIXTA_LOADING_ERROR_STATUS,
@@ -79,7 +79,7 @@ export const trixtaReducer = (state = initialState, action) =>
       case UPDATE_TRIXTA_ROLES:
         draft.agentDetails = get(action, 'data.roles', []);
         break;
-      case SUBMIT_REACTION_RESPONSE_FAILURE:
+      case SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE:
         {
           const reactionName = get(action, 'error.reactionName');
           const roleName = get(action, 'error.roleName');
@@ -96,7 +96,7 @@ export const trixtaReducer = (state = initialState, action) =>
           }
         }
         break;
-      case SUBMIT_REACTION_RESPONSE_SUCCESS:
+      case SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS:
         {
           const reactionName = get(action, 'data.reactionName');
           const roleName = get(action, 'data.roleName');
@@ -113,7 +113,7 @@ export const trixtaReducer = (state = initialState, action) =>
           }
         }
         break;
-      case UPDATE_REACTION_RESPONSE:
+      case UPDATE_TRIXTA_REACTION_RESPONSE:
         {
           const keyName = get(action, 'data.keyName', null);
           const reactionDetails = get(action, 'data.reaction', {});
@@ -154,7 +154,7 @@ export const trixtaReducer = (state = initialState, action) =>
           }
         }
         break;
-      case UPDATE_ACTION:
+      case UPDATE_TRIXTA_ACTION:
         {
           const actionDetails = get(action, 'data.action');
           const keyName = get(action, 'data.keyName', null);
@@ -163,7 +163,7 @@ export const trixtaReducer = (state = initialState, action) =>
           });
         }
         break;
-      case UPDATE_REACTION:
+      case UPDATE_TRIXTA_REACTION:
         {
           const reactionDetails = get(action, 'data.reaction');
           const keyName = get(action, 'data.keyName', null);
@@ -173,7 +173,7 @@ export const trixtaReducer = (state = initialState, action) =>
           });
         }
         break;
-      case UPDATE_ACTION_RESPONSE:
+      case UPDATE_TRIXTA_ACTION_RESPONSE:
         {
           const keyName = get(action, 'data.keyName', null);
           if (!get(action, 'data.clearResponse', false)) {
@@ -188,7 +188,7 @@ export const trixtaReducer = (state = initialState, action) =>
           }
         }
         break;
-      case SUBMIT_ACTION_RESPONSE_FAILURE:
+      case SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE:
         {
           const actionName = get(action, 'data.actionName');
           const roleName = get(action, 'data.roleName');

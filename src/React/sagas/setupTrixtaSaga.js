@@ -8,15 +8,15 @@ import {
 } from '@trixta/phoenix-to-redux';
 import { getChannelName, isNullOrEmpty } from '../../utils';
 import {
-  REACTION_RESPONSE,
-  SUBMIT_ACTION_RESPONSE_SUCCESS,
+  TRIXTA_REACTION_RESPONSE,
+  SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
   CHANNEL_JOINED_FIELDS,
-  SUBMIT_ACTION_RESPONSE,
+  SUBMIT_TRIXTA_ACTION_RESPONSE,
   UPDATE_TRIXTA_ROLES,
-  SUBMIT_REACTION_RESPONSE,
-  SUBMIT_ACTION_RESPONSE_FAILURE,
-  SUBMIT_REACTION_RESPONSE_FAILURE,
-  SUBMIT_REACTION_RESPONSE_SUCCESS,
+  SUBMIT_TRIXTA_REACTION_RESPONSE,
+  SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
+  SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
+  SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
 } from '../constants';
 import {
   updateAction,
@@ -155,8 +155,8 @@ export function* submitActionResponseSaga({ data }) {
         requestData: formData,
         additionalData: { roleName, actionName },
         dispatchChannelError: true,
-        channelErrorResponseEvent: SUBMIT_ACTION_RESPONSE_FAILURE,
-        channelResponseEvent: SUBMIT_ACTION_RESPONSE_SUCCESS,
+        channelErrorResponseEvent: SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
+        channelResponseEvent: SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
         loadingStatusKey: `${roleName}:${actionName}`,
       })
     );
@@ -249,7 +249,7 @@ export function* addRoleListeningReactionRequestSaga({ data }) {
           events: [
             {
               eventName: selectedReaction,
-              eventActionType: REACTION_RESPONSE,
+              eventActionType: TRIXTA_REACTION_RESPONSE,
             },
           ],
         })
@@ -287,8 +287,8 @@ export function* submitResponseForReactionSaga({ data }) {
         },
         additionalData: { roleName, reactionName },
         dispatchChannelError: true,
-        channelErrorResponseEvent: SUBMIT_REACTION_RESPONSE_FAILURE,
-        channelResponseEvent: SUBMIT_REACTION_RESPONSE_SUCCESS,
+        channelErrorResponseEvent: SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
+        channelResponseEvent: SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
         loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
       })
     );
@@ -330,12 +330,12 @@ export function* submitReactionResponseFailure({ error, loadingStatusKey }) {
 export function* setupTrixtaSaga() {
   yield all([
     takeLatest(UPDATE_TRIXTA_ROLES, checkTrixtaRolesSaga),
-    takeEvery(SUBMIT_ACTION_RESPONSE, submitActionResponseSaga),
-    takeEvery(SUBMIT_ACTION_RESPONSE_SUCCESS, submitActionResponseSuccess),
-    takeEvery(SUBMIT_REACTION_RESPONSE_FAILURE, submitReactionResponseFailure),
-    takeEvery(SUBMIT_ACTION_RESPONSE_FAILURE, submitActionResponseFailure),
-    takeEvery(SUBMIT_REACTION_RESPONSE, submitResponseForReactionSaga),
-    takeEvery(REACTION_RESPONSE, checkReactionResponseSaga),
+    takeEvery(SUBMIT_TRIXTA_ACTION_RESPONSE, submitActionResponseSaga),
+    takeEvery(SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS, submitActionResponseSuccess),
+    takeEvery(SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE, submitReactionResponseFailure),
+    takeEvery(SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE, submitActionResponseFailure),
+    takeEvery(SUBMIT_TRIXTA_REACTION_RESPONSE, submitResponseForReactionSaga),
+    takeEvery(TRIXTA_REACTION_RESPONSE, checkReactionResponseSaga),
     takeEvery(channelActionTypes.CHANNEL_JOIN, handleChannelJoinSaga),
   ]);
 }

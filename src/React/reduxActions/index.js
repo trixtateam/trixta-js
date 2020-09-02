@@ -1,11 +1,11 @@
 import {
   UPDATE_TRIXTA_ROLES,
-  SUBMIT_ACTION_RESPONSE,
-  SUBMIT_REACTION_RESPONSE,
-  UPDATE_ACTION_RESPONSE,
-  UPDATE_REACTION_RESPONSE,
-  UPDATE_ACTION,
-  UPDATE_REACTION,
+  SUBMIT_TRIXTA_ACTION_RESPONSE,
+  SUBMIT_TRIXTA_REACTION_RESPONSE,
+  UPDATE_TRIXTA_ACTION_RESPONSE,
+  UPDATE_TRIXTA_REACTION_RESPONSE,
+  UPDATE_TRIXTA_ACTION,
+  UPDATE_TRIXTA_REACTION,
   UPDATE_TRIXTA_ERROR,
   UPDATE_TRIXTA_LOADING_ERROR_STATUS,
 } from '../constants';
@@ -48,7 +48,7 @@ export function updateLoadingErrorStatus({ loadingStatusKey, error, clearStatus 
  */
 export function updateActionResponse({ roleName, clearResponse = false, response, actionName }) {
   return {
-    type: UPDATE_ACTION_RESPONSE,
+    type: UPDATE_TRIXTA_ACTION_RESPONSE,
     data: {
       clearResponse,
       roleName,
@@ -72,7 +72,7 @@ export function updateActionResponse({ roleName, clearResponse = false, response
  */
 export function updateReactionResponse({ roleName, reaction, reactionName }) {
   return {
-    type: UPDATE_REACTION_RESPONSE,
+    type: UPDATE_TRIXTA_REACTION_RESPONSE,
     data: {
       roleName,
       reactionName,
@@ -109,7 +109,7 @@ export function updateTrixtaRoles({ roles }) {
  */
 export function updateAction({ role, action, name }) {
   return {
-    type: UPDATE_ACTION,
+    type: UPDATE_TRIXTA_ACTION,
     data: {
       role,
       keyName: getReducerKeyName({
@@ -132,7 +132,7 @@ export function updateAction({ role, action, name }) {
  */
 export function updateReaction({ role, reaction, name }) {
   return {
-    type: UPDATE_REACTION,
+    type: UPDATE_TRIXTA_REACTION,
     data: {
       role,
       keyName: getReducerKeyName({
@@ -154,7 +154,7 @@ export function updateReaction({ role, reaction, name }) {
  */
 export function submitActionResponse({ formData, roleName, actionName }) {
   return {
-    type: SUBMIT_ACTION_RESPONSE,
+    type: SUBMIT_TRIXTA_ACTION_RESPONSE,
     data: {
       formData,
       roleName,
@@ -173,7 +173,7 @@ export function submitActionResponse({ formData, roleName, actionName }) {
  */
 export function submitReactionResponse({ formData, ref, roleName, reactionName }) {
   return {
-    type: SUBMIT_REACTION_RESPONSE,
+    type: SUBMIT_TRIXTA_REACTION_RESPONSE,
     data: {
       formData,
       ref,

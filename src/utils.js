@@ -1,5 +1,6 @@
 import get from 'lodash/get';
 import isNull from 'lodash/isNull';
+import Moment from 'moment';
 import isUndefined from 'lodash/isUndefined';
 import isArray from 'lodash/isArray';
 import isEmpty from 'lodash/isEmpty';
@@ -15,6 +16,7 @@ export function getReactionDetails({ reaction }) {
     ref: get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref),
     status: get(reaction, ROLE_REACTION_RESPONSE_FIELDS.status),
     initial_data: get(reaction, ROLE_REACTION_RESPONSE_FIELDS.initial_data),
+    dateCreated: new Moment().format('dddd, MMMM Do YYYY, h:mm:ss a'),
   };
 }
 

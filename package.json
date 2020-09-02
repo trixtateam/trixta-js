@@ -1,6 +1,6 @@
 {
   "name": "@trixta/trixtajs",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.1",
   "description": "Javascript library to integrate Trixta",
   "main": "lib/bundle.cjs.js",
   "module": "lib/bundle.esm.js",
@@ -73,17 +73,18 @@
     "@trixta/phoenix-to-redux": "2.0.0-beta.1"
   },
   "dependencies": {
+    "@trixta/phoenix-to-redux": "^2.0.0-beta.1",
     "immer": "3.0.0",
     "lodash": ">=4",
+    "moment": "^2.27.0",
     "phoenix": "1.5.4",
+    "prop-types": "^15.7.2",
     "react": "16.8.6",
     "react-dom": "16.8.6",
-    "prop-types": "^15.7.2",
-    "reselect": "4.0.0",
-    "redux-saga": "1.0.0",
-    "redux": "4.0.1",
     "react-redux": "7.2.1",
-    "@trixta/phoenix-to-redux": "^2.0.0-beta.1"
+    "redux": "4.0.1",
+    "redux-saga": "1.0.0",
+    "reselect": "4.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",

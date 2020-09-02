@@ -19,12 +19,12 @@ import {
   SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
 } from '../constants';
 import {
-  updateAction,
-  updateReaction,
+  updateTrixtaAction,
+  updateTrixtaReaction,
   updateTrixtaError,
-  updateReactionResponse,
-  updateActionResponse,
-  updateLoadingErrorStatus,
+  updateTrixtaReactionResponse,
+  updateTrixtaActionResponse,
+  updateTrixtaLoadingErrorStatus,
 } from '../reduxActions';
 
 /**
@@ -82,7 +82,7 @@ export function* setupRoleSaga({ response, channel }) {
       yield all(
         Object.keys(actionsForRole).map((actionName) =>
           put(
-            updateAction({
+            updateTrixtaAction({
               role: roleName,
               action: {
                 name: actionName,
@@ -96,7 +96,7 @@ export function* setupRoleSaga({ response, channel }) {
       yield all(
         Object.keys(reactionsForRole).map((reactionName) =>
           put(
-            updateReaction({
+            updateTrixtaReaction({
               role: roleName,
               reaction: {
                 name: reactionName,
@@ -177,7 +177,7 @@ export function* submitActionResponseSuccess({ data }) {
     const roleName = get(data, 'roleName', false);
     const actionName = get(data, 'actionName', false);
     if (roleName && actionName) {
-      yield put(updateActionResponse({ roleName, actionName, response: data }));
+      yield put(updateTrixtaActionResponse({ roleName, actionName, response: data }));
     }
   }
 }
@@ -197,7 +197,7 @@ export function* checkReactionResponseSaga({ data, eventName, channelTopic }) {
     switch (eventName) {
       default:
         yield put(
-          updateReactionResponse({
+          updateTrixtaReactionResponse({
             reaction: reactionResponse,
             roleName,
             reactionName: eventName,
@@ -305,7 +305,7 @@ export function* submitResponseForReactionSaga({ data }) {
  */
 export function* submitActionResponseFailure({ error, loadingStatusKey }) {
   yield put(
-    updateLoadingErrorStatus({
+    updateTrixtaLoadingErrorStatus({
       loadingStatusKey,
       error,
     })
@@ -320,7 +320,7 @@ export function* submitActionResponseFailure({ error, loadingStatusKey }) {
  */
 export function* submitReactionResponseFailure({ error, loadingStatusKey }) {
   yield put(
-    updateLoadingErrorStatus({
+    updateTrixtaLoadingErrorStatus({
       loadingStatusKey,
       error,
     })

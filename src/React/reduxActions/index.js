@@ -30,7 +30,7 @@ export function updateTrixtaError({ error }) {
  * @param {String||Object} params.error - error from trixta
  * @param {Boolean=} [params.clearStatus = false] params.clearStatus - true to clear error status for loadingStatusKey
  */
-export function updateLoadingErrorStatus({ loadingStatusKey, error, clearStatus = false }) {
+export function updateTrixtaLoadingErrorStatus({ loadingStatusKey, error, clearStatus = false }) {
   return {
     type: UPDATE_TRIXTA_LOADING_ERROR_STATUS,
     data: { loadingStatusKey, error, clearStatus },
@@ -46,7 +46,12 @@ export function updateLoadingErrorStatus({ loadingStatusKey, error, clearStatus 
  * @param {String} params.response - response from action
  * @param {Boolean?} params.clearResponse - determines if should clear the response
  */
-export function updateActionResponse({ roleName, clearResponse = false, response, actionName }) {
+export function updateTrixtaActionResponse({
+  roleName,
+  clearResponse = false,
+  response,
+  actionName,
+}) {
   return {
     type: UPDATE_TRIXTA_ACTION_RESPONSE,
     data: {
@@ -70,7 +75,7 @@ export function updateActionResponse({ roleName, clearResponse = false, response
  * @param {String} params.reactionName - name of reaction
  * @param {String} params.reaction - details regarding response from reaction
  */
-export function updateReactionResponse({ roleName, reaction, reactionName }) {
+export function updateTrixtaReactionResponse({ roleName, reaction, reactionName }) {
   return {
     type: UPDATE_TRIXTA_REACTION_RESPONSE,
     data: {
@@ -107,7 +112,7 @@ export function updateTrixtaRoles({ roles }) {
  * @param {Object} params.action - action of role
  * @param {string} params.name - name of action
  */
-export function updateAction({ role, action, name }) {
+export function updateTrixtaAction({ role, action, name }) {
   return {
     type: UPDATE_TRIXTA_ACTION,
     data: {
@@ -130,7 +135,7 @@ export function updateAction({ role, action, name }) {
  * @param {Object} params.reaction - reaction of role
  * @param {string} params.name - name of reaction
  */
-export function updateReaction({ role, reaction, name }) {
+export function updateTrixtaReaction({ role, reaction, name }) {
   return {
     type: UPDATE_TRIXTA_REACTION,
     data: {
@@ -152,7 +157,7 @@ export function updateReaction({ role, reaction, name }) {
  * @param {String} params.actionName - name of action
  * @param {Object} params.formData - data to submit to space for actionName
  */
-export function submitActionResponse({ formData, roleName, actionName }) {
+export function submitTrixtaActionResponse({ formData, roleName, actionName }) {
   return {
     type: SUBMIT_TRIXTA_ACTION_RESPONSE,
     data: {
@@ -171,7 +176,7 @@ export function submitActionResponse({ formData, roleName, actionName }) {
  * @param {Object} params.formData - data to submit to space for reactionName
  * @param {Object} params.ref - ref for reaction (eg ref)
  */
-export function submitReactionResponse({ formData, ref, roleName, reactionName }) {
+export function submitTrixtaReactionResponse({ formData, ref, roleName, reactionName }) {
   return {
     type: SUBMIT_TRIXTA_REACTION_RESPONSE,
     data: {

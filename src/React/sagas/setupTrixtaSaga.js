@@ -1,4 +1,4 @@
-import { put, fork, all, takeLatest, takeEvery } from 'redux-saga/effects';
+import { put, fork, all, take, takeEvery } from 'redux-saga/effects';
 import get from 'lodash/get';
 // eslint-disable-next-line import/no-unresolved
 import {
@@ -327,15 +327,53 @@ export function* submitReactionResponseFailure({ error, loadingStatusKey }) {
   );
 }
 
+/** *************************************************************************** */
+/** ***************************** WATCHERS ************************************ */
+/** *************************************************************************** */
+
+function* watchForTrixtaRoles() {
+  while (true) {
+    const data = yield take(UPDATE_TRIXTA_ROLES);
+    yield fork(checkTrixtaRolesSaga, data);
+  }
+}
+
+function* watchForTrixtActionSubmit() {
+  while (true) {
+    const data = yield take(SUBMIT_TRIXTA_ACTION_RESPONSE);
+    yield fork(submitActionResponseSaga, data);
+  }
+}
+
+function* watchForPhoenixChannelJoin() {
+  while (true) {
+    const data = yield take(channelActionTypes.CHANNEL_JOIN);
+    yield fork(handleChannelJoinSaga, data);
+  }
+}
+
+function* watchForTrixtaReactionResponse() {
+  while (true) {
+    const data = yield take(TRIXTA_REACTION_RESPONSE);
+    yield fork(checkReactionResponseSaga, data);
+  }
+}
+
+function* watchForTrixtaReactionSubmit() {
+  while (true) {
+    const data = yield take(SUBMIT_TRIXTA_REACTION_RESPONSE);
+    yield fork(submitResponseForReactionSaga, data);
+  }
+}
 export function* setupTrixtaSaga() {
   yield all([
-    takeLatest(UPDATE_TRIXTA_ROLES, checkTrixtaRolesSaga),
-    takeEvery(SUBMIT_TRIXTA_ACTION_RESPONSE, submitActionResponseSaga),
+    fork(watchForTrixtaRoles),
+    fork(watchForPhoenixChannelJoin),
+    fork(watchForTrixtActionSubmit),
+    fork(watchForTrixtaReactionResponse),
+    fork(watchForTrixtaReactionSubmit),
     takeEvery(SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS, submitActionResponseSuccess),
     takeEvery(SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE, submitReactionResponseFailure),
     takeEvery(SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE, submitActionResponseFailure),
-    takeEvery(SUBMIT_TRIXTA_REACTION_RESPONSE, submitResponseForReactionSaga),
-    takeEvery(TRIXTA_REACTION_RESPONSE, checkReactionResponseSaga),
-    takeEvery(channelActionTypes.CHANNEL_JOIN, handleChannelJoinSaga),
   ]);
 }

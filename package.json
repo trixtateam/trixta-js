@@ -1,6 +1,6 @@
 {
   "name": "@trixta/trixta-js",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.1",
   "description": "Javascript library to integrate Trixta",
   "main": "lib/bundle.cjs.js",
   "module": "lib/bundle.esm.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/trixtateam/trixtaJS.git"
+    "url": "git+https://github.com/trixtateam/trixta-js.git"
   },
   "keywords": [
     "trixta",
@@ -31,9 +31,9 @@
   "author": "jacqueswho <jacqueswho@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/trixtateam/trixtaJS/issues"
+    "url": "https://github.com/trixtateam/trixta-js/issues"
   },
-  "homepage": "https://github.com/trixtateam/trixtaJS#readme",
+  "homepage": "https://github.com/trixtateam/trixta-js#readme",
   "scripts": {
     "dev": "rollup -c --watch",
     "build": "rollup -c",

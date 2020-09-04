@@ -117,6 +117,7 @@ export function updateTrixtaAction({ role, action, name }) {
     type: UPDATE_TRIXTA_ACTION,
     data: {
       role,
+      loadingStatusKey: `${role}:${name}`,
       keyName: getReducerKeyName({
         name,
         role,

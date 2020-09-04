@@ -117,8 +117,12 @@ export const trixtaReducer = (state = initialState, action) =>
         {
           const keyName = get(action, 'data.keyName', null);
           const reactionDetails = get(action, 'data.reaction', {});
+          const roleName = get(action, 'data.roleName', {});
+          const reactionName = get(action, 'data.reactionName', {});
           const reaction = getReactionDetails({
             reaction: reactionDetails,
+            roleName,
+            reactionName,
           });
           const ref = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, false);
           const { mode } = state.reactions[keyName];

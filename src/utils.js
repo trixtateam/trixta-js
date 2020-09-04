@@ -11,11 +11,15 @@ import { ROLE_ACTION_FIELDS, ROLE_REACTION_RESPONSE_FIELDS } from './React/const
  * @param {Object} params
  * @param {Object} params.reaction - reaction details
  */
-export function getReactionDetails({ reaction }) {
+export function getReactionDetails({ reaction, roleName, reactionName }) {
   return {
     ref: get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref),
     status: get(reaction, ROLE_REACTION_RESPONSE_FIELDS.status),
     initial_data: get(reaction, ROLE_REACTION_RESPONSE_FIELDS.initial_data),
+    loadingStatusKey: `${roleName}:${reactionName}:${get(
+      reaction,
+      ROLE_REACTION_RESPONSE_FIELDS.ref
+    )}`,
     dateCreated: new Moment().format('dddd, MMMM Do YYYY, h:mm:ss a'),
   };
 }

@@ -1,6 +1,6 @@
 ## Selectors
 ### Common Selectors
-[`common selectors`](https://github.com/trixtateam/trixtaJS/blob/master/src/React/selectors/index.js)  - includes all common trixta selectors
+[`common selectors`](https://github.com/trixtateam/trixtaJS/blob/master/src/React/selectors/common.js)  - includes all common trixta selectors
 
 ### Action Selectors
 [`action selectors`](https://github.com/trixtateam/trixtaJS/blob/master/src/React/selectors/trixtaActions.js)  - includes all related trixta action selectors

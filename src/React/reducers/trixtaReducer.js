@@ -193,12 +193,14 @@ export const trixtaReducer = (state = initialState, action) =>
         {
           const keyName = get(action, 'data.keyName', null);
           if (!get(action, 'data.clearResponse', false)) {
-            draft.actions[keyName].instances.push({
-              response: {
-                success: get(action, 'data.response'),
-                error: false,
-              },
-            });
+            if (draft.actions[keyName].instances) {
+              draft.actions[keyName].instances.push({
+                response: {
+                  success: get(action, 'data.response'),
+                  error: false,
+                },
+              });
+            }
           } else {
             draft.actions[keyName].instances = [];
           }
@@ -212,12 +214,14 @@ export const trixtaReducer = (state = initialState, action) =>
             name: actionName,
             role: roleName,
           });
-          draft.actions[keyName].instances.push({
-            response: {
-              error: get(action, 'error'),
-              success: false,
-            },
-          });
+          if (draft.actions[keyName].instances) {
+            draft.actions[keyName].instances.push({
+              response: {
+                error: get(action, 'error'),
+                success: false,
+              },
+            });
+          }
         }
         break;
       default:

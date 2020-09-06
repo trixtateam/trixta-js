@@ -3,6 +3,7 @@ import get from 'lodash/get';
 import pickBy from 'lodash/pickBy';
 import split from 'lodash/split';
 import { getReducerKeyName } from '../../utils';
+import { selectTrixtaLoadingStatus } from './common';
 
 /**
  * Selects the actions[props.roleName:props.actionName]
@@ -12,7 +13,7 @@ import { getReducerKeyName } from '../../utils';
  * @param {String} props.roleName - name of role
  * @param {String} props.actionName - name of action
  */
-const selectActionForRole = (state, props) =>
+export const selectTrixtaActionForRole = (state, props) =>
   state.trixta.actions[getReducerKeyName({ name: props.actionName, role: props.roleName })];
 
 /**
@@ -22,7 +23,7 @@ const selectActionForRole = (state, props) =>
  * @param {String} props.roleName - name of role
  * @param {String} props.actionName - name of action
  */
-const selectActionResponseInstancesForRole = (state, props) =>
+export const selectTrixtaActionResponseInstancesForRole = (state, props) =>
   get(
     state.trixta.actions,
     `${getReducerKeyName({
@@ -41,7 +42,7 @@ const selectActionResponseInstancesForRole = (state, props) =>
  * @param {String} props.actionName - name of action
  * @param {String} props.instanceIndex - index for action instance
  */
-const selectActionResponseInstance = (state, props) =>
+export const selectTrixtaActionResponseInstance = (state, props) =>
   state.trixta.actions[getReducerKeyName({ name: props.actionName, role: props.roleName })]
     .instances[props.instanceIndex];
 
@@ -51,18 +52,31 @@ const selectActionResponseInstance = (state, props) =>
  * @param {Object} props
  * @param {String} props.roleName - name of role
  */
-const selectActionsForRole = (state, props) =>
+export const selectTrixtaActionsForRole = (state, props) =>
   pickBy(state.trixta.actions, (value, key) => split(key, ':', 1)[0] === props.roleName);
 
 /**
- * Returns the common for the  props.actionName
+ * Selects the actions[props.roleName:props.actionName].common
+ * for the given props.roleName ,  props.actionName and returns the action common
  * @param {*} state
  * @param {Object} props
- * @param {String} props.actionName
+ * @param {String} props.roleName - name of role
+ * @param {String} props.actionName - name of action
  */
-// eslint-disable-next-line no-unused-vars
-const makeSelectActionCommonForRole = (state, props) =>
-  createSelector(selectActionForRole, (selectedAction) => {
+export const selectTrixtaActionCommon = (state, props) =>
+  state.trixta.actions[getReducerKeyName({ name: props.actionName, role: props.roleName })] &&
+  state.trixta.actions[getReducerKeyName({ name: props.actionName, role: props.roleName })].common;
+
+/**
+ * Selects the actions[props.roleName:props.actionName]
+ * for the given props.roleName, props.actionName and returns the action
+ * @param {*} state
+ * @param {Object} props
+ * @param {String} props.roleName - name of role
+ * @param {String} props.actionName - name of action
+ */
+export const makeSelectTrixtaActionCommonForRole = () =>
+  createSelector(selectTrixtaActionForRole, (selectedAction) => {
     if (selectedAction) {
       return get(selectedAction, `common`, {});
     }
@@ -71,13 +85,14 @@ const makeSelectActionCommonForRole = (state, props) =>
   });
 
 /**
- * Returns the isntances for the props.actionName
+ * Selects the actions[props.roleName:props.actionName].instances for the given props.roleName,props.actionName and returns the action instances
  * @param {*} state
  * @param {Object} props
- * @param {String} props.actionName
+ * @param {String} props.roleName - name of role
+ * @param {String} props.actionName - name of action
  */
-const makeSelectActionResponseInstancesForRole = () =>
-  createSelector(selectActionResponseInstancesForRole, (selectedActionInstances) => {
+export const makeSelectTrixtaActionResponseInstancesForRole = () =>
+  createSelector(selectTrixtaActionResponseInstancesForRole, (selectedActionInstances) => {
     if (selectedActionInstances) {
       return selectedActionInstances;
     }
@@ -85,8 +100,17 @@ const makeSelectActionResponseInstancesForRole = () =>
     return [];
   });
 
-const makesSelectActionResponseInstance = () =>
-  createSelector(selectActionResponseInstance, (selectedActionInstance) => {
+/**
+ * Selects the actions[props.roleName:props.actionName].instances[props.instanceIndex]
+ * for the given props.roleName ,  props.actionName and returns the action instance response
+ * @param {*} state
+ * @param {Object} props
+ * @param {String} props.roleName - name of role
+ * @param {String} props.actionName - name of action
+ * @param {String} props.instanceIndex - index for action instance
+ */
+export const makesSelectTrixtaActionResponseInstance = () =>
+  createSelector(selectTrixtaActionResponseInstance, (selectedActionInstance) => {
     if (selectedActionInstance) {
       return selectedActionInstance.response;
     }
@@ -94,16 +118,34 @@ const makesSelectActionResponseInstance = () =>
     return { success: false, error: false };
   });
 
-const makeSelectActionsForRole = () =>
-  createSelector(selectActionsForRole, (actions) => actions && actions);
+/**
+ * Selects the actions for given props.roleName
+ * @param {*} state
+ * @param {Object} props
+ * @param {String} props.roleName - name of role
+ */
+export const makeSelectTrixtaActionsForRole = () =>
+  createSelector(selectTrixtaActionsForRole, (actions) => actions && actions);
 
-export {
-  selectActionForRole,
-  selectActionResponseInstancesForRole,
-  selectActionResponseInstance,
-  selectActionsForRole,
-  makeSelectActionsForRole,
-  makeSelectActionCommonForRole,
-  makeSelectActionResponseInstancesForRole,
-  makesSelectActionResponseInstance,
-};
+/**
+ * Selects the actions[props.roleName:props.actionName].common.loadingStatusKey
+ * for the given props.roleName and returns trita.loadingStatus[common.loadingStatusKey]
+ *
+ * @param {*} state
+ * @param {Object} props
+ * @param {String} props.roleName - name of role
+ * @param {String} props.actionName - name of action
+ */
+export const makeSelectIsTrixtaActionInProgress = () =>
+  createSelector(
+    selectTrixtaLoadingStatus,
+    selectTrixtaActionCommon,
+    (trixtaLoadingStatus, commonForAction) => {
+      if (commonForAction && trixtaLoadingStatus) {
+        const loadingStatusForAction = trixtaLoadingStatus[commonForAction.loadingStatusKey];
+        if (loadingStatusForAction) return get(loadingStatusForAction, 'status', false);
+      }
+
+      return false;
+    }
+  );

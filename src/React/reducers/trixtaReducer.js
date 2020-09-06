@@ -132,7 +132,10 @@ export const trixtaReducer = (state = initialState, action) =>
           } else if (draft.reactions[keyName]) {
             if (ref) {
               draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse][ref] = {
-                details: reaction,
+                details: {
+                  loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
+                  ...reaction,
+                },
                 response: {
                   success: false,
                   error: false,
@@ -140,15 +143,24 @@ export const trixtaReducer = (state = initialState, action) =>
               };
             } else if (!mode) {
               draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect][0] = {
-                details: reaction,
+                details: {
+                  loadingStatusKey: `${roleName}:${reactionName}:0`,
+                  ...reaction,
+                },
                 response: {
                   success: false,
                   error: false,
                 },
               };
             } else {
+              const reactionInstanceSize =
+                state.reactions[keyName] &&
+                state.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect].length;
               draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect].push({
-                details: reaction,
+                details: {
+                  loadingStatusKey: `${roleName}:${reactionName}:${reactionInstanceSize + 1}`,
+                  ...reaction,
+                },
                 response: {
                   success: false,
                   error: false,

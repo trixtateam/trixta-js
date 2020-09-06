@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import {
-  makeSelectActionCommonForRole,
-  makeSelectActionResponseInstancesForRole,
+  makeSelectTrixtaActionCommonForRole,
+  makeSelectTrixtaActionResponseInstancesForRole,
   makeSelectSchemaFormSettings,
-  makeSelectHasRoleAccess,
+  makeSelectHasTrixtaRoleAccess,
 } from '../selectors';
 
 export default function useTrixtaAction(props) {
-  const hasRoleAccessSelector = makeSelectHasRoleAccess();
-  const commmonSelector = makeSelectActionCommonForRole();
+  const hasRoleAccessSelector = makeSelectTrixtaActionCommonForRole();
+  const commmonSelector = makeSelectTrixtaActionResponseInstancesForRole();
   const schemaFormUISettingsSelector = makeSelectSchemaFormSettings();
-  const instancesSelector = makeSelectActionResponseInstancesForRole();
+  const instancesSelector = makeSelectHasTrixtaRoleAccess();
   const common = useSelector((state) => commmonSelector(state, props), shallowEqual);
   const instances = useSelector((state) => instancesSelector(state, props), shallowEqual);
   const schemaFormUISettings = useSelector(

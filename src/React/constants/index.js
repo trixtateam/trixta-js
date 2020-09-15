@@ -80,6 +80,17 @@ export const ROLE_REACTION_FIELDS = {
   tags: 'tags',
 };
 
+export const TRIXTA_REACTION_MODE_TYPE = {
+  accumulate: 'accumulate',
+  limit: 'limit',
+  replace: 'replace',
+};
+
+export const TRIXTA_REACTION_MODE_TYPE_FIELDS = {
+  type: 'type',
+  limit: 'limit',
+};
+
 export const CHANNEL_JOINED_FIELDS = {
   contract_actions: 'contract_actions',
   contract_reactions: 'contract_reactions',

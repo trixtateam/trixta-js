@@ -4,7 +4,11 @@ import Moment from 'moment';
 import isUndefined from 'lodash/isUndefined';
 import isArray from 'lodash/isArray';
 import isEmpty from 'lodash/isEmpty';
-import { ROLE_ACTION_FIELDS, ROLE_REACTION_RESPONSE_FIELDS } from './React/constants';
+import {
+  ROLE_ACTION_FIELDS,
+  ROLE_REACTION_RESPONSE_FIELDS,
+  TRIXTA_REACTION_MODE_TYPE,
+} from './React/constants';
 
 /**
  * Returns only the necessary fields needed from reaction
@@ -28,7 +32,9 @@ export function getReactionDetails({ reaction }) {
  * @param {String} params.type - action or reaction
  */
 export function getReducerStructure({ details, type = 'action' }) {
-  const mode = get(details, `${ROLE_ACTION_FIELDS.request_settings}.ui:options.mode`, false);
+  const mode = get(details, `${ROLE_ACTION_FIELDS.request_settings}.ui:options.mode`, {
+    type: TRIXTA_REACTION_MODE_TYPE.replace,
+  });
   return {
     mode,
     instances: type === 'action' ? [] : { requestForEffect: [], requestForResponse: {} },

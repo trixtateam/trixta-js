@@ -19,6 +19,8 @@ import {
   UPDATE_TRIXTA_ERROR,
   TRIXTA_FIELDS,
   UPDATE_TRIXTA_LOADING_ERROR_STATUS,
+  TRIXTA_REACTION_MODE_TYPE,
+  TRIXTA_REACTION_MODE_TYPE_FIELDS,
 } from '../constants';
 
 import {
@@ -130,42 +132,66 @@ export const trixtaReducer = (state = initialState, action) =>
           if (isExpired) {
             delete draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse][ref];
           } else if (draft.reactions[keyName]) {
-            if (ref) {
-              draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse][ref] = {
-                details: {
-                  loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
-                  ...reaction,
-                },
-                response: {
-                  success: false,
-                  error: false,
-                },
-              };
-            } else if (!mode) {
-              draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect][0] = {
-                details: {
-                  loadingStatusKey: `${roleName}:${reactionName}:0`,
-                  ...reaction,
-                },
-                response: {
-                  success: false,
-                  error: false,
-                },
-              };
-            } else {
-              const reactionInstanceSize =
-                state.reactions[keyName] &&
-                state.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect].length;
-              draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect].push({
-                details: {
-                  loadingStatusKey: `${roleName}:${reactionName}:${reactionInstanceSize + 1}`,
-                  ...reaction,
-                },
-                response: {
-                  success: false,
-                  error: false,
-                },
-              });
+            switch (mode[TRIXTA_REACTION_MODE_TYPE_FIELDS.type]) {
+              case TRIXTA_REACTION_MODE_TYPE.replace:
+                if (ref) {
+                  draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse] = {};
+                  draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse][ref] = {
+                    details: {
+                      loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
+                      ...reaction,
+                    },
+                    response: {
+                      success: false,
+                      error: false,
+                    },
+                  };
+                  break;
+                }
+                if (!ref) {
+                  draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect][0] = {
+                    details: {
+                      loadingStatusKey: `${roleName}:${reactionName}:0`,
+                      ...reaction,
+                    },
+                    response: {
+                      success: false,
+                      error: false,
+                    },
+                  };
+                }
+
+                break;
+              case TRIXTA_REACTION_MODE_TYPE.accumulate:
+                {
+                  if (ref) {
+                    draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse][ref] = {
+                      details: {
+                        loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
+                        ...reaction,
+                      },
+                      response: {
+                        success: false,
+                        error: false,
+                      },
+                    };
+                    break;
+                  }
+                  const reactionInstanceSize =
+                    state.reactions[keyName] &&
+                    state.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect].length;
+                  draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect].push({
+                    details: {
+                      loadingStatusKey: `${roleName}:${reactionName}:${reactionInstanceSize + 1}`,
+                      ...reaction,
+                    },
+                    response: {
+                      success: false,
+                      error: false,
+                    },
+                  });
+                }
+                break;
             }
           }
         }

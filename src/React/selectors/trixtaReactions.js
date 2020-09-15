@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import get from 'lodash/get';
 import pickBy from 'lodash/pickBy';
 import split from 'lodash/split';
+import forEach from 'lodash/forEach';
 import { getReducerKeyName } from '../../utils';
 import { TRIXTA_FIELDS } from '../constants';
 import { selectTrixtaLoadingStatus } from './common';
@@ -173,3 +174,38 @@ export const makeSelectIsTrixtaReactionInProgress = () =>
       return false;
     }
   );
+
+export const makeSelectTrixtaReactionListForRole = () =>
+  // eslint-disable-next-line arrow-body-style
+  createSelector(selectTrixtaReactionsForRole, (reactionsForRole) => {
+    const reactionKeys = Object.keys(reactionsForRole);
+    const requestForEffects = [];
+    const requestForResponses = [];
+    forEach(reactionKeys, (key) => {
+      const reaction = reactionsForRole[key];
+      const instances = get(reaction, 'instances', {});
+      const effectInstances = get(instances, TRIXTA_FIELDS.requestForEffect, []);
+
+      const responseInstances = get(instances, TRIXTA_FIELDS.requestForResponse, []);
+
+      forEach(effectInstances, (instance) => {
+        requestForEffects.push({
+          name: reaction.common.name,
+          instance,
+        });
+      });
+
+      forEach(Object.keys(responseInstances), (instanceRef) => {
+        requestForResponses.push({
+          name: reaction.common.name,
+          instanceRef,
+          instance: responseInstances[instanceRef],
+        });
+      });
+    });
+
+    return {
+      requestForResponses,
+      requestForEffects,
+    };
+  });

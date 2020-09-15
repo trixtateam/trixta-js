@@ -44,7 +44,10 @@
     "lint:js": "npm run lint:eslint -- . ",
     "lint:staged": "lint-staged",
     "prettify": "prettier --write",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "major": "npm --no-git-tag-version version premajor --preid=beta",
+    "patch": "npm --no-git-tag-version version prepatch --preid=beta",
+    "minor": "npm --no-git-tag-version version preminor --preid=beta"
   },
   "lint-staged": {
     "*.js": [

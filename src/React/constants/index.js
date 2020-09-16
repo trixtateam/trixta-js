@@ -80,13 +80,12 @@ export const ROLE_REACTION_FIELDS = {
   tags: 'tags',
 };
 
-export const TRIXTA_REACTION_MODE_TYPE = {
+export const TRIXTA_MODE_TYPE = {
   accumulate: 'accumulate',
-  limit: 'limit',
   replace: 'replace',
 };
 
-export const TRIXTA_REACTION_MODE_TYPE_FIELDS = {
+export const TRIXTA_MODE_TYPE_FIELDS = {
   type: 'type',
   limit: 'limit',
 };

@@ -7,7 +7,7 @@ import isEmpty from 'lodash/isEmpty';
 import {
   ROLE_ACTION_FIELDS,
   ROLE_REACTION_RESPONSE_FIELDS,
-  TRIXTA_REACTION_MODE_TYPE,
+  TRIXTA_MODE_TYPE,
 } from './React/constants';
 
 /**
@@ -26,18 +26,18 @@ export function getReactionDetails({ reaction }) {
 
 /**
  * * Returns the default structure for a trixta action or reaction to
- * store in the reducer
+ *   store in the reducer
  * @param {Object} params
  * @param {Object} params.details - action or reaction details
  * @param {String} params.type - action or reaction
  */
 export function getReducerStructure({ details, type = 'action' }) {
   const mode = get(details, `${ROLE_ACTION_FIELDS.request_settings}.ui:options.mode`, {
-    type: TRIXTA_REACTION_MODE_TYPE.replace,
+    type: TRIXTA_MODE_TYPE.replace,
   });
   return {
     mode,
-    instances: type === 'action' ? [] : { requestForEffect: [], requestForResponse: {} },
+    instances: type === 'action' ? [] : { requestForEffect: [], requestForResponse: [] },
     common: details,
   };
 }

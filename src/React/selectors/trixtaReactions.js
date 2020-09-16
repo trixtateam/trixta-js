@@ -44,18 +44,17 @@ export const selectTrixtaReactionResponseInstancesForRole = (state, props) =>
     })}.instances.${
       props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
     }`,
-    props.requestForEffect ? [] : {}
+    []
   );
 
 /**
- * Selects the reactions[props.roleName:props.reactionName].instances[props.instanceRef]
+ * Selects the reactions[props.roleName:props.reactionName].instances[props.instanceIndex]
  * for the given props.roleName , props.reactionName and returns the reaction response instance
  * @param {*} state
  * @param {Object} props
  * @param {String} props.roleName - name of role
  * @param {String} props.reactionName - name of reaction
- * @param {String} props.instanceRef - ref for reaction instance
- * @param {String} props.instanceIndex - index for reaction instance
+ * @param {Number} props.instanceIndex - index for reaction instance
  * @param {boolean} props.requestForEffect - true if reaction is requestForEffect
  */
 export const selectTrixtaReactionResponseInstance = (state, props) =>
@@ -67,8 +66,8 @@ export const selectTrixtaReactionResponseInstance = (state, props) =>
     })}.instances.${
       props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
     }`,
-    props.requestForEffect ? [] : {}
-  )[props.requestForEffect ? props.instanceIndex : props.instanceRef];
+    []
+  )[props.instanceIndex];
 
 /**
  * Selects the reactions[props.roleName:props.reactionName].instances
@@ -95,8 +94,7 @@ export const makeSelectTrixtaReactionResponseInstancesForRole = () =>
  * @param {Object} props
  * @param {String} props.roleName - name of role
  * @param {String} props.reactionName - name of reaction
- * @param {String} props.instanceRef - ref for reaction instance
- * @param {String} props.instanceIndex - index for reaction instance
+ * @param {Number} props.instanceIndex - index for reaction instance
  * @param {boolean} props.requestForEffect - true if reaction is requestForEffect
  */
 export const makesSelectTrixtaReactionResponseInstance = () =>
@@ -110,7 +108,7 @@ export const makesSelectTrixtaReactionResponseInstance = () =>
 
 /**
  * Selects the reactions[props.roleName:props.actionName]
- * for the given props.roleName ,  props.reactionName and returns the reaction
+ * for the given props.roleName , props.reactionName and returns the reaction
  * @param {*} state
  * @param {Object} props
  * @param {String} props.roleName - name of role
@@ -150,15 +148,14 @@ export const makeSelectTrixtaReactionsForRole = () =>
   createSelector(selectTrixtaReactionsForRole, (reactions) => reactions && reactions);
 
 /**
- * Selects the reactions[props.roleName:props.reactionName].instances[props.instanceRef|props.instanceIndex]
+ * Selects the reactions[props.roleName:props.reactionName].instances[props.instanceIndex]
  * for the given props.roleName and returns trita.loadingStatus[reactionInstance.loadingStatusKey]
  *
  * @param {*} state
  * @param {Object} props
  * @param {String} props.roleName - name of role
  * @param {String} props.reactionName - name of reaction
- * @param {String} props.instanceRef - ref for reaction instance
- * @param {String} props.instanceIndex - index for reaction instance
+ * @param {Number} props.instanceIndex - index for reaction instance
  */
 export const makeSelectIsTrixtaReactionInProgress = () =>
   createSelector(
@@ -185,7 +182,6 @@ export const makeSelectTrixtaReactionListForRole = () =>
       const reaction = reactionsForRole[key];
       const instances = get(reaction, 'instances', {});
       const effectInstances = get(instances, TRIXTA_FIELDS.requestForEffect, []);
-
       const responseInstances = get(instances, TRIXTA_FIELDS.requestForResponse, []);
 
       forEach(effectInstances, (instance) => {
@@ -195,11 +191,10 @@ export const makeSelectTrixtaReactionListForRole = () =>
         });
       });
 
-      forEach(Object.keys(responseInstances), (instanceRef) => {
+      forEach(responseInstances, (instance) => {
         requestForResponses.push({
           name: reaction.common.name,
-          instanceRef,
-          instance: responseInstances[instanceRef],
+          instance,
         });
       });
     });

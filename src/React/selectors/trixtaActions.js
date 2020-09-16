@@ -17,7 +17,8 @@ export const selectTrixtaActionForRole = (state, props) =>
   state.trixta.actions[getReducerKeyName({ name: props.actionName, role: props.roleName })];
 
 /**
- * Selects the actions[props.roleName:props.actionName].instances for the given props.roleName,props.actionName and returns the action instances
+ * Selects the actions[props.roleName:props.actionName].instances for the given props.roleName,
+ * props.actionName and returns the action instances
  * @param {*} state
  * @param {Object} props
  * @param {String} props.roleName - name of role
@@ -40,7 +41,7 @@ export const selectTrixtaActionResponseInstancesForRole = (state, props) =>
  * @param {Object} props
  * @param {String} props.roleName - name of role
  * @param {String} props.actionName - name of action
- * @param {String} props.instanceIndex - index for action instance
+ * @param {Number} props.instanceIndex - index for action instance
  */
 export const selectTrixtaActionResponseInstance = (state, props) =>
   state.trixta.actions[getReducerKeyName({ name: props.actionName, role: props.roleName })]
@@ -107,7 +108,7 @@ export const makeSelectTrixtaActionResponseInstancesForRole = () =>
  * @param {Object} props
  * @param {String} props.roleName - name of role
  * @param {String} props.actionName - name of action
- * @param {String} props.instanceIndex - index for action instance
+ * @param {Number} props.instanceIndex - index for action instance
  */
 export const makesSelectTrixtaActionResponseInstance = () =>
   createSelector(selectTrixtaActionResponseInstance, (selectedActionInstance) => {

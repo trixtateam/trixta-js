@@ -27,7 +27,7 @@ export function updateTrixtaError({ error }) {
  * Updates the trixtaReducer loadingStatus[params.loadingStatusKey] = { error: params.error }
  * @param {Object} params - parameters
  * @param {String} params.loadingStatusKey - key for loadingStatus to set error
- * @param {String||Object} params.error - error from trixta
+ * @param {String || Object} params.error - error from trixta
  * @param {Boolean=} [params.clearStatus = false] params.clearStatus - true to clear error status for loadingStatusKey
  */
 export function updateTrixtaLoadingErrorStatus({ loadingStatusKey, error, clearStatus = false }) {

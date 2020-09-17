@@ -36,7 +36,7 @@ export const selectTrixtaActionResponseInstancesForRole = (state, props) =>
 
 /**
  * Selects the actions[props.roleName:props.actionName].instances[props.instanceIndex]
- * for the given props.roleName ,  props.actionName and returns the action instance response
+ * for the given props.roleName , props.actionName and returns the action instance response
  * @param {*} state
  * @param {Object} props
  * @param {String} props.roleName - name of role

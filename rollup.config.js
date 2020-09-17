@@ -1,4 +1,5 @@
 import nodeResolve from '@rollup/plugin-node-resolve';
+import excludeDependenciesFromBundle from 'rollup-plugin-exclude-dependencies-from-bundle';
 import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
 import replace from 'rollup-plugin-replace';
@@ -34,6 +35,7 @@ const createConfig = ({ input, output, external, env }) => ({
   },
   external: makeExternalPredicate(external === 'peers' ? peerDeps : deps.concat(peerDeps)),
   plugins: [
+    excludeDependenciesFromBundle({ peerDependencies: true, dependencies: true }),
     env === 'production' && terser(),
     json({
       // All JSON files will be parsed by default,

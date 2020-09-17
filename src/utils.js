@@ -4,9 +4,11 @@ import Moment from 'moment';
 import isUndefined from 'lodash/isUndefined';
 import isArray from 'lodash/isArray';
 import isEmpty from 'lodash/isEmpty';
+import shortid from 'shortid';
 import {
   ROLE_ACTION_FIELDS,
   ROLE_REACTION_RESPONSE_FIELDS,
+  TRIXTA_FIELDS,
   TRIXTA_MODE_TYPE,
 } from './React/constants';
 
@@ -17,8 +19,11 @@ import {
  */
 export function getReactionDetails({ reaction }) {
   return {
-    ref: get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref),
+    ref: get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, shortid.generate()),
     status: get(reaction, ROLE_REACTION_RESPONSE_FIELDS.status),
+    type: get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, false)
+      ? TRIXTA_FIELDS.requestForResponse
+      : TRIXTA_FIELDS.requestForEffect,
     initial_data: get(reaction, ROLE_REACTION_RESPONSE_FIELDS.initial_data),
     dateCreated: new Moment().format('dddd, MMMM Do YYYY, h:mm:ss a'),
   };

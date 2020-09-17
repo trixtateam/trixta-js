@@ -6,6 +6,7 @@ import {
   PHOENIX_CHANNEL_END_PROGRESS,
   PHOENIX_CHANNEL_LOADING_STATUS,
 } from '@trixta/phoenix-to-redux';
+
 import {
   SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
   UPDATE_TRIXTA_ACTION_RESPONSE,
@@ -153,7 +154,7 @@ export const trixtaReducer = (state = initialState, action) =>
           } else if (draft.reactions[keyName]) {
             switch (mode[TRIXTA_MODE_TYPE_FIELDS.type]) {
               case TRIXTA_MODE_TYPE.replace:
-                if (ref) {
+                if (reaction.type === TRIXTA_FIELDS.requestForResponse) {
                   draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse][0] = {
                     details: {
                       loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
@@ -168,7 +169,8 @@ export const trixtaReducer = (state = initialState, action) =>
                 }
                 draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect][0] = {
                   details: {
-                    loadingStatusKey: `${roleName}:${reactionName}:0`,
+                    ref,
+                    loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
                     ...reaction,
                   },
                   response: {
@@ -176,11 +178,12 @@ export const trixtaReducer = (state = initialState, action) =>
                     error: false,
                   },
                 };
+
                 break;
               case TRIXTA_MODE_TYPE.accumulate:
                 {
                   const accumalateLength = get(mode, TRIXTA_MODE_TYPE_FIELDS.limit, 10);
-                  if (ref) {
+                  if (reaction.type === TRIXTA_FIELDS.requestForResponse) {
                     draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse].unshift({
                       details: {
                         loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
@@ -196,12 +199,11 @@ export const trixtaReducer = (state = initialState, action) =>
                     ].length = accumalateLength;
                     break;
                   }
-                  const reactionInstanceSize =
-                    state.reactions[keyName] &&
-                    state.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect].length;
+
                   draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect].unshift({
                     details: {
-                      loadingStatusKey: `${roleName}:${reactionName}:${reactionInstanceSize + 1}`,
+                      loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
+                      ref,
                       ...reaction,
                     },
                     response: {

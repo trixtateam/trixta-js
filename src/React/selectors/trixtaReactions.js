@@ -172,6 +172,9 @@ export const makeSelectIsTrixtaReactionInProgress = () =>
     }
   );
 
+/**
+ * Separates the reactions into requestForEffects and requestForResponse
+ */
 export const makeSelectTrixtaReactionListForRole = () =>
   // eslint-disable-next-line arrow-body-style
   createSelector(selectTrixtaReactionsForRole, (reactionsForRole) => {
@@ -182,6 +185,7 @@ export const makeSelectTrixtaReactionListForRole = () =>
       const reaction = reactionsForRole[key];
       const instances = get(reaction, 'instances', {});
       const effectInstances = get(instances, TRIXTA_FIELDS.requestForEffect, []);
+
       const responseInstances = get(instances, TRIXTA_FIELDS.requestForResponse, []);
 
       forEach(effectInstances, (instance) => {

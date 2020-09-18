@@ -1,12 +1,10 @@
 import produce from 'immer';
 import isObjectLike from 'lodash/isObjectLike';
 import get from 'lodash/get';
-
 import {
   PHOENIX_CHANNEL_END_PROGRESS,
   PHOENIX_CHANNEL_LOADING_STATUS,
 } from '@trixta/phoenix-to-redux';
-
 import {
   SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
   UPDATE_TRIXTA_ACTION_RESPONSE,
@@ -23,7 +21,6 @@ import {
   TRIXTA_MODE_TYPE,
   TRIXTA_MODE_TYPE_FIELDS,
 } from '../constants';
-
 import {
   getReducerKeyName,
   getReducerStructure,
@@ -178,7 +175,6 @@ export const trixtaReducer = (state = initialState, action) =>
                     error: false,
                   },
                 };
-
                 break;
               case TRIXTA_MODE_TYPE.accumulate:
                 {
@@ -199,7 +195,6 @@ export const trixtaReducer = (state = initialState, action) =>
                     ].length = accumalateLength;
                     break;
                   }
-
                   draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect].unshift({
                     details: {
                       loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
@@ -212,6 +207,8 @@ export const trixtaReducer = (state = initialState, action) =>
                     },
                   });
                 }
+                break;
+              default:
                 break;
             }
           }
@@ -263,6 +260,8 @@ export const trixtaReducer = (state = initialState, action) =>
                     draft.actions[keyName].instances.length = accumalateLength;
                   }
                   break;
+                default:
+                  break;
               }
             }
           } else {
@@ -300,6 +299,8 @@ export const trixtaReducer = (state = initialState, action) =>
                   });
                   draft.actions[keyName].instances.length = accumalateLength;
                 }
+                break;
+              default:
                 break;
             }
           }

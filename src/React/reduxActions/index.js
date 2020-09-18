@@ -38,6 +38,20 @@ export function updateTrixtaLoadingErrorStatus({ loadingStatusKey, error, clearS
 }
 
 /**
+ *  Listened for the in the saga to check roles to add and react on
+ * @param {Object} params
+ * @param {Array} params.roles - roles
+ */
+export function updateTrixtaRoles({ roles }) {
+  return {
+    type: UPDATE_TRIXTA_ROLES,
+    data: {
+      roles,
+    },
+  };
+}
+
+/**
  *  Updates the trixtaReducer actions[params.roleName:params.actionName].instances
  *  with the params.response
  * @param {Object} params
@@ -68,45 +82,8 @@ export function updateTrixtaActionResponse({
 }
 
 /**
- *  Updates the trixtaReducer reactions[params.roleName:params.reactionName].instances
- *  with the params.reactionDetails
- * @param {Object} params
- * @param {String} params.roleName - name of role
- * @param {String} params.reactionName - name of reaction
- * @param {String} params.reaction - details regarding response from reaction
- */
-export function updateTrixtaReactionResponse({ roleName, reaction, reactionName }) {
-  return {
-    type: UPDATE_TRIXTA_REACTION_RESPONSE,
-    data: {
-      roleName,
-      reactionName,
-      reaction,
-      keyName: getReducerKeyName({
-        name: reactionName,
-        role: roleName,
-      }),
-    },
-  };
-}
-
-/**
- *  Listened for the in the saga to check roles to add and react on
- * @param {Object} params
- * @param {Array} params.roles - roles
- */
-export function updateTrixtaRoles({ roles }) {
-  return {
-    type: UPDATE_TRIXTA_ROLES,
-    data: {
-      roles,
-    },
-  };
-}
-
-/**
  *  Updates the trixtaReducer actions[role:name] with
- * defaultreducer structure
+ * default reducer structure
  * @param {Object} params
  * @param {Object} params.role - name of role
  * @param {Object} params.action - action of role
@@ -131,8 +108,49 @@ export function updateTrixtaAction({ role, action, name }) {
 }
 
 /**
+ *  Listened for in the saga to push action to the space
+ * @param {Object} params
+ * @param {String} params.roleName - name of role
+ * @param {String} params.actionName - name of action
+ * @param {Object} params.formData - data to submit to space for actionName
+ */
+export function submitTrixtaActionResponse({ formData, roleName, actionName }) {
+  return {
+    type: SUBMIT_TRIXTA_ACTION_RESPONSE,
+    data: {
+      formData,
+      roleName,
+      actionName,
+    },
+  };
+}
+
+/**
+ *  Updates the trixtaReducer reactions[params.roleName:params.reactionName].instances
+ *  with the params.reactionDetails
+ * @param {Object} params
+ * @param {String} params.roleName - name of role
+ * @param {String} params.reactionName - name of reaction
+ * @param {String} params.reaction - details regarding response from reaction
+ */
+export function updateTrixtaReactionResponse({ roleName, reaction, reactionName }) {
+  return {
+    type: UPDATE_TRIXTA_REACTION_RESPONSE,
+    data: {
+      roleName,
+      reactionName,
+      reaction,
+      keyName: getReducerKeyName({
+        name: reactionName,
+        role: roleName,
+      }),
+    },
+  };
+}
+
+/**
  *  Updates the trixtaReducer reactions[role:name] with
- * defaultreducer structure
+ * default reducer structure
  * @param {Object} params
  * @param {Object} params.role - name of role
  * @param {Object} params.reaction - reaction of role
@@ -149,24 +167,6 @@ export function updateTrixtaReaction({ role, reaction, name }) {
       }),
       reaction,
       name,
-    },
-  };
-}
-
-/**
- *  Listened for in the saga to push action to the space
- * @param {Object} params
- * @param {String} params.roleName - name of role
- * @param {String} params.actionName - name of action
- * @param {Object} params.formData - data to submit to space for actionName
- */
-export function submitTrixtaActionResponse({ formData, roleName, actionName }) {
-  return {
-    type: SUBMIT_TRIXTA_ACTION_RESPONSE,
-    data: {
-      formData,
-      roleName,
-      actionName,
     },
   };
 }

@@ -58,7 +58,7 @@ export function updateTrixtaRoles({ roles }) {
  * @param {String} params.roleName - name of role
  * @param {String} params.actionName - name of action
  * @param {String} params.response - response from action
- * @param {Boolean?} params.clearResponse - determines if should clear the response
+ * @param {Boolean=} [params.clearResponse = false] params.clearResponse - determines if should clear the response
  */
 export function updateTrixtaActionResponse({
   roleName,
@@ -113,21 +113,31 @@ export function updateTrixtaAction({ role, action, name }) {
  * @param {String} params.roleName - name of role
  * @param {String} params.actionName - name of action
  * @param {Object} params.formData - data to submit to space for actionName
+ * @param {String=} [params.responseEvent = null] params.responseEvent - event for data to dispatch to on trixta action response
+ * @param {String=} [params.errorEvent = null] params.errorEvent - event for error to dispatch to on trixta action error response
  */
-export function submitTrixtaActionResponse({ formData, roleName, actionName }) {
+export function submitTrixtaActionResponse({
+  formData,
+  roleName,
+  actionName,
+  responseEvent = null,
+  errorEvent = null,
+}) {
   return {
     type: SUBMIT_TRIXTA_ACTION_RESPONSE,
     data: {
       formData,
       roleName,
       actionName,
+      responseEvent,
+      errorEvent,
     },
   };
 }
 
 /**
  *  Updates the trixtaReducer reactions[params.roleName:params.reactionName].instances
- *  with the params.reactionDetails
+ *  with the params.reaction
  * @param {Object} params
  * @param {String} params.roleName - name of role
  * @param {String} params.reactionName - name of reaction
@@ -178,13 +188,24 @@ export function updateTrixtaReaction({ role, reaction, name }) {
  * @param {String} params.reactionName - name of reaction
  * @param {Object} params.formData - data to submit to space for reactionName
  * @param {Object} params.ref - ref for reaction (eg ref)
+ * @param {String=} [params.responseEvent = null] params.responseEvent - event for data to dispatch to on trixta reaction response
+ * @param {String=} [params.errorEvent = null] params.errorEvent - event for error to dispatch to on trixta reaction error response
  */
-export function submitTrixtaReactionResponse({ formData, ref, roleName, reactionName }) {
+export function submitTrixtaReactionResponse({
+  formData,
+  ref,
+  roleName,
+  reactionName,
+  responseEvent = null,
+  errorEvent = null,
+}) {
   return {
     type: SUBMIT_TRIXTA_REACTION_RESPONSE,
     data: {
       formData,
       ref,
+      responseEvent,
+      errorEvent,
       roleName,
       reactionName,
     },

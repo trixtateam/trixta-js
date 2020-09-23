@@ -134,15 +134,19 @@ export function* handleChannelJoinSaga({ response, channel }) {
 }
 
 /**
- * When submit is called from the json schema form for the given role action
+ * When submitTrixtaActionResponse is called  for the given role action
  * @param {Object} params
  * @param {Object} params.data
  * @param {String} params.data.roleName - name of role
  * @param {String} params.data.actionName - name of action
  * @param {Object} params.data.formData - form data to submit
+ * @param {String=} [params.data.responseEvent = null] params.data.responseEvent - event for data to dispatch to on trixta action response
+ * @param {String=} [params.data.errorEvent = null] params.data.errorEvent - event for error to dispatch to on trixta action error response
  */
 export function* submitActionResponseSaga({ data }) {
   const roleName = get(data, 'roleName');
+  const responseEvent = get(data, 'responseEvent');
+  const errorEvent = get(data, 'errorEvent');
   const actionName = get(data, 'actionName');
   const formData = get(data, 'formData');
   const channelTopic = getChannelName({ role: roleName });
@@ -153,7 +157,7 @@ export function* submitActionResponseSaga({ data }) {
         channelTopic,
         eventName: actionName,
         requestData: formData,
-        additionalData: { roleName, actionName },
+        additionalData: { roleName, actionName, responseEvent, errorEvent },
         dispatchChannelError: true,
         channelErrorResponseEvent: SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
         channelResponseEvent: SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
@@ -176,8 +180,16 @@ export function* submitActionResponseSuccess({ data }) {
   if (data) {
     const roleName = get(data, 'roleName', false);
     const actionName = get(data, 'actionName', false);
+    const responseEvent = get(data, 'responseEvent', false);
     if (roleName && actionName) {
+      // eslint-disable-next-line no-param-reassign
+      delete data.responseEvent;
+      // eslint-disable-next-line no-param-reassign
+      delete data.errorEvent;
       yield put(updateTrixtaActionResponse({ roleName, actionName, response: data }));
+      if (responseEvent) {
+        yield put({ type: responseEvent, data });
+      }
     }
   }
 }
@@ -194,17 +206,13 @@ export function* checkReactionResponseSaga({ data, eventName, channelTopic }) {
   try {
     const reactionResponse = { eventName, ...data };
     const roleName = channelTopic.split(':')[1];
-    switch (eventName) {
-      default:
-        yield put(
-          updateTrixtaReactionResponse({
-            reaction: reactionResponse,
-            roleName,
-            reactionName: eventName,
-          })
-        );
-        break;
-    }
+    yield put(
+      updateTrixtaReactionResponse({
+        reaction: reactionResponse,
+        roleName,
+        reactionName: eventName,
+      })
+    );
   } catch (error) {
     yield put(updateTrixtaError({ error: error.toString() }));
   }
@@ -245,7 +253,6 @@ export function* addRoleListeningReactionRequestSaga({ data }) {
       yield put(
         getPhoenixChannel({
           channelTopic: roleChannel,
-          showLoading: true,
           events: [
             {
               eventName: selectedReaction,
@@ -261,17 +268,21 @@ export function* addRoleListeningReactionRequestSaga({ data }) {
 }
 
 /**
- * When submit is called for the given role reaction
+ * When submitTrixtaReactionResponse is called for the given role reaction
  * @param {Object} params
  * @param {Object} params.data
  * @param {String} params.data.roleName - name of role
  * @param {String} params.data.reactionName - name of reaction
  * @param {Object} params.data.formData - form data to submit
  * @param {Object} params.data.ref - ref for the reaction
+ * @param {String=} [params.data.responseEvent = null] params.data.responseEvent - event for data to dispatch to on trixta reaction response
+ * @param {String=} [params.data.errorEvent = null] params.data.errorEvent - event for error to dispatch to on trixta reaction error response
  */
 export function* submitResponseForReactionSaga({ data }) {
   try {
     const roleName = get(data, 'roleName');
+    const responseEvent = get(data, 'responseEvent');
+    const errorEvent = get(data, 'errorEvent');
     const reactionName = get(data, 'reactionName');
     const formData = get(data, 'formData');
     const ref = get(data, 'ref');
@@ -285,7 +296,7 @@ export function* submitResponseForReactionSaga({ data }) {
           event: reactionName,
           value: formData,
         },
-        additionalData: { roleName, reactionName },
+        additionalData: { roleName, reactionName, responseEvent, errorEvent },
         dispatchChannelError: true,
         channelErrorResponseEvent: SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
         channelResponseEvent: SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
@@ -301,30 +312,52 @@ export function* submitResponseForReactionSaga({ data }) {
  * Failure response after submitting the action for the roleName
  * @param {Object} params
  * @param {Object} params.error
+ * @param {Object} params.data - additionalData
  * @param {String} params.loadingStatusKey - loadingStatus key
  */
-export function* submitActionResponseFailure({ error, loadingStatusKey }) {
+export function* submitActionResponseFailure({ error, data, loadingStatusKey }) {
   yield put(
     updateTrixtaLoadingErrorStatus({
       loadingStatusKey,
       error,
     })
   );
+  const errorEvent = get(data, 'errorEvent', false);
+  if (errorEvent) {
+    yield put({ type: errorEvent, error });
+  }
 }
 
 /**
  * Failure response after responding to reaction for the roleName
  * @param {Object} params
  * @param {Object} params.error
+ * @param {Object} params.data - additionalData
  * @param {String} params.loadingStatusKey - loadingStatus key
  */
-export function* submitReactionResponseFailure({ error, loadingStatusKey }) {
+export function* submitReactionResponseFailure({ error, data, loadingStatusKey }) {
   yield put(
     updateTrixtaLoadingErrorStatus({
       loadingStatusKey,
       error,
     })
   );
+  const errorEvent = get(data, 'errorEvent', false);
+  if (errorEvent) {
+    yield put({ type: errorEvent, error });
+  }
+}
+
+/**
+ * Success response after responding to reaction for the roleName
+ * @param {Object} params
+ * @param {Object} params.data
+ */
+export function* submitReactionResponseSuccess({ data }) {
+  const responseEvent = get(data, 'responseEvent', false);
+  if (responseEvent) {
+    yield put({ type: responseEvent, data });
+  }
 }
 
 /** *************************************************************************** */
@@ -374,6 +407,7 @@ export function* setupTrixtaSaga() {
     fork(watchForTrixtaReactionSubmit),
     takeEvery(SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS, submitActionResponseSuccess),
     takeEvery(SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE, submitReactionResponseFailure),
+    takeEvery(SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS, submitReactionResponseSuccess),
     takeEvery(SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE, submitActionResponseFailure),
   ]);
 }

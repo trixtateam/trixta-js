@@ -92,6 +92,7 @@ export const trixtaReducer = (state = initialState, action) =>
             const index = draft.reactions[keyName].instances[
               TRIXTA_FIELDS.requestForResponse
             ].findIndex((reaction) => get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, '') === ref);
+
             if (index !== -1)
               draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse][
                 index
@@ -115,12 +116,15 @@ export const trixtaReducer = (state = initialState, action) =>
             const index = draft.reactions[keyName].instances[
               TRIXTA_FIELDS.requestForResponse
             ].findIndex((reaction) => get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, '') === ref);
+            const response = get(action, 'data');
+            delete response.errorEvent;
+            delete response.responseEvent;
             if (index !== -1)
               draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse][
                 index
               ].response = {
                 error: false,
-                success: get(action, 'data'),
+                success: response,
               };
           }
         }

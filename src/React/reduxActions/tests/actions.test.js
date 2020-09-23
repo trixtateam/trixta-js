@@ -163,6 +163,8 @@ describe('Trixta redux Actions', () => {
             formData,
             roleName,
             actionName,
+            errorEvent: null,
+            responseEvent: null,
           },
         };
         expect(submitTrixtaActionResponse(parameters)).toEqual(expectedResult);
@@ -247,7 +249,7 @@ describe('Trixta redux Actions', () => {
     });
 
     describe('submitTrixtaReactionResponse Action', () => {
-      it('has a type of SUBMIT_TRIXTA_ACTION_RESPONSE', () => {
+      it('has a type of SUBMIT_TRIXTA_REACTION_RESPONSE', () => {
         const roleName = 'trixta_app_user';
         const reactionName = 'select_logger_backends';
         const ref = '5bda4f4e-925d-4881-85cd-4bef6414ccd1';
@@ -265,6 +267,8 @@ describe('Trixta redux Actions', () => {
             ref,
             roleName,
             reactionName,
+            errorEvent: null,
+            responseEvent: null,
           },
         };
         expect(submitTrixtaReactionResponse(parameters)).toEqual(expectedResult);

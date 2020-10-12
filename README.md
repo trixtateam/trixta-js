@@ -195,12 +195,15 @@ import {
  * After the socket is connected,
  * @param {*} params
  */
-export function* socketConnectedSaga({ isAnonymous }) {
+export function* socketConnectedSaga() {
   // handle connection response
   const currentSession = yield select(makeSelectCurrentSession());
   // save roles in reducer or somewhere to passs to trixta action
-  const roles = _.get(currentSession, 'roles', []);
-  if (!isAnonymous && roles) {
+  const roles = _.get(currentSession, 'roles', []).map((role) => ({
+    name: role,
+    logPresence: false,
+  }));
+  if (roles) {
     yield put(updateTrixtaRoles({ roles }));
   }
 }

@@ -20,6 +20,7 @@ import {
   updateTrixtaLoadingErrorStatus,
   updateTrixtaReaction,
   updateTrixtaReactionResponse,
+  updateTrixtaRole,
   updateTrixtaRoles,
 } from '../../reduxActions';
 import { trixtaReducer, initialState } from '../trixtaReducer';
@@ -64,11 +65,26 @@ describe('Trixta Reducers', () => {
     });
 
     it('should handle the updateTrixtaRoles action correctly', () => {
-      const parameters = { data: { roles: ['trixta_app_user', 'test'] } };
+      const parameters = { data: { roles: [{ name: 'trixta_app_user' }, { name: 'test' }] } };
       const expectedResult = produce(mockedState, (draft) => {
-        draft.agentDetails = get(parameters, 'data.roles', []);
+        draft.agentDetails = get(parameters, 'data.roles', []).map((role) => role.name);
       });
       expect(trixtaReducer(mockedState, updateTrixtaRoles(parameters.data))).toEqual(
+        expectedResult
+      );
+    });
+
+    it('should handle the updateTrixtaRole action correctly', () => {
+      const parameters = { data: { role: { name: 'trixta_app_user' } } };
+      const expectedResult = produce(mockedState, (draft) => {
+        const index = draft.agentDetails.findIndex(
+          (role) => role === get(parameters, 'data.role.name')
+        );
+        if (index === -1) {
+          draft.agentDetails.push(get(parameters, 'data.role.name'));
+        }
+      });
+      expect(trixtaReducer(mockedState, updateTrixtaRole(parameters.data.role))).toEqual(
         expectedResult
       );
     });

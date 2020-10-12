@@ -63,11 +63,11 @@ describe('Trixta redux Actions', () => {
 
     describe('updateTrixtaRoles Action', () => {
       it('has a type of UPDATE_TRIXTA_ROLES', () => {
-        parameters = { roles: ['test', 'user'] };
+        parameters = { roles: [{ name: 'test' }, { name: 'user' }] };
         expectedResult = {
           type: UPDATE_TRIXTA_ROLES,
           data: {
-            roles: ['test', 'user'],
+            roles: [{ name: 'test' }, { name: 'user' }],
           },
         };
         expect(updateTrixtaRoles(parameters)).toEqual(expectedResult);
@@ -163,6 +163,13 @@ describe('Trixta redux Actions', () => {
             formData,
             roleName,
             actionName,
+            debugMode: false,
+            debugOptions: {
+              slowdown: 0,
+              debug_broadcast: {
+                role: 'trixta_app_user',
+              },
+            },
             errorEvent: null,
             responseEvent: null,
           },
@@ -266,6 +273,13 @@ describe('Trixta redux Actions', () => {
             formData,
             ref,
             roleName,
+            debugMode: false,
+            debugOptions: {
+              slowdown: 0,
+              debug_broadcast: {
+                role: 'trixta_app_user',
+              },
+            },
             reactionName,
             errorEvent: null,
             responseEvent: null,

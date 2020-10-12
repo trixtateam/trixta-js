@@ -20,6 +20,7 @@ import {
   UPDATE_TRIXTA_LOADING_ERROR_STATUS,
   TRIXTA_MODE_TYPE,
   TRIXTA_MODE_TYPE_FIELDS,
+  UPDATE_TRIXTA_ROLE,
 } from '../constants';
 import {
   getReducerKeyName,
@@ -76,8 +77,17 @@ export const trixtaReducer = (state = initialState, action) =>
       case UPDATE_TRIXTA_ERROR:
         draft.error = isObjectLike(action.error) ? getMessageFromError(action.error) : action.error;
         break;
+      case UPDATE_TRIXTA_ROLE: {
+        const index = draft.agentDetails.findIndex(
+          (role) => role === get(action, 'data.role.name')
+        );
+        if (index === -1) {
+          draft.agentDetails.push(get(action, 'data.role.name'));
+        }
+        break;
+      }
       case UPDATE_TRIXTA_ROLES:
-        draft.agentDetails = get(action, 'data.roles', []);
+        draft.agentDetails = get(action, 'data.roles', []).map((role) => role.name);
         break;
       case SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE:
         {

@@ -1,4 +1,5 @@
 export const UPDATE_TRIXTA_ROLES = `@trixta/trixta-js/UPDATE_TRIXTA_ROLES`;
+export const UPDATE_TRIXTA_ROLE = `@trixta/trixta-js/UPDATE_TRIXTA_ROLE`;
 export const TRIXTA_REACTION_RESPONSE = `@trixta/trixta-js/TRIXTA_REACTION_RESPONSE`;
 
 export const SUBMIT_TRIXTA_REACTION_RESPONSE = `@trixta/trixta-js/SUBMIT_TRIXTA_REACTION_RESPONSE`;

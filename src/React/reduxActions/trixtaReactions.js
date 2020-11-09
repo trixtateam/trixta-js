@@ -58,12 +58,6 @@ export function updateTrixtaReaction({ role, reaction, name }) {
  * @param {String} params.reactionName - name of reaction
  * @param {Object} params.formData - data to submit to space for reactionName
  * @param {Object} params.ref - ref for reaction (eg ref)
- * @param {Boolean=} [params.debugMode = false] params.debugMode - debug action in trixta flow
- * @param {Object=} [params.debugOptions = { slowdown: 0,
-    debug_broadcast: {
-      role: 'trixta_app_user',
-    }}] params.debugOptions - options to pass to Trixta for
-    debugMode
  * @param {String=} [params.responseEvent = null] params.responseEvent - event for data to dispatch to on trixta reaction response
  * @param {String=} [params.errorEvent = null] params.errorEvent - event for error to dispatch to on trixta reaction error response
  */
@@ -72,13 +66,6 @@ export function submitTrixtaReactionResponse({
   ref,
   roleName,
   reactionName,
-  debugMode = false,
-  debugOptions = {
-    slowdown: 0,
-    debug_broadcast: {
-      role: 'trixta_app_user',
-    },
-  },
   responseEvent = null,
   errorEvent = null,
 }) {
@@ -88,8 +75,6 @@ export function submitTrixtaReactionResponse({
       formData,
       ref,
       responseEvent,
-      debugMode,
-      debugOptions,
       errorEvent,
       roleName,
       reactionName,

@@ -65,7 +65,8 @@ export function updateTrixtaAction({ role, action, name }) {
  *  Listened for in the saga to push action to the space
  * @param {Object} params
  * @param {Boolean=} [params.debugMode = false] params.debugMode - debug action in trixta flow
- *  * @param {Object=} [params.debugOptions = { slowdown: 0,
+ * @param {Object=} [params.actionOptions = []] params.actionOptions - options to pass to Trixta for action
+ * @param {Object=} [params.debugOptions = { slowdown: 0, inspect: true,
     debug_broadcast: {
       role: 'trixta_app_user',
     }}] params.debugOptions - options to pass to Trixta for
@@ -81,8 +82,10 @@ export function submitTrixtaActionResponse({
   roleName,
   actionName,
   debugMode = false,
+  actionOptions = {},
   debugOptions = {
     slowdown: 0,
+    inspect: true,
     debug_broadcast: {
       role: 'trixta_app_user',
     },
@@ -96,6 +99,7 @@ export function submitTrixtaActionResponse({
       formData,
       roleName,
       debugMode,
+      actionOptions,
       debugOptions,
       actionName,
       responseEvent,

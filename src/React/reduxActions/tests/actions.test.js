@@ -164,8 +164,10 @@ describe('Trixta redux Actions', () => {
             roleName,
             actionName,
             debugMode: false,
+            actionOptions: {},
             debugOptions: {
               slowdown: 0,
+              inspect: true,
               debug_broadcast: {
                 role: 'trixta_app_user',
               },
@@ -273,13 +275,6 @@ describe('Trixta redux Actions', () => {
             formData,
             ref,
             roleName,
-            debugMode: false,
-            debugOptions: {
-              slowdown: 0,
-              debug_broadcast: {
-                role: 'trixta_app_user',
-              },
-            },
             reactionName,
             errorEvent: null,
             responseEvent: null,

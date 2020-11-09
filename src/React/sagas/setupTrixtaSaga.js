@@ -154,6 +154,10 @@ export function* submitActionResponseSaga({ data }) {
   const formData = get(data, 'formData');
   const debugMode = get(data, 'debugMode', false);
   const debugOptions = get(data, 'debugOptions', {});
+  const actionOptions = get(data, 'actionOptions', {});
+  const options = debugMode
+    ? { debug: true, ...debugOptions, ...actionOptions }
+    : { ...actionOptions };
   const channelTopic = getChannelName({ role: roleName });
   try {
     yield put(getPhoenixChannel({ channelTopic }));
@@ -161,9 +165,7 @@ export function* submitActionResponseSaga({ data }) {
       pushToPhoenixChannel({
         channelTopic,
         eventName: actionName,
-        requestData: debugMode
-          ? { action_payload: formData, debug: true, inspect: true, ...debugOptions }
-          : formData,
+        requestData: { action_payload: formData, ...options },
         additionalData: { roleName, actionName, responseEvent, errorEvent },
         dispatchChannelError: true,
         channelErrorResponseEvent: SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
@@ -292,8 +294,6 @@ export function* submitResponseForReactionSaga({ data }) {
     const errorEvent = get(data, 'errorEvent');
     const reactionName = get(data, 'reactionName');
     const formData = get(data, 'formData');
-    const debugMode = get(data, 'debugMode', false);
-    const debugOptions = get(data, 'debugOptions', {});
     const ref = get(data, 'ref');
     const channelTopic = getChannelName({ role: roleName });
     yield put(getPhoenixChannel({ channelTopic }));
@@ -303,9 +303,7 @@ export function* submitResponseForReactionSaga({ data }) {
         eventName: `reply:${ref}`,
         requestData: {
           event: reactionName,
-          value: debugMode
-            ? { action_payload: formData, debug: true, inspect: true, ...debugOptions }
-            : formData,
+          value: formData,
         },
         additionalData: { roleName, reactionName, responseEvent, errorEvent },
         dispatchChannelError: true,

@@ -158,6 +158,7 @@ export function* submitActionResponseSaga({ data }) {
   const options = debugMode
     ? { debug: true, ...debugOptions, ...actionOptions }
     : { ...actionOptions };
+
   const channelTopic = getChannelName({ role: roleName });
   try {
     yield put(getPhoenixChannel({ channelTopic }));

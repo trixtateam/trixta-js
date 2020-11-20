@@ -1,9 +1,11 @@
-import { put, fork, all, take, takeEvery } from 'redux-saga/effects';
+import { put, fork, all, take, takeEvery, select } from 'redux-saga/effects';
 import get from 'lodash/get';
+import includes from 'lodash/includes';
 // eslint-disable-next-line import/no-unresolved
 import {
   getPhoenixChannel,
   pushToPhoenixChannel,
+  leavePhoenixChannel,
   channelActionTypes,
 } from '@trixta/phoenix-to-redux';
 import { getChannelName, isNullOrEmpty } from '../../utils';
@@ -18,6 +20,7 @@ import {
   SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
   SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
   UPDATE_TRIXTA_ROLE,
+  REMOVE_TRIXTA_ROLE,
 } from '../constants';
 import {
   updateTrixtaAction,
@@ -26,7 +29,30 @@ import {
   updateTrixtaReactionResponse,
   updateTrixtaActionResponse,
   updateTrixtaLoadingErrorStatus,
+  removeTrixtaRole,
 } from '../reduxActions';
+import { makeSelectTrixtaAgentDetails } from '../selectors/common';
+
+/**
+ * Removes the trixta role and related actions and reactions from the trixta reducer
+ * and leaves the phoenix channel for the given role
+ *
+ * @param {Object} params
+ * @param {Object} params.data
+ * @param {Array} params.data.role
+ * @returns {IterableIterator<*>}
+ */
+export function* removeTrixtaRoleSaga({ data }) {
+  const role = get(data, 'role');
+  try {
+    if (!isNullOrEmpty(role)) {
+      const channelTopic = getChannelName({ role: role.name });
+      yield put(leavePhoenixChannel({ channelTopic }));
+    }
+  } catch (error) {
+    yield put(updateTrixtaError({ error: error.toString() }));
+  }
+}
 
 /**
  * Check the roles returned for the user, join channels for these rolesToConnectTo
@@ -134,6 +160,22 @@ export function* setupRoleSaga({ response, channel }) {
  */
 export function* handleChannelJoinSaga({ response, channel }) {
   yield fork(setupRoleSaga, { response, channel });
+}
+
+/**
+ * After leaving the channel
+ * call removeTrixtaRole if the role is present
+ * @param response
+ * @param channel
+ * @returns {IterableIterator<*>}
+ */
+export function* handleChannelLeaveSaga({ channel }) {
+  const roleChannel = get(channel, 'topic', false);
+  const roleName = roleChannel.split(':')[1];
+  const agentDetails = yield select(makeSelectTrixtaAgentDetails());
+  if (agentDetails && includes(agentDetails, roleName)) {
+    yield put(removeTrixtaRole({ name: roleName }));
+  }
 }
 
 /**
@@ -374,19 +416,29 @@ export function* submitReactionResponseSuccess({ data }) {
 /** ***************************** WATCHERS ************************************ */
 /** *************************************************************************** */
 
-function* watchForTrixtaRoles() {
+function* watchForUpdateTrixtaRoles() {
   while (true) {
     const data = yield take(UPDATE_TRIXTA_ROLES);
     yield fork(checkTrixtaRolesSaga, data);
   }
 }
 
-function* watchForTrixtaRole() {
+function* watchForUpdateTrixtaRole() {
   while (true) {
     const data = yield take(UPDATE_TRIXTA_ROLE);
     const { role } = data.data;
     yield fork(checkTrixtaRolesSaga, {
       data: { roles: [{ ...role }] },
+    });
+  }
+}
+
+function* watchForRemoveTrixtaRole() {
+  while (true) {
+    const data = yield take(REMOVE_TRIXTA_ROLE);
+    const { role } = data.data;
+    yield fork(removeTrixtaRoleSaga, {
+      data: { role },
     });
   }
 }
@@ -405,6 +457,13 @@ function* watchForPhoenixChannelJoin() {
   }
 }
 
+function* watchForPhoenixChannelLeave() {
+  while (true) {
+    const data = yield take(channelActionTypes.CHANNEL_LEAVE);
+    yield fork(handleChannelLeaveSaga, data);
+  }
+}
+
 function* watchForTrixtaReactionResponse() {
   while (true) {
     const data = yield take(TRIXTA_REACTION_RESPONSE);
@@ -420,9 +479,11 @@ function* watchForTrixtaReactionSubmit() {
 }
 export function* setupTrixtaSaga() {
   yield all([
-    fork(watchForTrixtaRoles),
-    fork(watchForTrixtaRole),
+    fork(watchForUpdateTrixtaRoles),
+    fork(watchForUpdateTrixtaRole),
+    fork(watchForRemoveTrixtaRole),
     fork(watchForPhoenixChannelJoin),
+    fork(watchForPhoenixChannelLeave),
     fork(watchForTrixtActionSubmit),
     fork(watchForTrixtaReactionResponse),
     fork(watchForTrixtaReactionSubmit),

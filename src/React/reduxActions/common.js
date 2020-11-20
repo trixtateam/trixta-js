@@ -3,6 +3,7 @@ import {
   UPDATE_TRIXTA_ERROR,
   UPDATE_TRIXTA_LOADING_ERROR_STATUS,
   UPDATE_TRIXTA_ROLE,
+  REMOVE_TRIXTA_ROLE,
 } from '../constants';
 
 /**
@@ -60,6 +61,23 @@ export function updateTrixtaRole({ name, logPresence = false }) {
       role: {
         name,
         logPresence,
+      },
+    },
+  };
+}
+
+/**
+ *  Listened for the in the saga to check role to remove and no longer
+ *  react to
+ * @param {Object} params
+ * @param {String} params.name - role name
+ */
+export function removeTrixtaRole({ name }) {
+  return {
+    type: REMOVE_TRIXTA_ROLE,
+    data: {
+      role: {
+        name,
       },
     },
   };

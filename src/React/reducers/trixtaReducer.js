@@ -1,6 +1,8 @@
 import produce from 'immer';
 import isObjectLike from 'lodash/isObjectLike';
 import get from 'lodash/get';
+import pickBy from 'lodash/pickBy';
+import split from 'lodash/split';
 import {
   PHOENIX_CHANNEL_END_PROGRESS,
   PHOENIX_CHANNEL_LOADING_STATUS,
@@ -21,6 +23,7 @@ import {
   TRIXTA_MODE_TYPE,
   TRIXTA_MODE_TYPE_FIELDS,
   UPDATE_TRIXTA_ROLE,
+  REMOVE_TRIXTA_ROLE,
 } from '../constants';
 import {
   getReducerKeyName,
@@ -77,12 +80,24 @@ export const trixtaReducer = (state = initialState, action) =>
       case UPDATE_TRIXTA_ERROR:
         draft.error = isObjectLike(action.error) ? getMessageFromError(action.error) : action.error;
         break;
+      case REMOVE_TRIXTA_ROLE:
+        {
+          const roleName = get(action, 'data.role.name');
+          const index = draft.agentDetails.findIndex((role) => role === roleName);
+          if (index !== -1) draft.agentDetails.splice(index, 1);
+          draft.loadingStatus = pickBy(
+            state.loadingStatus,
+            (_, key) => split(key, ':', 1)[0] !== roleName
+          );
+          draft.reactions = pickBy(state.reactions, (_, key) => split(key, ':', 1)[0] !== roleName);
+          draft.actions = pickBy(state.actions, (_, key) => split(key, ':', 1)[0] !== roleName);
+        }
+        break;
       case UPDATE_TRIXTA_ROLE: {
-        const index = draft.agentDetails.findIndex(
-          (role) => role === get(action, 'data.role.name')
-        );
+        const roleName = get(action, 'data.role.name');
+        const index = draft.agentDetails.findIndex((role) => role === roleName);
         if (index === -1) {
-          draft.agentDetails.push(get(action, 'data.role.name'));
+          draft.agentDetails.push(roleName);
         }
         break;
       }

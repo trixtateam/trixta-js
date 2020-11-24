@@ -159,7 +159,7 @@ describe('Trixta Selectors', () => {
       const expectedResult = true;
       const mockedState = {
         trixta: {
-          agentDetails: ['trixta_app_user'],
+          agentDetails: ['trixta_app_user', 'host'],
         },
       };
       expect(selector(mockedState, props)).toEqual(expectedResult);

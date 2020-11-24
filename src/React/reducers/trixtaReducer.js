@@ -6,6 +6,7 @@ import split from 'lodash/split';
 import {
   PHOENIX_CHANNEL_END_PROGRESS,
   PHOENIX_CHANNEL_LOADING_STATUS,
+  socketActionTypes,
 } from '@trixta/phoenix-to-redux';
 import {
   SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
@@ -51,6 +52,8 @@ export const initialState = {
 export const trixtaReducer = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
+      case socketActionTypes.SOCKET_DISCONNECT:
+        return initialState;
       case PHOENIX_CHANNEL_LOADING_STATUS:
         draft.loadingStatus[get(action, 'data.loadingStatusKey', '')] = {
           status: true,

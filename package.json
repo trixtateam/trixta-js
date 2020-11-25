@@ -82,10 +82,10 @@
     "redux": "4.0.1",
     "react-redux": "7.2.1",
     "shortid": "^2.2.15",
-    "@trixta/phoenix-to-redux": "3.4.0-beta.0"
+    "@trixta/phoenix-to-redux": "3.4.1-beta.0"
   },
   "dependencies": {
-    "@trixta/phoenix-to-redux": "3.4.0-beta.0",
+    "@trixta/phoenix-to-redux": "3.4.1-beta.0",
     "immer": "3.0.0",
     "lodash": ">=4",
     "moment": "^2.27.0",

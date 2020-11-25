@@ -17,16 +17,17 @@ import {
   TRIXTA_MODE_TYPE_FIELDS,
 } from '../../constants';
 import {
+  joinTrixtaRole,
   removeTrixtaRole,
-  updateTrixtaAction,
-  updateTrixtaActionResponse,
   updateTrixtaError,
   updateTrixtaLoadingErrorStatus,
+} from '../../reduxActions';
+import {
+  updateTrixtaAction,
+  updateTrixtaActionResponse,
   updateTrixtaReaction,
   updateTrixtaReactionResponse,
-  updateTrixtaRole,
-  updateTrixtaRoles,
-} from '../../reduxActions';
+} from '../../reduxActions/internal';
 import { trixtaReducer, initialState } from '../trixtaReducer';
 
 describe('Trixta Reducers', () => {
@@ -66,25 +67,16 @@ describe('Trixta Reducers', () => {
       expect(trixtaReducer(state, updateTrixtaError(action))).toEqual(expectedResult);
     });
 
-    it('should handle the updateTrixtaRoles action correctly', () => {
-      const action = { data: { roles: [{ name: 'trixta_app_user' }, { name: 'test' }] } };
+    it('should handle the joinTrixtaRole action correctly', () => {
+      const action = { data: { roleName: 'trixta_app_user' } };
       const expectedResult = produce(state, (draft) => {
-        draft.agentDetails = get(action, 'data.roles', []).map((role) => role.name);
-      });
-      expect(trixtaReducer(state, updateTrixtaRoles(action.data))).toEqual(expectedResult);
-    });
-
-    it('should handle the updateTrixtaRole action correctly', () => {
-      const action = { data: { role: { name: 'trixta_app_user' } } };
-      const expectedResult = produce(state, (draft) => {
-        const index = draft.agentDetails.findIndex(
-          (role) => role === get(action, 'data.role.name')
-        );
+        const roleName = get(action, 'data.roleName');
+        const index = draft.agentDetails.findIndex((role) => role === roleName);
         if (index === -1) {
-          draft.agentDetails.push(get(action, 'data.role.name'));
+          draft.agentDetails.push(roleName);
         }
       });
-      expect(trixtaReducer(state, updateTrixtaRole(action.data.role))).toEqual(expectedResult);
+      expect(trixtaReducer(state, joinTrixtaRole(action.data))).toEqual(expectedResult);
     });
 
     it('should handle the removeTrixtaRole action correctly', () => {

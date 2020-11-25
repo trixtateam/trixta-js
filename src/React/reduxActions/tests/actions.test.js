@@ -1,14 +1,16 @@
 import {
   updateTrixtaError,
   updateTrixtaRoles,
-  updateTrixtaActionResponse,
-  updateTrixtaReactionResponse,
-  updateTrixtaAction,
-  updateTrixtaReaction,
   updateTrixtaLoadingErrorStatus,
   submitTrixtaActionResponse,
   submitTrixtaReactionResponse,
 } from '../index';
+import {
+  updateTrixtaActionResponse,
+  updateTrixtaReactionResponse,
+  updateTrixtaAction,
+  updateTrixtaReaction,
+} from '../internal/index';
 import {
   UPDATE_TRIXTA_ACTION,
   UPDATE_TRIXTA_ACTION_RESPONSE,

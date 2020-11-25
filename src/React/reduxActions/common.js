@@ -4,6 +4,7 @@ import {
   UPDATE_TRIXTA_LOADING_ERROR_STATUS,
   UPDATE_TRIXTA_ROLE,
   REMOVE_TRIXTA_ROLE,
+  JOIN_TRIXTA_ROLE,
 } from '../constants';
 
 /**
@@ -44,6 +45,21 @@ export function updateTrixtaRoles({ roles }) {
     type: UPDATE_TRIXTA_ROLES,
     data: {
       roles,
+    },
+  };
+}
+
+/**
+ *  Listened for the in the saga to check role to join after successfully joining
+ * the channel
+ * @param {Object} params
+ * @param {String} params.roleName - role name
+ */
+export function joinTrixtaRole({ roleName }) {
+  return {
+    type: JOIN_TRIXTA_ROLE,
+    data: {
+      roleName,
     },
   };
 }

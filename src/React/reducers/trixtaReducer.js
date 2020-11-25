@@ -15,7 +15,6 @@ import {
   SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
   SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
   ROLE_REACTION_RESPONSE_FIELDS,
-  UPDATE_TRIXTA_ROLES,
   UPDATE_TRIXTA_ACTION,
   UPDATE_TRIXTA_REACTION,
   UPDATE_TRIXTA_ERROR,
@@ -23,8 +22,8 @@ import {
   UPDATE_TRIXTA_LOADING_ERROR_STATUS,
   TRIXTA_MODE_TYPE,
   TRIXTA_MODE_TYPE_FIELDS,
-  UPDATE_TRIXTA_ROLE,
   REMOVE_TRIXTA_ROLE,
+  JOIN_TRIXTA_ROLE,
 } from '../constants';
 import {
   getReducerKeyName,
@@ -96,17 +95,14 @@ export const trixtaReducer = (state = initialState, action) =>
           draft.actions = pickBy(state.actions, (_, key) => split(key, ':', 1)[0] !== roleName);
         }
         break;
-      case UPDATE_TRIXTA_ROLE: {
-        const roleName = get(action, 'data.role.name');
+      case JOIN_TRIXTA_ROLE: {
+        const roleName = get(action, 'data.roleName');
         const index = draft.agentDetails.findIndex((role) => role === roleName);
         if (index === -1) {
           draft.agentDetails.push(roleName);
         }
         break;
       }
-      case UPDATE_TRIXTA_ROLES:
-        draft.agentDetails = get(action, 'data.roles', []).map((role) => role.name);
-        break;
       case SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE:
         {
           const reactionName = get(action, 'error.reactionName');

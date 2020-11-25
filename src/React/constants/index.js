@@ -1,5 +1,6 @@
 export const UPDATE_TRIXTA_ROLES = `@trixta/trixta-js/UPDATE_TRIXTA_ROLES`;
 export const UPDATE_TRIXTA_ROLE = `@trixta/trixta-js/UPDATE_TRIXTA_ROLE`;
+export const JOIN_TRIXTA_ROLE = `@trixta/trixta-js/JOIN_TRIXTA_ROLE`;
 export const REMOVE_TRIXTA_ROLE = `@trixta/trixta-js/REMOVE_TRIXTA_ROLE`;
 export const TRIXTA_REACTION_RESPONSE = `@trixta/trixta-js/TRIXTA_REACTION_RESPONSE`;
 

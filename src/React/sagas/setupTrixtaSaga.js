@@ -23,14 +23,17 @@ import {
   REMOVE_TRIXTA_ROLE,
 } from '../constants';
 import {
-  updateTrixtaAction,
-  updateTrixtaReaction,
   updateTrixtaError,
-  updateTrixtaReactionResponse,
-  updateTrixtaActionResponse,
   updateTrixtaLoadingErrorStatus,
   removeTrixtaRole,
+  joinTrixtaRole,
 } from '../reduxActions';
+import {
+  updateTrixtaAction,
+  updateTrixtaReaction,
+  updateTrixtaReactionResponse,
+  updateTrixtaActionResponse,
+} from '../reduxActions/internal';
 import { makeSelectTrixtaAgentDetails } from '../selectors/common';
 
 /**
@@ -55,7 +58,7 @@ export function* removeTrixtaRoleSaga({ data }) {
 }
 
 /**
- * Check the roles returned for the user, join channels for these rolesToConnectTo
+ * Check the roles returned for the user, join channels for these roles
  *
  * @param {Object} params
  * @param {Object} params.data
@@ -104,6 +107,7 @@ export function* setupRoleSaga({ response, channel }) {
     if (!isNullOrEmpty(response)) {
       const roleChannel = get(channel, 'topic', false);
       const roleName = roleChannel.split(':')[1];
+      yield put(joinTrixtaRole({ roleName }));
       const reactionsForRole = get(response, CHANNEL_JOINED_FIELDS.contract_reactions, {});
       const actionsForRole = get(response, CHANNEL_JOINED_FIELDS.contract_actions, {});
       if (!isNullOrEmpty(actionsForRole)) {

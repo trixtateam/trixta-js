@@ -1041,8 +1041,16 @@ describe('Trixta Reducers', () => {
             reactionName,
           });
           const ref = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, false);
+          const loadingStatusKey = `${roleName}:${reactionName}:${ref}`;
+
           const { mode } = state.reactions[keyName];
           const isExpired = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.status, '') === 'expired';
+          const isRequestForResponse = reaction.type === TRIXTA_FIELDS.requestForResponse;
+          if (isRequestForResponse) {
+            draft.loadingStatus[loadingStatusKey] = {
+              status: true,
+            };
+          }
           if (isExpired) {
             const index = draft.reactions[keyName].instances[
               TRIXTA_FIELDS.requestForResponse
@@ -1050,15 +1058,17 @@ describe('Trixta Reducers', () => {
               (existingReaction) =>
                 get(existingReaction, `details.${ROLE_REACTION_RESPONSE_FIELDS.ref}`, false) === ref
             );
-            if (index !== -1)
+            if (index !== -1) {
               draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse].splice(index, 1);
+              delete draft.loadingStatus[loadingStatusKey];
+            }
           } else if (draft.reactions[keyName]) {
             switch (mode[TRIXTA_MODE_TYPE_FIELDS.type]) {
               case TRIXTA_MODE_TYPE.replace:
-                if (reaction.type === TRIXTA_FIELDS.requestForResponse) {
+                if (isRequestForResponse) {
                   draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse][0] = {
                     details: {
-                      loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
+                      loadingStatusKey,
                       ...reaction,
                     },
                     response: {
@@ -1083,10 +1093,10 @@ describe('Trixta Reducers', () => {
               case TRIXTA_MODE_TYPE.accumulate:
                 {
                   const accumalateLength = get(mode, TRIXTA_MODE_TYPE_FIELDS.limit, 10);
-                  if (reaction.type === TRIXTA_FIELDS.requestForResponse) {
+                  if (isRequestForResponse) {
                     draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse].unshift({
                       details: {
-                        loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
+                        loadingStatusKey,
                         ...reaction,
                       },
                       response: {
@@ -1101,7 +1111,7 @@ describe('Trixta Reducers', () => {
                   }
                   draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect].unshift({
                     details: {
-                      loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
+                      loadingStatusKey,
                       ref,
                       ...reaction,
                     },
@@ -1230,8 +1240,16 @@ describe('Trixta Reducers', () => {
             reactionName,
           });
           const ref = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, false);
+          const loadingStatusKey = `${roleName}:${reactionName}:${ref}`;
+
           const { mode } = state.reactions[keyName];
           const isExpired = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.status, '') === 'expired';
+          const isRequestForResponse = reaction.type === TRIXTA_FIELDS.requestForResponse;
+          if (isRequestForResponse) {
+            draft.loadingStatus[loadingStatusKey] = {
+              status: true,
+            };
+          }
           if (isExpired) {
             const index = draft.reactions[keyName].instances[
               TRIXTA_FIELDS.requestForResponse
@@ -1239,15 +1257,17 @@ describe('Trixta Reducers', () => {
               (existingReaction) =>
                 get(existingReaction, `details.${ROLE_REACTION_RESPONSE_FIELDS.ref}`, false) === ref
             );
-            if (index !== -1)
+            if (index !== -1) {
               draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse].splice(index, 1);
+              delete draft.loadingStatus[loadingStatusKey];
+            }
           } else if (draft.reactions[keyName]) {
             switch (mode[TRIXTA_MODE_TYPE_FIELDS.type]) {
               case TRIXTA_MODE_TYPE.replace:
-                if (reaction.type === TRIXTA_FIELDS.requestForResponse) {
+                if (isRequestForResponse) {
                   draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse][0] = {
                     details: {
-                      loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
+                      loadingStatusKey,
                       ...reaction,
                     },
                     response: {
@@ -1272,10 +1292,10 @@ describe('Trixta Reducers', () => {
               case TRIXTA_MODE_TYPE.accumulate:
                 {
                   const accumalateLength = get(mode, TRIXTA_MODE_TYPE_FIELDS.limit, 10);
-                  if (reaction.type === TRIXTA_FIELDS.requestForResponse) {
+                  if (isRequestForResponse) {
                     draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse].unshift({
                       details: {
-                        loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
+                        loadingStatusKey,
                         ...reaction,
                       },
                       response: {
@@ -1290,7 +1310,7 @@ describe('Trixta Reducers', () => {
                   }
                   draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect].unshift({
                     details: {
-                      loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
+                      loadingStatusKey,
                       ref,
                       ...reaction,
                     },
@@ -1436,8 +1456,16 @@ describe('Trixta Reducers', () => {
             reactionName,
           });
           const ref = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, false);
+          const loadingStatusKey = `${roleName}:${reactionName}:${ref}`;
+
           const { mode } = state.reactions[keyName];
           const isExpired = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.status, '') === 'expired';
+          const isRequestForResponse = reaction.type === TRIXTA_FIELDS.requestForResponse;
+          if (isRequestForResponse) {
+            draft.loadingStatus[loadingStatusKey] = {
+              status: true,
+            };
+          }
           if (isExpired) {
             const index = draft.reactions[keyName].instances[
               TRIXTA_FIELDS.requestForResponse
@@ -1445,15 +1473,17 @@ describe('Trixta Reducers', () => {
               (existingReaction) =>
                 get(existingReaction, `details.${ROLE_REACTION_RESPONSE_FIELDS.ref}`, false) === ref
             );
-            if (index !== -1)
+            if (index !== -1) {
               draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse].splice(index, 1);
+              delete draft.loadingStatus[loadingStatusKey];
+            }
           } else if (draft.reactions[keyName]) {
             switch (mode[TRIXTA_MODE_TYPE_FIELDS.type]) {
               case TRIXTA_MODE_TYPE.replace:
-                if (reaction.type === TRIXTA_FIELDS.requestForResponse) {
+                if (isRequestForResponse) {
                   draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse][0] = {
                     details: {
-                      loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
+                      loadingStatusKey,
                       ...reaction,
                     },
                     response: {
@@ -1478,10 +1508,10 @@ describe('Trixta Reducers', () => {
               case TRIXTA_MODE_TYPE.accumulate:
                 {
                   const accumalateLength = get(mode, TRIXTA_MODE_TYPE_FIELDS.limit, 10);
-                  if (reaction.type === TRIXTA_FIELDS.requestForResponse) {
+                  if (isRequestForResponse) {
                     draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse].unshift({
                       details: {
-                        loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
+                        loadingStatusKey,
                         ...reaction,
                       },
                       response: {
@@ -1496,7 +1526,7 @@ describe('Trixta Reducers', () => {
                   }
                   draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect].unshift({
                     details: {
-                      loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
+                      loadingStatusKey,
                       ref,
                       ...reaction,
                     },

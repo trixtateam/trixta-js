@@ -531,7 +531,7 @@ describe('Trixta Reducers', () => {
           const mode = get(state.actions, `${keyName}.mode`, false);
 
           if (!get(action, 'data.clearResponse', false)) {
-            if (draft.actions[keyName].instances && mode) {
+            if (draft.actions[keyName] && draft.actions[keyName].instances && mode) {
               switch (mode[TRIXTA_MODE_TYPE_FIELDS.type]) {
                 case TRIXTA_MODE_TYPE.replace:
                   draft.actions[keyName].instances[0] = {
@@ -629,7 +629,7 @@ describe('Trixta Reducers', () => {
           const mode = get(state.actions, `${keyName}.mode`, false);
 
           if (!get(action, 'data.clearResponse', false)) {
-            if (draft.actions[keyName].instances && mode) {
+            if (draft.actions[keyName] && draft.actions[keyName].instances && mode) {
               switch (mode[TRIXTA_MODE_TYPE_FIELDS.type]) {
                 case TRIXTA_MODE_TYPE.replace:
                   draft.actions[keyName].instances[0] = {

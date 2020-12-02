@@ -167,7 +167,7 @@ export const trixtaReducer = (state = initialState, action) =>
           const ref = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, false);
           const loadingStatusKey = `${roleName}:${reactionName}:${ref}`;
 
-          const { mode } = state.reactions[keyName];
+          const mode = get(state.reactions, `${keyName}.mode`, false);
           const isExpired = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.status, '') === 'expired';
           const isRequestForResponse = reaction.type === TRIXTA_FIELDS.requestForResponse;
           if (isRequestForResponse) {
@@ -186,7 +186,7 @@ export const trixtaReducer = (state = initialState, action) =>
               draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse].splice(index, 1);
               delete draft.loadingStatus[loadingStatusKey];
             }
-          } else if (draft.reactions[keyName]) {
+          } else if (draft.reactions[keyName] && mode) {
             switch (mode[TRIXTA_MODE_TYPE_FIELDS.type]) {
               case TRIXTA_MODE_TYPE.replace:
                 if (isRequestForResponse) {
@@ -274,9 +274,10 @@ export const trixtaReducer = (state = initialState, action) =>
       case UPDATE_TRIXTA_ACTION_RESPONSE:
         {
           const keyName = get(action, 'data.keyName', null);
-          const { mode } = state.actions[keyName];
+          const mode = get(state.actions, `${keyName}.mode`, false);
+
           if (!get(action, 'data.clearResponse', false)) {
-            if (draft.actions[keyName].instances) {
+            if (draft.actions[keyName].instances && mode) {
               switch (mode[TRIXTA_MODE_TYPE_FIELDS.type]) {
                 case TRIXTA_MODE_TYPE.replace:
                   draft.actions[keyName].instances[0] = {
@@ -315,8 +316,9 @@ export const trixtaReducer = (state = initialState, action) =>
             name: actionName,
             role: roleName,
           });
-          const { mode } = state.actions[keyName];
-          if (draft.actions[keyName].instances) {
+
+          const mode = get(state.actions, `${keyName}.mode`, false);
+          if (draft.actions[keyName].instances && mode) {
             switch (mode[TRIXTA_MODE_TYPE_FIELDS.type]) {
               case TRIXTA_MODE_TYPE.replace:
                 draft.actions[keyName].instances[0] = {

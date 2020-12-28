@@ -64,12 +64,16 @@ const makeSelectHasTrixtaRoleAccess = () =>
  * Determines if the roles are present for the agent details
  * @param {Array<string>} roles
  */
-const makeSelectHasTrixtaRoleAccessForRoles = (roles) =>
-  createSelector(selectTrixtaAgentDetails, (agentRoles) => {
-    if (isNullOrEmpty(roles)) return false;
-    if (!isArray(roles)) return false;
-    return roles.every((role) => agentRoles.includes(role));
-  });
+const makeSelectHasTrixtaRoleAccessForRoles = () =>
+  createSelector(
+    selectTrixtaAgentDetails,
+    (_, roles) => roles,
+    (agentRoles, roles) => {
+      if (isNullOrEmpty(roles)) return false;
+      if (!isArray(roles)) return false;
+      return roles.every((role) => agentRoles.includes(role));
+    }
+  );
 
 const makeSelectSchemaFormSettings = () =>
   createSelector(selectSchemaFormSettings, (settings) => settings);

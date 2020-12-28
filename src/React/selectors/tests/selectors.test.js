@@ -167,14 +167,14 @@ describe('Trixta Selectors', () => {
 
     it('makeSelectHasTrixtaRoleAccessForRoles', () => {
       const roles = ['trixta_app_user'];
-      const selector = makeSelectHasTrixtaRoleAccessForRoles(roles);
+      const selector = makeSelectHasTrixtaRoleAccessForRoles();
       const expectedResult = true;
       const mockedState = {
         trixta: {
           agentDetails: ['trixta_app_user', 'host', 'guest'],
         },
       };
-      expect(selector(mockedState)).toEqual(expectedResult);
+      expect(selector(mockedState, roles)).toEqual(expectedResult);
     });
   });
 

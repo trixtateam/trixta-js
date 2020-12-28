@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect';
 import includes from 'lodash/includes';
+import isArray from 'lodash/isArray';
 import { initialState } from '../reducers';
+import { isNullOrEmpty } from '../../utils';
 
 /**
  * Selects all the roles for the logged in agent
@@ -58,6 +60,17 @@ const makeSelectTrixtaLoadingStatusForKey = () =>
 const makeSelectHasTrixtaRoleAccess = () =>
   createSelector(selectHasTrixtaRoleAccess, (roleFilter) => !!roleFilter);
 
+/**
+ * Determines if the roles are present for the agent details
+ * @param {Array<string>} roles
+ */
+const makeSelectHasTrixtaRoleAccessForRoles = (roles) =>
+  createSelector(selectTrixtaAgentDetails, (agentRoles) => {
+    if (isNullOrEmpty(roles)) return false;
+    if (!isArray(roles)) return false;
+    return roles.every((role) => agentRoles.includes(role));
+  });
+
 const makeSelectSchemaFormSettings = () =>
   createSelector(selectSchemaFormSettings, (settings) => settings);
 
@@ -70,6 +83,7 @@ export {
   makeSelectTrixtaAgentDetails,
   makeSelectTrixtaLoadingStatus,
   makeSelectTrixtaLoadingStatusForKey,
+  makeSelectHasTrixtaRoleAccessForRoles,
   makeSelectHasTrixtaRoleAccess,
   makeSelectSchemaFormSettings,
 };

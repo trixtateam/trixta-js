@@ -10,6 +10,7 @@ import {
   makeSelectTrixtaLoadingStatus,
   makeSelectTrixtaLoadingStatusForKey,
   makeSelectHasTrixtaRoleAccess,
+  makeSelectHasTrixtaRoleAccessForRoles,
 } from '../common';
 import {
   selectTrixtaActionForRole,
@@ -33,16 +34,15 @@ import {
   selectTrixtaReactionResponseInstancesForRole,
   selectTrixtaReactionsForRole,
 } from '../trixtaReactions';
+import { trixtaReducer } from '../../reducers/trixtaReducer';
 
 describe('Trixta Selectors', () => {
   describe('Common Selectors', () => {
     it('selectTrixtaAgentDetails', () => {
       const expectedResult = ['trixta_app_user'];
-      const mockedState = {
-        trixta: {
-          agentDetails: ['trixta_app_user'],
-        },
-      };
+      const mockedState = { trixta: trixtaReducer(undefined, {}) };
+      mockedState.trixta.agentDetails = ['trixta_app_user'];
+
       expect(selectTrixtaAgentDetails(mockedState)).toEqual(expectedResult);
     });
 
@@ -163,6 +163,18 @@ describe('Trixta Selectors', () => {
         },
       };
       expect(selector(mockedState, props)).toEqual(expectedResult);
+    });
+
+    it('makeSelectHasTrixtaRoleAccessForRoles', () => {
+      const roles = ['trixta_app_user'];
+      const selector = makeSelectHasTrixtaRoleAccessForRoles(roles);
+      const expectedResult = true;
+      const mockedState = {
+        trixta: {
+          agentDetails: ['trixta_app_user', 'host', 'guest'],
+        },
+      };
+      expect(selector(mockedState)).toEqual(expectedResult);
     });
   });
 

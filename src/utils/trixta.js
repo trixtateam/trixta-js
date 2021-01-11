@@ -1,16 +1,12 @@
-import get from 'lodash/get';
-import isNull from 'lodash/isNull';
 import Moment from 'moment';
-import isUndefined from 'lodash/isUndefined';
-import isArray from 'lodash/isArray';
-import isEmpty from 'lodash/isEmpty';
 import shortid from 'shortid';
+import { get } from './object';
 import {
   ROLE_ACTION_FIELDS,
   ROLE_REACTION_RESPONSE_FIELDS,
   TRIXTA_FIELDS,
   TRIXTA_MODE_TYPE,
-} from './React/constants';
+} from '../React/constants';
 
 /**
  * Returns only the necessary fields needed from reaction
@@ -58,46 +54,6 @@ export function getReducerKeyName({ name, role }) {
   return `${role}:${name}`;
 }
 
-/*
- * Returns true if the value if null or undefined or empty
- * @param value
- * @returns {boolean}
- */
-export function isNullOrEmpty(value) {
-  if (isNull(value)) {
-    return true;
-  }
-  if (isUndefined(value)) {
-    return true;
-  }
-  if (isArray(value) && isEmpty(value)) {
-    return true;
-  }
-  if (!Number.isInteger(value) && Object.keys(value).length === 0) {
-    return true;
-  }
-  if (value.length === 0) {
-    return true;
-  }
-
-  return false;
-}
-
-/**
- * Based on the contents of the error object will attempt to return a message
- * @param error
- * @returns {string|*}
- */
-export function getMessageFromError(error) {
-  if (error.message) {
-    return error.message;
-  }
-  if (error.reason) {
-    return error.reason;
-  }
-  return JSON.stringify(error);
-}
-
 /**
  * Returns the channel name string for the given role
  * @param {Object} params
@@ -105,5 +61,6 @@ export function getMessageFromError(error) {
  * @returns {string}
  */
 export function getChannelName({ role }) {
+  if (role.includes('space')) return role;
   return `space:${role}`;
 }

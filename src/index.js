@@ -1,5 +1,5 @@
 import { trixtaReducer } from './React/reducers';
-import { getChannelName, getMessageFromError, isNullOrEmpty } from './utils';
+import { getChannelName, getMessageFromError, isNullOrEmpty } from './utils/index';
 import { setupTrixtaSaga } from './React/sagas';
 
 export * from './React/constants';

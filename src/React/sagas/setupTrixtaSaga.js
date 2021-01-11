@@ -1,5 +1,4 @@
 import { put, fork, all, take, takeEvery, select } from 'redux-saga/effects';
-import get from 'lodash/get';
 import includes from 'lodash/includes';
 // eslint-disable-next-line import/no-unresolved
 import {
@@ -8,6 +7,7 @@ import {
   leavePhoenixChannel,
   channelActionTypes,
 } from '@trixta/phoenix-to-redux';
+import { get } from '../../utils/object';
 import { getChannelName, isNullOrEmpty } from '../../utils';
 import {
   TRIXTA_REACTION_RESPONSE,

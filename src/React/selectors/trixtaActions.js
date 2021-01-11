@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
-import get from 'lodash/get';
 import pickBy from 'lodash/pickBy';
 import split from 'lodash/split';
+import { get } from '../../utils/object';
 import { getReducerKeyName } from '../../utils';
 import { selectTrixtaLoadingStatus } from './common';
 

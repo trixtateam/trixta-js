@@ -1,6 +1,5 @@
 import produce from 'immer';
 import isObjectLike from 'lodash/isObjectLike';
-import get from 'lodash/get';
 import pickBy from 'lodash/pickBy';
 import split from 'lodash/split';
 import {
@@ -30,6 +29,7 @@ import {
   getReducerStructure,
   getMessageFromError,
   getReactionDetails,
+  get,
 } from '../../utils';
 
 export const initialState = {

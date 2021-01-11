@@ -1,11 +1,11 @@
 /* eslint-disable no-param-reassign */
 import produce from 'immer';
-import get from 'lodash/get';
 import isObjectLike from 'lodash/isObjectLike';
 import pickBy from 'lodash/pickBy';
 import split from 'lodash/split';
 import {
   getMessageFromError,
+  get,
   getReactionDetails,
   getReducerKeyName,
   getReducerStructure,

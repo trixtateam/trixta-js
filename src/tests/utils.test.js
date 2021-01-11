@@ -1,4 +1,4 @@
-import get from 'lodash/get';
+import { get } from '../utils/object';
 import { ROLE_ACTION_FIELDS, TRIXTA_MODE_TYPE } from '../React/constants';
 import { getReducerStructure } from '../utils';
 describe('Trixta Utilities', () => {

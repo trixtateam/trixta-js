@@ -1,5 +1,5 @@
-import { get, pickBy, split } from 'lodash';
-import { getReducerKeyName } from '../../../utils';
+import { pickBy, split } from 'lodash';
+import { getReducerKeyName, get } from '../../../utils';
 import { TRIXTA_FIELDS } from '../../constants';
 import {
   selectTrixtaAgentDetails,

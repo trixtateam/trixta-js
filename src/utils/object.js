@@ -7,6 +7,12 @@
 export function get(obj, path, fallback) {
   if (!obj) return fallback;
   const arr = typeof path === 'string' ? path.split('.') : path;
-  const value = arr.reduce((xs, x) => (xs && xs[x] !== undefined ? xs[x] : undefined), obj);
-  return value !== undefined ? value : fallback;
+  const valueFromPath = arr.reduce(
+    (accumulator, currentValue) =>
+      accumulator && accumulator[currentValue] !== undefined
+        ? accumulator[currentValue]
+        : undefined,
+    obj
+  );
+  return valueFromPath !== undefined ? valueFromPath : fallback;
 }

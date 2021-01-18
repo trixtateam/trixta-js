@@ -1,4 +1,3 @@
-import Moment from 'moment';
 import shortid from 'shortid';
 import { get } from './object';
 import {
@@ -21,7 +20,7 @@ export function getReactionDetails({ reaction }) {
       ? TRIXTA_FIELDS.requestForResponse
       : TRIXTA_FIELDS.requestForEffect,
     initial_data: get(reaction, ROLE_REACTION_RESPONSE_FIELDS.initial_data),
-    dateCreated: new Moment().format('dddd, MMMM Do YYYY, h:mm:ss a'),
+    dateCreated: new Date().toLocaleString(),
   };
 }
 

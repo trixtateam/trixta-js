@@ -1,6 +1,6 @@
 {
   "name": "@trixta/trixta-js",
-  "version": "3.4.0-beta.1",
+  "version": "3.4.0-beta.2",
   "description": "Javascript library to integrate Trixta",
   "main": "lib/bundle.cjs.js",
   "module": "lib/bundle.esm.js",
@@ -71,24 +71,23 @@
     "node": ">=6"
   },
   "peerDependencies": {
-    "lodash": "4.17.19",
-    "reselect": "4.0.0",
-    "moment": "^2.27.0",
-    "immer": "3.0.0",
+    "lodash": ">=4.17.19",
+    "reselect": ">=4.0.0",
+    "immer": ">=3.0.0",
     "prop-types": "^15.7.2",
-    "react": "16.8.6",
-    "react-dom": "16.8.6",
-    "redux-saga": "1.0.2",
-    "redux": "4.0.1",
-    "react-redux": "7.2.1",
+    "react": ">=16.8.6",
+    "react-dom": ">=16.8.0",
+    "redux-saga": ">=1.0.2",
+    "redux": ">=4.0.1",
+    "react-redux": ">=7.2.1",
+    "phoenix": "~1.5.4",
     "shortid": "^2.2.15",
-    "@trixta/phoenix-to-redux": "3.4.2-beta.0"
+    "@trixta/phoenix-to-redux": "~3.4.2-beta.0"
   },
   "dependencies": {
-    "@trixta/phoenix-to-redux": "3.4.2-beta.0",
+    "@trixta/phoenix-to-redux": "~3.4.2-beta.0",
     "immer": "3.0.0",
     "lodash": ">=4",
-    "moment": "^2.27.0",
     "phoenix": "1.5.4",
     "prop-types": "^15.7.2",
     "react": "16.8.6",

@@ -1,6 +1,6 @@
 {
   "name": "@trixta/trixta-js",
-  "version": "3.4.0-beta.2",
+  "version": "3.4.0-beta.3",
   "description": "Javascript library to integrate Trixta",
   "main": "lib/bundle.cjs.js",
   "module": "lib/bundle.esm.js",
@@ -82,10 +82,10 @@
     "react-redux": ">=7.2.1",
     "phoenix": "~1.5.4",
     "shortid": "^2.2.15",
-    "@trixta/phoenix-to-redux": "~3.4.2-beta.0"
+    "@trixta/phoenix-to-redux": "~3.4.2-beta.1"
   },
   "dependencies": {
-    "@trixta/phoenix-to-redux": "~3.4.2-beta.0",
+    "@trixta/phoenix-to-redux": "~3.4.2-beta.1",
     "immer": "3.0.0",
     "lodash": ">=4",
     "phoenix": "1.5.4",

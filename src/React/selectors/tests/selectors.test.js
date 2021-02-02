@@ -1,38 +1,8 @@
 import { getReducerKeyName, get, pickBy } from '../../../utils';
 import { TRIXTA_FIELDS } from '../../constants';
-import {
-  selectTrixtaAgentDetails,
-  makeSelectTrixtaAgentDetails,
-  selectTrixtaLoadingStatus,
-  selectTrixtaLoadingStatusForKey,
-  selectHasTrixtaRoleAccess,
-  makeSelectTrixtaLoadingStatus,
-  makeSelectTrixtaLoadingStatusForKey,
-  makeSelectHasTrixtaRoleAccess,
-  makeSelectHasTrixtaRoleAccessForRoles,
-} from '../common';
-import {
-  selectTrixtaActionForRole,
-  selectTrixtaActionResponseInstancesForRole,
-  selectTrixtaActionResponseInstance,
-  selectTrixtaActionsForRole,
-  selectTrixtaActionCommon,
-  makeSelectTrixtaActionCommonForRole,
-  makeSelectTrixtaActionResponseInstancesForRole,
-  makeSelectTrixtaActionsForRole,
-  makesSelectTrixtaActionResponseInstance,
-} from '../trixtaActions';
-import {
-  makeSelectTrixtaReactionCommonForRole,
-  makeSelectTrixtaReactionResponseInstancesForRole,
-  makeSelectTrixtaReactionsForRole,
-  makesSelectTrixtaReactionForRole,
-  makesSelectTrixtaReactionResponseInstance,
-  selectTrixtaReactionForRole,
-  selectTrixtaReactionResponseInstance,
-  selectTrixtaReactionResponseInstancesForRole,
-  selectTrixtaReactionsForRole,
-} from '../trixtaReactions';
+import * as trixtaCommonSelectors from '../common';
+import * as trixtaReactionSelectors from '../trixtaReactions';
+import * as trtixtaActionSelectors from '../trixtaActions';
 import { trixtaReducer } from '../../reducers/trixtaReducer';
 
 describe('Trixta Selectors', () => {
@@ -42,11 +12,11 @@ describe('Trixta Selectors', () => {
       const mockedState = { trixta: trixtaReducer(undefined, {}) };
       mockedState.trixta.agentDetails = ['trixta_app_user'];
 
-      expect(selectTrixtaAgentDetails(mockedState)).toEqual(expectedResult);
+      expect(trixtaCommonSelectors.selectTrixtaAgentDetails(mockedState)).toEqual(expectedResult);
     });
 
     it('makeSelectTrixtaAgentDetails', () => {
-      const selector = makeSelectTrixtaAgentDetails();
+      const selector = trixtaCommonSelectors.makeSelectTrixtaAgentDetails();
       const expectedResult = ['trixta_app_user'];
       const mockedState = {
         trixta: {
@@ -71,11 +41,11 @@ describe('Trixta Selectors', () => {
           },
         },
       };
-      expect(selectTrixtaLoadingStatus(mockedState)).toEqual(expectedResult);
+      expect(trixtaCommonSelectors.selectTrixtaLoadingStatus(mockedState)).toEqual(expectedResult);
     });
 
     it('makeSelectTrixtaLoadingStatus', () => {
-      const selector = makeSelectTrixtaLoadingStatus();
+      const selector = trixtaCommonSelectors.makeSelectTrixtaLoadingStatus();
       const expectedResult = {
         'trixta_app_user:configure_logger': {
           status: true,
@@ -107,11 +77,13 @@ describe('Trixta Selectors', () => {
           },
         },
       };
-      expect(selectTrixtaLoadingStatusForKey(mockedState, props)).toEqual(expectedResult);
+      expect(trixtaCommonSelectors.selectTrixtaLoadingStatusForKey(mockedState, props)).toEqual(
+        expectedResult
+      );
     });
 
     it('makeSelectTrixtaLoadingStatusForKey', () => {
-      const selector = makeSelectTrixtaLoadingStatusForKey();
+      const selector = trixtaCommonSelectors.makeSelectTrixtaLoadingStatusForKey();
       const props = { loadingStatusKey: 'trixta_app_user:configure_logger' };
       const expectedResult = {
         status: true,
@@ -137,7 +109,9 @@ describe('Trixta Selectors', () => {
             agentDetails: ['trixta_app_user'],
           },
         };
-        expect(selectHasTrixtaRoleAccess(mockedState, props)).toEqual(expectedResult);
+        expect(trixtaCommonSelectors.selectHasTrixtaRoleAccess(mockedState, props)).toEqual(
+          expectedResult
+        );
       });
 
       it('selectHasTrixtaRoleAccess should return false', () => {
@@ -148,12 +122,14 @@ describe('Trixta Selectors', () => {
             agentDetails: ['trixta_app_user'],
           },
         };
-        expect(selectHasTrixtaRoleAccess(mockedState, props)).toEqual(expectedResult);
+        expect(trixtaCommonSelectors.selectHasTrixtaRoleAccess(mockedState, props)).toEqual(
+          expectedResult
+        );
       });
     });
 
     it('makeSelectHasTrixtaRoleAccess', () => {
-      const selector = makeSelectHasTrixtaRoleAccess();
+      const selector = trixtaCommonSelectors.makeSelectHasTrixtaRoleAccess();
       const props = { roleName: 'trixta_app_user' };
       const expectedResult = true;
       const mockedState = {
@@ -166,7 +142,7 @@ describe('Trixta Selectors', () => {
 
     it('makeSelectHasTrixtaRoleAccessForRoles', () => {
       const roles = ['trixta_app_user'];
-      const selector = makeSelectHasTrixtaRoleAccessForRoles();
+      const selector = trixtaCommonSelectors.makeSelectHasTrixtaRoleAccessForRoles();
       const expectedResult = true;
       const mockedState = {
         trixta: {
@@ -236,7 +212,9 @@ describe('Trixta Selectors', () => {
           getReducerKeyName({ name: props.actionName, role: props.roleName })
         ];
 
-      expect(selectTrixtaActionForRole(mockedState, props)).toEqual(expectedResult);
+      expect(trtixtaActionSelectors.selectTrixtaActionForRole(mockedState, props)).toEqual(
+        expectedResult
+      );
     });
 
     it('selectTrixtaActionResponseInstancesForRole', () => {
@@ -249,9 +227,9 @@ describe('Trixta Selectors', () => {
         []
       );
 
-      expect(selectTrixtaActionResponseInstancesForRole(mockedState, props)).toEqual(
-        expectedResult
-      );
+      expect(
+        trtixtaActionSelectors.selectTrixtaActionResponseInstancesForRole(mockedState, props)
+      ).toEqual(expectedResult);
     });
 
     it('selectTrixtaActionResponseInstance', () => {
@@ -261,7 +239,9 @@ describe('Trixta Selectors', () => {
           getReducerKeyName({ name: props.actionName, role: props.roleName })
         ].instances[props.instanceIndex];
 
-      expect(selectTrixtaActionResponseInstance(mockedState, props)).toEqual(expectedResult);
+      expect(trtixtaActionSelectors.selectTrixtaActionResponseInstance(mockedState, props)).toEqual(
+        expectedResult
+      );
     });
 
     it('selectTrixtaActionsForRole', () => {
@@ -270,7 +250,9 @@ describe('Trixta Selectors', () => {
         (value, key) => key && key.split(':', 1)[0] === props.roleName
       );
 
-      expect(selectTrixtaActionsForRole(mockedState, props)).toEqual(expectedResult);
+      expect(trtixtaActionSelectors.selectTrixtaActionsForRole(mockedState, props)).toEqual(
+        expectedResult
+      );
     });
 
     it('selectTrixtaActionCommon', () => {
@@ -282,7 +264,9 @@ describe('Trixta Selectors', () => {
           getReducerKeyName({ name: props.actionName, role: props.roleName })
         ].common;
 
-      expect(selectTrixtaActionCommon(mockedState, props)).toEqual(expectedResult);
+      expect(trtixtaActionSelectors.selectTrixtaActionCommon(mockedState, props)).toEqual(
+        expectedResult
+      );
     });
 
     it('selectTrixtaActionResponseInstancesForRole', () => {
@@ -295,14 +279,14 @@ describe('Trixta Selectors', () => {
         []
       );
 
-      expect(selectTrixtaActionResponseInstancesForRole(mockedState, props)).toEqual(
-        expectedResult
-      );
+      expect(
+        trtixtaActionSelectors.selectTrixtaActionResponseInstancesForRole(mockedState, props)
+      ).toEqual(expectedResult);
     });
 
     it('makeSelectTrixtaActionCommonForRole', () => {
-      const selector = makeSelectTrixtaActionCommonForRole();
-      const selectedAction = selectTrixtaActionForRole(mockedState, props);
+      const selector = trtixtaActionSelectors.makeSelectTrixtaActionCommonForRole();
+      const selectedAction = trtixtaActionSelectors.selectTrixtaActionForRole(mockedState, props);
 
       let expectedResult = {};
       if (selectedAction) {
@@ -313,8 +297,8 @@ describe('Trixta Selectors', () => {
     });
 
     it('makeSelectTrixtaActionResponseInstancesForRole', () => {
-      const selector = makeSelectTrixtaActionResponseInstancesForRole();
-      const selectedActionInstances = selectTrixtaActionResponseInstancesForRole(
+      const selector = trtixtaActionSelectors.makeSelectTrixtaActionResponseInstancesForRole();
+      const selectedActionInstances = trtixtaActionSelectors.selectTrixtaActionResponseInstancesForRole(
         mockedState,
         props
       );
@@ -328,9 +312,12 @@ describe('Trixta Selectors', () => {
     });
 
     it('makesSelectTrixtaActionResponseInstance', () => {
-      const selector = makesSelectTrixtaActionResponseInstance();
+      const selector = trtixtaActionSelectors.makesSelectTrixtaActionResponseInstance();
       props.instanceIndex = 0;
-      const selectedActionInstance = selectTrixtaActionResponseInstance(mockedState, props);
+      const selectedActionInstance = trtixtaActionSelectors.selectTrixtaActionResponseInstance(
+        mockedState,
+        props
+      );
 
       let expectedResult = { success: false, error: false };
       if (selectedActionInstance) {
@@ -341,8 +328,8 @@ describe('Trixta Selectors', () => {
     });
 
     it('makeSelectTrixtaActionsForRole', () => {
-      const selector = makeSelectTrixtaActionsForRole();
-      const actions = selectTrixtaActionsForRole(mockedState, props);
+      const selector = trtixtaActionSelectors.makeSelectTrixtaActionsForRole();
+      const actions = trtixtaActionSelectors.selectTrixtaActionsForRole(mockedState, props);
 
       const expectedResult = actions && actions;
 
@@ -480,7 +467,9 @@ describe('Trixta Selectors', () => {
           getReducerKeyName({ name: props.reactionName, role: props.roleName })
         ];
 
-      expect(selectTrixtaReactionForRole(mockedState, props)).toEqual(expectedResult);
+      expect(trixtaReactionSelectors.selectTrixtaReactionForRole(mockedState, props)).toEqual(
+        expectedResult
+      );
     });
 
     it('selectTrixtaReactionsForRole', () => {
@@ -489,7 +478,9 @@ describe('Trixta Selectors', () => {
         (value, key) => key && key.split(':', 1)[0] === props.roleName
       );
 
-      expect(selectTrixtaReactionsForRole(mockedState, props)).toEqual(expectedResult);
+      expect(trixtaReactionSelectors.selectTrixtaReactionsForRole(mockedState, props)).toEqual(
+        expectedResult
+      );
     });
 
     describe('selectTrixtaReactionResponseInstancesForRole', () => {
@@ -508,9 +499,9 @@ describe('Trixta Selectors', () => {
           []
         );
 
-        expect(selectTrixtaReactionResponseInstancesForRole(mockedState, props)).toEqual(
-          expectedResult
-        );
+        expect(
+          trixtaReactionSelectors.selectTrixtaReactionResponseInstancesForRole(mockedState, props)
+        ).toEqual(expectedResult);
       });
       it('selectTrixtaReactionResponseInstancesForRole using props.requestForEffect = false', () => {
         props.requestForEffect = false;
@@ -527,9 +518,9 @@ describe('Trixta Selectors', () => {
           []
         );
 
-        expect(selectTrixtaReactionResponseInstancesForRole(mockedState, props)).toEqual(
-          expectedResult
-        );
+        expect(
+          trixtaReactionSelectors.selectTrixtaReactionResponseInstancesForRole(mockedState, props)
+        ).toEqual(expectedResult);
       });
     });
 
@@ -550,7 +541,9 @@ describe('Trixta Selectors', () => {
           []
         )[props.instanceIndex];
 
-        expect(selectTrixtaReactionResponseInstance(mockedState, props)).toEqual(expectedResult);
+        expect(
+          trixtaReactionSelectors.selectTrixtaReactionResponseInstance(mockedState, props)
+        ).toEqual(expectedResult);
       });
       it('selectTrixtaReactionResponseInstance using props.requestForEffect = false', () => {
         props.requestForEffect = false;
@@ -568,15 +561,17 @@ describe('Trixta Selectors', () => {
           []
         )[props.instanceIndex];
 
-        expect(selectTrixtaReactionResponseInstance(mockedState, props)).toEqual(expectedResult);
+        expect(
+          trixtaReactionSelectors.selectTrixtaReactionResponseInstance(mockedState, props)
+        ).toEqual(expectedResult);
       });
     });
 
     describe('makeSelectTrixtaReactionResponseInstancesForRole', () => {
       it('makeSelectTrixtaReactionResponseInstancesForRole using props.requestForEffect = true', () => {
         props.requestForEffect = true;
-        const selector = makeSelectTrixtaReactionResponseInstancesForRole();
-        const selectedReactionInstances = selectTrixtaReactionResponseInstancesForRole(
+        const selector = trixtaReactionSelectors.makeSelectTrixtaReactionResponseInstancesForRole();
+        const selectedReactionInstances = trixtaReactionSelectors.selectTrixtaReactionResponseInstancesForRole(
           mockedState,
           props
         );
@@ -591,8 +586,8 @@ describe('Trixta Selectors', () => {
 
       it('makeSelectTrixtaReactionResponseInstancesForRole using props.requestForEffect = false', () => {
         props.requestForEffect = false;
-        const selector = makeSelectTrixtaReactionResponseInstancesForRole();
-        const selectedReactionInstances = selectTrixtaReactionResponseInstancesForRole(
+        const selector = trixtaReactionSelectors.makeSelectTrixtaReactionResponseInstancesForRole();
+        const selectedReactionInstances = trixtaReactionSelectors.selectTrixtaReactionResponseInstancesForRole(
           mockedState,
           props
         );
@@ -610,8 +605,11 @@ describe('Trixta Selectors', () => {
       it('makesSelectTrixtaReactionResponseInstance using props.requestForEffect = true', () => {
         props.requestForEffect = true;
         props.instanceIndex = 0;
-        const selector = makesSelectTrixtaReactionResponseInstance();
-        const selectedReactionInstance = selectTrixtaReactionResponseInstance(mockedState, props);
+        const selector = trixtaReactionSelectors.makesSelectTrixtaReactionResponseInstance();
+        const selectedReactionInstance = trixtaReactionSelectors.selectTrixtaReactionResponseInstance(
+          mockedState,
+          props
+        );
 
         let expectedResult = {};
         if (selectedReactionInstance) {
@@ -624,8 +622,11 @@ describe('Trixta Selectors', () => {
       it('makesSelectTrixtaReactionResponseInstance using props.requestForEffect = false', () => {
         props.requestForEffect = false;
         props.instanceIndex = 0;
-        const selector = makesSelectTrixtaReactionResponseInstance();
-        const selectedReactionInstance = selectTrixtaReactionResponseInstance(mockedState, props);
+        const selector = trixtaReactionSelectors.makesSelectTrixtaReactionResponseInstance();
+        const selectedReactionInstance = trixtaReactionSelectors.selectTrixtaReactionResponseInstance(
+          mockedState,
+          props
+        );
 
         let expectedResult = {};
         if (selectedReactionInstance) {
@@ -637,8 +638,11 @@ describe('Trixta Selectors', () => {
     });
 
     it('makesSelectTrixtaReactionForRole', () => {
-      const selector = makesSelectTrixtaReactionForRole();
-      const selectedReaction = selectTrixtaReactionForRole(mockedState, props);
+      const selector = trixtaReactionSelectors.makesSelectTrixtaReactionForRole();
+      const selectedReaction = trixtaReactionSelectors.selectTrixtaReactionForRole(
+        mockedState,
+        props
+      );
 
       let expectedResult = {};
       if (selectedReaction) {
@@ -649,8 +653,11 @@ describe('Trixta Selectors', () => {
     });
 
     it('makeSelectTrixtaReactionCommonForRole', () => {
-      const selector = makeSelectTrixtaReactionCommonForRole();
-      const selectedReaction = selectTrixtaReactionForRole(mockedState, props);
+      const selector = trixtaReactionSelectors.makeSelectTrixtaReactionCommonForRole();
+      const selectedReaction = trixtaReactionSelectors.selectTrixtaReactionForRole(
+        mockedState,
+        props
+      );
 
       let expectedResult = {};
       if (selectedReaction) {
@@ -661,8 +668,8 @@ describe('Trixta Selectors', () => {
     });
 
     it('makeSelectTrixtaReactionsForRole', () => {
-      const selector = makeSelectTrixtaReactionsForRole();
-      const reactions = selectTrixtaReactionsForRole(mockedState, props);
+      const selector = trixtaReactionSelectors.makeSelectTrixtaReactionsForRole();
+      const reactions = trixtaReactionSelectors.selectTrixtaReactionsForRole(mockedState, props);
 
       const expectedResult = reactions && reactions;
 

@@ -1,14 +1,13 @@
 /* eslint-disable no-param-reassign */
 import produce from 'immer';
-import isObjectLike from 'lodash/isObjectLike';
-import pickBy from 'lodash/pickBy';
-import split from 'lodash/split';
 import {
   getMessageFromError,
   get,
   getReactionDetails,
   getReducerKeyName,
   getReducerStructure,
+  pickBy,
+  isObject,
 } from '../../../utils';
 import {
   ROLE_REACTION_RESPONSE_FIELDS,
@@ -45,7 +44,7 @@ describe('Trixta Reducers', () => {
         data: { loadingStatusKey: 'trixta_app_user:configureLogger', error: 'error' },
       };
       const expectedResult = produce(state, (draft) => {
-        const error = isObjectLike(action.data.error)
+        const error = isObject(action.data.error)
           ? getMessageFromError(action.data.error)
           : action.data.error;
         draft.loadingStatus[get(action, 'data.loadingStatusKey', '')] = {
@@ -61,7 +60,7 @@ describe('Trixta Reducers', () => {
     it('should handle the updateTrixtaError action correctly', () => {
       const action = { error: 'error' };
       const expectedResult = produce(state, (draft) => {
-        draft.error = isObjectLike(action.error) ? getMessageFromError(action.error) : action.error;
+        draft.error = isObject(action.error) ? getMessageFromError(action.error) : action.error;
       });
 
       expect(trixtaReducer(state, updateTrixtaError(action))).toEqual(expectedResult);
@@ -457,13 +456,13 @@ describe('Trixta Reducers', () => {
         if (index !== -1) draft.agentDetails.splice(index, 1);
         draft.reactions = pickBy(
           state.reactions,
-          (value, key) => split(key, ':', 1)[0] !== roleName
+          (value, key) => key && key.split(':', 1)[0] !== roleName
         );
         draft.loadingStatus = pickBy(
           state.loadingStatus,
-          (_, key) => split(key, ':', 1)[0] !== roleName
+          (_, key) => key && key.split(':', 1)[0] !== roleName
         );
-        draft.actions = pickBy(state.actions, (_, key) => split(key, ':', 1)[0] !== roleName);
+        draft.actions = pickBy(state.actions, (_, key) => key && key.split(':', 1)[0] !== roleName);
       });
       expect(trixtaReducer(state, removeTrixtaRole(action.data.role))).toEqual(expectedResult);
     });

@@ -1,6 +1,4 @@
 import { createSelector } from 'reselect';
-import includes from 'lodash/includes';
-import isArray from 'lodash/isArray';
 import { initialState } from '../reducers';
 import { isNullOrEmpty } from '../../utils';
 
@@ -31,7 +29,7 @@ const selectTrixtaLoadingStatusForKey = (state, props) =>
  * @param {String} props.roleName - name of role
  */
 const selectHasTrixtaRoleAccess = (state, props) =>
-  includes(state.trixta.agentDetails, props.roleName);
+  state.trixta.agentDetails && state.trixta.agentDetails.includes(props.roleName);
 
 /**
  * Selects default schema form settings
@@ -70,7 +68,7 @@ const makeSelectHasTrixtaRoleAccessForRoles = () =>
     (_, roles) => roles,
     (agentRoles, roles) => {
       if (isNullOrEmpty(roles)) return false;
-      if (!isArray(roles)) return false;
+      if (!Array.isArray(roles)) return false;
       return roles.every((role) => agentRoles.includes(role));
     }
   );

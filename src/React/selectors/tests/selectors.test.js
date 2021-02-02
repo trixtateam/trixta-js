@@ -1,5 +1,4 @@
-import { pickBy, split } from 'lodash';
-import { getReducerKeyName, get } from '../../../utils';
+import { getReducerKeyName, get, pickBy } from '../../../utils';
 import { TRIXTA_FIELDS } from '../../constants';
 import {
   selectTrixtaAgentDetails,
@@ -268,7 +267,7 @@ describe('Trixta Selectors', () => {
     it('selectTrixtaActionsForRole', () => {
       const expectedResult = pickBy(
         mockedState.trixta.actions,
-        (value, key) => split(key, ':', 1)[0] === props.roleName
+        (value, key) => key && key.split(':', 1)[0] === props.roleName
       );
 
       expect(selectTrixtaActionsForRole(mockedState, props)).toEqual(expectedResult);
@@ -487,7 +486,7 @@ describe('Trixta Selectors', () => {
     it('selectTrixtaReactionsForRole', () => {
       const expectedResult = pickBy(
         mockedState.trixta.reactions,
-        (value, key) => split(key, ':', 1)[0] === props.roleName
+        (value, key) => key && key.split(':', 1)[0] === props.roleName
       );
 
       expect(selectTrixtaReactionsForRole(mockedState, props)).toEqual(expectedResult);

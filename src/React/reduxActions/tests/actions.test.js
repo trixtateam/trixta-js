@@ -153,9 +153,11 @@ describe('Trixta redux Actions', () => {
       it('has a type of SUBMIT_TRIXTA_ACTION_RESPONSE', () => {
         const roleName = 'trixta_app_user';
         const actionName = 'configure_logger';
+        const emitBeforeSubmission = false;
         const formData = {};
         parameters = {
           roleName,
+          emitBeforeSubmission,
           actionName,
           formData,
         };
@@ -176,6 +178,7 @@ describe('Trixta redux Actions', () => {
             },
             errorEvent: null,
             responseEvent: null,
+            emitBeforeSubmission,
           },
         };
         expect(submitTrixtaActionResponse(parameters)).toEqual(expectedResult);
@@ -264,11 +267,13 @@ describe('Trixta redux Actions', () => {
         const roleName = 'trixta_app_user';
         const reactionName = 'select_logger_backends';
         const ref = '5bda4f4e-925d-4881-85cd-4bef6414ccd1';
+        const emitBeforeSubmission = false;
         const formData = ['loki'];
         parameters = {
           roleName,
           reactionName,
           formData,
+          emitBeforeSubmission,
           ref,
         };
         expectedResult = {
@@ -280,6 +285,7 @@ describe('Trixta redux Actions', () => {
             reactionName,
             errorEvent: null,
             responseEvent: null,
+            emitBeforeSubmission,
           },
         };
         expect(submitTrixtaReactionResponse(parameters)).toEqual(expectedResult);

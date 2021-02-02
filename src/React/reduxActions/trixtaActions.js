@@ -14,6 +14,7 @@ import { SUBMIT_TRIXTA_ACTION_RESPONSE } from '../constants';
  * @param {String} params.actionName - name of action
  * @param {Object} params.formData - data to submit to space for actionName
  * @param {String=} [params.responseEvent = null] params.responseEvent - event for data to dispatch to on trixta action response
+ * @param {Boolean=} [params.emitBeforeSubmission = false] params.emitSubmission - determines if the data should be dispatched to the params.responseEvent before submitting to trixta
  * @param {String=} [params.errorEvent = null] params.errorEvent - event for error to dispatch to on trixta action error response
  */
 export function submitTrixtaActionResponse({
@@ -30,6 +31,7 @@ export function submitTrixtaActionResponse({
     },
   },
   responseEvent = null,
+  emitBeforeSubmission = false,
   errorEvent = null,
 }) {
   return {
@@ -41,6 +43,7 @@ export function submitTrixtaActionResponse({
       actionOptions,
       debugOptions,
       actionName,
+      emitBeforeSubmission,
       responseEvent,
       errorEvent,
     },

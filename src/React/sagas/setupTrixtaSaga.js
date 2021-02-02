@@ -26,8 +26,6 @@ import {
   updateTrixtaLoadingErrorStatus,
   removeTrixtaRole,
   joinTrixtaRole,
-  submitTrixtaActionResponse,
-  submitTrixtaReactionResponse,
 } from '../reduxActions';
 import {
   updateTrixtaAction,
@@ -36,26 +34,6 @@ import {
   updateTrixtaActionResponse,
 } from '../reduxActions/internal';
 import { makeSelectTrixtaAgentDetails } from '../selectors/common';
-
-/**
- * Generic trixtaActionResponse request
- */
-export function* trixtaActionResponseSaga({ payload }) {
-  if (payload.requestEvent) {
-    yield put({ type: payload.requestEvent, payload });
-  }
-  yield put(submitTrixtaActionResponse(payload));
-}
-
-/**
- * Generic trixtaReactionResponse request
- */
-export function* trixtaReactionResponseSaga({ payload }) {
-  if (payload.requestEvent) {
-    yield put({ type: payload.requestEvent, payload });
-  }
-  yield put(submitTrixtaReactionResponse(payload));
-}
 
 /**
  * Removes the trixta role and related actions and reactions from the trixta reducer
@@ -210,24 +188,31 @@ export function* handleChannelLeaveSaga({ channel }) {
  * @param {String} params.data.roleName - name of role
  * @param {String} params.data.actionName - name of action
  * @param {Object} params.data.formData - form data to submit
- * @param {String=} [params.data.responseEvent = null] params.data.responseEvent - event for data to dispatch to on trixta action response
- * @param {String=} [params.data.errorEvent = null] params.data.errorEvent - event for error to dispatch to on trixta action error response
+ * @param {String=} [params.responseEvent = null] params.responseEvent - event for data to dispatch to on trixta action response
+ * @param {Boolean=} [params.emitBeforeSubmission = false] params.emitSubmission - determines if the data should be dispatched to the params.responseEvent before submitting to trixta
+ * @param {String=} [params.errorEvent = null] params.errorEvent - event for error to dispatch to on trixta action error response
  */
 export function* submitActionResponseSaga({ data }) {
-  const roleName = get(data, 'roleName');
-  const responseEvent = get(data, 'responseEvent');
-  const errorEvent = get(data, 'errorEvent');
-  const actionName = get(data, 'actionName');
-  const formData = get(data, 'formData');
-  const debugMode = get(data, 'debugMode', false);
-  const debugOptions = get(data, 'debugOptions', {});
-  const actionOptions = get(data, 'actionOptions', {});
-  const options = debugMode
-    ? { debug: true, ...debugOptions, ...actionOptions }
-    : { ...actionOptions };
-
-  const channelTopic = getChannelName({ role: roleName });
   try {
+    const roleName = get(data, 'roleName');
+    const responseEvent = get(data, 'responseEvent');
+    const errorEvent = get(data, 'errorEvent');
+    const emitBeforeSubmission = get(data, 'emitBeforeSubmission');
+
+    const actionName = get(data, 'actionName');
+    const formData = get(data, 'formData');
+    const debugMode = get(data, 'debugMode', false);
+    const debugOptions = get(data, 'debugOptions', {});
+    const actionOptions = get(data, 'actionOptions', {});
+    const options = debugMode
+      ? { debug: true, ...debugOptions, ...actionOptions }
+      : { ...actionOptions };
+
+    const channelTopic = getChannelName({ role: roleName });
+
+    if (emitBeforeSubmission) {
+      yield put({ type: responseEvent, payload: data });
+    }
     yield put(getPhoenixChannel({ channelTopic }));
     yield put(
       pushToPhoenixChannel({
@@ -352,19 +337,24 @@ export function* addRoleListeningReactionRequestSaga({ data }) {
  * @param {String} params.data.reactionName - name of reaction
  * @param {Object} params.data.formData - form data to submit
  * @param {Object} params.data.ref - ref for the reaction
- * @param {String=} [params.data.responseEvent = null] params.data.responseEvent - event for data to dispatch to on trixta reaction response
- * @param {String=} [params.data.errorEvent = null] params.data.errorEvent - event for error to dispatch to on trixta reaction error response
+ * @param {String=} [params.responseEvent = null] params.responseEvent - event for data to dispatch to on trixta reaction response
+ * @param {Boolean=} [params.emitBeforeSubmission = false] params.emitSubmission - determines if the data should be dispatched to the params.responseEvent before submitting to trixta
+ * @param {String=} [params.errorEvent = null] params.errorEvent - event for error to dispatch to on trixta reaction error response
  */
 export function* submitResponseForReactionSaga({ data }) {
   try {
     const roleName = get(data, 'roleName');
     const responseEvent = get(data, 'responseEvent');
     const errorEvent = get(data, 'errorEvent');
+    const emitBeforeSubmission = get(data, 'emitBeforeSubmission');
     const reactionName = get(data, 'reactionName');
     const formData = get(data, 'formData');
     const ref = get(data, 'ref');
     const channelTopic = getChannelName({ role: roleName });
     yield put(getPhoenixChannel({ channelTopic }));
+    if (emitBeforeSubmission) {
+      yield put({ type: responseEvent, payload: data });
+    }
     yield put(
       pushToPhoenixChannel({
         channelTopic,

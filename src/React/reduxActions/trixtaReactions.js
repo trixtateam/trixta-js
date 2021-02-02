@@ -8,6 +8,7 @@ import { SUBMIT_TRIXTA_REACTION_RESPONSE } from '../constants';
  * @param {Object} params.formData - data to submit to space for reactionName
  * @param {Object} params.ref - ref for reaction (eg ref)
  * @param {String=} [params.responseEvent = null] params.responseEvent - event for data to dispatch to on trixta reaction response
+ * @param {Boolean=} [params.emitBeforeSubmission = false] params.emitSubmission - determines if the data should be dispatched to the params.responseEvent before submitting to trixta
  * @param {String=} [params.errorEvent = null] params.errorEvent - event for error to dispatch to on trixta reaction error response
  */
 export function submitTrixtaReactionResponse({
@@ -16,6 +17,7 @@ export function submitTrixtaReactionResponse({
   roleName,
   reactionName,
   responseEvent = null,
+  emitBeforeSubmission = false,
   errorEvent = null,
 }) {
   return {
@@ -24,6 +26,7 @@ export function submitTrixtaReactionResponse({
       formData,
       ref,
       responseEvent,
+      emitBeforeSubmission,
       errorEvent,
       roleName,
       reactionName,

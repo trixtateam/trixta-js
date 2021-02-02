@@ -1,7 +1,4 @@
 import produce from 'immer';
-import isObjectLike from 'lodash/isObjectLike';
-import pickBy from 'lodash/pickBy';
-import split from 'lodash/split';
 import {
   PHOENIX_CHANNEL_END_PROGRESS,
   PHOENIX_CHANNEL_LOADING_STATUS,
@@ -30,6 +27,8 @@ import {
   getMessageFromError,
   getReactionDetails,
   get,
+  isObject,
+  pickBy,
 } from '../../utils';
 
 export const initialState = {
@@ -71,7 +70,7 @@ export const trixtaReducer = (state = initialState, action) =>
         break;
       case UPDATE_TRIXTA_LOADING_ERROR_STATUS:
         {
-          const error = isObjectLike(action.data.error)
+          const error = isObject(action.data.error)
             ? getMessageFromError(action.data.error)
             : action.data.error;
           draft.loadingStatus[get(action, 'data.loadingStatusKey', '')] = {
@@ -80,7 +79,7 @@ export const trixtaReducer = (state = initialState, action) =>
         }
         break;
       case UPDATE_TRIXTA_ERROR:
-        draft.error = isObjectLike(action.error) ? getMessageFromError(action.error) : action.error;
+        draft.error = isObject(action.error) ? getMessageFromError(action.error) : action.error;
         break;
       case REMOVE_TRIXTA_ROLE:
         {
@@ -89,10 +88,16 @@ export const trixtaReducer = (state = initialState, action) =>
           if (index !== -1) draft.agentDetails.splice(index, 1);
           draft.loadingStatus = pickBy(
             state.loadingStatus,
-            (_, key) => split(key, ':', 1)[0] !== roleName
+            (_, key) => key && key.split(':', 1)[0] !== roleName
           );
-          draft.reactions = pickBy(state.reactions, (_, key) => split(key, ':', 1)[0] !== roleName);
-          draft.actions = pickBy(state.actions, (_, key) => split(key, ':', 1)[0] !== roleName);
+          draft.reactions = pickBy(
+            state.reactions,
+            (_, key) => key && key.split(':', 1)[0] !== roleName
+          );
+          draft.actions = pickBy(
+            state.actions,
+            (_, key) => key && key.split(':', 1)[0] !== roleName
+          );
         }
         break;
       case JOIN_TRIXTA_ROLE: {

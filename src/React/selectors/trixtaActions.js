@@ -1,7 +1,5 @@
 import { createSelector } from 'reselect';
-import pickBy from 'lodash/pickBy';
-import split from 'lodash/split';
-import { get } from '../../utils/object';
+import { get, pickBy } from '../../utils/object';
 import { getReducerKeyName } from '../../utils';
 import { selectTrixtaLoadingStatus } from './common';
 
@@ -54,7 +52,7 @@ export const selectTrixtaActionResponseInstance = (state, props) =>
  * @param {String} props.roleName - name of role
  */
 export const selectTrixtaActionsForRole = (state, props) =>
-  pickBy(state.trixta.actions, (value, key) => split(key, ':', 1)[0] === props.roleName);
+  pickBy(state.trixta.actions, (value, key) => key && key.split(':', 1)[0] === props.roleName);
 
 /**
  * Selects the actions[props.roleName:props.actionName].common

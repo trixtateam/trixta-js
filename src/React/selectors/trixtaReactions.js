@@ -1,8 +1,5 @@
 import { createSelector } from 'reselect';
-import pickBy from 'lodash/pickBy';
-import split from 'lodash/split';
-import forEach from 'lodash/forEach';
-import { get } from '../../utils/object';
+import { get, pickBy } from '../../utils/object';
 import { getReducerKeyName } from '../../utils';
 import { TRIXTA_FIELDS } from '../constants';
 import { selectTrixtaLoadingStatus } from './common';
@@ -24,7 +21,7 @@ export const selectTrixtaReactionForRole = (state, props) =>
  * @param {String} props.roleName - name of role
  */
 export const selectTrixtaReactionsForRole = (state, props) =>
-  pickBy(state.trixta.reactions, (value, key) => split(key, ':', 1)[0] === props.roleName);
+  pickBy(state.trixta.reactions, (value, key) => key && key.split(':', 1)[0] === props.roleName);
 
 /**
  * Selects the reactions[props.roleName:props.reactionName].instances
@@ -181,21 +178,21 @@ export const makeSelectTrixtaReactionListForRole = () =>
     const reactionKeys = Object.keys(reactionsForRole);
     const requestForEffects = [];
     const requestForResponses = [];
-    forEach(reactionKeys, (key) => {
+    reactionKeys.forEach((key) => {
       const reaction = reactionsForRole[key];
       const instances = get(reaction, 'instances', {});
       const effectInstances = get(instances, TRIXTA_FIELDS.requestForEffect, []);
 
       const responseInstances = get(instances, TRIXTA_FIELDS.requestForResponse, []);
 
-      forEach(effectInstances, (instance) => {
+      effectInstances.forEach((instance) => {
         requestForEffects.push({
           name: reaction.common.name,
           instance,
         });
       });
 
-      forEach(responseInstances, (instance) => {
+      responseInstances.forEach((instance) => {
         requestForResponses.push({
           name: reaction.common.name,
           instance,

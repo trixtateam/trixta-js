@@ -1,5 +1,4 @@
 import { put, fork, all, take, takeEvery, select } from 'redux-saga/effects';
-import includes from 'lodash/includes';
 // eslint-disable-next-line import/no-unresolved
 import {
   getPhoenixChannel,
@@ -27,6 +26,8 @@ import {
   updateTrixtaLoadingErrorStatus,
   removeTrixtaRole,
   joinTrixtaRole,
+  submitTrixtaActionResponse,
+  submitTrixtaReactionResponse,
 } from '../reduxActions';
 import {
   updateTrixtaAction,
@@ -35,6 +36,26 @@ import {
   updateTrixtaActionResponse,
 } from '../reduxActions/internal';
 import { makeSelectTrixtaAgentDetails } from '../selectors/common';
+
+/**
+ * Generic trixtaActionResponse request
+ */
+export function* trixtaActionResponseSaga({ payload }) {
+  if (payload.requestEvent) {
+    yield put({ type: payload.requestEvent, payload });
+  }
+  yield put(submitTrixtaActionResponse(payload));
+}
+
+/**
+ * Generic trixtaReactionResponse request
+ */
+export function* trixtaReactionResponseSaga({ payload }) {
+  if (payload.requestEvent) {
+    yield put({ type: payload.requestEvent, payload });
+  }
+  yield put(submitTrixtaReactionResponse(payload));
+}
 
 /**
  * Removes the trixta role and related actions and reactions from the trixta reducer
@@ -177,7 +198,7 @@ export function* handleChannelLeaveSaga({ channel }) {
   const roleChannel = get(channel, 'topic', false);
   const roleName = roleChannel.split(':')[1];
   const agentDetails = yield select(makeSelectTrixtaAgentDetails());
-  if (agentDetails && includes(agentDetails, roleName)) {
+  if (agentDetails && agentDetails.includes(roleName)) {
     yield put(removeTrixtaRole({ name: roleName }));
   }
 }

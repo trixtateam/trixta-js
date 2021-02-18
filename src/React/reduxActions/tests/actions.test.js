@@ -1,17 +1,9 @@
+import { getReducerKeyName } from '../../../utils';
 import {
-  updateTrixtaError,
-  updateTrixtaRoles,
-  updateTrixtaLoadingErrorStatus,
-  submitTrixtaActionResponse,
-  submitTrixtaReactionResponse,
-} from '../index';
-import {
-  updateTrixtaActionResponse,
-  updateTrixtaReactionResponse,
-  updateTrixtaAction,
-  updateTrixtaReaction,
-} from '../internal/index';
-import {
+  CLEAR_TRIXTA_ACTION_RESPONSE,
+  CLEAR_TRIXTA_REACTION_RESPONSE,
+  SUBMIT_TRIXTA_ACTION_RESPONSE,
+  SUBMIT_TRIXTA_REACTION_RESPONSE,
   UPDATE_TRIXTA_ACTION,
   UPDATE_TRIXTA_ACTION_RESPONSE,
   UPDATE_TRIXTA_ERROR,
@@ -19,10 +11,22 @@ import {
   UPDATE_TRIXTA_REACTION,
   UPDATE_TRIXTA_REACTION_RESPONSE,
   UPDATE_TRIXTA_ROLES,
-  SUBMIT_TRIXTA_ACTION_RESPONSE,
-  SUBMIT_TRIXTA_REACTION_RESPONSE,
 } from '../../constants';
-import { getReducerKeyName } from '../../../utils';
+import {
+  submitTrixtaActionResponse,
+  submitTrixtaReactionResponse,
+  updateTrixtaError,
+  updateTrixtaLoadingErrorStatus,
+  updateTrixtaRoles,
+} from '../index';
+import {
+  updateTrixtaAction,
+  updateTrixtaActionResponse,
+  updateTrixtaReaction,
+  updateTrixtaReactionResponse,
+} from '../internal/index';
+import { clearTrixtaActionResponse } from '../trixtaActions';
+import { clearTrixtaReactionResponse } from '../trixtaReactions';
 
 describe('Trixta redux Actions', () => {
   let expectedResult;
@@ -104,6 +108,25 @@ describe('Trixta redux Actions', () => {
       });
     });
 
+    describe('clearTrixtaActionResponse Action', () => {
+      it('has a type of CLEAR_TRIXTA_ACTION_RESPONSE', () => {
+        const roleName = 'trixta_app_user';
+        const actionName = 'configure_logger';
+        parameters = {
+          roleName,
+          actionName,
+        };
+        expectedResult = {
+          type: CLEAR_TRIXTA_ACTION_RESPONSE,
+          data: {
+            roleName,
+            actionName,
+          },
+        };
+        expect(clearTrixtaActionResponse(parameters)).toEqual(expectedResult);
+      });
+    });
+
     describe('updateTrixtaAction Action', () => {
       it('has a type of UPDATE_TRIXTA_ACTION', () => {
         const roleName = 'trixta_app_user';
@@ -167,6 +190,7 @@ describe('Trixta redux Actions', () => {
             formData,
             roleName,
             actionName,
+            clearResponse: false,
             debugMode: false,
             actionOptions: {},
             debugOptions: {
@@ -217,6 +241,25 @@ describe('Trixta redux Actions', () => {
           },
         };
         expect(updateTrixtaReactionResponse(parameters)).toEqual(expectedResult);
+      });
+    });
+
+    describe('clearTrixtaReactionResponse Action', () => {
+      it('has a type of CLEAR_TRIXTA_REACTION_RESPONSE', () => {
+        const roleName = 'trixta_app_user';
+        const reactionName = 'configure_logger';
+        parameters = {
+          roleName,
+          reactionName,
+        };
+        expectedResult = {
+          type: CLEAR_TRIXTA_REACTION_RESPONSE,
+          data: {
+            roleName,
+            reactionName,
+          },
+        };
+        expect(clearTrixtaReactionResponse(parameters)).toEqual(expectedResult);
       });
     });
 

@@ -1,4 +1,4 @@
-import { SUBMIT_TRIXTA_ACTION_RESPONSE } from '../constants';
+import { CLEAR_TRIXTA_ACTION_RESPONSE, SUBMIT_TRIXTA_ACTION_RESPONSE } from '../constants';
 
 /**
  *  Listened for in the saga to push action to the space
@@ -13,6 +13,7 @@ import { SUBMIT_TRIXTA_ACTION_RESPONSE } from '../constants';
  * @param {String} params.roleName - name of role
  * @param {String} params.actionName - name of action
  * @param {Object} params.formData - data to submit to space for actionName
+ * @param {Boolean=} [params.clearResponse = false] params.clearResponse - determines if the instances for action should be cleared before submitting
  * @param {String=} [params.responseEvent = null] params.responseEvent - event for data to dispatch to on trixta action response
  * @param {String=} [params.requestEvent = null] params.requestEvent - event for data to dispatch to on trixta action before submitting to trixta
  * @param {String=} [params.errorEvent = null] params.errorEvent - event for error to dispatch to on trixta action error response
@@ -21,6 +22,7 @@ export function submitTrixtaActionResponse({
   formData,
   roleName,
   actionName,
+  clearResponse = false,
   debugMode = false,
   actionOptions = {},
   debugOptions = {
@@ -40,12 +42,29 @@ export function submitTrixtaActionResponse({
       formData,
       roleName,
       debugMode,
+      clearResponse,
       actionOptions,
       debugOptions,
       actionName,
       requestEvent,
       responseEvent,
       errorEvent,
+    },
+  };
+}
+
+/**
+ *  Listened for in the saga to clear response instances for params.roleName and params.action
+ * @param {Object} params
+ * @param {String} params.roleName - name of role
+ * @param {String} params.actionName - name of action
+ */
+export function clearTrixtaActionResponse({ roleName, actionName }) {
+  return {
+    type: CLEAR_TRIXTA_ACTION_RESPONSE,
+    data: {
+      roleName,
+      actionName,
     },
   };
 }

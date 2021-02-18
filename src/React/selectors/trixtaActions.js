@@ -31,7 +31,7 @@ export const selectTrixtaActionResponseInstancesForRole = (state, props) =>
       name: props.actionName,
       role: props.roleName,
     })}.instances`,
-    []
+    [],
   );
 
 /**
@@ -164,5 +164,5 @@ export const makeSelectIsTrixtaActionInProgress = () =>
       }
 
       return false;
-    }
+    },
   );

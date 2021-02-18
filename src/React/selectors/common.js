@@ -70,7 +70,7 @@ const makeSelectHasTrixtaRoleAccessForRoles = () =>
       if (isNullOrEmpty(roles)) return false;
       if (!Array.isArray(roles)) return false;
       return roles.every((role) => agentRoles.includes(role));
-    }
+    },
   );
 
 const makeSelectSchemaFormSettings = () =>

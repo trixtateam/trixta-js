@@ -16,7 +16,7 @@ export default function useTrixtaAction(props) {
   const instances = useSelector((state) => instancesSelector(state, props), shallowEqual);
   const schemaFormUISettings = useSelector(
     (state) => schemaFormUISettingsSelector(state, props),
-    shallowEqual
+    shallowEqual,
   );
   const hasRoleAccess = useSelector((state) => hasRoleAccessSelector(state, props), shallowEqual);
 

@@ -31,7 +31,7 @@ export function get(obj, path, fallback) {
       accumulator && accumulator[currentValue] !== undefined
         ? accumulator[currentValue]
         : undefined,
-    obj
+    obj,
   );
   return valueFromPath !== undefined ? valueFromPath : fallback;
 }

@@ -44,7 +44,7 @@ export const selectTrixtaReactionResponseInstancesForRole = (state, props) =>
     })}.instances.${
       props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
     }`,
-    []
+    [],
   );
 
 /**
@@ -66,7 +66,7 @@ export const selectTrixtaReactionResponseInstance = (state, props) =>
     })}.instances.${
       props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
     }`,
-    []
+    [],
   )[props.instanceIndex];
 
 /**
@@ -169,7 +169,7 @@ export const makeSelectIsTrixtaReactionInProgress = () =>
       }
 
       return false;
-    }
+    },
   );
 
 /**

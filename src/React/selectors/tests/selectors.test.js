@@ -1,9 +1,9 @@
-import { getReducerKeyName, get, pickBy } from '../../../utils';
+import { get, getReducerKeyName, pickBy } from '../../../utils';
 import { TRIXTA_FIELDS } from '../../constants';
-import * as trixtaCommonSelectors from '../common';
-import * as trixtaReactionSelectors from '../trixtaReactions';
-import * as trtixtaActionSelectors from '../trixtaActions';
 import { trixtaReducer } from '../../reducers/trixtaReducer';
+import * as trixtaCommonSelectors from '../common';
+import * as trtixtaActionSelectors from '../trixtaActions';
+import * as trixtaReactionSelectors from '../trixtaReactions';
 
 describe('Trixta Selectors', () => {
   describe('Common Selectors', () => {
@@ -311,18 +311,10 @@ describe('Trixta Selectors', () => {
       expect(selector(mockedState, props)).toEqual(expectedResult);
     });
 
-    it('makesSelectTrixtaActionResponseInstance', () => {
-      const selector = trtixtaActionSelectors.makesSelectTrixtaActionResponseInstance();
+    it('makesSelectTrixtaActionInstanceResponse', () => {
+      const selector = trtixtaActionSelectors.makesSelectTrixtaActionInstanceResponse();
       props.instanceIndex = 0;
-      const selectedActionInstance = trtixtaActionSelectors.selectTrixtaActionResponseInstance(
-        mockedState,
-        props
-      );
-
-      let expectedResult = { success: false, error: false };
-      if (selectedActionInstance) {
-        expectedResult = selectedActionInstance.response;
-      }
+      const expectedResult = { success: false, error: false };
 
       expect(selector(mockedState, props)).toEqual(expectedResult);
     });

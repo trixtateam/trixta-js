@@ -1,8 +1,12 @@
 import { createSelector } from 'reselect';
-import { get, pickBy } from '../../utils/object';
 import { getReducerKeyName } from '../../utils';
+import { get, pickBy } from '../../utils/object';
 import { TRIXTA_FIELDS } from '../constants';
 import { selectTrixtaLoadingStatus } from './common';
+
+export const getTrixtaReactionState = (state, props) =>
+  state.trixta.reactions[getReducerKeyName({ name: props.reactionName, role: props.roleName })];
+
 /**
  * Selects the actions[props.roleName:props.actionName]
  * for the given props.roleName ,  props.reactionName and returns the reaction
@@ -11,8 +15,7 @@ import { selectTrixtaLoadingStatus } from './common';
  * @param {String} props.roleName - name of role
  * @param {String} props.reactionName - name of reaction
  */
-export const selectTrixtaReactionForRole = (state, props) =>
-  state.trixta.reactions[getReducerKeyName({ name: props.reactionName, role: props.roleName })];
+export const selectTrixtaReactionForRole = (state, props) => getTrixtaReactionState(state, props);
 
 /**
  * Selects the reactions for given props.roleName

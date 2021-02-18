@@ -1,4 +1,4 @@
-import { SUBMIT_TRIXTA_REACTION_RESPONSE } from '../constants';
+import { CLEAR_TRIXTA_REACTION_RESPONSE, SUBMIT_TRIXTA_REACTION_RESPONSE } from '../constants';
 
 /**
  *  Listened for in the saga to push reaction to the space
@@ -28,6 +28,22 @@ export function submitTrixtaReactionResponse({
       responseEvent,
       requestEvent,
       errorEvent,
+      roleName,
+      reactionName,
+    },
+  };
+}
+
+/**
+ *  Listened for in the saga to clear response instances for params.roleName and params.reactionName
+ * @param {Object} params
+ * @param {String} params.roleName - name of role
+ * @param {String} params.reactionName - name of reaction
+ */
+export function clearTrixtaReactionResponse({ roleName, reactionName }) {
+  return {
+    type: CLEAR_TRIXTA_REACTION_RESPONSE,
+    data: {
       roleName,
       reactionName,
     },

@@ -1,37 +1,37 @@
-import { put, fork, all, take, takeEvery, select } from 'redux-saga/effects';
 // eslint-disable-next-line import/no-unresolved
 import {
-  getPhoenixChannel,
-  pushToPhoenixChannel,
-  leavePhoenixChannel,
   channelActionTypes,
+  getPhoenixChannel,
+  leavePhoenixChannel,
+  pushToPhoenixChannel,
 } from '@trixta/phoenix-to-redux';
-import { get } from '../../utils/object';
+import { all, fork, put, select, take, takeEvery } from 'redux-saga/effects';
 import { getChannelName, isNullOrEmpty } from '../../utils';
+import { get } from '../../utils/object';
 import {
-  TRIXTA_REACTION_RESPONSE,
-  SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
   CHANNEL_JOINED_FIELDS,
+  REMOVE_TRIXTA_ROLE,
   SUBMIT_TRIXTA_ACTION_RESPONSE,
-  UPDATE_TRIXTA_ROLES,
-  SUBMIT_TRIXTA_REACTION_RESPONSE,
   SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
+  SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
+  SUBMIT_TRIXTA_REACTION_RESPONSE,
   SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
   SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
+  TRIXTA_REACTION_RESPONSE,
   UPDATE_TRIXTA_ROLE,
-  REMOVE_TRIXTA_ROLE,
+  UPDATE_TRIXTA_ROLES,
 } from '../constants';
 import {
+  joinTrixtaRole,
+  removeTrixtaRole,
   updateTrixtaError,
   updateTrixtaLoadingErrorStatus,
-  removeTrixtaRole,
-  joinTrixtaRole,
 } from '../reduxActions';
 import {
   updateTrixtaAction,
+  updateTrixtaActionResponse,
   updateTrixtaReaction,
   updateTrixtaReactionResponse,
-  updateTrixtaActionResponse,
 } from '../reduxActions/internal';
 import { makeSelectTrixtaAgentDetails } from '../selectors/common';
 
@@ -72,8 +72,8 @@ export function* checkTrixtaRolesSaga({ data }) {
         roles.map((role) =>
           fork(checkLoggedInRoleSaga, {
             role,
-          })
-        )
+          }),
+        ),
       );
     }
   } catch (error) {
@@ -120,9 +120,9 @@ export function* setupRoleSaga({ response, channel }) {
                   ...actionsForRole[actionName],
                 },
                 name: actionName,
-              })
-            )
-          )
+              }),
+            ),
+          ),
         );
       }
 
@@ -137,9 +137,9 @@ export function* setupRoleSaga({ response, channel }) {
                   ...reactionsForRole[reactionName],
                 },
                 name: reactionName,
-              })
-            )
-          )
+              }),
+            ),
+          ),
         );
         yield fork(addReactionListenersForRoleChannelSaga, {
           data: {
@@ -188,6 +188,7 @@ export function* handleChannelLeaveSaga({ channel }) {
  * @param {String} params.data.roleName - name of role
  * @param {String} params.data.actionName - name of action
  * @param {Object} params.data.formData - form data to submit
+ * @param {Boolean=} [params.clearResponse = false] params.clearResponse - determines if the instances for action should be cleared before submitting
  * @param {String=} [params.responseEvent = null] params.responseEvent - event for data to dispatch to on trixta action response
  * @param {String=} [params.requestEvent = null] params.requestEvent - event for data to dispatch to on trixta action before submitting to trixta
  * @param {String=} [params.errorEvent = null] params.errorEvent - event for error to dispatch to on trixta action error response
@@ -198,7 +199,7 @@ export function* submitActionResponseSaga({ data }) {
     const responseEvent = get(data, 'responseEvent');
     const errorEvent = get(data, 'errorEvent');
     const requestEvent = get(data, 'requestEvent');
-
+    const clearResponse = get(data, 'clearResponse');
     const actionName = get(data, 'actionName');
     const formData = get(data, 'formData');
     const debugMode = get(data, 'debugMode', false);
@@ -218,12 +219,12 @@ export function* submitActionResponseSaga({ data }) {
         channelTopic,
         eventName: actionName,
         requestData: { action_payload: formData, ...options },
-        additionalData: { roleName, actionName, responseEvent, errorEvent },
+        additionalData: { roleName, actionName, clearResponse, responseEvent, errorEvent },
         dispatchChannelError: true,
         channelErrorResponseEvent: SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
         channelResponseEvent: SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
         loadingStatusKey: `${roleName}:${actionName}`,
-      })
+      }),
     );
   } catch (error) {
     yield put(updateTrixtaError({ error: error.toString() }));
@@ -241,17 +242,47 @@ export function* submitActionResponseSuccess({ data }) {
   if (data) {
     const roleName = get(data, 'roleName', false);
     const actionName = get(data, 'actionName', false);
+    const clearResponse = get(data, 'clearResponse', false);
     const responseEvent = get(data, 'responseEvent', false);
     if (roleName && actionName) {
       // eslint-disable-next-line no-param-reassign
       delete data.responseEvent;
       // eslint-disable-next-line no-param-reassign
+      delete data.clearResponse;
+      // eslint-disable-next-line no-param-reassign
       delete data.errorEvent;
-      yield put(updateTrixtaActionResponse({ roleName, actionName, response: data }));
+      yield put(
+        updateTrixtaActionResponse({
+          roleName,
+          clearResponse,
+          actionName,
+          response: data,
+        }),
+      );
       if (responseEvent) {
         yield put({ type: responseEvent, data });
       }
     }
+  }
+}
+
+/**
+ * Failure response after submitting the action for the roleName
+ * @param {Object} params
+ * @param {Object} params.error
+ * @param {Object} params.data - additionalData
+ * @param {String} params.loadingStatusKey - loadingStatus key
+ */
+export function* submitActionResponseFailure({ error, data, loadingStatusKey }) {
+  yield put(
+    updateTrixtaLoadingErrorStatus({
+      loadingStatusKey,
+      error,
+    }),
+  );
+  const errorEvent = get(data, 'errorEvent', false);
+  if (errorEvent) {
+    yield put({ type: errorEvent, error });
   }
 }
 
@@ -272,7 +303,7 @@ export function* checkReactionResponseSaga({ data, eventName, channelTopic }) {
         reaction: reactionResponse,
         roleName,
         reactionName: eventName,
-      })
+      }),
     );
   } catch (error) {
     yield put(updateTrixtaError({ error: error.toString() }));
@@ -293,8 +324,8 @@ export function* addReactionListenersForRoleChannelSaga({ data }) {
       reactionsForRole.map((value) =>
         fork(addRoleListeningReactionRequestSaga, {
           data: { reaction: value, roleChannel },
-        })
-      )
+        }),
+      ),
     );
   } catch (error) {
     yield put(updateTrixtaError({ error: error.toString() }));
@@ -320,7 +351,7 @@ export function* addRoleListeningReactionRequestSaga({ data }) {
               eventActionType: TRIXTA_REACTION_RESPONSE,
             },
           ],
-        })
+        }),
       );
     }
   } catch (error) {
@@ -336,6 +367,7 @@ export function* addRoleListeningReactionRequestSaga({ data }) {
  * @param {String} params.data.reactionName - name of reaction
  * @param {Object} params.data.formData - form data to submit
  * @param {Object} params.data.ref - ref for the reaction
+ * @param {Boolean=} [params.clearResponse = false] params.clearResponse - determines if the instances for reaction should be cleared before submitting
  * @param {String=} [params.responseEvent = null] params.responseEvent - event for data to dispatch to on trixta reaction response
  * @param {String=} [params.requestEvent = null] params.requestEvent - event for data to dispatch to on trixta reaction before submitting to trixta
  * @param {String=} [params.errorEvent = null] params.errorEvent - event for error to dispatch to on trixta reaction error response
@@ -367,30 +399,10 @@ export function* submitResponseForReactionSaga({ data }) {
         channelErrorResponseEvent: SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
         channelResponseEvent: SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
         loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
-      })
+      }),
     );
   } catch (error) {
     yield put(updateTrixtaError({ error: error.toString() }));
-  }
-}
-
-/**
- * Failure response after submitting the action for the roleName
- * @param {Object} params
- * @param {Object} params.error
- * @param {Object} params.data - additionalData
- * @param {String} params.loadingStatusKey - loadingStatus key
- */
-export function* submitActionResponseFailure({ error, data, loadingStatusKey }) {
-  yield put(
-    updateTrixtaLoadingErrorStatus({
-      loadingStatusKey,
-      error,
-    })
-  );
-  const errorEvent = get(data, 'errorEvent', false);
-  if (errorEvent) {
-    yield put({ type: errorEvent, error });
   }
 }
 
@@ -406,7 +418,7 @@ export function* submitReactionResponseFailure({ error, data, loadingStatusKey }
     updateTrixtaLoadingErrorStatus({
       loadingStatusKey,
       error,
-    })
+    }),
   );
   const errorEvent = get(data, 'errorEvent', false);
   if (errorEvent) {

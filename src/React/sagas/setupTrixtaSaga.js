@@ -211,7 +211,7 @@ export function* submitActionResponseSaga({ data }) {
 
     const channelTopic = getChannelName({ role: roleName });
     if (requestEvent) {
-      yield put({ type: responseEvent, payload: data });
+      yield put({ type: requestEvent, payload: data });
     }
     yield put(getPhoenixChannel({ channelTopic }));
     yield put(
@@ -367,7 +367,6 @@ export function* addRoleListeningReactionRequestSaga({ data }) {
  * @param {String} params.data.reactionName - name of reaction
  * @param {Object} params.data.formData - form data to submit
  * @param {Object} params.data.ref - ref for the reaction
- * @param {Boolean=} [params.clearResponse = false] params.clearResponse - determines if the instances for reaction should be cleared before submitting
  * @param {String=} [params.responseEvent = null] params.responseEvent - event for data to dispatch to on trixta reaction response
  * @param {String=} [params.requestEvent = null] params.requestEvent - event for data to dispatch to on trixta reaction before submitting to trixta
  * @param {String=} [params.errorEvent = null] params.errorEvent - event for error to dispatch to on trixta reaction error response
@@ -384,7 +383,7 @@ export function* submitResponseForReactionSaga({ data }) {
     const channelTopic = getChannelName({ role: roleName });
     yield put(getPhoenixChannel({ channelTopic }));
     if (requestEvent) {
-      yield put({ type: responseEvent, payload: data });
+      yield put({ type: requestEvent, payload: data });
     }
     yield put(
       pushToPhoenixChannel({

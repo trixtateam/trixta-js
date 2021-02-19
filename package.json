@@ -1,6 +1,6 @@
 {
   "name": "@trixta/trixta-js",
-  "version": "3.4.4-beta.0",
+  "version": "3.4.5-beta.0",
   "description": "Javascript library to integrate Trixta",
   "main": "lib/bundle.cjs.js",
   "module": "lib/bundle.esm.js",
@@ -85,7 +85,7 @@
   },
   "dependencies": {
     "@trixta/phoenix-to-redux": "~3.4.2-beta.1",
-    "immer": "3.0.0",
+    "immer": "8.0.1",
     "phoenix": "1.5.4",
     "prop-types": "^15.7.2",
     "react": "16.8.6",

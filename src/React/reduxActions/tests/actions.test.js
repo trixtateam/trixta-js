@@ -7,7 +7,6 @@ import {
   UPDATE_TRIXTA_ACTION,
   UPDATE_TRIXTA_ACTION_RESPONSE,
   UPDATE_TRIXTA_ERROR,
-  UPDATE_TRIXTA_LOADING_ERROR_STATUS,
   UPDATE_TRIXTA_REACTION,
   UPDATE_TRIXTA_REACTION_RESPONSE,
   UPDATE_TRIXTA_ROLES,
@@ -16,7 +15,6 @@ import {
   submitTrixtaActionResponse,
   submitTrixtaReactionResponse,
   updateTrixtaError,
-  updateTrixtaLoadingErrorStatus,
   updateTrixtaRoles,
 } from '../index';
 import {
@@ -49,21 +47,6 @@ describe('Trixta redux Actions', () => {
           error: 'error',
         };
         expect(updateTrixtaError(parameters)).toEqual(expectedResult);
-      });
-    });
-
-    describe('updateTrixtaLoadingErrorStatus Action', () => {
-      it('has a type of UPDATE_TRIXTA_LOADING_ERROR_STATUS', () => {
-        parameters = { loadingStatusKey: 'trixta_app_user:test', error: 'error' };
-        expectedResult = {
-          type: UPDATE_TRIXTA_LOADING_ERROR_STATUS,
-          data: {
-            loadingStatusKey: 'trixta_app_user:test',
-            error: 'error',
-            clearStatus: false,
-          },
-        };
-        expect(updateTrixtaLoadingErrorStatus(parameters)).toEqual(expectedResult);
       });
     });
 
@@ -145,7 +128,6 @@ describe('Trixta redux Actions', () => {
               type: 'object',
             },
             tags: ['trixta_sys'],
-            loadingStatusKey: 'trixta_app_user:configure_logger',
           },
         };
         parameters = {
@@ -163,7 +145,6 @@ describe('Trixta redux Actions', () => {
             }),
             action: {
               ...action,
-              loadingStatusKey: `${roleName}:${actionName}`,
             },
             name: actionName,
           },

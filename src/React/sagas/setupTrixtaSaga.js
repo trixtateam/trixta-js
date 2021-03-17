@@ -17,16 +17,13 @@ import {
   SUBMIT_TRIXTA_REACTION_RESPONSE,
   SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
   SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
+  trixtaActionLoadingStatus,
+  trixtaReactionLoadingStatus,
   TRIXTA_REACTION_RESPONSE,
   UPDATE_TRIXTA_ROLE,
   UPDATE_TRIXTA_ROLES,
 } from '../constants';
-import {
-  joinTrixtaRole,
-  removeTrixtaRole,
-  updateTrixtaError,
-  updateTrixtaLoadingErrorStatus,
-} from '../reduxActions';
+import { joinTrixtaRole, removeTrixtaRole, updateTrixtaError } from '../reduxActions';
 import {
   updateTrixtaAction,
   updateTrixtaActionResponse,
@@ -82,14 +79,17 @@ export function* checkTrixtaRolesSaga({ data }) {
 }
 
 /**
- * Attempts to connect to roleChannel
+ * Attempts to connect to roleChannel if the user does not have the role already
  * @param role
  * @returns {IterableIterator<*>}
  */
 export function* checkLoggedInRoleSaga({ role }) {
   if (!isNullOrEmpty(role)) {
-    const channelTopic = getChannelName({ role: role.name });
-    yield put(getPhoenixChannel({ channelTopic, logPresence: role.logPresence }));
+    const agentDetails = yield select(makeSelectTrixtaAgentDetails());
+    if (!agentDetails.includes(role.name)) {
+      const channelTopic = getChannelName({ role: role.name });
+      yield put(getPhoenixChannel({ channelTopic, logPresence: role.logPresence }));
+    }
   }
 }
 
@@ -155,33 +155,6 @@ export function* setupRoleSaga({ response, channel }) {
 }
 
 /**
- * After joining the channel
- * call setupRoleSaga
- * @param response
- * @param channel
- * @returns {IterableIterator<*>}
- */
-export function* handleChannelJoinSaga({ response, channel }) {
-  yield fork(setupRoleSaga, { response, channel });
-}
-
-/**
- * After leaving the channel
- * call removeTrixtaRole if the role is present
- * @param response
- * @param channel
- * @returns {IterableIterator<*>}
- */
-export function* handleChannelLeaveSaga({ channel }) {
-  const roleChannel = get(channel, 'topic', false);
-  const roleName = roleChannel.split(':')[1];
-  const agentDetails = yield select(makeSelectTrixtaAgentDetails());
-  if (agentDetails && agentDetails.includes(roleName)) {
-    yield put(removeTrixtaRole({ name: roleName }));
-  }
-}
-
-/**
  * When submitTrixtaActionResponse is called  for the given role action
  * @param {Object} params
  * @param {Object} params.data
@@ -223,7 +196,7 @@ export function* submitActionResponseSaga({ data }) {
         dispatchChannelError: true,
         channelErrorResponseEvent: SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
         channelResponseEvent: SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
-        loadingStatusKey: `${roleName}:${actionName}`,
+        loadingStatusKey: trixtaActionLoadingStatus({ roleName, actionName }),
       }),
     );
   } catch (error) {
@@ -271,15 +244,8 @@ export function* submitActionResponseSuccess({ data }) {
  * @param {Object} params
  * @param {Object} params.error
  * @param {Object} params.data - additionalData
- * @param {String} params.loadingStatusKey - loadingStatus key
  */
-export function* submitActionResponseFailure({ error, data, loadingStatusKey }) {
-  yield put(
-    updateTrixtaLoadingErrorStatus({
-      loadingStatusKey,
-      error,
-    }),
-  );
+export function* submitActionResponseFailure({ error, data }) {
   const errorEvent = get(data, 'errorEvent', false);
   if (errorEvent) {
     yield put({ type: errorEvent, error });
@@ -397,7 +363,7 @@ export function* submitResponseForReactionSaga({ data }) {
         dispatchChannelError: true,
         channelErrorResponseEvent: SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
         channelResponseEvent: SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
-        loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
+        loadingStatusKey: trixtaReactionLoadingStatus({ roleName, reactionName, ref }),
       }),
     );
   } catch (error) {
@@ -410,15 +376,8 @@ export function* submitResponseForReactionSaga({ data }) {
  * @param {Object} params
  * @param {Object} params.error
  * @param {Object} params.data - additionalData
- * @param {String} params.loadingStatusKey - loadingStatus key
  */
-export function* submitReactionResponseFailure({ error, data, loadingStatusKey }) {
-  yield put(
-    updateTrixtaLoadingErrorStatus({
-      loadingStatusKey,
-      error,
-    }),
-  );
+export function* submitReactionResponseFailure({ error, data }) {
   const errorEvent = get(data, 'errorEvent', false);
   if (errorEvent) {
     yield put({ type: errorEvent, error });
@@ -434,6 +393,33 @@ export function* submitReactionResponseSuccess({ data }) {
   const responseEvent = get(data, 'responseEvent', false);
   if (responseEvent) {
     yield put({ type: responseEvent, data });
+  }
+}
+
+/**
+ * After joining the channel
+ * call setupRoleSaga
+ * @param response
+ * @param channel
+ * @returns {IterableIterator<*>}
+ */
+export function* handleChannelJoinSaga({ response, channel }) {
+  yield fork(setupRoleSaga, { response, channel });
+}
+
+/**
+ * After leaving the channel
+ * call removeTrixtaRole if the role is present
+ * @param response
+ * @param channel
+ * @returns {IterableIterator<*>}
+ */
+export function* handleChannelLeaveSaga({ channel }) {
+  const roleChannel = get(channel, 'topic', false);
+  const roleName = roleChannel.split(':')[1];
+  const agentDetails = yield select(makeSelectTrixtaAgentDetails());
+  if (agentDetails && agentDetails.includes(roleName)) {
+    yield put(removeTrixtaRole({ name: roleName }));
   }
 }
 
@@ -475,14 +461,14 @@ function* watchForTrixtActionSubmit() {
   }
 }
 
-function* watchForPhoenixChannelJoin() {
+function* watchForPhoenixChannelJoined() {
   while (true) {
     const data = yield take(channelActionTypes.CHANNEL_JOIN);
     yield fork(handleChannelJoinSaga, data);
   }
 }
 
-function* watchForPhoenixChannelLeave() {
+function* watchForPhoenixChannelLeft() {
   while (true) {
     const data = yield take(channelActionTypes.CHANNEL_LEAVE);
     yield fork(handleChannelLeaveSaga, data);
@@ -507,8 +493,8 @@ export function* setupTrixtaSaga() {
     fork(watchForUpdateTrixtaRoles),
     fork(watchForUpdateTrixtaRole),
     fork(watchForRemoveTrixtaRole),
-    fork(watchForPhoenixChannelJoin),
-    fork(watchForPhoenixChannelLeave),
+    fork(watchForPhoenixChannelJoined),
+    fork(watchForPhoenixChannelLeft),
     fork(watchForTrixtActionSubmit),
     fork(watchForTrixtaReactionResponse),
     fork(watchForTrixtaReactionSubmit),

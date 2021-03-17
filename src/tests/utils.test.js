@@ -1,6 +1,6 @@
-import { get } from '../utils/object';
 import { ROLE_ACTION_FIELDS, TRIXTA_MODE_TYPE } from '../React/constants';
 import { getReducerStructure } from '../utils';
+import { get } from '../utils/object';
 describe('Trixta Utilities', () => {
   describe('getReducerStructure', () => {
     it('returns the correct structure for action', () => {
@@ -56,6 +56,7 @@ describe('Trixta Utilities', () => {
       });
       const expectedResult = {
         mode,
+        loadingStatus: {},
         instances: type === 'action' ? [] : { requestForEffect: [], requestForResponse: [] },
         common: exampleAction,
       };
@@ -96,7 +97,7 @@ describe('Trixta Utilities', () => {
         },
         request_settings: {
           'ui:options': {
-            mode: 'accumulate',
+            mode: { type: 'accumulate' },
           },
         },
         response_schema: {
@@ -119,10 +120,14 @@ describe('Trixta Utilities', () => {
       });
       const expectedResult = {
         mode,
+        loadingStatus: {},
         instances: type === 'action' ? [] : { requestForEffect: [], requestForResponse: [] },
         common: exampleAction,
       };
       expect(getReducerStructure({ details: exampleAction, type })).toEqual(expectedResult);
+      expect(getReducerStructure({ details: exampleAction, type }).mode).toEqual({
+        type: 'accumulate',
+      });
     });
 
     it('returns the correct structure for reaction', () => {
@@ -149,6 +154,7 @@ describe('Trixta Utilities', () => {
       });
       const expectedResult = {
         mode,
+        loadingStatus: {},
         instances: type === 'action' ? [] : { requestForEffect: [], requestForResponse: [] },
         common: exampleReaction,
       };
@@ -171,7 +177,7 @@ describe('Trixta Utilities', () => {
         },
         request_settings: {
           'ui:options': {
-            mode: 'accumulate',
+            mode: { type: 'accumulate' },
           },
         },
         tags: ['current'],
@@ -183,10 +189,14 @@ describe('Trixta Utilities', () => {
       });
       const expectedResult = {
         mode,
+        loadingStatus: {},
         instances: type === 'action' ? [] : { requestForEffect: [], requestForResponse: [] },
         common: exampleReaction,
       };
       expect(getReducerStructure({ details: exampleReaction, type })).toEqual(expectedResult);
+      expect(getReducerStructure({ details: exampleReaction, type }).mode).toEqual({
+        type: 'accumulate',
+      });
     });
   });
 });

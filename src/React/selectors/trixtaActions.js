@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect';
 import { getReducerKeyName } from '../../utils';
 import { get, pickBy } from '../../utils/object';
-import { selectTrixtaLoadingStatus } from './common';
 
 export const getTrixtActionState = (state, props) =>
   state.trixta.actions[getReducerKeyName({ name: props.actionName, role: props.roleName })];
@@ -17,6 +16,17 @@ export const getTrixtActionState = (state, props) =>
 export const selectTrixtaActionForRole = (state, props) => getTrixtActionState(state, props);
 
 /**
+ * Selects the actions[props.roleName:props.actionName].loadingStatus
+ * for the given props.roleName, props.actionName and returns the action
+ * @param {*} state
+ * @param {Object} props
+ * @param {String} props.roleName - name of role
+ * @param {String} props.actionName - name of action
+ */
+export const selectTrixtaActionLoadingStatus = (state, props) =>
+  getTrixtActionState(state, props).loadingStatus;
+
+/**
  * Selects the actions[props.roleName:props.actionName].instances for the given props.roleName,
  * props.actionName and returns the action instances
  * @param {*} state
@@ -25,14 +35,9 @@ export const selectTrixtaActionForRole = (state, props) => getTrixtActionState(s
  * @param {String} props.actionName - name of action
  */
 export const selectTrixtaActionResponseInstancesForRole = (state, props) =>
-  get(
-    state.trixta.actions,
-    `${getReducerKeyName({
-      name: props.actionName,
-      role: props.roleName,
-    })}.instances`,
-    [],
-  );
+  getTrixtActionState(state, props) && getTrixtActionState(state, props).instances
+    ? getTrixtActionState(state, props).instances
+    : [];
 
 /**
  * Selects the actions[props.roleName:props.actionName].instances[props.instanceIndex]
@@ -145,8 +150,8 @@ export const makeSelectTrixtaActionsForRole = () =>
   createSelector(selectTrixtaActionsForRole, (actions) => actions && actions);
 
 /**
- * Selects the actions[props.roleName:props.actionName].common.loadingStatusKey
- * for the given props.roleName and returns trita.loadingStatus[common.loadingStatusKey]
+ * Selects the actions[props.roleName:props.actionName].loadingStatus
+ * for the given props.roleName and returns true or false
  *
  * @param {*} state
  * @param {Object} props
@@ -154,15 +159,10 @@ export const makeSelectTrixtaActionsForRole = () =>
  * @param {String} props.actionName - name of action
  */
 export const makeSelectIsTrixtaActionInProgress = () =>
-  createSelector(
-    selectTrixtaLoadingStatus,
-    selectTrixtaActionCommon,
-    (trixtaLoadingStatus, commonForAction) => {
-      if (commonForAction && trixtaLoadingStatus) {
-        const loadingStatusForAction = trixtaLoadingStatus[commonForAction.loadingStatusKey];
-        if (loadingStatusForAction) return get(loadingStatusForAction, 'status', false);
-      }
+  createSelector(selectTrixtaActionLoadingStatus, (loadingStatus) => {
+    if (loadingStatus) {
+      return get(loadingStatus, 'status', false);
+    }
 
-      return false;
-    },
-  );
+    return false;
+  });

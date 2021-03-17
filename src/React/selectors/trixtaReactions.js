@@ -2,13 +2,12 @@ import { createSelector } from 'reselect';
 import { getReducerKeyName } from '../../utils';
 import { get, pickBy } from '../../utils/object';
 import { TRIXTA_FIELDS } from '../constants';
-import { selectTrixtaLoadingStatus } from './common';
 
 export const getTrixtaReactionState = (state, props) =>
   state.trixta.reactions[getReducerKeyName({ name: props.reactionName, role: props.roleName })];
 
 /**
- * Selects the actions[props.roleName:props.actionName]
+ * Selects the reactions[props.roleName:props.actionName]
  * for the given props.roleName ,  props.reactionName and returns the reaction
  * @param {*} state
  * @param {Object} props
@@ -16,6 +15,17 @@ export const getTrixtaReactionState = (state, props) =>
  * @param {String} props.reactionName - name of reaction
  */
 export const selectTrixtaReactionForRole = (state, props) => getTrixtaReactionState(state, props);
+
+/**
+ * Selects the reactions[props.roleName:props.actionName].loadingStatus
+ * for the given props.roleName ,  props.reactionName and returns the reaction
+ * @param {*} state
+ * @param {Object} props
+ * @param {String} props.roleName - name of role
+ * @param {String} props.reactionName - name of reaction
+ */
+export const selectTrixtaReactionLoadingStatus = (state, props) =>
+  getTrixtaReactionState(state, props).loadingStatus;
 
 /**
  * Selects the reactions for given props.roleName
@@ -36,16 +46,15 @@ export const selectTrixtaReactionsForRole = (state, props) =>
  * @param {boolean} props.requestForEffect - true if reaction is requestForEffect
  */
 export const selectTrixtaReactionResponseInstancesForRole = (state, props) =>
-  get(
-    state.trixta.reactions,
-    `${getReducerKeyName({
-      name: props.reactionName,
-      role: props.roleName,
-    })}.instances.${
-      props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
-    }`,
-    [],
-  );
+  getTrixtaReactionState(state, props) &&
+  getTrixtaReactionState(state, props).instances &&
+  getTrixtaReactionState(state, props).instances[
+    props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
+  ]
+    ? getTrixtaReactionState(state, props).instances[
+        props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
+      ]
+    : [];
 
 /**
  * Selects the reactions[props.roleName:props.reactionName].instances[props.instanceIndex]
@@ -58,16 +67,15 @@ export const selectTrixtaReactionResponseInstancesForRole = (state, props) =>
  * @param {boolean} props.requestForEffect - true if reaction is requestForEffect
  */
 export const selectTrixtaReactionResponseInstance = (state, props) =>
-  get(
-    state.trixta.reactions,
-    `${getReducerKeyName({
-      name: props.reactionName,
-      role: props.roleName,
-    })}.instances.${
-      props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
-    }`,
-    [],
-  )[props.instanceIndex];
+  getTrixtaReactionState(state, props) &&
+  getTrixtaReactionState(state, props).instances &&
+  getTrixtaReactionState(state, props).instances[
+    props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
+  ]
+    ? getTrixtaReactionState(state, props).instances[
+        props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
+      ][props.instanceIndex]
+    : undefined;
 
 /**
  * Selects the reactions[props.roleName:props.reactionName].instances
@@ -148,8 +156,8 @@ export const makeSelectTrixtaReactionsForRole = () =>
   createSelector(selectTrixtaReactionsForRole, (reactions) => reactions && reactions);
 
 /**
- * Selects the reactions[props.roleName:props.reactionName].instances[props.instanceIndex]
- * for the given props.roleName and returns trita.loadingStatus[reactionInstance.loadingStatusKey]
+ * Selects the reactions[props.roleName:props.reactionName].loadingStatus
+ * for the given props.roleName and returns true or false
  *
  * @param {*} state
  * @param {Object} props
@@ -158,19 +166,13 @@ export const makeSelectTrixtaReactionsForRole = () =>
  * @param {Number} props.instanceIndex - index for reaction instance
  */
 export const makeSelectIsTrixtaReactionInProgress = () =>
-  createSelector(
-    selectTrixtaLoadingStatus,
-    selectTrixtaReactionResponseInstance,
-    (trixtaLoadingStatus, reactionResponseInstance) => {
-      if (reactionResponseInstance && trixtaLoadingStatus) {
-        const loadingStatusForAction =
-          trixtaLoadingStatus[reactionResponseInstance.details.loadingStatusKey];
-        if (loadingStatusForAction) return get(loadingStatusForAction, 'status', false);
-      }
+  createSelector(selectTrixtaReactionLoadingStatus, (loadingStatus) => {
+    if (loadingStatus) {
+      return get(loadingStatus, 'status', false);
+    }
 
-      return false;
-    },
-  );
+    return false;
+  });
 
 /**
  * Separates the reactions into requestForEffects and requestForResponse

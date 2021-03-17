@@ -1,8 +1,4 @@
-import {
-  PHOENIX_CHANNEL_END_PROGRESS,
-  PHOENIX_CHANNEL_LOADING_STATUS,
-  socketActionTypes,
-} from '@trixta/phoenix-to-redux';
+import { socketActionTypes } from '@trixta/phoenix-to-redux';
 import produce from 'immer';
 import {
   get,
@@ -19,7 +15,10 @@ import {
   JOIN_TRIXTA_ROLE,
   REMOVE_TRIXTA_ROLE,
   ROLE_REACTION_RESPONSE_FIELDS,
+  SUBMIT_TRIXTA_ACTION_RESPONSE,
   SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
+  SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
+  SUBMIT_TRIXTA_REACTION_RESPONSE,
   SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
   SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
   TRIXTA_FIELDS,
@@ -28,16 +27,17 @@ import {
   UPDATE_TRIXTA_ACTION,
   UPDATE_TRIXTA_ACTION_RESPONSE,
   UPDATE_TRIXTA_ERROR,
-  UPDATE_TRIXTA_LOADING_ERROR_STATUS,
   UPDATE_TRIXTA_REACTION,
   UPDATE_TRIXTA_REACTION_RESPONSE,
+  UPDATE_TRIXTA_ROLE,
+  UPDATE_TRIXTA_ROLES,
 } from '../constants';
 
 export const initialState = {
   reactions: {},
   actions: {},
   error: false,
-  loadingStatus: {},
+  authorizingStatus: {},
   schemaFormSettings: {
     showErrorList: false,
     noHtml5Validate: true,
@@ -54,32 +54,6 @@ export const trixtaReducer = (state = initialState, action) =>
     switch (action.type) {
       case socketActionTypes.SOCKET_DISCONNECT:
         return initialState;
-      case PHOENIX_CHANNEL_LOADING_STATUS:
-        draft.loadingStatus[get(action, 'data.loadingStatusKey', '')] = {
-          status: true,
-        };
-        break;
-      case PHOENIX_CHANNEL_END_PROGRESS:
-        {
-          const loadingStatusKey = get(action, 'data.loadingStatusKey', false);
-          if (!loadingStatusKey) {
-            draft.progressMessage = false;
-            draft.loadingType = false;
-          } else {
-            delete draft.loadingStatus[loadingStatusKey];
-          }
-        }
-        break;
-      case UPDATE_TRIXTA_LOADING_ERROR_STATUS:
-        {
-          const error = isObject(action.data.error)
-            ? getMessageFromError(action.data.error)
-            : action.data.error;
-          draft.loadingStatus[get(action, 'data.loadingStatusKey', '')] = {
-            error: get(action, 'data.clearStatus', false) ? false : error,
-          };
-        }
-        break;
       case UPDATE_TRIXTA_ERROR:
         draft.error = isObject(action.error) ? getMessageFromError(action.error) : action.error;
         break;
@@ -88,10 +62,6 @@ export const trixtaReducer = (state = initialState, action) =>
           const roleName = get(action, 'data.role.name');
           const index = draft.agentDetails.findIndex((role) => role === roleName);
           if (index !== -1) draft.agentDetails.splice(index, 1);
-          draft.loadingStatus = pickBy(
-            state.loadingStatus,
-            (_, key) => key && key.split(':', 1)[0] !== roleName,
-          );
           draft.reactions = pickBy(
             state.reactions,
             (_, key) => key && key.split(':', 1)[0] !== roleName,
@@ -108,8 +78,32 @@ export const trixtaReducer = (state = initialState, action) =>
         if (index === -1) {
           draft.agentDetails.push(roleName);
         }
+        delete draft.authorizingStatus[roleName];
         break;
       }
+      case UPDATE_TRIXTA_ROLE:
+        {
+          const roleName = get(action, 'data.role.name', false);
+          if (roleName) draft.authorizingStatus[roleName] = { status: true };
+        }
+        break;
+      case UPDATE_TRIXTA_ROLES:
+        action.data.roles.forEach(({ name }) => {
+          draft.authorizingStatus[name] = { status: true };
+        });
+        break;
+      case SUBMIT_TRIXTA_REACTION_RESPONSE:
+        {
+          const reactionName = get(action, 'data.reactionName');
+          const roleName = get(action, 'data.roleName');
+          const keyName = getReducerKeyName({
+            name: reactionName,
+            role: roleName,
+          });
+          draft.reactions[keyName].loadingStatus = { status: true };
+        }
+        break;
+
       case SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE:
         {
           const reactionName = get(action, 'error.reactionName');
@@ -172,13 +166,12 @@ export const trixtaReducer = (state = initialState, action) =>
             reactionName,
           });
           const ref = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, false);
-          const loadingStatusKey = `${roleName}:${reactionName}:${ref}`;
 
           const mode = get(state.reactions, `${keyName}.mode`, false);
           const isExpired = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.status, '') === 'expired';
           const isRequestForResponse = reaction.type === TRIXTA_FIELDS.requestForResponse;
           if (isRequestForResponse) {
-            draft.loadingStatus[loadingStatusKey] = {
+            draft.reactions[keyName].loadingStatus = {
               status: true,
             };
           }
@@ -192,7 +185,7 @@ export const trixtaReducer = (state = initialState, action) =>
             );
             if (index !== -1) {
               draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse].splice(index, 1);
-              delete draft.loadingStatus[loadingStatusKey];
+              draft.reactions[keyName].loadingStatus = {};
             }
           } else if (draft.reactions[keyName] && mode) {
             switch (mode[TRIXTA_MODE_TYPE_FIELDS.type]) {
@@ -200,7 +193,6 @@ export const trixtaReducer = (state = initialState, action) =>
                 if (isRequestForResponse) {
                   draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse][0] = {
                     details: {
-                      loadingStatusKey,
                       ...reaction,
                     },
                     response: {
@@ -213,7 +205,6 @@ export const trixtaReducer = (state = initialState, action) =>
                 draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect][0] = {
                   details: {
                     ref,
-                    loadingStatusKey: `${roleName}:${reactionName}:${ref}`,
                     ...reaction,
                   },
                   response: {
@@ -228,7 +219,6 @@ export const trixtaReducer = (state = initialState, action) =>
                   if (isRequestForResponse) {
                     draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse].unshift({
                       details: {
-                        loadingStatusKey,
                         ...reaction,
                       },
                       response: {
@@ -236,14 +226,18 @@ export const trixtaReducer = (state = initialState, action) =>
                         error: false,
                       },
                     });
-                    draft.reactions[keyName].instances[
-                      TRIXTA_FIELDS.requestForResponse
-                    ].length = accumalateLength;
+                    if (
+                      draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse].length >
+                      accumalateLength
+                    )
+                      draft.reactions[keyName].instances[
+                        TRIXTA_FIELDS.requestForResponse
+                      ].length = accumalateLength;
+
                     break;
                   }
                   draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect].unshift({
                     details: {
-                      loadingStatusKey,
                       ref,
                       ...reaction,
                     },
@@ -252,6 +246,13 @@ export const trixtaReducer = (state = initialState, action) =>
                       error: false,
                     },
                   });
+                  if (
+                    draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect].length >
+                    accumalateLength
+                  )
+                    draft.reactions[keyName].instances[
+                      TRIXTA_FIELDS.requestForEffect
+                    ].length = accumalateLength;
                 }
                 break;
               default:
@@ -317,7 +318,8 @@ export const trixtaReducer = (state = initialState, action) =>
                       error: false,
                     },
                   });
-                  draft.actions[keyName].instances.length = accumalateLength;
+                  if (draft.actions[keyName].instances.length > accumalateLength)
+                    draft.actions[keyName].instances.length = accumalateLength;
                 }
                 break;
               default:
@@ -335,6 +337,29 @@ export const trixtaReducer = (state = initialState, action) =>
             role: roleName,
           });
           draft.actions[keyName].instances = [];
+          draft.actions[keyName].loadingStatus = {};
+        }
+        break;
+      case SUBMIT_TRIXTA_ACTION_RESPONSE:
+        {
+          const actionName = get(action, 'data.actionName');
+          const roleName = get(action, 'data.roleName');
+          const keyName = getReducerKeyName({
+            name: actionName,
+            role: roleName,
+          });
+          draft.actions[keyName].loadingStatus = { status: true };
+        }
+        break;
+      case SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS:
+        {
+          const actionName = get(action, 'data.actionName');
+          const roleName = get(action, 'data.roleName');
+          const keyName = getReducerKeyName({
+            name: actionName,
+            role: roleName,
+          });
+          draft.actions[keyName].loadingStatus = {};
         }
         break;
       case SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE:
@@ -346,7 +371,7 @@ export const trixtaReducer = (state = initialState, action) =>
             name: actionName,
             role: roleName,
           });
-
+          draft.actions[keyName].loadingStatus = {};
           if (clearResponse) draft.actions[keyName].instances = [];
           const mode = get(state.actions, `${keyName}.mode`, false);
           if (draft.actions[keyName] && draft.actions[keyName].instances && mode) {

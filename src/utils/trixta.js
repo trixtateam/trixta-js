@@ -1,11 +1,11 @@
 import shortid from 'shortid';
-import { get } from './object';
 import {
   ROLE_ACTION_FIELDS,
   ROLE_REACTION_RESPONSE_FIELDS,
   TRIXTA_FIELDS,
   TRIXTA_MODE_TYPE,
 } from '../React/constants';
+import { get } from './object';
 
 /**
  * Returns only the necessary fields needed from reaction
@@ -35,8 +35,10 @@ export function getReducerStructure({ details, type = 'action' }) {
   const mode = get(details, `${ROLE_ACTION_FIELDS.request_settings}.ui:options.mode`, {
     type: TRIXTA_MODE_TYPE.replace,
   });
+
   return {
     mode,
+    loadingStatus: {},
     instances: type === 'action' ? [] : { requestForEffect: [], requestForResponse: [] },
     common: details,
   };

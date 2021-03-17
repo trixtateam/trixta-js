@@ -100,7 +100,6 @@ export function updateTrixtaAction({ role, action, name }) {
       }),
       action: {
         ...action,
-        loadingStatusKey: `${role}:${name}`,
       },
       name,
     },

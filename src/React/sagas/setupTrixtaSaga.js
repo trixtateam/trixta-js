@@ -3,7 +3,7 @@ import {
   channelActionTypes,
   getPhoenixChannel,
   leavePhoenixChannel,
-  pushToPhoenixChannel,
+  pushToPhoenixChannel
 } from '@trixta/phoenix-to-redux';
 import { all, fork, put, select, take, takeEvery } from 'redux-saga/effects';
 import { getChannelName, isNullOrEmpty } from '../../utils';
@@ -21,14 +21,14 @@ import {
   trixtaReactionLoadingStatus,
   TRIXTA_REACTION_RESPONSE,
   UPDATE_TRIXTA_ROLE,
-  UPDATE_TRIXTA_ROLES,
+  UPDATE_TRIXTA_ROLES
 } from '../constants';
 import { joinTrixtaRole, removeTrixtaRole, updateTrixtaError } from '../reduxActions';
 import {
   updateTrixtaAction,
   updateTrixtaActionResponse,
   updateTrixtaReaction,
-  updateTrixtaReactionResponse,
+  updateTrixtaReactionResponse
 } from '../reduxActions/internal';
 import { makeSelectTrixtaAgentDetails } from '../selectors/common';
 
@@ -103,10 +103,10 @@ export function* checkLoggedInRoleSaga({ role }) {
  */
 export function* setupRoleSaga({ response, channel }) {
   try {
+    const roleChannel = get(channel, 'topic', false);
+    const roleName = roleChannel.split(':')[1];
+    yield put(joinTrixtaRole({ roleName }));
     if (!isNullOrEmpty(response)) {
-      const roleChannel = get(channel, 'topic', false);
-      const roleName = roleChannel.split(':')[1];
-      yield put(joinTrixtaRole({ roleName }));
       const reactionsForRole = get(response, CHANNEL_JOINED_FIELDS.contract_reactions, {});
       const actionsForRole = get(response, CHANNEL_JOINED_FIELDS.contract_actions, {});
       if (!isNullOrEmpty(actionsForRole)) {

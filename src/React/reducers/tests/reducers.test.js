@@ -104,6 +104,7 @@ describe('Trixta Reducers', () => {
       const expectedResult = produce(state, (draft) => {
         const roleName = get(action, 'data.role.name');
         const index = draft.agentDetails.findIndex((role) => role === roleName);
+        delete draft.authorizingStatus[roleName];
         if (index !== -1) draft.agentDetails.splice(index, 1);
         draft.reactions = pickBy(
           state.reactions,

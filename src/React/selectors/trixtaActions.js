@@ -13,7 +13,8 @@ export const getTrixtActionState = (state, props) =>
  * @param {String} props.roleName - name of role
  * @param {String} props.actionName - name of action
  */
-export const selectTrixtaActionForRole = (state, props) => getTrixtActionState(state, props);
+export const selectTrixtaActionForRole = (state, props) =>
+  getTrixtActionState(state, props) && getTrixtActionState(state, props);
 
 /**
  * Selects the actions[props.roleName:props.actionName].loadingStatus
@@ -24,7 +25,7 @@ export const selectTrixtaActionForRole = (state, props) => getTrixtActionState(s
  * @param {String} props.actionName - name of action
  */
 export const selectTrixtaActionLoadingStatus = (state, props) =>
-  getTrixtActionState(state, props).loadingStatus;
+  getTrixtActionState(state, props) && getTrixtActionState(state, props).loadingStatus;
 
 /**
  * Selects the actions[props.roleName:props.actionName].instances for the given props.roleName,
@@ -49,6 +50,7 @@ export const selectTrixtaActionResponseInstancesForRole = (state, props) =>
  * @param {Number} props.instanceIndex - index for action instance
  */
 export const selectTrixtaActionResponseInstance = (state, props) =>
+  getTrixtActionState(state, props) &&
   getTrixtActionState(state, props).instances[props.instanceIndex];
 
 /**

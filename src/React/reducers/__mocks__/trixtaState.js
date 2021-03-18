@@ -1154,6 +1154,7 @@ export const trixtaState = {
   reactions: mockTrixtaReactions,
   actions: mockTrixtaActions,
   error: false,
+  authorizationStarted: false,
   authorizingStatus: mockAuthorizingStatus,
   schemaFormSettings: {
     showErrorList: false,

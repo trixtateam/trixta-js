@@ -46,6 +46,7 @@ describe('Trixta Reducers', () => {
       const action = { data: { roleName: nameOfRole } };
       state = trixtaState;
       const expectedResult = produce(state, (draft) => {
+        draft.authorizationStarted = true;
         const roleName = get(action, 'data.roleName');
         const index = draft.agentDetails.findIndex((role) => role === roleName);
         if (index === -1) {

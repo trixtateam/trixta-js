@@ -1,4 +1,4 @@
-import { socketActionTypes } from '@trixta/phoenix-to-redux';
+import { channelActionTypes, socketActionTypes } from '@trixta/phoenix-to-redux';
 import produce from 'immer';
 import {
   get,
@@ -7,7 +7,7 @@ import {
   getReducerKeyName,
   getReducerStructure,
   isObject,
-  pickBy,
+  pickBy
 } from '../../utils';
 import {
   CLEAR_TRIXTA_ACTION_RESPONSE,
@@ -30,13 +30,14 @@ import {
   UPDATE_TRIXTA_REACTION,
   UPDATE_TRIXTA_REACTION_RESPONSE,
   UPDATE_TRIXTA_ROLE,
-  UPDATE_TRIXTA_ROLES,
+  UPDATE_TRIXTA_ROLES
 } from '../constants';
 
 export const initialState = {
   reactions: {},
   actions: {},
   error: false,
+  authorizationStarted: false,
   authorizingStatus: {},
   schemaFormSettings: {
     showErrorList: false,
@@ -54,6 +55,13 @@ export const trixtaReducer = (state = initialState, action) =>
     switch (action.type) {
       case socketActionTypes.SOCKET_DISCONNECT:
         return initialState;
+      case channelActionTypes.CHANNEL_JOIN_ERROR:
+        {
+          const channelTopic = get(action, 'channelTopic', false);
+          const roleName = channelTopic.split(':')[1];
+          delete draft.authorizingStatus[roleName];
+        }
+        break;
       case UPDATE_TRIXTA_ERROR:
         draft.error = isObject(action.error) ? getMessageFromError(action.error) : action.error;
         break;
@@ -73,6 +81,7 @@ export const trixtaReducer = (state = initialState, action) =>
         }
         break;
       case JOIN_TRIXTA_ROLE: {
+        draft.authorizationStarted = true;
         const roleName = get(action, 'data.roleName');
         const index = draft.agentDetails.findIndex((role) => role === roleName);
         if (index === -1) {

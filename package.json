@@ -81,10 +81,10 @@
     "react-redux": ">=7.2.1",
     "phoenix": "~1.5.4",
     "shortid": "^2.2.15",
-    "@trixta/phoenix-to-redux": "3.4.5-beta.0"
+    "@trixta/phoenix-to-redux": "3.4.7-beta.0"
   },
   "dependencies": {
-    "@trixta/phoenix-to-redux": "3.4.5-beta.0",
+    "@trixta/phoenix-to-redux": "3.4.7-beta.0",
     "immer": "8.0.1",
     "phoenix": "1.5.4",
     "prop-types": "^15.7.2",

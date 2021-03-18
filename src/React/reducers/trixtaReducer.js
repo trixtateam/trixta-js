@@ -94,12 +94,20 @@ export const trixtaReducer = (state = initialState, action) =>
       case UPDATE_TRIXTA_ROLE:
         {
           const roleName = get(action, 'data.role.name', false);
-          if (roleName) draft.authorizingStatus[roleName] = { status: true };
+          if (roleName) {
+            const index = draft.agentDetails.findIndex((role) => role === roleName);
+            if (index === -1) {
+              draft.authorizingStatus[roleName] = { status: true };
+            }
+          }
         }
         break;
       case UPDATE_TRIXTA_ROLES:
         action.data.roles.forEach(({ name }) => {
-          draft.authorizingStatus[name] = { status: true };
+          const index = draft.agentDetails.findIndex((role) => role === name);
+          if (index === -1) {
+            draft.authorizingStatus[name] = { status: true };
+          }
         });
         break;
       case SUBMIT_TRIXTA_REACTION_RESPONSE:

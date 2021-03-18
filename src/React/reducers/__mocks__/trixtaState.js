@@ -1138,8 +1138,6 @@ export const mockTrixtaActions = {
 
 export const mockTrixtaAgentDetails = [
   'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]',
-  'everyone_authed',
-  'everyone_anon',
   'host[d1be63be-c0e4-4468-982c-5c04714a2987]',
   'guest[d1be63be-c0e4-4468-982c-5c04714a2987]',
 ];

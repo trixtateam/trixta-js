@@ -146,7 +146,10 @@ describe('Trixta Selectors', () => {
     });
 
     it('makeSelectHasTrixtaRoleAccessForRoles', () => {
-      const roles = ['guest[d1be63be-c0e4-4468-982c-5c04714a2987]', 'everyone_anon'];
+      const roles = [
+        'guest[d1be63be-c0e4-4468-982c-5c04714a2987]',
+        'host[d1be63be-c0e4-4468-982c-5c04714a2987]',
+      ];
       const selector = trixtaCommonSelectors.makeSelectHasTrixtaRoleAccessForRoles();
       const agentRoles = trixtaCommonSelectors.selectTrixtaAgentDetails(mockedState);
       let expectedResult = false;
@@ -371,10 +374,10 @@ describe('Trixta Selectors', () => {
               : TRIXTA_FIELDS.requestForResponse
           ]
             ? getTrixtaReactionState(mockedState, props).instances[
-                props.requestForEffect
-                  ? TRIXTA_FIELDS.requestForEffect
-                  : TRIXTA_FIELDS.requestForResponse
-              ]
+              props.requestForEffect
+                ? TRIXTA_FIELDS.requestForEffect
+                : TRIXTA_FIELDS.requestForResponse
+            ]
             : [];
 
         expect(
@@ -392,10 +395,10 @@ describe('Trixta Selectors', () => {
               : TRIXTA_FIELDS.requestForResponse
           ]
             ? getTrixtaReactionState(mockedState, props).instances[
-                props.requestForEffect
-                  ? TRIXTA_FIELDS.requestForEffect
-                  : TRIXTA_FIELDS.requestForResponse
-              ]
+              props.requestForEffect
+                ? TRIXTA_FIELDS.requestForEffect
+                : TRIXTA_FIELDS.requestForResponse
+            ]
             : [];
 
         expect(
@@ -417,10 +420,10 @@ describe('Trixta Selectors', () => {
               : TRIXTA_FIELDS.requestForResponse
           ]
             ? getTrixtaReactionState(mockedState, props).instances[
-                props.requestForEffect
-                  ? TRIXTA_FIELDS.requestForEffect
-                  : TRIXTA_FIELDS.requestForResponse
-              ][props.instanceIndex]
+              props.requestForEffect
+                ? TRIXTA_FIELDS.requestForEffect
+                : TRIXTA_FIELDS.requestForResponse
+            ][props.instanceIndex]
             : undefined;
 
         expect(
@@ -439,10 +442,10 @@ describe('Trixta Selectors', () => {
               : TRIXTA_FIELDS.requestForResponse
           ]
             ? getTrixtaReactionState(mockedState, props).instances[
-                props.requestForEffect
-                  ? TRIXTA_FIELDS.requestForEffect
-                  : TRIXTA_FIELDS.requestForResponse
-              ][props.instanceIndex]
+              props.requestForEffect
+                ? TRIXTA_FIELDS.requestForEffect
+                : TRIXTA_FIELDS.requestForResponse
+            ][props.instanceIndex]
             : undefined;
 
         expect(

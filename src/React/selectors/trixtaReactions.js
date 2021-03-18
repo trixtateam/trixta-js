@@ -14,7 +14,8 @@ export const getTrixtaReactionState = (state, props) =>
  * @param {String} props.roleName - name of role
  * @param {String} props.reactionName - name of reaction
  */
-export const selectTrixtaReactionForRole = (state, props) => getTrixtaReactionState(state, props);
+export const selectTrixtaReactionForRole = (state, props) =>
+  getTrixtaReactionState && getTrixtaReactionState(state, props);
 
 /**
  * Selects the reactions[props.roleName:props.actionName].loadingStatus
@@ -25,7 +26,7 @@ export const selectTrixtaReactionForRole = (state, props) => getTrixtaReactionSt
  * @param {String} props.reactionName - name of reaction
  */
 export const selectTrixtaReactionLoadingStatus = (state, props) =>
-  getTrixtaReactionState(state, props).loadingStatus;
+  getTrixtaReactionState && getTrixtaReactionState(state, props).loadingStatus;
 
 /**
  * Selects the reactions for given props.roleName

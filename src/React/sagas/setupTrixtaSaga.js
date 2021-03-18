@@ -103,10 +103,10 @@ export function* checkLoggedInRoleSaga({ role }) {
  */
 export function* setupRoleSaga({ response, channel }) {
   try {
+    const roleChannel = get(channel, 'topic', false);
+    const roleName = roleChannel.split(':')[1];
+    yield put(joinTrixtaRole({ roleName }));
     if (!isNullOrEmpty(response)) {
-      const roleChannel = get(channel, 'topic', false);
-      const roleName = roleChannel.split(':')[1];
-      yield put(joinTrixtaRole({ roleName }));
       const reactionsForRole = get(response, CHANNEL_JOINED_FIELDS.contract_reactions, {});
       const actionsForRole = get(response, CHANNEL_JOINED_FIELDS.contract_actions, {});
       if (!isNullOrEmpty(actionsForRole)) {

@@ -13,6 +13,12 @@ export const selectTrixtaAgentDetails = (state) => state.trixta.agentDetails;
 export const selectTrixtaAuthorizingStatus = (state) => state.trixta.authorizingStatus;
 
 /**
+ * Selects the authorizationStarted, which happens when the first Trixta role is joined
+ * @param {*} state
+ */
+export const selectTrixtaAuthorizationStarted = (state) => state.trixta.authorizationStarted;
+
+/**
  * Selects the authorizingStatus for the given roleName
  * @param {*} state
  * @param {String} props.roleName - Trixta role name
@@ -59,6 +65,13 @@ export const makeSelectTrixtaAgentDetails = () =>
  */
 export const makeSelectIsTrixtaAuhorized = () =>
   createSelector(selectIsTrixtaAuhorized, (authorized) => authorized);
+
+/**
+ * Selects the authorizationStarted, which happens when the first Trixta role is joined
+ * @returns true or false
+ */
+export const makeSelectHasTrixtaAuthorizationStarted = () =>
+  createSelector(selectTrixtaAuthorizationStarted, (authorizationStarted) => authorizationStarted);
 
 /**
  *  Selects the roles for the given props.roleName and checks if included

@@ -83,6 +83,24 @@ describe('Trixta Selectors', () => {
       );
     });
 
+    it('selectTrixtaAuthorizationStarted', () => {
+      const expectedResult = trixtaState.authorizationStarted;
+
+      expect(trixtaCommonSelectors.selectTrixtaAuthorizationStarted(mockedState)).toEqual(
+        expectedResult,
+      );
+    });
+
+    it('makeSelectHasTrixtaAuthorizationStarted', () => {
+      const selector = trixtaCommonSelectors.makeSelectHasTrixtaAuthorizationStarted();
+      const authorizationStarted = trixtaCommonSelectors.selectTrixtaAuthorizationStarted(
+        mockedState,
+      );
+      const expectedResult = authorizationStarted;
+
+      expect(selector(mockedState)).toEqual(expectedResult);
+    });
+
     it('selectIsTrixtaAuhorized', () => {
       const expectedResult = Object.keys(trixtaState.authorizingStatus).length === 0;
 

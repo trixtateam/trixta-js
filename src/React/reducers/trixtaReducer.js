@@ -7,7 +7,7 @@ import {
   getReducerKeyName,
   getReducerStructure,
   isObject,
-  pickBy
+  pickBy,
 } from '../../utils';
 import {
   CLEAR_TRIXTA_ACTION_RESPONSE,
@@ -30,7 +30,7 @@ import {
   UPDATE_TRIXTA_REACTION,
   UPDATE_TRIXTA_REACTION_RESPONSE,
   UPDATE_TRIXTA_ROLE,
-  UPDATE_TRIXTA_ROLES
+  UPDATE_TRIXTA_ROLES,
 } from '../constants';
 
 export const initialState = {
@@ -69,6 +69,7 @@ export const trixtaReducer = (state = initialState, action) =>
         {
           const roleName = get(action, 'data.role.name');
           const index = draft.agentDetails.findIndex((role) => role === roleName);
+          delete draft.authorizingStatus[roleName];
           if (index !== -1) draft.agentDetails.splice(index, 1);
           draft.reactions = pickBy(
             state.reactions,

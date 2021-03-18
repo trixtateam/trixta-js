@@ -7,7 +7,7 @@ import {
   getReducerKeyName,
   getReducerStructure,
   isObject,
-  pickBy
+  pickBy,
 } from '../../../utils';
 import {
   ROLE_REACTION_RESPONSE_FIELDS,
@@ -15,7 +15,7 @@ import {
   SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
   TRIXTA_FIELDS,
   TRIXTA_MODE_TYPE,
-  TRIXTA_MODE_TYPE_FIELDS
+  TRIXTA_MODE_TYPE_FIELDS,
 } from '../../constants';
 import * as actions from '../../reduxActions';
 import * as internalActions from '../../reduxActions/internal';
@@ -104,6 +104,7 @@ describe('Trixta Reducers', () => {
       const expectedResult = produce(state, (draft) => {
         const roleName = get(action, 'data.role.name');
         const index = draft.agentDetails.findIndex((role) => role === roleName);
+        delete draft.authorizingStatus[roleName];
         if (index !== -1) draft.agentDetails.splice(index, 1);
         draft.reactions = pickBy(
           state.reactions,

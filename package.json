@@ -1,6 +1,6 @@
 {
   "name": "@trixta/trixta-js",
-  "version": "3.4.10-beta.0",
+  "version": "3.4.11-beta.0",
   "description": "Javascript library to integrate Trixta",
   "main": "lib/bundle.cjs.js",
   "module": "lib/bundle.esm.js",
@@ -44,7 +44,7 @@
     "lint:eslint:fix": "eslint --ignore-path .gitignore . --fix",
     "lint:js": "npm run lint:eslint -- . ",
     "lint:staged": "lint-staged",
-    "prettify": "prettier --write",
+    "prettify": "prettier --write ./src",
     "prepare": "npm run build",
     "major": "npm --no-git-tag-version version premajor --preid=beta",
     "patch": "npm --no-git-tag-version version prepatch --preid=beta",

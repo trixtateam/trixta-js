@@ -85,11 +85,8 @@ export function* checkTrixtaRolesSaga({ data }) {
  */
 export function* checkLoggedInRoleSaga({ role }) {
   if (!isNullOrEmpty(role)) {
-    const agentDetails = yield select(makeSelectTrixtaAgentDetails());
-    if (!agentDetails.includes(role.name)) {
-      const channelTopic = getChannelName({ role: role.name });
-      yield put(getPhoenixChannel({ channelTopic, logPresence: role.logPresence }));
-    }
+    const channelTopic = getChannelName({ role: role.name });
+    yield put(getPhoenixChannel({ channelTopic, logPresence: role.logPresence }));
   }
 }
 

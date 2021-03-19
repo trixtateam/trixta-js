@@ -1,6 +1,6 @@
 {
   "name": "@trixta/trixta-js",
-  "version": "3.4.9-beta.1",
+  "version": "3.4.9-beta.2",
   "description": "Javascript library to integrate Trixta",
   "main": "lib/bundle.cjs.js",
   "module": "lib/bundle.esm.js",

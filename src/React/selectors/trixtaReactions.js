@@ -4,6 +4,7 @@ import { get, pickBy } from '../../utils/object';
 import { TRIXTA_FIELDS } from '../constants';
 
 export const getTrixtaReactionState = (state, props) =>
+  state.trixta.reactions[getReducerKeyName({ name: props.reactionName, role: props.roleName })] &&
   state.trixta.reactions[getReducerKeyName({ name: props.reactionName, role: props.roleName })];
 
 /**
@@ -15,7 +16,7 @@ export const getTrixtaReactionState = (state, props) =>
  * @param {String} props.reactionName - name of reaction
  */
 export const selectTrixtaReactionForRole = (state, props) =>
-  getTrixtaReactionState && getTrixtaReactionState(state, props);
+  getTrixtaReactionState(state, props) && getTrixtaReactionState(state, props);
 
 /**
  * Selects the reactions[props.roleName:props.actionName].loadingStatus
@@ -26,7 +27,7 @@ export const selectTrixtaReactionForRole = (state, props) =>
  * @param {String} props.reactionName - name of reaction
  */
 export const selectTrixtaReactionLoadingStatus = (state, props) =>
-  getTrixtaReactionState && getTrixtaReactionState(state, props).loadingStatus;
+  getTrixtaReactionState(state, props) && getTrixtaReactionState(state, props).loadingStatus;
 
 /**
  * Selects the reactions for given props.roleName
@@ -53,8 +54,8 @@ export const selectTrixtaReactionResponseInstancesForRole = (state, props) =>
     props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
   ]
     ? getTrixtaReactionState(state, props).instances[
-        props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
-      ]
+      props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
+    ]
     : [];
 
 /**
@@ -74,8 +75,8 @@ export const selectTrixtaReactionResponseInstance = (state, props) =>
     props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
   ]
     ? getTrixtaReactionState(state, props).instances[
-        props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
-      ][props.instanceIndex]
+      props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
+    ][props.instanceIndex]
     : undefined;
 
 /**

@@ -180,24 +180,54 @@ describe('Trixta Selectors', () => {
       );
     });
 
-    it('selectTrixtaActionResponseInstancesForRole', () => {
-      const expectedResult =
-        getTrixtActionState(mockedState, props) && getTrixtActionState(mockedState, props).instances
-          ? getTrixtActionState(mockedState, props).instances
-          : [];
+    describe('selectors for TrixtaAction Response Instances For Role', () => {
+      it('selectTrixtaActionResponseInstancesForRole for existing role', () => {
+        const expectedResult =
+          getTrixtActionState(mockedState, props) &&
+          getTrixtActionState(mockedState, props).instances
+            ? getTrixtActionState(mockedState, props).instances
+            : [];
 
-      expect(
-        trtixtaActionSelectors.selectTrixtaActionResponseInstancesForRole(mockedState, props),
-      ).toEqual(expectedResult);
-    });
+        expect(
+          trtixtaActionSelectors.selectTrixtaActionResponseInstancesForRole(mockedState, props),
+        ).toEqual(expectedResult);
+      });
 
-    it('selectTrixtaActionResponseInstance', () => {
-      props.instanceIndex = 0;
-      const expectedResult = getTrixtActionState(mockedState, props).instances[props.instanceIndex];
+      it('selectTrixtaActionResponseInstancesForRole for non existing role', () => {
+        props.roleName = 'unknown';
+        const expectedResult =
+          getTrixtActionState(mockedState, props) &&
+          getTrixtActionState(mockedState, props).instances
+            ? getTrixtActionState(mockedState, props).instances
+            : [];
 
-      expect(trtixtaActionSelectors.selectTrixtaActionResponseInstance(mockedState, props)).toEqual(
-        expectedResult,
-      );
+        expect(
+          trtixtaActionSelectors.selectTrixtaActionResponseInstancesForRole(mockedState, props),
+        ).toEqual(expectedResult);
+      });
+
+      it('selectTrixtaActionResponseInstance for existing role', () => {
+        props.instanceIndex = 0;
+        const expectedResult =
+          getTrixtActionState(mockedState, props) &&
+          getTrixtActionState(mockedState, props).instances[props.instanceIndex];
+
+        expect(
+          trtixtaActionSelectors.selectTrixtaActionResponseInstance(mockedState, props),
+        ).toEqual(expectedResult);
+      });
+
+      it('selectTrixtaActionResponseInstance for non existing role', () => {
+        props.instanceIndex = 0;
+        props.roleName = 'unknown';
+        const expectedResult =
+          getTrixtActionState(mockedState, props) &&
+          getTrixtActionState(mockedState, props).instances[props.instanceIndex];
+
+        expect(
+          trtixtaActionSelectors.selectTrixtaActionResponseInstance(mockedState, props),
+        ).toEqual(expectedResult);
+      });
     });
 
     it('selectTrixtaActionsForRole', () => {
@@ -211,32 +241,68 @@ describe('Trixta Selectors', () => {
       );
     });
 
-    it('selectTrixtaActionLoadingStatus', () => {
-      const expectedResult = getTrixtActionState(mockedState, props).loadingStatus;
+    describe('selectors for TrixtaAction loading status For Role', () => {
+      it('selectTrixtaActionLoadingStatus for existing role', () => {
+        const expectedResult =
+          getTrixtActionState(mockedState, props) &&
+          getTrixtActionState(mockedState, props).loadingStatus;
 
-      expect(trtixtaActionSelectors.selectTrixtaActionLoadingStatus(mockedState, props)).toEqual(
-        expectedResult,
-      );
-      props.actionName = 'get_profile';
-      expect(trtixtaActionSelectors.selectTrixtaActionLoadingStatus(mockedState, props)).toEqual({
-        status: true,
+        expect(trtixtaActionSelectors.selectTrixtaActionLoadingStatus(mockedState, props)).toEqual(
+          expectedResult,
+        );
+        props.actionName = 'get_profile';
+        expect(trtixtaActionSelectors.selectTrixtaActionLoadingStatus(mockedState, props)).toEqual({
+          status: true,
+        });
       });
-    });
 
-    it('makeSelectIsTrixtaActionInProgress', () => {
-      const selector = trtixtaActionSelectors.makeSelectIsTrixtaActionInProgress();
-      const loadingStatus = trtixtaActionSelectors.selectTrixtaActionLoadingStatus(
-        mockedState,
-        props,
-      );
+      it('selectTrixtaActionLoadingStatus for non existing role', () => {
+        props.roleName = 'unknown';
+        const expectedResult =
+          getTrixtActionState(mockedState, props) &&
+          getTrixtActionState(mockedState, props).loadingStatus;
 
-      let expectedResult = {};
-      if (loadingStatus) {
-        expectedResult = get(loadingStatus, 'status', false);
-      }
-      expectedResult = false;
+        expect(trtixtaActionSelectors.selectTrixtaActionLoadingStatus(mockedState, props)).toEqual(
+          expectedResult,
+        );
+        props.actionName = 'get_profile';
+        expect(trtixtaActionSelectors.selectTrixtaActionLoadingStatus(mockedState, props)).toEqual(
+          undefined,
+        );
+      });
 
-      expect(selector(mockedState, props)).toEqual(expectedResult);
+      it('makeSelectIsTrixtaActionInProgress for non existing role', () => {
+        props.roleName = 'unknown';
+        const selector = trtixtaActionSelectors.makeSelectIsTrixtaActionInProgress();
+        const loadingStatus = trtixtaActionSelectors.selectTrixtaActionLoadingStatus(
+          mockedState,
+          props,
+        );
+
+        let expectedResult = {};
+        if (loadingStatus) {
+          expectedResult = get(loadingStatus, 'status', false);
+        }
+        expectedResult = false;
+
+        expect(selector(mockedState, props)).toEqual(expectedResult);
+      });
+
+      it('makeSelectIsTrixtaActionInProgress for existing role', () => {
+        const selector = trtixtaActionSelectors.makeSelectIsTrixtaActionInProgress();
+        const loadingStatus = trtixtaActionSelectors.selectTrixtaActionLoadingStatus(
+          mockedState,
+          props,
+        );
+
+        let expectedResult = {};
+        if (loadingStatus) {
+          expectedResult = get(loadingStatus, 'status', false);
+        }
+        expectedResult = false;
+
+        expect(selector(mockedState, props)).toEqual(expectedResult);
+      });
     });
 
     it('selectTrixtaActionCommon', () => {
@@ -248,17 +314,6 @@ describe('Trixta Selectors', () => {
       );
     });
 
-    it('selectTrixtaActionResponseInstancesForRole', () => {
-      const expectedResult =
-        getTrixtActionState(mockedState, props) && getTrixtActionState(mockedState, props).instances
-          ? getTrixtActionState(mockedState, props).instances
-          : [];
-
-      expect(
-        trtixtaActionSelectors.selectTrixtaActionResponseInstancesForRole(mockedState, props),
-      ).toEqual(expectedResult);
-    });
-
     it('makeSelectTrixtaActionCommonForRole', () => {
       const selector = trtixtaActionSelectors.makeSelectTrixtaActionCommonForRole();
       const selectedAction = trtixtaActionSelectors.selectTrixtaActionForRole(mockedState, props);
@@ -266,21 +321,6 @@ describe('Trixta Selectors', () => {
       let expectedResult = {};
       if (selectedAction) {
         expectedResult = get(selectedAction, `common`, {});
-      }
-
-      expect(selector(mockedState, props)).toEqual(expectedResult);
-    });
-
-    it('makeSelectTrixtaActionResponseInstancesForRole', () => {
-      const selector = trtixtaActionSelectors.makeSelectTrixtaActionResponseInstancesForRole();
-      const selectedActionInstances = trtixtaActionSelectors.selectTrixtaActionResponseInstancesForRole(
-        mockedState,
-        props,
-      );
-
-      let expectedResult = [];
-      if (selectedActionInstances) {
-        expectedResult = selectedActionInstances;
       }
 
       expect(selector(mockedState, props)).toEqual(expectedResult);
@@ -321,36 +361,54 @@ describe('Trixta Selectors', () => {
       );
     });
 
-    it('selectTrixtaReactionLoadingStatus', () => {
-      const expectedResult = getTrixtaReactionState(mockedState, props).loadingStatus;
+    describe('selectors for TrixtaReaction loading status For Role', () => {
+      it('selectTrixtaReactionLoadingStatus for existing role', () => {
+        const expectedResult =
+          getTrixtaReactionState(mockedState, props) &&
+          getTrixtaReactionState(mockedState, props).loadingStatus;
 
-      expect(trixtaReactionSelectors.selectTrixtaReactionLoadingStatus(mockedState, props)).toEqual(
-        expectedResult,
-      );
-      props.reactionName = 'host_to_guest';
-      expect(trixtaReactionSelectors.selectTrixtaReactionLoadingStatus(mockedState, props)).toEqual(
-        {
+        expect(
+          trixtaReactionSelectors.selectTrixtaReactionLoadingStatus(mockedState, props),
+        ).toEqual(expectedResult);
+        props.reactionName = 'host_to_guest';
+        expect(
+          trixtaReactionSelectors.selectTrixtaReactionLoadingStatus(mockedState, props),
+        ).toEqual({
           status: true,
-        },
-      );
+        });
+      });
+      it('selectTrixtaReactionLoadingStatus for non existing role', () => {
+        props.roleName = 'unknown';
+        const expectedResult =
+          getTrixtaReactionState(mockedState, props) &&
+          getTrixtaReactionState(mockedState, props).loadingStatus;
+
+        expect(
+          trixtaReactionSelectors.selectTrixtaReactionLoadingStatus(mockedState, props),
+        ).toEqual(expectedResult);
+        props.reactionName = 'host_to_guest';
+        expect(
+          trixtaReactionSelectors.selectTrixtaReactionLoadingStatus(mockedState, props),
+        ).toEqual(undefined);
+      });
+
+      it('makeSelectIsTrixtaReactionInProgress for non existing role', () => {
+        props.roleName = 'unknown';
+        const selector = trixtaReactionSelectors.makeSelectIsTrixtaReactionInProgress();
+        const loadingStatus = trixtaReactionSelectors.selectTrixtaReactionLoadingStatus(
+          mockedState,
+          props,
+        );
+
+        let expectedResult = {};
+        if (loadingStatus) {
+          expectedResult = get(loadingStatus, 'status', false);
+        }
+        expectedResult = false;
+
+        expect(selector(mockedState, props)).toEqual(expectedResult);
+      });
     });
-
-    it('makeSelectIsTrixtaReactionInProgress', () => {
-      const selector = trixtaReactionSelectors.makeSelectIsTrixtaReactionInProgress();
-      const loadingStatus = trixtaReactionSelectors.selectTrixtaReactionLoadingStatus(
-        mockedState,
-        props,
-      );
-
-      let expectedResult = {};
-      if (loadingStatus) {
-        expectedResult = get(loadingStatus, 'status', false);
-      }
-      expectedResult = false;
-
-      expect(selector(mockedState, props)).toEqual(expectedResult);
-    });
-
     it('selectTrixtaReactionsForRole', () => {
       const expectedResult = pickBy(
         mockedState.trixta.reactions,
@@ -374,10 +432,10 @@ describe('Trixta Selectors', () => {
               : TRIXTA_FIELDS.requestForResponse
           ]
             ? getTrixtaReactionState(mockedState, props).instances[
-              props.requestForEffect
-                ? TRIXTA_FIELDS.requestForEffect
-                : TRIXTA_FIELDS.requestForResponse
-            ]
+                props.requestForEffect
+                  ? TRIXTA_FIELDS.requestForEffect
+                  : TRIXTA_FIELDS.requestForResponse
+              ]
             : [];
 
         expect(
@@ -395,10 +453,10 @@ describe('Trixta Selectors', () => {
               : TRIXTA_FIELDS.requestForResponse
           ]
             ? getTrixtaReactionState(mockedState, props).instances[
-              props.requestForEffect
-                ? TRIXTA_FIELDS.requestForEffect
-                : TRIXTA_FIELDS.requestForResponse
-            ]
+                props.requestForEffect
+                  ? TRIXTA_FIELDS.requestForEffect
+                  : TRIXTA_FIELDS.requestForResponse
+              ]
             : [];
 
         expect(
@@ -420,10 +478,10 @@ describe('Trixta Selectors', () => {
               : TRIXTA_FIELDS.requestForResponse
           ]
             ? getTrixtaReactionState(mockedState, props).instances[
-              props.requestForEffect
-                ? TRIXTA_FIELDS.requestForEffect
-                : TRIXTA_FIELDS.requestForResponse
-            ][props.instanceIndex]
+                props.requestForEffect
+                  ? TRIXTA_FIELDS.requestForEffect
+                  : TRIXTA_FIELDS.requestForResponse
+              ][props.instanceIndex]
             : undefined;
 
         expect(
@@ -442,10 +500,10 @@ describe('Trixta Selectors', () => {
               : TRIXTA_FIELDS.requestForResponse
           ]
             ? getTrixtaReactionState(mockedState, props).instances[
-              props.requestForEffect
-                ? TRIXTA_FIELDS.requestForEffect
-                : TRIXTA_FIELDS.requestForResponse
-            ][props.instanceIndex]
+                props.requestForEffect
+                  ? TRIXTA_FIELDS.requestForEffect
+                  : TRIXTA_FIELDS.requestForResponse
+              ][props.instanceIndex]
             : undefined;
 
         expect(

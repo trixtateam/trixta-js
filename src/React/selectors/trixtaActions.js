@@ -3,6 +3,7 @@ import { getReducerKeyName } from '../../utils';
 import { get, pickBy } from '../../utils/object';
 
 export const getTrixtActionState = (state, props) =>
+  state.trixta.actions[getReducerKeyName({ name: props.actionName, role: props.roleName })] &&
   state.trixta.actions[getReducerKeyName({ name: props.actionName, role: props.roleName })];
 
 /**

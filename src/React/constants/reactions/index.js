@@ -6,7 +6,13 @@ export const SUBMIT_TRIXTA_REACTION_RESPONSE = `@trixta/trixta-js/SUBMIT_TRIXTA_
 export const SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE = `@trixta/trixta-js/SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE`;
 export const SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS = `@trixta/trixta-js/SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS`;
 
-export const TRIXTA_REACTION = 'TRIXTA_REACTION';
+export const TRIXTA_REACTION = '@trixta/trixta-js/TRIXTA_REACTION';
 
 export const trixtaReactionLoadingStatus = ({ roleName, reactionName, ref }) =>
   `${TRIXTA_REACTION}/LOADING/${roleName}:${reactionName}:${ref}`;
+
+export const emitTrixtaReactionResponse = ({ roleName, reactionName }) =>
+  `${UPDATE_TRIXTA_REACTION_RESPONSE}/${roleName}:${reactionName}`;
+
+export const listenForTrixtaReactionResponse = ({ roleName, reactionName }) =>
+  `${UPDATE_TRIXTA_REACTION_RESPONSE}/${roleName}:${reactionName}`;

@@ -9,6 +9,9 @@
 ## Actions
 [actions](actions.md)
 
+## Sagas
+[sagas](sagas.md)
+
 ## Components
 [components](components.md)
 
@@ -17,3 +20,4 @@
 - [components](components.md)
 - [selectors](selectors.md)
 - [redux](redux.md)
+- [sagas](sagas.md)

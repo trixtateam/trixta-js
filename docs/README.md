@@ -5,6 +5,7 @@
   - [Components](react/trixta/components.md)
   - [Redux](react/trixta/redux.md)
   - [Selectors](react/trixta/selectors.md)
+  - [Sagas](react/trixta/sagas.md)
 
 ## Overview
 

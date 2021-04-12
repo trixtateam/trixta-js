@@ -215,7 +215,7 @@ export function* socketConnectedSaga() {
 }
 
 export default function* rootSaga() {
-  yield all([setupTrixtaSaga()]);
+  yield fork(setupTrixtaSaga);
   yield takeEvery(socketActionTypes.SOCKET_OPEN, socketConnectedSaga);
 }
 ```

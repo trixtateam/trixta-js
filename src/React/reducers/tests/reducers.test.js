@@ -7,7 +7,7 @@ import {
   getReducerKeyName,
   getReducerStructure,
   isObject,
-  pickBy,
+  pickBy
 } from '../../../utils';
 import {
   ROLE_REACTION_RESPONSE_FIELDS,
@@ -15,7 +15,7 @@ import {
   SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
   TRIXTA_FIELDS,
   TRIXTA_MODE_TYPE,
-  TRIXTA_MODE_TYPE_FIELDS,
+  TRIXTA_MODE_TYPE_FIELDS
 } from '../../constants';
 import * as actions from '../../reduxActions';
 import * as internalActions from '../../reduxActions/internal';

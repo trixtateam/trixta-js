@@ -1,10 +1,11 @@
-import {
-  UPDATE_TRIXTA_ACTION_RESPONSE,
-  UPDATE_TRIXTA_ACTION,
-  UPDATE_TRIXTA_REACTION_RESPONSE,
-  UPDATE_TRIXTA_REACTION,
-} from '../../constants';
 import { getReducerKeyName } from '../../../utils';
+import {
+  emitTrixtaReactionResponse,
+  UPDATE_TRIXTA_ACTION,
+  UPDATE_TRIXTA_ACTION_RESPONSE,
+  UPDATE_TRIXTA_REACTION,
+  UPDATE_TRIXTA_REACTION_RESPONSE
+} from '../../constants';
 
 /**
  *  Updates the trixtaReducer reactions[params.roleName:params.reactionName].instances
@@ -25,6 +26,28 @@ export function updateTrixtaReactionResponse({ roleName, reaction, reactionName 
         name: reactionName,
         role: roleName,
       }),
+    },
+  };
+}
+
+/**
+ *  Emits latest reaction response for params.roleName and params.reactionName
+ *  with the params.reaction for listenForTrixtaReactionResponse action
+ * @param {Object} params
+ * @param {String} params.roleName - name of role
+ * @param {String} params.reactionName - name of reaction
+ * @param {String} params.reactionDetails - details regarding response from reaction
+ */
+export function emitTrixtaReactionResponseListenerEvent({
+  roleName,
+  reactionDetails,
+  reactionName,
+}) {
+  return {
+    type: emitTrixtaReactionResponse({ roleName, reactionName }),
+    meta: { roleName, reactionName },
+    data: {
+      reactionDetails,
     },
   };
 }

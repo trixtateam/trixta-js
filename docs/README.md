@@ -131,11 +131,11 @@ export default function configureStore(initialState = {}) {
 ```
 ### Option 2
 ```javascript
-import { put, select, takeLatest, takeEvery, all } from 'redux-saga/effects';
+import { put, select, takeLatest, takeEvery, fork } from 'redux-saga/effects';
 import { setupTrixtaSaga } from '@trixta/trixta-js';
 
 export default function* rootSaga() {
-  yield all([setupTrixtaSaga()]);
+  yield fork(setupTrixtaSaga);
 }
 
 ```
@@ -190,7 +190,7 @@ export default function configureStore(initialState = {}) {
 
 ## 4. Setup Trixta Roles
 ```javascript
-import { put, select, takeLatest, takeEvery, all } from 'redux-saga/effects';
+import { put, select, takeLatest, takeEvery, fork } from 'redux-saga/effects';
 import { updateTrixtaRoles } from '@trixta/trixta-js';
 import {
   socketActionTypes,

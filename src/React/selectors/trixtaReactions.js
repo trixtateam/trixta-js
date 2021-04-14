@@ -54,8 +54,8 @@ export const selectTrixtaReactionResponseInstancesForRole = (state, props) =>
     props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
   ]
     ? getTrixtaReactionState(state, props).instances[
-      props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
-    ]
+        props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
+      ]
     : [];
 
 /**
@@ -75,8 +75,8 @@ export const selectTrixtaReactionResponseInstance = (state, props) =>
     props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
   ]
     ? getTrixtaReactionState(state, props).instances[
-      props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
-    ][props.instanceIndex]
+        props.requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
+      ][props.instanceIndex]
     : undefined;
 
 /**

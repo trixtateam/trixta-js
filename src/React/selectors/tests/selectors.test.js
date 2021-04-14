@@ -1,5 +1,6 @@
 import { get, isNullOrEmpty, pickBy } from '../../../utils';
 import { TRIXTA_FIELDS } from '../../constants';
+// eslint-disable-next-line jest/no-mocks-import
 import { mockedState, trixtaState } from '../../reducers/__mocks__/trixtaState';
 import * as trixtaCommonSelectors from '../common';
 import { getTrixtActionState, getTrixtaReactionState } from '../index';
@@ -16,21 +17,6 @@ describe('Trixta Selectors', () => {
     it('makeSelectTrixtaAgentDetails', () => {
       const selector = trixtaCommonSelectors.makeSelectTrixtaAgentDetails();
       const expectedResult = trixtaState.agentDetails;
-
-      expect(selector(mockedState)).toEqual(expectedResult);
-    });
-
-    it('selectTrixtaAuthorizingStatus', () => {
-      const expectedResult = trixtaState.authorizingStatus;
-      expect(trixtaCommonSelectors.selectTrixtaAuthorizingStatus(mockedState)).toEqual(
-        expectedResult,
-      );
-    });
-
-    it('makeSelectTrixtaAuthorizingStatus', () => {
-      const selector = trixtaCommonSelectors.makeSelectTrixtaAuthorizingStatus();
-      const authorizingStatus = trixtaCommonSelectors.selectTrixtaAuthorizingStatus(mockedState);
-      const expectedResult = authorizingStatus;
 
       expect(selector(mockedState)).toEqual(expectedResult);
     });

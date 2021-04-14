@@ -7,5 +7,10 @@ export const UPDATE_TRIXTA_ACTION = `@trixta/trixta-js/UPDATE_TRIXTA_ACTION`;
 
 export const TRIXTA_ACTION = 'TRIXTA_ACTION';
 
-export const trixtaActionLoadingStatus = ({ roleName, actionName }) =>
-  `${TRIXTA_ACTION}/LOADING/${roleName}:${actionName}`;
+export const trixtaActionLoadingStatus = ({
+  roleName,
+  actionName,
+}: {
+  roleName: string;
+  actionName: string;
+}): string => `${TRIXTA_ACTION}/LOADING/${roleName}:${actionName}`;

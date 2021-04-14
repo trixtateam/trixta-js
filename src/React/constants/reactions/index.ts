@@ -8,11 +8,23 @@ export const SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS = `@trixta/trixta-js/SUBMIT
 
 export const TRIXTA_REACTION = '@trixta/trixta-js/TRIXTA_REACTION';
 
-export const trixtaReactionLoadingStatus = ({ roleName, reactionName, ref }) =>
-  `${TRIXTA_REACTION}/LOADING/${roleName}:${reactionName}:${ref}`;
+export const trixtaReactionLoadingStatus = ({
+  roleName,
+  reactionName,
+  ref,
+}: {
+  roleName: string;
+  reactionName: string;
+  ref: string;
+}): string => `${TRIXTA_REACTION}/LOADING/${roleName}:${reactionName}:${ref}`;
 
-export const emitTrixtaReactionResponse = ({ roleName, reactionName }) =>
-  `${UPDATE_TRIXTA_REACTION_RESPONSE}/${roleName}:${reactionName}`;
+export const emitTrixtaReactionResponse = ({
+  roleName,
+  reactionName,
+}: {
+  roleName: string;
+  reactionName: string;
+}): string => `${UPDATE_TRIXTA_REACTION_RESPONSE}/${roleName}:${reactionName}`;
 
 /**
  * Returns the redux action dispatch type for params.roleName and params.reactionName
@@ -21,5 +33,10 @@ export const emitTrixtaReactionResponse = ({ roleName, reactionName }) =>
  * @param {String} params.reactionName - name of reaction
  * @returns {String}
  */
-export const listenForTrixtaReactionResponse = ({ roleName, reactionName }) =>
-  `${UPDATE_TRIXTA_REACTION_RESPONSE}/${roleName}:${reactionName}`;
+export const listenForTrixtaReactionResponse = ({
+  roleName,
+  reactionName,
+}: {
+  roleName: string;
+  reactionName: string;
+}): string => `${UPDATE_TRIXTA_REACTION_RESPONSE}/${roleName}:${reactionName}`;

@@ -4,8 +4,21 @@ import {
   UPDATE_TRIXTA_ACTION,
   UPDATE_TRIXTA_ACTION_RESPONSE,
   UPDATE_TRIXTA_REACTION,
-  UPDATE_TRIXTA_REACTION_RESPONSE
+  UPDATE_TRIXTA_REACTION_RESPONSE,
 } from '../../constants';
+import {
+  EmitTrixtaReactionResponseListenerEventAction,
+  UpdateTrixtaActionDetailsAction,
+  UpdateTrixtaActionResponseAction,
+  UpdateTrixtaReactionDetailsAction,
+  UpdateTrixtaReactionResponseAction,
+} from '../types';
+import {
+  TrixtaActionDetails,
+  TrixtaActionResponseDetails,
+  TrixtaReactionDetails,
+  TrixtaReactionResponseDetails,
+} from './../../types';
 
 /**
  *  Updates the trixtaReducer reactions[params.roleName:params.reactionName].instances
@@ -15,7 +28,15 @@ import {
  * @param {String} params.reactionName - name of reaction
  * @param {String} params.reaction - details regarding response from reaction
  */
-export function updateTrixtaReactionResponse({ roleName, reaction, reactionName }) {
+export function updateTrixtaReactionResponse({
+  roleName,
+  reaction,
+  reactionName,
+}: {
+  roleName: string;
+  reactionName: string;
+  reaction: TrixtaReactionResponseDetails;
+}): UpdateTrixtaReactionResponseAction {
   return {
     type: UPDATE_TRIXTA_REACTION_RESPONSE,
     data: {
@@ -42,7 +63,11 @@ export function emitTrixtaReactionResponseListenerEvent({
   roleName,
   reactionDetails,
   reactionName,
-}) {
+}: {
+  roleName: string;
+  reactionDetails: TrixtaReactionResponseDetails;
+  reactionName: string;
+}): EmitTrixtaReactionResponseListenerEventAction {
   return {
     type: emitTrixtaReactionResponse({ roleName, reactionName }),
     meta: { roleName, reactionName },
@@ -60,7 +85,15 @@ export function emitTrixtaReactionResponseListenerEvent({
  * @param {Object} params.reaction - reaction of role
  * @param {string} params.name - name of reaction
  */
-export function updateTrixtaReaction({ role, reaction, name }) {
+export function updateTrixtaReaction({
+  role,
+  reaction,
+  name,
+}: {
+  role: string;
+  reaction: TrixtaReactionDetails;
+  name: string;
+}): UpdateTrixtaReactionDetailsAction {
   return {
     type: UPDATE_TRIXTA_REACTION,
     data: {
@@ -88,7 +121,12 @@ export function updateTrixtaActionResponse({
   clearResponse = false,
   response,
   actionName,
-}) {
+}: {
+  roleName: string;
+  actionName: string;
+  clearResponse?: boolean;
+  response: TrixtaActionResponseDetails;
+}): UpdateTrixtaActionResponseAction {
   return {
     type: UPDATE_TRIXTA_ACTION_RESPONSE,
     data: {
@@ -112,7 +150,15 @@ export function updateTrixtaActionResponse({
  * @param {Object} params.action - action of role
  * @param {string} params.name - name of action
  */
-export function updateTrixtaAction({ role, action, name }) {
+export function updateTrixtaAction({
+  role,
+  action,
+  name,
+}: {
+  role: string;
+  action: TrixtaActionDetails;
+  name: string;
+}): UpdateTrixtaActionDetailsAction {
   return {
     type: UPDATE_TRIXTA_ACTION,
     data: {

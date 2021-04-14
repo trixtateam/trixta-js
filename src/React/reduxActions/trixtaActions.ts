@@ -1,4 +1,6 @@
 import { CLEAR_TRIXTA_ACTION_RESPONSE, SUBMIT_TRIXTA_ACTION_RESPONSE } from '../constants';
+import { SubmitTrixtaActionResponse } from './../types';
+import { ClearTrixtaActionResponseAction, SubmitTrixtaActionResponseAction } from './types';
 
 /**
  *  Listened for in the saga to push action to the space
@@ -32,10 +34,10 @@ export function submitTrixtaActionResponse({
       role: 'trixta_app_user',
     },
   },
-  responseEvent = null,
-  requestEvent = null,
-  errorEvent = null,
-}) {
+  responseEvent = undefined,
+  requestEvent = undefined,
+  errorEvent = undefined,
+}: SubmitTrixtaActionResponse): SubmitTrixtaActionResponseAction {
   return {
     type: SUBMIT_TRIXTA_ACTION_RESPONSE,
     data: {
@@ -59,7 +61,19 @@ export function submitTrixtaActionResponse({
  * @param {String} params.roleName - name of role
  * @param {String} params.actionName - name of action
  */
-export function clearTrixtaActionResponse({ roleName, actionName }) {
+export function clearTrixtaActionResponse({
+  roleName,
+  actionName,
+}: {
+  /**
+   * Name of Trixta role
+   */
+  roleName: string;
+  /**
+   * Name of Trixta action
+   */
+  actionName: string;
+}): ClearTrixtaActionResponseAction {
   return {
     type: CLEAR_TRIXTA_ACTION_RESPONSE,
     data: {

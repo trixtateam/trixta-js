@@ -5,9 +5,10 @@ import {
   getMessageFromError,
   getReactionDetails,
   getReducerKeyName,
-  getReducerStructure,
+  getTrixtaReactionReducerStructure,
+  getTrixtaActionReducerStructure,
   isObject,
-  pickBy
+  pickBy,
 } from '../../../utils';
 import {
   ROLE_REACTION_RESPONSE_FIELDS,
@@ -15,11 +16,12 @@ import {
   SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
   TRIXTA_FIELDS,
   TRIXTA_MODE_TYPE,
-  TRIXTA_MODE_TYPE_FIELDS
+  TRIXTA_MODE_TYPE_FIELDS,
 } from '../../constants';
 import * as actions from '../../reduxActions';
 import * as internalActions from '../../reduxActions/internal';
 import { initialState, trixtaReducer } from '../trixtaReducer';
+// eslint-disable-next-line jest/no-mocks-import
 import { trixtaState } from '../__mocks__/trixtaState';
 describe('Trixta Reducers', () => {
   describe('trixtaReducer', () => {
@@ -512,7 +514,7 @@ describe('Trixta Reducers', () => {
           const expectedResult = produce(state, (draft) => {
             const actionDetails = get(action, 'data.action');
             const keyName = get(action, 'data.keyName', null);
-            draft.actions[keyName] = getReducerStructure({
+            draft.actions[keyName] = getTrixtaActionReducerStructure({
               details: actionDetails,
             });
           });
@@ -581,7 +583,7 @@ describe('Trixta Reducers', () => {
           const expectedResult = produce(state, (draft) => {
             const actionDetails = get(action, 'data.action');
             const keyName = get(action, 'data.keyName', null);
-            draft.actions[keyName] = getReducerStructure({
+            draft.actions[keyName] = getTrixtaActionReducerStructure({
               details: actionDetails,
             });
           });
@@ -645,7 +647,7 @@ describe('Trixta Reducers', () => {
           const expectedResult = produce(state, (draft) => {
             const actionDetails = get(action, 'data.action');
             const keyName = get(action, 'data.keyName', null);
-            draft.actions[keyName] = getReducerStructure({
+            draft.actions[keyName] = getTrixtaActionReducerStructure({
               details: actionDetails,
             });
           });
@@ -723,9 +725,8 @@ describe('Trixta Reducers', () => {
           const expectedResult = produce(state, (draft) => {
             const reactionDetails = get(action, 'data.reaction');
             const keyName = get(action, 'data.keyName', null);
-            draft.reactions[keyName] = getReducerStructure({
+            draft.reactions[keyName] = getTrixtaReactionReducerStructure({
               details: reactionDetails,
-              type: 'reaction',
             });
           });
 
@@ -758,9 +759,8 @@ describe('Trixta Reducers', () => {
           const expectedResult = produce(state, (draft) => {
             const reactionDetails = get(action, 'data.reaction');
             const keyName = get(action, 'data.keyName', null);
-            draft.reactions[keyName] = getReducerStructure({
+            draft.reactions[keyName] = getTrixtaReactionReducerStructure({
               details: reactionDetails,
-              type: 'reaction',
             });
           });
 
@@ -798,9 +798,8 @@ describe('Trixta Reducers', () => {
           const expectedResult = produce(state, (draft) => {
             const reactionDetails = get(action, 'data.reaction');
             const keyName = get(action, 'data.keyName', null);
-            draft.reactions[keyName] = getReducerStructure({
+            draft.reactions[keyName] = getTrixtaReactionReducerStructure({
               details: reactionDetails,
-              type: 'reaction',
             });
           });
 

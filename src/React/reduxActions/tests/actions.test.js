@@ -181,8 +181,8 @@ describe('Trixta redux Actions', () => {
                 role: 'trixta_app_user',
               },
             },
-            errorEvent: null,
-            responseEvent: null,
+            errorEvent: undefined,
+            responseEvent: undefined,
             requestEvent,
           },
         };
@@ -307,8 +307,8 @@ describe('Trixta redux Actions', () => {
             ref,
             roleName,
             reactionName,
-            errorEvent: null,
-            responseEvent: null,
+            errorEvent: undefined,
+            responseEvent: undefined,
             requestEvent,
           },
         };

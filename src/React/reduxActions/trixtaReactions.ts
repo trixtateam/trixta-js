@@ -1,3 +1,5 @@
+import { SubmitTrixtaReactionResponse } from './../types';
+import { ClearTrixtaReactionResponseAction, SubmitTrixtaReactionResponseAction } from './types';
 import { CLEAR_TRIXTA_REACTION_RESPONSE, SUBMIT_TRIXTA_REACTION_RESPONSE } from '../constants';
 
 /**
@@ -16,10 +18,10 @@ export function submitTrixtaReactionResponse({
   ref,
   roleName,
   reactionName,
-  responseEvent = null,
-  requestEvent = null,
-  errorEvent = null,
-}) {
+  responseEvent = undefined,
+  requestEvent = undefined,
+  errorEvent = undefined,
+}: SubmitTrixtaReactionResponse): SubmitTrixtaReactionResponseAction {
   return {
     type: SUBMIT_TRIXTA_REACTION_RESPONSE,
     data: {
@@ -40,7 +42,19 @@ export function submitTrixtaReactionResponse({
  * @param {String} params.roleName - name of role
  * @param {String} params.reactionName - name of reaction
  */
-export function clearTrixtaReactionResponse({ roleName, reactionName }) {
+export function clearTrixtaReactionResponse({
+  roleName,
+  reactionName,
+}: {
+  /**
+   * Name of Trixta role
+   */
+  roleName: string;
+  /**
+   * Name of Trixta reaction
+   */
+  reactionName: string;
+}): ClearTrixtaReactionResponseAction {
   return {
     type: CLEAR_TRIXTA_REACTION_RESPONSE,
     data: {

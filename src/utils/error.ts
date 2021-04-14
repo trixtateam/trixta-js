@@ -3,7 +3,10 @@
  * @param error
  * @returns {string|*}
  */
-export function getMessageFromError(error) {
+export function getMessageFromError(error: {
+  message?: unknown;
+  reason?: unknown;
+}): string | unknown {
   if (error.message) {
     return error.message;
   }

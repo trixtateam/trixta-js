@@ -2,12 +2,16 @@
  * Returns true or false if the variable passed is an object
  * @param {any} variable - anything to check if is object
  */
-export function isObject(variable) {
+export function isObject(variable: unknown): variable is Dict {
   return variable !== undefined && Object.prototype.toString.call(variable) === '[object Object]';
 }
 
 // eslint-disable-next-line no-unused-vars
-export function pickBy(object, predicate = (value, key) => value) {
+export function pickBy(
+  object: Record<string, unknown>,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  predicate = (value: unknown, key: string) => value,
+): unknown {
   if (object === null) return {};
   return (
     Object.entries(object)
@@ -23,10 +27,15 @@ export function pickBy(object, predicate = (value, key) => value) {
  * @param {string} path - dot path notation for key in object
  * @param {any} fallback - default value if key is not found
  */
-export function get(obj, path, fallback) {
-  if (!obj) return fallback;
+export function get<TReturn = unknown | undefined, TFallback = TReturn>(
+  obj: Record<string, unknown> | null,
+  path: string | string[],
+  fallback?: TFallback,
+): TReturn | TFallback {
+  if (!obj) return fallback as TFallback;
   const arr = typeof path === 'string' ? path.split('.') : path;
-  const valueFromPath = arr.reduce(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const valueFromPath = arr.reduce<any>(
     (accumulator, currentValue) =>
       accumulator && accumulator[currentValue] !== undefined
         ? accumulator[currentValue]

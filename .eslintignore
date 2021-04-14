@@ -1,2 +1,10 @@
-# Created by .ignore support plugin (hsz.mobi)
+node_modules/
+coverage/
+static/
+types/
+dist/
+build/
 lib/
+flow-typed/
+*.d.ts
+types/**

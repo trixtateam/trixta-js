@@ -5,10 +5,10 @@ import { isNullOrEmpty } from '../../../../utils';
 import {
   makeSelectHasTrixtaRoleAccess,
   makeSelectTrixtaReactionCommonForRole,
-  makeSelectTrixtaReactionResponseInstancesForRole,
+  makeSelectTrixtaReactionResponseInstancesForRole
 } from '../../../selectors';
 import { trixtaDebugger, TrixtaDebugType } from '../../../TrixtaDebugger';
-import { TrixtaState } from '../../../types';
+import { RootState } from '../../../types';
 import { TrixtaReactionInstanceComponent } from '../TrixtaReactionInstanceComponent';
 import { TrixtaReactionComponentProps, TrixtaReactionComponentStateProps } from './types';
 
@@ -69,7 +69,7 @@ const TrixtaReactionComponent = ({
 };
 
 const mapStateToProps = () =>
-  createStructuredSelector<TrixtaState, TrixtaReactionComponentStateProps>({
+  createStructuredSelector<RootState, TrixtaReactionComponentStateProps>({
     common: makeSelectTrixtaReactionCommonForRole(),
     instances: makeSelectTrixtaReactionResponseInstancesForRole(),
     hasRoleAccess: makeSelectHasTrixtaRoleAccess(),

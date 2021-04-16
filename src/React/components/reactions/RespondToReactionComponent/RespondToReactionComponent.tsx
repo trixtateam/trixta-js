@@ -5,8 +5,9 @@ import { isNullOrEmpty } from '../../../../utils';
 import { submitTrixtaReactionResponse } from '../../../reduxActions';
 import {
   makeSelectHasTrixtaRoleAccess,
-  makeSelectTrixtaReactionResponseInstancesForRole,
+  makeSelectTrixtaReactionResponseInstancesForRole
 } from '../../../selectors';
+import { RootState, TrixtaReactionBaseProps } from '../../../types';
 import { RespondToReactionComponentProps } from './types';
 
 const RespondToReactionComponent = ({
@@ -63,7 +64,7 @@ const RespondToReactionComponent = ({
 };
 
 const mapStateToProps = () =>
-  createStructuredSelector({
+  createStructuredSelector<RootState, TrixtaReactionBaseProps>({
     instances: makeSelectTrixtaReactionResponseInstancesForRole(),
     hasRoleAccess: makeSelectHasTrixtaRoleAccess(),
   });

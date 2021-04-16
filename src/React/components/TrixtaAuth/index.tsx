@@ -1,6 +1,7 @@
-import { makeSelectHasTrixtaRoleAccessForRoles } from '../../selectors';
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { makeSelectHasTrixtaRoleAccessForRoles } from '../../selectors';
+import { RootState } from '../../types';
 import { TrixtaAuthProps } from '../../types';
 
 const TrixtaAuth = ({
@@ -12,7 +13,7 @@ const TrixtaAuth = ({
     makeSelectHasTrixtaRoleAccessForRoles,
     [],
   );
-  const hasRoleAccess = useSelector((state) => roleAccessSelector(state, roles));
+  const hasRoleAccess = useSelector((state: RootState) => roleAccessSelector(state, roles));
 
   if (!hasRoleAccess) return null;
 

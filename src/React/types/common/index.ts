@@ -2,6 +2,14 @@ import { UiSchema } from '@rjsf/core';
 import { JSONSchema7 } from 'json-schema';
 import { TrixtaAction } from '../actions';
 import { TrixtaReaction, TrixtaReactionType } from '../reactions';
+
+export interface TrixtaBaseRoleProps {
+  /**
+   * Name of Trixta role
+   */
+  roleName: string;
+}
+
 export enum TrixtaDataType {
   action = 'action',
   reaction = 'reaction',
@@ -64,12 +72,16 @@ export interface TrixtaCommon {
   tags: Array<string>;
 }
 
+export interface RootState  {
+  trixta:TrixtaState;
+}
+
 export type TrixtaState<TRole = string> = {
   reactions: Record<string, TrixtaReaction>;
   actions: Record<string, TrixtaAction>;
   error: defaultUnknownType;
   authorizationStarted: boolean;
-  authorizingStatus: Record<string, unknown>;
+  authorizingStatus: Record<string, {status?:boolean}>;
   agentDetails: TRole[];
 };
 
@@ -105,7 +117,7 @@ export interface TrixtaInstanceDetails<TInitialData = defaultUnknownType>
   /**
    * Unique reference no for Trixta to respond for Reaction
    */
-  ref?: string;
+  ref: string;
   /**
    * Timestamp of when instance created
    */
@@ -121,8 +133,7 @@ TSuccessType= defaultUnknownType,
  * Type of data for Trixta error response for Reaction / Action
  */
 TErrorType= defaultUnknownType
-> {
-
+> extends Record<string, unknown> {
   response: TrixtaInstanceResponse<TSuccessType, TErrorType>;
 }
 
@@ -139,9 +150,9 @@ TSuccessType= defaultUnknownType,
 /**
    * Type of data for Trixta error response for Reaction / Action
    */
-TErrorType= defaultUnknownType> extends TrixtaInstance<TSuccessType,
+TErrorType= defaultUnknownType> extends  TrixtaInstance<TSuccessType,
 TErrorType
-> {
+>  {
   details: TrixtaInstanceDetails<TInitialData>;
 
 }

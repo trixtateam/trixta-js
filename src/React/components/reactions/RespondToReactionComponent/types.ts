@@ -1,4 +1,4 @@
-import { TrixtaInstance, TrixtaReactionDispatch } from '../../../types';
+import { TrixtaReactionInstance, TrixtaReactionDispatch } from '../../../types';
 import { defaultUnknownType } from './../../../types';
 export interface RespondToReactionComponentProps extends TrixtaReactionDispatch {
   /**
@@ -20,5 +20,5 @@ export interface RespondToReactionComponentProps extends TrixtaReactionDispatch 
   /**
    * Trixta reaction response instances
    */
-  instances?: TrixtaInstance[];
+  instances?: TrixtaReactionInstance[];
 }

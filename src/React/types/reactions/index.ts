@@ -1,5 +1,5 @@
 
-import { defaultUnknownType, TrixtaCommon, TrixtaReactionInstance, TrixtaInstanceMode } from '../common';
+import { defaultUnknownType, TrixtaBaseRoleProps, TrixtaCommon, TrixtaInstanceMode, TrixtaReactionInstance } from '../common';
 export enum TrixtaReactionType {
   requestForEffect = 'requestForEffect',
   requestForResponse = 'requestForResponse',
@@ -85,18 +85,17 @@ export interface SubmitTrixtaReactionResponse<TFormData = defaultUnknownType> {
 export interface TrixtaReaction {
   common: TrixtaCommon;
   mode: TrixtaInstanceMode;
-  loadingStatus: Record<string, unknown>;
+  loadingStatus: {
+    status?:boolean;
+  };
   instances: {
         requestForEffect?: TrixtaReactionInstance[];
         requestForResponse?: TrixtaReactionInstance[];
       };
 }
 
-export interface TrixtaReactionBaseProps {
-  /**
-   * Name of Trixta role
-   */
-  roleName: string;
+export interface TrixtaReactionBaseProps extends TrixtaBaseRoleProps {
+  instanceIndex: number;
   /**
    * Name of Trixta reaction
    */

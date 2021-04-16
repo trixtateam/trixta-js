@@ -1,4 +1,4 @@
-import { defaultUnknownType, TrixtaCommon, TrixtaInstance } from '../types';
+import { defaultUnknownType, TrixtaCommon, TrixtaInstance, TrixtaReactionInstance } from '../types';
 
 export interface TrixtaDebuggerParameters {
   /**
@@ -15,7 +15,9 @@ export interface TrixtaInstancesDebuggerParameters<
   TSuccessType = defaultUnknownType,
   TErrorType = defaultUnknownType
 > extends TrixtaDebuggerParameters {
-  instances?: TrixtaInstance<TInitialData, TSuccessType, TErrorType>[];
+  instances?:
+    | TrixtaReactionInstance<TInitialData, TSuccessType, TErrorType>
+    | TrixtaInstance<TSuccessType, TErrorType>[];
   hasRoleAccess: boolean;
   common?: TrixtaCommon;
 }
@@ -26,7 +28,9 @@ export interface TrixtaInstanceDebuggerParameters<
   TErrorType = defaultUnknownType
 > extends TrixtaDebuggerParameters {
   response: unknown;
-  instance: TrixtaInstance<TInitialData, TSuccessType, TErrorType>;
+  instance:
+    | TrixtaReactionInstance<TInitialData, TSuccessType, TErrorType>
+    | TrixtaInstance<TSuccessType, TErrorType>;
 }
 
 export enum TrixtaDebugType {

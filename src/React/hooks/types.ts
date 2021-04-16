@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import {
   defaultUnknownType,
   TrixtaActionBaseProps,
@@ -6,6 +5,7 @@ import {
   TrixtaInstanceResponse,
   TrixtaReactionBaseProps,
   TrixtaReactionDispatch,
+  TrixtaReactionInstance
 } from '../types';
 
 export interface UseRespondToReactionResponseProps extends TrixtaReactionBaseProps {
@@ -19,12 +19,12 @@ export interface UseRespondToReactionResponseReturn {
    * If 'true', Trixta roles or role name passed does have acccess for this user
    */
   hasRoleAccess: boolean;
-  latestInstance: TrixtaInstance | undefined;
+  latestInstance: TrixtaReactionInstance | undefined;
   respondToReaction: (parameters: RespondToReactionFunctionParameters) => void;
 }
 export interface RespondToReactionFunctionParameters {
   data: unknown;
-  instance: TrixtaInstance;
+  instance: TrixtaReactionInstance;
   responseEvent?: string;
   errorEvent?: string;
 }
@@ -65,29 +65,6 @@ export interface UseTrixtaAuthResponseReturn {
    */
   isAuthorizing: boolean;
 }
-
-export interface UseActionReactionProps {
-  a?: number;
-}
-export interface UseActionReactionResponse<T = unknown> {
-  loading: boolean;
-  data?: T;
-}
-
-// TODO: implement request timeout
-export const useActionReaction = <T = unknown>(): UseActionReactionResponse<T> => {
-  const [state] = useState<UseActionReactionResponse<T>>({
-    loading: true,
-  });
-
-  useEffect(() => {
-    // TODO: dispatch action
-  }, []);
-
-  // TODO: wait for reaction data and reset loading state
-
-  return state;
-};
 
 export interface submitTrixtaFunctionParameters {
   /**
@@ -149,7 +126,7 @@ export interface UseTrixtaActionResponseReturn<
   /**
    * Recent Trixta instance response
    */
-  latestInstance?: TrixtaInstance<defaultUnknownType, TSuccessType, TErrorType> | undefined;
+  latestInstance?: TrixtaInstance<TSuccessType, TErrorType> | undefined;
   response?: TrixtaInstanceResponse<TSuccessType, TErrorType>;
   submitTrixtaAction: (parameters: submitTrixtaFunctionParameters) => void;
   hasResponse: boolean;
@@ -179,11 +156,11 @@ export interface UseTrixtaReactionResponseReturn<
   /**
    * Recent Trixta instance
    */
-  latestInstance?: TrixtaInstance<TInitialData, TSuccessType, TErrorType> | undefined;
+  latestInstance?: TrixtaReactionInstance<TInitialData, TSuccessType, TErrorType> | undefined;
   /**
    * Trixta instance responses
    */
-  instances: TrixtaInstance<TInitialData, TSuccessType, TErrorType>[];
+  instances: TrixtaReactionInstance<TInitialData, TSuccessType, TErrorType>[];
   submitTrixtaReaction: (parameters: submitTrixtaFunctionParameters) => void;
   hasResponse: boolean;
 }

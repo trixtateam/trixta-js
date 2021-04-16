@@ -1,12 +1,12 @@
 import {
   TrixtaCommon,
   TrixtaDispatch,
-  TrixtaInstance,
   TrixtaReactionBaseProps,
+  TrixtaReactionInstance
 } from '../../../types';
 
 export interface TrixtaReactionInstanceComponentStateProps {
-  instance: TrixtaInstance;
+  instance: TrixtaReactionInstance;
 }
 export interface TrixtaReactionInstanceComponentDispatchProps {
   dispatchSubmitReactionResponse: TrixtaDispatch<unknown>;
@@ -15,15 +15,15 @@ export interface TrixtaReactionInstanceComponentProps extends TrixtaReactionBase
   /**
    * Event name for data to dispatch before submitting to Trixta Reaction response
    */
-  requestEvent?: string | null;
+  requestEvent?: string;
   /**
    * Event name for data to dispatch after Trixta reaction response
    */
-  responseEvent?: string | null;
+  responseEvent?: string;
   /**
    * Event name for data to dispatch after Trixta reaction error response
    */
-  errorEvent?: string | null;
+  errorEvent?: string;
   common: TrixtaCommon;
   /**
    * Enables Trixta console debbugging
@@ -33,6 +33,5 @@ export interface TrixtaReactionInstanceComponentProps extends TrixtaReactionBase
    * Children can be a render props function or a react component
    */
   children?: React.ReactNode;
-  instanceIndex?: number;
-  instanceRef?: unknown;
+  instanceRef: string;
 }

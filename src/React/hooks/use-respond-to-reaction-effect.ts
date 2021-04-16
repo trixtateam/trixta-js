@@ -1,11 +1,11 @@
-import {
-  makeSelectHasTrixtaRoleAccess,
-  makeSelectTrixtaReactionResponseInstancesForRole,
-} from '../selectors';
 import { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  makeSelectHasTrixtaRoleAccess,
+  makeSelectTrixtaReactionResponseInstancesForRole
+} from '../selectors';
 import { trixtaDebugger, TrixtaDebugType } from '../TrixtaDebugger';
-import { TrixtaInstance, TrixtaState } from './../types';
+import { RootState, TrixtaInstance, TrixtaReactionBaseProps } from './../types';
 import { UseRespondToReactionEffectProps, UseRespondToReactionEffectReturn } from './types';
 
 export const useRespondToReactionEffect = (
@@ -21,14 +21,15 @@ export const useRespondToReactionEffect = (
     makeSelectHasTrixtaRoleAccess,
     [],
   );
-  const instances = useSelector<TrixtaState, TrixtaInstance[]>((state) =>
-    selectReactionResponse(state, {
-      roleName,
-      reactionName,
-      requestForEffect: true,
-    }),
+  const reactionRoleProps = {
+    roleName,
+    requestForEffect: true,
+    reactionName,
+  } as TrixtaReactionBaseProps;
+  const instances = useSelector((state: RootState) =>
+    selectReactionResponse(state, reactionRoleProps),
   );
-  const hasRoleAccess = useSelector((state) => selectHasRoleAccess(state, { roleName }));
+  const hasRoleAccess = useSelector((state: RootState) => selectHasRoleAccess(state, { roleName }));
 
   trixtaDebugger({
     type: TrixtaDebugType.Reaction,

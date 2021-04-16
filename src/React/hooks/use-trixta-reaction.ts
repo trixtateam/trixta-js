@@ -1,4 +1,3 @@
-// ! WORK IN PROGRESS
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { submitTrixtaReactionResponse } from '../reduxActions/trixtaReactions';
@@ -8,7 +7,11 @@ import {
   makeSelectTrixtaReactionResponseInstancesForRole
 } from '../selectors';
 import { trixtaDebugger, TrixtaDebugType, trixtaInstanceDebugger } from '../TrixtaDebugger';
-import { defaultUnknownType, TrixtaInstance, TrixtaState } from './../types';
+import {
+  defaultUnknownType,
+  RootState,
+  TrixtaReactionBaseProps
+} from './../types';
 import {
   submitTrixtaFunctionParameters,
   UseTrixtaReactionProps,
@@ -44,7 +47,7 @@ export const useTrixtaReaction = <
     makeSelectHasTrixtaRoleAccess,
     [],
   );
-  const hasRoleAccess = useSelector((state) => selectHasRoleAccess(state, { roleName }));
+  const hasRoleAccess = useSelector((state: RootState) => selectHasRoleAccess(state, { roleName }));
   const selectReactionResponses = useMemo<
     ReturnType<typeof makeSelectTrixtaReactionResponseInstancesForRole>
   >(makeSelectTrixtaReactionResponseInstancesForRole, []);
@@ -52,15 +55,9 @@ export const useTrixtaReaction = <
     makeSelectIsTrixtaReactionInProgress,
     [],
   );
-  const instances = useSelector<
-    TrixtaState,
-    TrixtaInstance<TInitialData, TResponseType, TErrorType>[]
-  >((state) =>
-    selectReactionResponses(state, {
-      roleName,
-      requestForEffect,
-      reactionName,
-    }),
+  const reactionRoleProps = { roleName, requestForEffect, reactionName } as TrixtaReactionBaseProps;
+  const instances = useSelector((state: RootState) =>
+    selectReactionResponses(state, reactionRoleProps),
   );
 
   const [latest] = instances;
@@ -94,8 +91,8 @@ export const useTrixtaReaction = <
     [dispatch, roleName, reactionName, hasRoleAccess, latestInstance],
   );
 
-  const isInProgress = useSelector((state) =>
-    selectReactionInProgress(state, { roleName, reactionName }),
+  const isInProgress = useSelector((state: RootState) =>
+    selectReactionInProgress(state, reactionRoleProps),
   );
 
   trixtaDebugger<TInitialData, TResponseType, TErrorType>({

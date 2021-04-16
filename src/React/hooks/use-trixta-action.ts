@@ -3,19 +3,19 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   clearTrixtaActionResponse,
-  submitTrixtaActionResponse,
+  submitTrixtaActionResponse
 } from '../reduxActions/trixtaActions';
 import {
   makeSelectHasTrixtaRoleAccess,
   makeSelectIsTrixtaActionInProgress,
-  makeSelectTrixtaActionResponseInstancesForRole,
+  makeSelectTrixtaActionResponseInstancesForRole
 } from '../selectors';
 import { trixtaDebugger, TrixtaDebugType, trixtaInstanceDebugger } from '../TrixtaDebugger';
-import { defaultUnknownType } from './../types';
+import { defaultUnknownType, RootState, TrixtaActionBaseProps } from './../types';
 import {
   submitTrixtaFunctionParameters,
   UseTrixtaActionProps,
-  UseTrixtaActionResponseReturn,
+  UseTrixtaActionResponseReturn
 } from './types';
 
 export const useTrixtaAction = <
@@ -42,7 +42,7 @@ export const useTrixtaAction = <
     makeSelectHasTrixtaRoleAccess,
     [],
   );
-  const hasRoleAccess = useSelector((state) => selectHasRoleAccess(state, { roleName }));
+  const hasRoleAccess = useSelector((state: RootState) => selectHasRoleAccess(state, { roleName }));
   const selectActionResponses = useMemo<
     ReturnType<typeof makeSelectTrixtaActionResponseInstancesForRole>
   >(makeSelectTrixtaActionResponseInstancesForRole, []);
@@ -50,11 +50,9 @@ export const useTrixtaAction = <
     makeSelectIsTrixtaActionInProgress,
     [],
   );
-  const instances = useSelector((state) =>
-    selectActionResponses(state, {
-      roleName,
-      actionName,
-    }),
+  const roleActionProps = { roleName, actionName } as TrixtaActionBaseProps;
+  const instances = useSelector((state: RootState) =>
+    selectActionResponses(state, roleActionProps),
   );
   trixtaDebugger<defaultUnknownType, TResponseType, TErrorType>({
     type: TrixtaDebugType.Action,
@@ -77,8 +75,8 @@ export const useTrixtaAction = <
       instance: latestInstance,
     });
   }
-  const isInProgress = useSelector((state) =>
-    selectActionInProgress(state, { roleName, actionName }),
+  const isInProgress = useSelector((state: RootState) =>
+    selectActionInProgress(state, roleActionProps),
   );
 
   const submitTrixtaAction = useCallback(

@@ -1,13 +1,14 @@
 import shortid from 'shortid';
 import { ROLE_ACTION_FIELDS, ROLE_REACTION_RESPONSE_FIELDS } from '../React/constants';
-import { TrixtaAction, TrixtaReaction } from '../React/types';
+import { defaultUnknownType, TrixtaAction, TrixtaInstance, TrixtaReaction, TrixtaReactionInstance } from '../React/types';
+import { TrixtaInstanceDetails } from './../../types/React/types.d';
 import {
   TrixtaCommon,
   TrixtaInstanceMode,
   TrixtaInstanceModeType,
   TrixtaReactionDetails,
   TrixtaReactionResponseDetails,
-  TrixtaReactionType,
+  TrixtaReactionType
 } from './../React/types';
 import { get } from './object';
 
@@ -58,6 +59,18 @@ export function getTrixtaReactionReducerStructure({
     instances: { requestForEffect: [], requestForResponse: [] },
     common: details,
   };
+}
+
+/**
+ * Returns a trixtaInstance based on params.details and params.error or params.success
+ * @param {Object} params
+ * @param {TrixtaInstanceDetails} params.details - TrixtaInstanceDetails
+ * @param {unknown} params.error - error response for Trixta Instance
+ * @param {unknown} params.success - success response for Trixta Instance
+ * @returns
+ */
+export function getTrixtaInstanceResult<TInitialData= defaultUnknownType,TSuccessType=defaultUnknownType, TErrorType=defaultUnknownType>({details,error,success}:{details?:TrixtaInstanceDetails<TInitialData>;success?:TSuccessType,error?:TErrorType}):TrixtaInstance<TSuccessType,TErrorType> | TrixtaReactionInstance<TInitialData,TSuccessType,TErrorType> {
+  return {details,response:{success,error}}
 }
 
 /**

@@ -1,5 +1,4 @@
 import {
-  SchemaFormUISettings,
   TrixtaCommon,
   TrixtaDispatch,
   TrixtaInstance,
@@ -8,7 +7,6 @@ import {
 
 export interface TrixtaReactionInstanceComponentStateProps {
   instance: TrixtaInstance;
-  schemaFormUISettings: SchemaFormUISettings;
 }
 export interface TrixtaReactionInstanceComponentDispatchProps {
   dispatchSubmitReactionResponse: TrixtaDispatch<unknown>;

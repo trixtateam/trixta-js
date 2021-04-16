@@ -5,14 +5,14 @@ import { submitTrixtaReactionResponse } from '../reduxActions/trixtaReactions';
 import {
   makeSelectHasTrixtaRoleAccess,
   makeSelectIsTrixtaReactionInProgress,
-  makeSelectTrixtaReactionResponseInstancesForRole,
+  makeSelectTrixtaReactionResponseInstancesForRole
 } from '../selectors';
 import { trixtaDebugger, TrixtaDebugType, trixtaInstanceDebugger } from '../TrixtaDebugger';
 import { defaultUnknownType, TrixtaInstance, TrixtaState } from './../types';
 import {
   submitTrixtaFunctionParameters,
   UseTrixtaReactionProps,
-  UseTrixtaReactionResponseReturn,
+  UseTrixtaReactionResponseReturn
 } from './types';
 
 export const useTrixtaReaction = <
@@ -82,7 +82,7 @@ export const useTrixtaReaction = <
       dispatch(
         submitTrixtaReactionResponse({
           formData: data ?? {},
-          ref: ref || latestInstance?.details?.ref,
+          ref: ref ?? latestInstance?.details.ref,
           roleName,
           responseEvent,
           requestEvent,

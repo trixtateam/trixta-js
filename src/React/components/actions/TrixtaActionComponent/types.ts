@@ -1,5 +1,4 @@
 import {
-  SchemaFormUISettings,
   TrixtaActionBaseProps,
   TrixtaActionDebugOptions,
   TrixtaCommon,
@@ -10,7 +9,6 @@ import {
 export interface TrixtaActionComponentStateProps {
   common: TrixtaCommon;
   instances: TrixtaInstance[];
-  schemaFormUISettings: SchemaFormUISettings;
   /**
    * If 'true', Trixta roles or role name passed does have acccess for this user
    */

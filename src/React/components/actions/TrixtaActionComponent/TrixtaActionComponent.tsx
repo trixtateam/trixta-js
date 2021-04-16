@@ -7,7 +7,6 @@ import { submitTrixtaReactionResponse } from '../../../reduxActions';
 import {
   makeSelectHasTrixtaRoleAccess,
   makeSelectIsTrixtaActionInProgress,
-  makeSelectSchemaFormSettings,
   makeSelectTrixtaActionCommonForRole,
   makeSelectTrixtaActionResponseInstancesForRole,
 } from '../../../selectors';
@@ -81,7 +80,6 @@ const mapStateToProps = () =>
   createStructuredSelector<TrixtaState, TrixtaActionComponentStateProps>({
     common: makeSelectTrixtaActionCommonForRole(),
     instances: makeSelectTrixtaActionResponseInstancesForRole(),
-    schemaFormUISettings: makeSelectSchemaFormSettings(),
     hasRoleAccess: makeSelectHasTrixtaRoleAccess(),
     loading: makeSelectIsTrixtaActionInProgress(),
   });

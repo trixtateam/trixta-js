@@ -7,11 +7,12 @@ export function isObject(variable: unknown): variable is Dict {
 }
 
 // eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function pickBy(
   object: Record<string, unknown>,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   predicate = (value: unknown, key: string) => value,
-): unknown {
+) {
   if (object === null) return {};
   return (
     Object.entries(object)
@@ -28,7 +29,8 @@ export function pickBy(
  * @param {any} fallback - default value if key is not found
  */
 export function get<TReturn = unknown | undefined, TFallback = TReturn>(
-  obj: Record<string, unknown> | null,
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  obj: object | null,
   path: string | string[],
   fallback?: TFallback,
 ): TReturn | TFallback {

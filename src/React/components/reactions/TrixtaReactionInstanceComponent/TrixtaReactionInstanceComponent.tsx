@@ -4,17 +4,14 @@ import { Dispatch } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { get } from '../../../../utils';
 import { submitTrixtaReactionResponse } from '../../../reduxActions';
-import {
-  makeSelectSchemaFormSettings,
-  makesSelectTrixtaReactionResponseInstance,
-} from '../../../selectors';
+import { makesSelectTrixtaReactionResponseInstance } from '../../../selectors';
 import { TrixtaDebugType, trixtaInstanceDebugger } from '../../../TrixtaDebugger';
 import { TrixtaInstanceResponse, TrixtaState } from '../../../types';
 import { TrixtaReactionComponentArgs } from '../types';
 import {
   TrixtaReactionInstanceComponentDispatchProps,
   TrixtaReactionInstanceComponentProps,
-  TrixtaReactionInstanceComponentStateProps,
+  TrixtaReactionInstanceComponentStateProps
 } from './types';
 const TrixtaReactionInstanceComponent = ({
   dispatchSubmitReactionResponse,
@@ -69,7 +66,6 @@ const TrixtaReactionInstanceComponent = ({
 const mapStateToProps = () =>
   createStructuredSelector<TrixtaState, TrixtaReactionInstanceComponentStateProps>({
     instance: makesSelectTrixtaReactionResponseInstance(),
-    schemaFormUISettings: makeSelectSchemaFormSettings(),
   });
 
 function mapDispatchToProps(

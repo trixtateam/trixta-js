@@ -1,10 +1,10 @@
 import { channelActionTypes, socketActionTypes } from '@trixta/phoenix-to-redux';
-import produce, { Draft } from 'immer';
+import produce from 'immer';
 import {
   TrixtaCommon,
   TrixtaInstance,
   TrixtaInstanceMode,
-  TrixtaReactionDetails,
+  TrixtaReactionDetails
 } from '../../React/types';
 import {
   get,
@@ -12,9 +12,10 @@ import {
   getReactionDetails,
   getReducerKeyName,
   getTrixtaActionReducerStructure,
+  getTrixtaInstanceResult,
   getTrixtaReactionReducerStructure,
   isObject,
-  pickBy,
+  pickBy
 } from '../../utils';
 import {
   CLEAR_TRIXTA_ACTION_RESPONSE,
@@ -36,7 +37,7 @@ import {
   UPDATE_TRIXTA_REACTION,
   UPDATE_TRIXTA_REACTION_RESPONSE,
   UPDATE_TRIXTA_ROLE,
-  UPDATE_TRIXTA_ROLES,
+  UPDATE_TRIXTA_ROLES
 } from '../constants';
 import { TrixtaReducerActions } from './../reduxActions/types';
 import { TrixtaReactionResponseDetails, TrixtaState } from './../types';
@@ -47,14 +48,6 @@ export const initialState: TrixtaState = {
   error: false,
   authorizationStarted: false,
   authorizingStatus: {},
-  schemaFormSettings: {
-    showErrorList: false,
-    noHtml5Validate: true,
-    liveValidate: false,
-    liveOmit: false,
-    omitExtraData: false,
-    safeRenderCompletion: false,
-  },
   agentDetails: [],
 };
 /* eslint-disable default-case, no-param-reassign, consistent-return */
@@ -62,10 +55,11 @@ export const trixtaReducer = (
   state: TrixtaState = initialState,
   action: TrixtaReducerActions,
 ): TrixtaState =>
-  produce(state, (draft: Draft<TrixtaState>) => {
+  produce(state, (draft) => {
     switch (action.type) {
       case socketActionTypes.SOCKET_DISCONNECT:
-        return initialState;
+        draft = initialState;
+        break;
       case channelActionTypes.CHANNEL_JOIN_ERROR:
         {
           const channelTopic = get<string>(action, 'channelTopic');
@@ -221,44 +215,28 @@ export const trixtaReducer = (
               draft.reactions[keyName].loadingStatus = {};
             }
           } else if (draft.reactions[keyName] && mode) {
+            const instance = getTrixtaInstanceResult({
+              details: !isRequestForResponse ? { ...reaction } : { ref, ...reaction },
+              success: false,
+              error: false,
+            });
             switch (mode.type) {
               case TRIXTA_MODE_TYPE.replace:
                 if (isRequestForResponse) {
-                  draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse][0] = {
-                    details: {
-                      ...reaction,
-                    },
-                    response: {
-                      success: false,
-                      error: false,
-                    },
-                  };
+                  draft.reactions[keyName].instances[
+                    TRIXTA_FIELDS.requestForResponse
+                  ][0] = instance;
                   break;
                 }
-                draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect][0] = {
-                  details: {
-                    ref,
-                    ...reaction,
-                  },
-                  response: {
-                    success: false,
-                    error: false,
-                  },
-                };
+                draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect][0] = instance;
                 break;
               case TRIXTA_MODE_TYPE.accumulate:
                 {
                   const accumalateLength = mode.limit ?? 10;
                   if (isRequestForResponse) {
-                    draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse].unshift({
-                      details: {
-                        ...reaction,
-                      },
-                      response: {
-                        success: false,
-                        error: false,
-                      },
-                    });
+                    draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse].unshift(
+                      instance,
+                    );
                     if (
                       draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse].length >
                       accumalateLength
@@ -269,16 +247,9 @@ export const trixtaReducer = (
 
                     break;
                   }
-                  draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect].unshift({
-                    details: {
-                      ref,
-                      ...reaction,
-                    },
-                    response: {
-                      success: false,
-                      error: false,
-                    },
-                  });
+                  draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect].unshift(
+                    instance,
+                  );
                   if (
                     draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForEffect].length >
                     accumalateLength
@@ -333,24 +304,18 @@ export const trixtaReducer = (
           if (!draft.actions[keyName]) break;
           if (clearResponse) draft.actions[keyName].instances = [];
           if (draft.actions[keyName] && draft.actions[keyName].instances && mode) {
+            const instance = getTrixtaInstanceResult({
+              success: get(action, 'data.response'),
+              error: false,
+            });
             switch (mode.type) {
               case TRIXTA_MODE_TYPE.replace:
-                draft.actions[keyName].instances[0] = {
-                  response: {
-                    success: get(action, 'data.response'),
-                    error: false,
-                  },
-                };
+                draft.actions[keyName].instances[0] = instance;
                 break;
               case TRIXTA_MODE_TYPE.accumulate:
                 {
                   const accumalateLength = mode.limit ?? 10;
-                  draft.actions[keyName].instances.unshift({
-                    response: {
-                      success: get(action, 'data.response'),
-                      error: false,
-                    },
-                  });
+                  draft.actions[keyName].instances.unshift(instance);
                   if (draft.actions[keyName].instances.length > accumalateLength)
                     draft.actions[keyName].instances.length = accumalateLength;
                 }
@@ -412,24 +377,18 @@ export const trixtaReducer = (
           if (clearResponse) draft.actions[keyName].instances = [];
           const mode = get<TrixtaInstanceMode>(state.actions, `${keyName}.mode`);
           if (draft.actions[keyName] && draft.actions[keyName].instances && mode) {
+            const instance = getTrixtaInstanceResult({
+              error: get(action, 'error'),
+              success: false,
+            });
             switch (mode.type) {
               case TRIXTA_MODE_TYPE.replace:
-                draft.actions[keyName].instances[0] = {
-                  response: {
-                    error: get(action, 'error'),
-                    success: false,
-                  },
-                };
+                draft.actions[keyName].instances[0] = instance;
                 break;
               case TRIXTA_MODE_TYPE.accumulate:
                 {
                   const accumalateLength = mode.limit ?? 10;
-                  draft.actions[keyName].instances.unshift({
-                    response: {
-                      error: get(action, 'error'),
-                      success: false,
-                    },
-                  });
+                  draft.actions[keyName].instances.unshift(instance);
                   draft.actions[keyName].instances.length = accumalateLength;
                 }
                 break;
@@ -440,6 +399,6 @@ export const trixtaReducer = (
         }
         break;
       default:
-        return state;
+      // no changes
     }
   });

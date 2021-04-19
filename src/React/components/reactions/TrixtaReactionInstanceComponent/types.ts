@@ -1,17 +1,14 @@
-import {
-  TrixtaCommon,
-  TrixtaDispatch,
-  TrixtaReactionBaseProps,
-  TrixtaReactionInstance
-} from '../../../types';
+import { TrixtaCommon, TrixtaDispatch, TrixtaReactionBaseProps } from '../../../types';
+import { TrixtaReactionInstance } from './../../../types/common/index';
 
-export interface TrixtaReactionInstanceComponentStateProps {
+export interface TrixtaReactionInstanceComponentStateProps extends TrixtaReactionBaseProps {
   instance: TrixtaReactionInstance;
 }
 export interface TrixtaReactionInstanceComponentDispatchProps {
   dispatchSubmitReactionResponse: TrixtaDispatch<unknown>;
 }
 export interface TrixtaReactionInstanceComponentProps extends TrixtaReactionBaseProps {
+  instanceIndex: number;
   /**
    * Event name for data to dispatch before submitting to Trixta Reaction response
    */

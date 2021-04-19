@@ -10,8 +10,7 @@ import { RootState, TrixtaInstanceResponse } from '../../../types';
 import { TrixtaReactionComponentArgs } from '../types';
 import {
   TrixtaReactionInstanceComponentDispatchProps,
-  TrixtaReactionInstanceComponentProps,
-  TrixtaReactionInstanceComponentStateProps
+  TrixtaReactionInstanceComponentProps
 } from './types';
 const TrixtaReactionInstanceComponent = ({
   dispatchSubmitReactionResponse,
@@ -22,13 +21,11 @@ const TrixtaReactionInstanceComponent = ({
   debugMode,
   children,
   instance,
-}: TrixtaReactionInstanceComponentStateProps &
-  TrixtaReactionInstanceComponentDispatchProps &
-  TrixtaReactionInstanceComponentProps) => {
-  const response = get(instance, 'response', {
+}: ConnectProps & DispatchProps & TrixtaReactionInstanceComponentProps) => {
+  const response = get<TrixtaInstanceResponse>(instance, 'response', {
     success: false,
     error: false,
-  }) as TrixtaInstanceResponse;
+  });
   trixtaInstanceDebugger({
     debugMode,
     response,
@@ -50,7 +47,7 @@ const TrixtaReactionInstanceComponent = ({
       requestForEffect,
       reactionName,
       response,
-      details: instance.details,
+      details: instance?.details,
     };
     if (typeof children === 'function') {
       return children(reactionProps);
@@ -64,7 +61,15 @@ const TrixtaReactionInstanceComponent = ({
 };
 
 const mapStateToProps = (state: RootState, props: TrixtaReactionInstanceComponentProps) =>
-  createStructuredSelector<RootState, TrixtaReactionInstanceComponentStateProps>({
+  createStructuredSelector<
+    RootState,
+    TrixtaReactionInstanceComponentProps,
+    {
+      instance:
+        | ReturnType<ReturnType<typeof makesSelectTrixtaReactionResponseInstance>>
+        | undefined;
+    }
+  >({
     instance: makesSelectTrixtaReactionResponseInstance(state, props),
   });
 
@@ -88,8 +93,16 @@ function mapDispatchToProps(
   };
 }
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
+type ConnectProps = ReturnType<ReturnType<typeof mapStateToProps>>;
+
+const connector = connect<
+  ConnectProps,
+  DispatchProps,
+  TrixtaReactionInstanceComponentProps,
+  RootState
+>(mapStateToProps, mapDispatchToProps);
+
 export default connector(
   React.memo(
     TrixtaReactionInstanceComponent,

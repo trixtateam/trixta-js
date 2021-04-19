@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { get } from '../../../../utils';
-import { submitTrixtaReactionResponse } from '../../../reduxActions';
+import { submitTrixtaActionResponse } from '../../../reduxActions';
 import {
   makeSelectHasTrixtaRoleAccess,
   makeSelectIsTrixtaActionInProgress,
@@ -77,7 +77,7 @@ const TrixtaActionComponent = ({
 };
 
 const mapStateToProps = (state: RootState, props: TrixtaActionComponentProps) =>
-  createStructuredSelector<RootState, TrixtaActionComponentStateProps>({
+  createStructuredSelector<RootState, TrixtaActionComponentStateProps, any>({
     common: makeSelectTrixtaActionCommonForRole(state, props),
     instances: makeSelectTrixtaActionResponseInstancesForRole(state, props),
     hasRoleAccess: makeSelectHasTrixtaRoleAccess(state, props),
@@ -91,7 +91,7 @@ function mapDispatchToProps(
   return {
     dispatchSubmitActionResponse: (formData?: Record<string, unknown>) =>
       dispatch(
-        submitTrixtaReactionResponse({
+        submitTrixtaActionResponse({
           errorEvent: ownProps.errorEvent,
           responseEvent: ownProps.responseEvent,
           requestEvent: ownProps.requestEvent,

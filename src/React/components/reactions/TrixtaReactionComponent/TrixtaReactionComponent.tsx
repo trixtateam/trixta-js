@@ -12,7 +12,7 @@ import { RootState } from '../../../types';
 import { TrixtaReactionInstanceComponent } from '../TrixtaReactionInstanceComponent';
 import { TrixtaReactionComponentProps, TrixtaReactionComponentStateProps } from './types';
 
-const TrixtaReactionComponent = ({
+function TrixtaReactionComponent({
   common,
   roleName,
   reactionName,
@@ -25,7 +25,7 @@ const TrixtaReactionComponent = ({
   debugMode = false,
   instances,
   ...rest
-}: TrixtaReactionComponentProps & TrixtaReactionComponentStateProps) => {
+}: ConnectProps & TrixtaReactionComponentProps) {
   trixtaDebugger({
     type: TrixtaDebugType.Reaction,
     debugMode,
@@ -66,13 +66,21 @@ const TrixtaReactionComponent = ({
       ))}
     </>
   );
-};
+}
 
 const mapStateToProps = (state: RootState, props: TrixtaReactionComponentProps) =>
-  createStructuredSelector<RootState, TrixtaReactionComponentStateProps>({
+  createStructuredSelector<RootState, TrixtaReactionComponentStateProps, any>({
     common: makeSelectTrixtaReactionCommonForRole(state, props),
     instances: makeSelectTrixtaReactionResponseInstancesForRole(state, props),
     hasRoleAccess: makeSelectHasTrixtaRoleAccess(state, props),
   });
-const connector = connect(mapStateToProps);
+
+type ConnectProps = ReturnType<ReturnType<typeof mapStateToProps>>;
+
+const connector = connect<
+  ConnectProps,
+  Record<string, unknown>,
+  TrixtaReactionComponentProps,
+  RootState
+>(mapStateToProps);
 export default connector(TrixtaReactionComponent);

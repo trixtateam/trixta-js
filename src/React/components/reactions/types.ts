@@ -1,17 +1,9 @@
-import { TrixtaCommon, TrixtaDispatch } from '../../types';
+import { TrixtaCommon, TrixtaDispatch, TrixtaReactionBaseProps } from '../../types';
 import { defaultUnknownType, TrixtaInstanceDetails, TrixtaInstanceResponse } from './../../types';
 export interface TrixtaReactionComponentArgs<
   TFormData = defaultUnknownType,
   KResponse = defaultUnknownType
-> {
-  /**
-   * Name of Trixta reaction
-   */
-  reactionName: string;
-  /**
-   * If 'true', Trixta reaction is not waiting for response
-   */
-  requestForEffect?: boolean;
+> extends TrixtaReactionBaseProps {
   dispatchSubmitReactionResponse: TrixtaDispatch<TFormData>;
   submit: TrixtaDispatch<TFormData>;
   common: TrixtaCommon;

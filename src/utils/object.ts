@@ -30,7 +30,7 @@ export function pickBy(
  */
 export function get<TReturn = unknown | undefined, TFallback = TReturn>(
   // eslint-disable-next-line @typescript-eslint/ban-types
-  obj: object | null,
+  obj: object | null | undefined,
   path: string | string[],
   fallback?: TFallback,
 ): TReturn | TFallback {

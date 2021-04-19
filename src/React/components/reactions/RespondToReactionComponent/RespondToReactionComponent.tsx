@@ -64,7 +64,7 @@ const RespondToReactionComponent = ({
 };
 
 const mapStateToProps = (state: RootState, props: RespondToReactionComponentProps) =>
-  createStructuredSelector<RootState, RespondToReactionComponentStateProps>({
+  createStructuredSelector<RootState, RespondToReactionComponentStateProps, any>({
     instances: makeSelectTrixtaReactionResponseInstancesForRole(state, props),
     hasRoleAccess: makeSelectHasTrixtaRoleAccess(state, props),
   });

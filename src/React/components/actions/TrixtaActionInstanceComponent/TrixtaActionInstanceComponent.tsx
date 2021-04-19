@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { makesSelectTrixtaReactionResponseInstance } from '../../../selectors';
+import { makesSelectTrixtaActionResponseInstance } from '../../../selectors';
 import { TrixtaDebugType, trixtaInstanceDebugger } from '../../../TrixtaDebugger';
 import { RootState } from '../../../types';
 import {
@@ -36,8 +36,12 @@ const TrixtaActionInstanceComponent = ({
   }
 };
 const mapStateToProps = (state: RootState, props: TrixtaActionInstanceComponentProps) =>
-  createStructuredSelector<RootState, TrixtaActionInstanceComponentStateProps>({
-    response: makesSelectTrixtaReactionResponseInstance(state, props),
+  createStructuredSelector<
+    RootState,
+    TrixtaActionInstanceComponentStateProps & TrixtaActionInstanceComponentProps,
+    any
+  >({
+    response: makesSelectTrixtaActionResponseInstance(state, props),
   });
 const connector = connect(mapStateToProps, null);
 export default connector(TrixtaActionInstanceComponent);

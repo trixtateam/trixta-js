@@ -1,6 +1,6 @@
 import { TrixtaCommon, TrixtaReactionBaseProps, TrixtaReactionInstance } from '../../../types';
 
-export interface TrixtaReactionComponentStateProps {
+export interface TrixtaReactionComponentStateProps extends TrixtaReactionBaseProps {
   common: TrixtaCommon;
   instances: TrixtaReactionInstance[];
   /**
@@ -34,5 +34,4 @@ export interface TrixtaReactionComponentProps extends TrixtaReactionBaseProps {
    * Default component to render if there are no Trixta reaction response instances
    */
   defaultComponent?: React.ReactNode;
-  dispatchSubmitReactionResponse?: () => void;
 }

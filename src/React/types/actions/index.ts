@@ -99,7 +99,6 @@ export interface SubmitTrixtaActionResponse<TFormData = defaultUnknownType> {
 }
 
 export interface TrixtaActionBaseProps extends TrixtaBaseRoleProps {
-  instanceIndex: number;
   /**
    * Name of Trixta action
    */

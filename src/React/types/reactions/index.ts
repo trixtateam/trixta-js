@@ -95,7 +95,6 @@ export interface TrixtaReaction {
 }
 
 export interface TrixtaReactionBaseProps extends TrixtaBaseRoleProps {
-  instanceIndex: number;
   /**
    * Name of Trixta reaction
    */

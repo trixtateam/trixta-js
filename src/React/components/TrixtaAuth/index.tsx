@@ -1,19 +1,18 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { makeSelectHasTrixtaRoleAccessForRoles } from '../../selectors';
-import { RootState } from '../../types';
-import { TrixtaAuthProps } from '../../types';
+import { RootState, TrixtaAuthProps } from '../../types';
 
 const TrixtaAuth = ({
   children,
   roles,
   ...rest
 }: TrixtaAuthProps & { children: React.ReactNode }): JSX.Element | null => {
-  const roleAccessSelector = useMemo<ReturnType<typeof makeSelectHasTrixtaRoleAccessForRoles>>(
-    makeSelectHasTrixtaRoleAccessForRoles,
-    [],
+  const roleAccessSelector = useMemo(
+    () => makeSelectHasTrixtaRoleAccessForRoles(Array.isArray(roles) ? roles : [roles]),
+    [roles],
   );
-  const hasRoleAccess = useSelector((state: RootState) => roleAccessSelector(state, roles));
+  const hasRoleAccess = useSelector((state: RootState) => roleAccessSelector(state));
 
   if (!hasRoleAccess) return null;
 

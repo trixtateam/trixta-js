@@ -7,11 +7,7 @@ import {
   makeSelectTrixtaReactionResponseInstancesForRole
 } from '../selectors';
 import { trixtaDebugger, TrixtaDebugType, trixtaInstanceDebugger } from '../TrixtaDebugger';
-import {
-  defaultUnknownType,
-  RootState,
-  TrixtaReactionBaseProps
-} from './../types';
+import { defaultUnknownType, RootState, TrixtaReactionBaseProps } from './../types';
 import {
   submitTrixtaFunctionParameters,
   UseTrixtaReactionProps,
@@ -63,7 +59,7 @@ export const useTrixtaReaction = <
   const [latest] = instances;
   const latestInstance = latest;
   if (latestInstance) {
-    trixtaInstanceDebugger<TInitialData, TResponseType, TErrorType>({
+    trixtaInstanceDebugger({
       type: TrixtaDebugType.Reaction,
       name: reactionName,
       roleName,
@@ -95,7 +91,7 @@ export const useTrixtaReaction = <
     selectReactionInProgress(state, reactionRoleProps),
   );
 
-  trixtaDebugger<TInitialData, TResponseType, TErrorType>({
+  trixtaDebugger({
     type: TrixtaDebugType.Reaction,
     name: reactionName,
     roleName,

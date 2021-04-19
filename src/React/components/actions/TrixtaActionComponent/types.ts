@@ -35,15 +35,15 @@ export interface TrixtaActionComponentProps extends TrixtaActionBaseProps {
   /**
    * Event name for data to dispatch before submitting to Trixta Action response
    */
-  requestEvent?: string | null;
+  requestEvent?: string;
   /**
    * Event name for data to dispatch after Trixta Action response
    */
-  responseEvent?: string | null;
+  responseEvent?: string;
   /**
    * Event name for data to dispatch after Trixta Action error response
    */
-  errorEvent?: string | null;
+  errorEvent?: string;
   /**
    * Options for action in Trixta flow
    */

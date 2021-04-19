@@ -54,7 +54,7 @@ export const useTrixtaAction = <
   const instances = useSelector((state: RootState) =>
     selectActionResponses(state, roleActionProps),
   );
-  trixtaDebugger<defaultUnknownType, TResponseType, TErrorType>({
+  trixtaDebugger({
     type: TrixtaDebugType.Action,
     name: actionName,
     roleName,

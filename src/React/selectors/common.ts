@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect';
+import { createSelector, OutputSelector, Selector } from 'reselect';
 import { get, isNullOrEmpty } from '../../utils';
 import { RootState, TrixtaBaseRoleProps } from './../types/common';
 
@@ -52,34 +52,41 @@ export const selectIsTrixtaAuhorizedForRole = (
   state.trixta.authorizingStatus[props.roleName] &&
   get<boolean>(state.trixta.authorizingStatus[props.roleName], 'status', false);
 
-export const makeSelectTrixtaAgentDetails = () =>
+export const makeSelectTrixtaAgentDetails = (): Selector<RootState, Array<string>> =>
   createSelector([selectTrixtaAgentDetails], (agentDetails: Array<string>) => agentDetails);
 
 /**
  * Checks if the authorizingStatus has no joining statuses for channels
  * @returns true or false
  */
-export const makeSelectIsTrixtaAuhorized = () =>
+export const makeSelectIsTrixtaAuhorized = (): Selector<RootState, boolean> =>
   createSelector([selectIsTrixtaAuhorized], (authorized) => authorized);
 
 /**
  * Selects the authorizationStarted, which happens when the first Trixta role is joined
  * @returns true or false
  */
-export const makeSelectHasTrixtaAuthorizationStarted = () =>
-  createSelector(selectTrixtaAuthorizationStarted, (authorizationStarted) => authorizationStarted);
+export const makeSelectHasTrixtaAuthorizationStarted = (): OutputSelector<
+  RootState,
+  boolean,
+  unknown
+> =>
+  createSelector(
+    [selectTrixtaAuthorizationStarted],
+    (authorizationStarted) => authorizationStarted,
+  );
 
 /**
  *  Selects the roles for the given props.roleName and checks if included
  */
 export const makeSelectHasTrixtaRoleAccess = () =>
-  createSelector(selectHasTrixtaRoleAccess, (roleFilter) => !!roleFilter);
+  createSelector([selectHasTrixtaRoleAccess], (roleFilter) => !!roleFilter);
 
 /**
  * Selects the authorizingStatus for joining Trixta roles
  * @returns true or false
  */
-export const makeSelectTrixtaAuthorizingStatus = () =>
+export const makeSelectTrixtaAuthorizingStatus = (): Selector<RootState, { status?: boolean }> =>
   createSelector(selectTrixtaAuthorizingStatus, (authorizingStatus) => authorizingStatus);
 
 /**

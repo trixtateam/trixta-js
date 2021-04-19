@@ -11,7 +11,7 @@ import {
   makeSelectTrixtaActionResponseInstancesForRole,
 } from '../../../selectors';
 import { trixtaDebugger, TrixtaDebugType } from '../../../TrixtaDebugger';
-import { TrixtaState } from '../../../types';
+import { RootState } from '../../../types';
 import { TrixtaActionInstanceComponent } from '../TrixtaActionInstanceComponent';
 import { TrixtaActionComponentArgs } from '../types';
 import {
@@ -77,7 +77,7 @@ const TrixtaActionComponent = ({
 };
 
 const mapStateToProps = () =>
-  createStructuredSelector<TrixtaState, TrixtaActionComponentStateProps>({
+  createStructuredSelector<RootState, TrixtaActionComponentStateProps>({
     common: makeSelectTrixtaActionCommonForRole(),
     instances: makeSelectTrixtaActionResponseInstancesForRole(),
     hasRoleAccess: makeSelectHasTrixtaRoleAccess(),

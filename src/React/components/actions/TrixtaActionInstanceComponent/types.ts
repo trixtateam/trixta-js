@@ -16,5 +16,4 @@ export interface TrixtaActionInstanceComponentProps extends TrixtaActionBaseProp
    */
   children?: React.ReactNode;
   instance: TrixtaInstance;
-  instanceIndex?: number;
 }

@@ -1,11 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 import debug, { Debugger } from 'debug';
-import { defaultUnknownType } from '../types';
 import {
   TrixtaDebugType,
   TrixtaInstanceDebuggerParameters,
-  TrixtaInstancesDebuggerParameters,
+  TrixtaInstancesDebuggerParameters
 } from './types';
 debug.log = console.debug.bind(console);
 
@@ -22,11 +21,7 @@ export const getTrixtaDebug = (debugType: TrixtaDebugType): Debugger =>
  *
  * @param parameters
  */
-export const trixtaDebugger = <
-  TInitialData = defaultUnknownType,
-  TResponseType = defaultUnknownType,
-  TErrorType = defaultUnknownType
->({
+export const trixtaDebugger = ({
   debugMode,
   roleName,
   common,
@@ -34,7 +29,7 @@ export const trixtaDebugger = <
   hasRoleAccess,
   instances,
   type,
-}: TrixtaInstancesDebuggerParameters<TInitialData, TResponseType, TErrorType>): void => {
+}: TrixtaInstancesDebuggerParameters): void => {
   if (debugMode) {
     const trixtaDebug = getTrixtaDebug(type);
     trixtaDebug('ROLE NAME: %s', roleName);
@@ -47,18 +42,14 @@ export const trixtaDebugger = <
   }
 };
 
-export const trixtaInstanceDebugger = <
-  TInitialData = defaultUnknownType,
-  TResponseType = defaultUnknownType,
-  TErrorType = defaultUnknownType
->({
+export const trixtaInstanceDebugger = ({
   debugMode,
   response,
   roleName,
   name,
   instance,
   type,
-}: TrixtaInstanceDebuggerParameters<TInitialData, TResponseType, TErrorType>): void => {
+}: TrixtaInstanceDebuggerParameters): void => {
   if (debugMode) {
     const trixtaDebug = getTrixtaDebug(type);
     trixtaDebug('TYPE: %s', type);

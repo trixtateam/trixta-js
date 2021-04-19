@@ -8,7 +8,7 @@ import {
   makeSelectHasTrixtaRoleAccess,
   makeSelectIsTrixtaActionInProgress,
   makeSelectTrixtaActionCommonForRole,
-  makeSelectTrixtaActionResponseInstancesForRole,
+  makeSelectTrixtaActionResponseInstancesForRole
 } from '../../../selectors';
 import { trixtaDebugger, TrixtaDebugType } from '../../../TrixtaDebugger';
 import { RootState } from '../../../types';
@@ -17,7 +17,7 @@ import { TrixtaActionComponentArgs } from '../types';
 import {
   TrixtaActionComponentDispatchProps,
   TrixtaActionComponentProps,
-  TrixtaActionComponentStateProps,
+  TrixtaActionComponentStateProps
 } from './types';
 
 const TrixtaActionComponent = ({
@@ -76,12 +76,12 @@ const TrixtaActionComponent = ({
   ));
 };
 
-const mapStateToProps = () =>
+const mapStateToProps = (state: RootState, props: TrixtaActionComponentProps) =>
   createStructuredSelector<RootState, TrixtaActionComponentStateProps>({
-    common: makeSelectTrixtaActionCommonForRole(),
-    instances: makeSelectTrixtaActionResponseInstancesForRole(),
-    hasRoleAccess: makeSelectHasTrixtaRoleAccess(),
-    loading: makeSelectIsTrixtaActionInProgress(),
+    common: makeSelectTrixtaActionCommonForRole(state, props),
+    instances: makeSelectTrixtaActionResponseInstancesForRole(state, props),
+    hasRoleAccess: makeSelectHasTrixtaRoleAccess(state, props),
+    loading: makeSelectIsTrixtaActionInProgress(state, props),
   });
 
 function mapDispatchToProps(

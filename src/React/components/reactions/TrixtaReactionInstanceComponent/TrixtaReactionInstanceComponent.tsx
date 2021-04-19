@@ -6,7 +6,7 @@ import { get } from '../../../../utils';
 import { submitTrixtaReactionResponse } from '../../../reduxActions';
 import { makesSelectTrixtaReactionResponseInstance } from '../../../selectors';
 import { TrixtaDebugType, trixtaInstanceDebugger } from '../../../TrixtaDebugger';
-import { TrixtaInstanceResponse } from '../../../types';
+import { RootState, TrixtaInstanceResponse } from '../../../types';
 import { TrixtaReactionComponentArgs } from '../types';
 import {
   TrixtaReactionInstanceComponentDispatchProps,
@@ -63,9 +63,9 @@ const TrixtaReactionInstanceComponent = ({
   return null;
 };
 
-const mapStateToProps = () =>
-  createStructuredSelector({
-    instance: makesSelectTrixtaReactionResponseInstance(),
+const mapStateToProps = (state: RootState, props: TrixtaReactionInstanceComponentProps) =>
+  createStructuredSelector<RootState, TrixtaReactionInstanceComponentStateProps>({
+    instance: makesSelectTrixtaReactionResponseInstance(state, props),
   });
 
 function mapDispatchToProps(

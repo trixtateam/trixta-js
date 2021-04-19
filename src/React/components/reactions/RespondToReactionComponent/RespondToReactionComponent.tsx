@@ -7,8 +7,8 @@ import {
   makeSelectHasTrixtaRoleAccess,
   makeSelectTrixtaReactionResponseInstancesForRole
 } from '../../../selectors';
-import { RootState, TrixtaReactionBaseProps } from '../../../types';
-import { RespondToReactionComponentProps } from './types';
+import { RootState } from '../../../types';
+import { RespondToReactionComponentProps, RespondToReactionComponentStateProps } from './types';
 
 const RespondToReactionComponent = ({
   roleName,
@@ -63,10 +63,10 @@ const RespondToReactionComponent = ({
   return null;
 };
 
-const mapStateToProps = () =>
-  createStructuredSelector<RootState, TrixtaReactionBaseProps>({
-    instances: makeSelectTrixtaReactionResponseInstancesForRole(),
-    hasRoleAccess: makeSelectHasTrixtaRoleAccess(),
+const mapStateToProps = (state: RootState, props: RespondToReactionComponentProps) =>
+  createStructuredSelector<RootState, RespondToReactionComponentStateProps>({
+    instances: makeSelectTrixtaReactionResponseInstancesForRole(state, props),
+    hasRoleAccess: makeSelectHasTrixtaRoleAccess(state, props),
   });
 
 const connector = connect(mapStateToProps, null);

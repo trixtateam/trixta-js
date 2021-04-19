@@ -1,5 +1,14 @@
 import { TrixtaReactionInstance, TrixtaReactionDispatch } from '../../../types';
 import { defaultUnknownType } from './../../../types';
+
+export interface RespondToReactionComponentStateProps {
+  instances: TrixtaReactionInstance[];
+  /**
+   * If 'true', Trixta roles or role name passed does have acccess for this user
+   */
+  hasRoleAccess: boolean;
+}
+
 export interface RespondToReactionComponentProps extends TrixtaReactionDispatch {
   /**
    * Name of Trixta role

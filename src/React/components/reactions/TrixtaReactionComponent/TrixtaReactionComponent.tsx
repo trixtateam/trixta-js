@@ -68,11 +68,11 @@ const TrixtaReactionComponent = ({
   );
 };
 
-const mapStateToProps = () =>
+const mapStateToProps = (state: RootState, props: TrixtaReactionComponentProps) =>
   createStructuredSelector<RootState, TrixtaReactionComponentStateProps>({
-    common: makeSelectTrixtaReactionCommonForRole(),
-    instances: makeSelectTrixtaReactionResponseInstancesForRole(),
-    hasRoleAccess: makeSelectHasTrixtaRoleAccess(),
+    common: makeSelectTrixtaReactionCommonForRole(state, props),
+    instances: makeSelectTrixtaReactionResponseInstancesForRole(state, props),
+    hasRoleAccess: makeSelectHasTrixtaRoleAccess(state, props),
   });
 const connector = connect(mapStateToProps);
 export default connector(TrixtaReactionComponent);

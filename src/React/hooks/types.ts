@@ -148,7 +148,7 @@ export interface UseTrixtaReactionResponseReturn<
   /**
    * Initial Data returned from Trixta for Reaction
    */
-  initialData: TInitialData;
+  initialData?: TInitialData;
   /**
    * Recent Trixta instance response
    */

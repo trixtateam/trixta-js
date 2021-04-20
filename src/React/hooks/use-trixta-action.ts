@@ -11,7 +11,7 @@ import {
   makeSelectTrixtaActionResponseInstancesForRole
 } from '../selectors';
 import { trixtaDebugger, TrixtaDebugType, trixtaInstanceDebugger } from '../TrixtaDebugger';
-import { defaultUnknownType, RootState, TrixtaActionBaseProps } from './../types';
+import { defaultUnknownType, RootState, TrixtaActionBaseProps, TrixtaInstance } from './../types';
 import {
   submitTrixtaFunctionParameters,
   UseTrixtaActionProps,
@@ -38,20 +38,18 @@ export const useTrixtaAction = <
   const clearResponses = useCallback(() => {
     dispatch(clearTrixtaActionResponse({ roleName, actionName }));
   }, [actionName, roleName, dispatch]);
-  const selectHasRoleAccess = useMemo<ReturnType<typeof makeSelectHasTrixtaRoleAccess>>(
-    makeSelectHasTrixtaRoleAccess,
-    [],
-  );
-  const hasRoleAccess = useSelector((state: RootState) => selectHasRoleAccess(state, { roleName }));
-  const selectActionResponses = useMemo<
-    ReturnType<typeof makeSelectTrixtaActionResponseInstancesForRole>
-  >(makeSelectTrixtaActionResponseInstancesForRole, []);
-  const selectActionInProgress = useMemo<ReturnType<typeof makeSelectIsTrixtaActionInProgress>>(
-    makeSelectIsTrixtaActionInProgress,
-    [],
+  const selectHasRoleAccess = useMemo(makeSelectHasTrixtaRoleAccess, []);
+  const hasRoleAccess = useSelector<RootState, boolean>((state) =>
+    selectHasRoleAccess(state, { roleName }),
   );
   const roleActionProps = { roleName, actionName } as TrixtaActionBaseProps;
-  const instances = useSelector((state: RootState) =>
+  const selectActionResponses: any = useMemo(makeSelectTrixtaActionResponseInstancesForRole, []);
+  const selectActionInProgress: any = useMemo(makeSelectIsTrixtaActionInProgress, []);
+  const isInProgress = useSelector<RootState, boolean>((state) =>
+    selectActionInProgress(state, roleActionProps),
+  );
+
+  const instances = useSelector<RootState, TrixtaInstance<TResponseType, TErrorType>[]>((state) =>
     selectActionResponses(state, roleActionProps),
   );
   trixtaDebugger({
@@ -75,9 +73,6 @@ export const useTrixtaAction = <
       instance: latestInstance,
     });
   }
-  const isInProgress = useSelector((state: RootState) =>
-    selectActionInProgress(state, roleActionProps),
-  );
 
   const submitTrixtaAction = useCallback(
     ({ data, responseEvent, requestEvent, errorEvent }: submitTrixtaFunctionParameters) => {

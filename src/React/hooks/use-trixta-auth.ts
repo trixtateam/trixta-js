@@ -23,12 +23,14 @@ export const useTrixtaAuth = ({ roles = [] }: TrixtaAuthProps): UseTrixtaAuthRes
   const authorizationStartedSelector = useMemo<
     ReturnType<typeof makeSelectHasTrixtaAuthorizationStarted>
   >(makeSelectHasTrixtaAuthorizationStarted, []);
-  const roleAccessSelector = useMemo(() => makeSelectHasTrixtaRoleAccessForRoles(rolesArr), [
-    rolesArr,
-  ]);
-  const hasRoles = useSelector((state: RootState) => roleAccessSelector(state));
-  const socketDetails = useSelector((state: RootState) => socketDetailsSelector(state));
-  const isAuthenticated = socketDetails.token || false;
+  const roleAccessSelector = useMemo(makeSelectHasTrixtaRoleAccessForRoles, []);
+  const hasRoles = useSelector((state: RootState) =>
+    roleAccessSelector(state, { roles: rolesArr }),
+  );
+  const socketDetails = useSelector<RootState, { token?: string }>((state: RootState) =>
+    socketDetailsSelector(state),
+  );
+  const isAuthenticated = socketDetails.token !== undefined ? true : false;
   const hasAuthorizationStarted = useSelector((state: RootState) =>
     authorizationStartedSelector(state),
   );

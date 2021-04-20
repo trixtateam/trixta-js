@@ -3,6 +3,7 @@
     "baseUrl": ".",
     "outDir": "dist",
     "rootDir": "src",
+    "strictFunctionTypes": false,
     "declarationDir": "types",
     "noEmit": true,
     "target": "es5",

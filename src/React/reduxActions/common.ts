@@ -1,18 +1,29 @@
 import {
   JOIN_TRIXTA_ROLE,
   REMOVE_TRIXTA_ROLE,
+  SIGN_OUT_TRIXTA,
   UPDATE_TRIXTA_ERROR,
   UPDATE_TRIXTA_ROLE,
-  UPDATE_TRIXTA_ROLES,
+  UPDATE_TRIXTA_ROLES
 } from '../constants';
 import { TrixtaRoleParameter } from './../types';
 import {
   JoinTrixtaRoleAction,
   RemoveTrixtaRoleAction,
+  SignoutTrixtaAction,
   UpdateTrixtaErrorAction,
   UpdateTrixtaRoleAction,
-  UpdateTrixtaRolesAction,
+  UpdateTrixtaRolesAction
 } from './types';
+
+/**
+ * Initializes all trixta state
+ */
+export function signoutTrixta(): SignoutTrixtaAction {
+  return {
+    type: SIGN_OUT_TRIXTA,
+  };
+}
 
 /**
  * Any exception caused by trixta

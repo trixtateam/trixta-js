@@ -8,11 +8,11 @@ const TrixtaAuth = ({
   roles,
   ...rest
 }: TrixtaAuthProps & { children: React.ReactNode }): JSX.Element | null => {
-  const roleAccessSelector = useMemo(
-    () => makeSelectHasTrixtaRoleAccessForRoles(Array.isArray(roles) ? roles : [roles]),
-    [roles],
+  const roleAccessSelector = useMemo(makeSelectHasTrixtaRoleAccessForRoles, []);
+  const rolesArr = useMemo(() => (Array.isArray(roles) ? roles : [roles]), [roles]);
+  const hasRoleAccess = useSelector((state: RootState) =>
+    roleAccessSelector(state, { roles: rolesArr }),
   );
-  const hasRoleAccess = useSelector((state: RootState) => roleAccessSelector(state));
 
   if (!hasRoleAccess) return null;
 

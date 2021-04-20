@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import { isNullOrEmpty } from '../../../../utils';
 import {
   makeSelectHasTrixtaRoleAccess,
@@ -10,7 +9,7 @@ import {
 import { trixtaDebugger, TrixtaDebugType } from '../../../TrixtaDebugger';
 import { RootState } from '../../../types';
 import { TrixtaReactionInstanceComponent } from '../TrixtaReactionInstanceComponent';
-import { TrixtaReactionComponentProps, TrixtaReactionComponentStateProps } from './types';
+import { TrixtaReactionComponentProps } from './types';
 
 function TrixtaReactionComponent({
   common,
@@ -68,19 +67,26 @@ function TrixtaReactionComponent({
   );
 }
 
-const mapStateToProps = (state: RootState, props: TrixtaReactionComponentProps) =>
-  createStructuredSelector<RootState, TrixtaReactionComponentStateProps, any>({
-    common: makeSelectTrixtaReactionCommonForRole(state, props),
-    instances: makeSelectTrixtaReactionResponseInstancesForRole(state, props),
-    hasRoleAccess: makeSelectHasTrixtaRoleAccess(state, props),
-  });
+const makeMapStateToProps = () => {
+  const getTrixtaCommonForRole = makeSelectTrixtaReactionCommonForRole();
+  const getTrixtaReactionResponseInstancesForRole = makeSelectTrixtaReactionResponseInstancesForRole();
+  const getHasTrixtaRoleAccess = makeSelectHasTrixtaRoleAccess();
+  const mapStateToProps = (state: RootState, props: TrixtaReactionComponentProps) => {
+    return {
+      common: getTrixtaCommonForRole(state, props),
+      instances: getTrixtaReactionResponseInstancesForRole(state, props),
+      hasRoleAccess: getHasTrixtaRoleAccess(state, props),
+    };
+  };
+  return mapStateToProps;
+};
 
-type ConnectProps = ReturnType<ReturnType<typeof mapStateToProps>>;
+type ConnectProps = ReturnType<ReturnType<typeof makeMapStateToProps>>;
 
 const connector = connect<
   ConnectProps,
   Record<string, unknown>,
   TrixtaReactionComponentProps,
   RootState
->(mapStateToProps);
+>(makeMapStateToProps);
 export default connector(TrixtaReactionComponent);

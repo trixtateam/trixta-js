@@ -7,14 +7,19 @@ import {
 } from '../selectors';
 import { trixtaDebugger, TrixtaDebugType } from '../TrixtaDebugger';
 import { TrixtaReactionBaseProps } from './../types';
-import { RootState } from './../types/common/index';
+import { defaultUnknownType, RootState, TrixtaReactionInstance } from './../types/common/index';
 import {
   RespondToReactionFunctionParameters,
   UseRespondToReactionResponseProps,
   UseRespondToReactionResponseReturn
 } from './types';
 
-export const useRespondToReactionResponse = ({
+export const useRespondToReactionResponse = <
+  /**
+   * Type for initial data from Trixta Reaction
+   */
+  TInitialData = defaultUnknownType
+>({
   roleName,
   reactionName,
   debugMode = false,
@@ -33,9 +38,10 @@ export const useRespondToReactionResponse = ({
     requestForEffect: false,
     reactionName,
   } as TrixtaReactionBaseProps;
-  const instances = useSelector((state: RootState) =>
-    selectReactionResponses(state, reactionRoleProps),
-  );
+  const instances = useSelector<
+    RootState,
+    TrixtaReactionInstance<TInitialData, defaultUnknownType, defaultUnknownType>[]
+  >((state: RootState) => selectReactionResponses(state, reactionRoleProps));
   const [latest] = instances;
   const latestInstance = latest;
   const hasRoleAccess = useSelector((state: RootState) => selectHasRoleAccess(state, { roleName }));

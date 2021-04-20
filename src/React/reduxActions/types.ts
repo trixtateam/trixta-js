@@ -9,6 +9,7 @@ import {
 import {
   JOIN_TRIXTA_ROLE,
   REMOVE_TRIXTA_ROLE,
+  SIGN_OUT_TRIXTA,
   UPDATE_TRIXTA_ERROR,
   UPDATE_TRIXTA_ROLE,
   UPDATE_TRIXTA_ROLES
@@ -31,6 +32,10 @@ import {
   TrixtaReactionResponseDetails,
   TrixtaRoleParameter
 } from './../types';
+
+export type SignoutTrixtaAction = {
+  type: typeof SIGN_OUT_TRIXTA;
+};
 
 export type UpdateTrixtaErrorAction = {
   type: typeof UPDATE_TRIXTA_ERROR;
@@ -217,6 +222,7 @@ export type TrixtaReducerActions =
   | UpdateTrixtaRolesAction
   | JoinTrixtaRoleAction
   | UpdateTrixtaRoleAction
+  | SignoutTrixtaAction
   | RemoveTrixtaRoleAction
   | UpdateTrixtaErrorAction
   | SubmitTrixtaReactionResponseFailureAction

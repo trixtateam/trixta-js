@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { createStructuredSelector } from 'reselect';
 import { get } from '../../../../utils';
 import { submitTrixtaReactionResponse } from '../../../reduxActions';
 import { makesSelectTrixtaReactionResponseInstance } from '../../../selectors';
@@ -60,18 +59,16 @@ const TrixtaReactionInstanceComponent = ({
   return null;
 };
 
-const mapStateToProps = (state: RootState, props: TrixtaReactionInstanceComponentProps) =>
-  createStructuredSelector<
-    RootState,
-    TrixtaReactionInstanceComponentProps,
-    {
-      instance:
-        | ReturnType<ReturnType<typeof makesSelectTrixtaReactionResponseInstance>>
-        | undefined;
-    }
-  >({
-    instance: makesSelectTrixtaReactionResponseInstance(state, props),
-  });
+const makeMapStateToProps = () => {
+  const getTrixtaReactionResponseInstance = makesSelectTrixtaReactionResponseInstance();
+
+  const mapStateToProps = (state: RootState, props: TrixtaReactionInstanceComponentProps) => {
+    return {
+      instance: getTrixtaReactionResponseInstance(state, props),
+    };
+  };
+  return mapStateToProps;
+};
 
 function mapDispatchToProps(
   dispatch: Dispatch,
@@ -94,14 +91,14 @@ function mapDispatchToProps(
 }
 
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
-type ConnectProps = ReturnType<ReturnType<typeof mapStateToProps>>;
+type ConnectProps = ReturnType<ReturnType<typeof makeMapStateToProps>>;
 
 const connector = connect<
   ConnectProps,
   DispatchProps,
   TrixtaReactionInstanceComponentProps,
   RootState
->(mapStateToProps, mapDispatchToProps);
+>(makeMapStateToProps, mapDispatchToProps);
 
 export default connector(
   React.memo(

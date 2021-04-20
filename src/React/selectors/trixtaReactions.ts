@@ -1,16 +1,48 @@
-import { createSelector } from 'reselect';
+import { createSelector, ParametricSelector } from 'reselect';
 import { getReducerKeyName } from '../../utils';
 import { get, pickBy } from '../../utils/object';
 import { TRIXTA_FIELDS } from '../constants';
-import { RootState, TrixtaReactionInstance } from '../types/common';
+import { RootState, TrixtaCommon, TrixtaReactionInstance } from '../types/common';
 import { TrixtaReaction, TrixtaReactionBaseProps } from '../types/reactions';
+import { selectTrixtaRoleNameProp } from './common';
+
+type DefaultSelectorProps = TrixtaReactionBaseProps;
+
+export const selectTrixtaReactionNameProp = (_: RootState, props: DefaultSelectorProps): string =>
+  props.reactionName;
+
+export const selectTrixtaReactionTypeProp = (
+  _: RootState,
+  props: DefaultSelectorProps,
+): boolean | undefined => props.requestForEffect;
+
+export const selectTrixtaReactionInstanceIndexProp = (
+  _: RootState,
+  props: DefaultSelectorProps & { instanceIndex: number },
+): number => props.instanceIndex;
+
+export const selectTrixtReactionStateSelector: ParametricSelector<
+  RootState,
+  DefaultSelectorProps,
+  TrixtaReaction | undefined
+> = createSelector(
+  [selectTrixtaRoleNameProp, selectTrixtaReactionNameProp, (state) => state.trixta.reactions],
+  (roleName, reactionName, reactions) => {
+    if (reactions[getReducerKeyName({ name: reactionName, role: roleName })]) {
+    }
+    return undefined;
+  },
+);
 
 export const getTrixtaReactionState = (
   state: RootState,
-  props: TrixtaReactionBaseProps,
+  props: DefaultSelectorProps,
 ): TrixtaReaction | undefined =>
   state.trixta.reactions[getReducerKeyName({ name: props.reactionName, role: props.roleName })] &&
   state.trixta.reactions[getReducerKeyName({ name: props.reactionName, role: props.roleName })];
+
+export const selectTrixtaReactions = (state: RootState): Record<string, TrixtaReaction> =>
+  state.trixta.reactions;
 
 /**
  * Selects the reactions[props.roleName:props.actionName]
@@ -18,7 +50,7 @@ export const getTrixtaReactionState = (
  */
 export const selectTrixtaReactionForRole = (
   state: RootState,
-  props: TrixtaReactionBaseProps,
+  props: DefaultSelectorProps,
 ): TrixtaReaction | undefined =>
   getTrixtaReactionState(state, props) && getTrixtaReactionState(state, props);
 
@@ -28,7 +60,7 @@ export const selectTrixtaReactionForRole = (
  */
 export const selectTrixtaReactionLoadingStatus = (
   state: RootState,
-  props: TrixtaReactionBaseProps,
+  props: DefaultSelectorProps,
 ): { status?: boolean } | undefined =>
   getTrixtaReactionState(state, props) && getTrixtaReactionState(state, props)?.loadingStatus;
 
@@ -37,17 +69,17 @@ export const selectTrixtaReactionLoadingStatus = (
  */
 export const selectTrixtaReactionsForRole = (
   state: RootState,
-  props: TrixtaReactionBaseProps,
+  props: DefaultSelectorProps,
 ): Record<string, TrixtaReaction> =>
   pickBy(state.trixta.reactions, (value, key) => key && key.split(':', 1)[0] === props.roleName);
 
 /**
  * Selects the reactions[props.roleName:props.reactionName].instances
- * for the given props.roleName ,  props.reactionName and returns the reaction instances for requestForEffect or requestForResponse
+ * for the given props.roleName ,  props.reactionName and returns the reaction instances for props.requestForEffect
  */
 export const selectTrixtaReactionResponseInstancesForRole = (
   state: RootState,
-  props: TrixtaReactionBaseProps,
+  props: DefaultSelectorProps,
 ): Array<TrixtaReactionInstance> | undefined =>
   getTrixtaReactionState(state, props) &&
   getTrixtaReactionState(state, props)?.instances &&
@@ -65,7 +97,7 @@ export const selectTrixtaReactionResponseInstancesForRole = (
  */
 export const selectTrixtaReactionResponseInstance = (
   state: RootState,
-  props: TrixtaReactionBaseProps,
+  props: DefaultSelectorProps & { instanceIndex: number },
 ): TrixtaReactionInstance | undefined =>
   getTrixtaReactionState(state, props) &&
   getTrixtaReactionState(state, props)?.instances &&
@@ -82,57 +114,59 @@ export const selectTrixtaReactionResponseInstance = (
  * for the given props.roleName ,  props.reactionName and returns the reaction instances for requestForEffect or requestForResponse
  */
 export const makeSelectTrixtaReactionResponseInstancesForRole = () =>
-  createSelector(selectTrixtaReactionResponseInstancesForRole, (selectedReactionInstances) => {
-    if (selectedReactionInstances) {
-      return selectedReactionInstances;
-    }
-
-    return [];
-  });
+  createSelector(
+    [selectTrixtReactionStateSelector, selectTrixtaReactionTypeProp],
+    (selectedReactionInstance, requestForEffect) => {
+      return selectedReactionInstance
+        ? selectedReactionInstance?.instances[
+            requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
+          ]
+        : [];
+    },
+  );
 
 /**
- * Selects the reactions[props.roleName:props.reactionName].instances[props.instanceRef]
- * for the given props.roleName , props.reactionName and returns the reaction response instance
+ * Selects the reactions[props.roleName:props.reactionName].instances[props.instanceIndex]
+ * for the given props.roleName , props.reactionName and returns the reaction for props.requestForEffect instance
  */
 export const makesSelectTrixtaReactionResponseInstance = () =>
-  createSelector(selectTrixtaReactionResponseInstance, (selectedReactionInstance) => {
-    if (selectedReactionInstance) {
-      return selectedReactionInstance;
-    }
-
-    return {};
-  });
+  createSelector(
+    [
+      selectTrixtReactionStateSelector,
+      selectTrixtaReactionTypeProp,
+      selectTrixtaReactionInstanceIndexProp,
+    ],
+    (selectedReactionInstance, requestForEffect, instanceIndex) => {
+      return selectedReactionInstance?.instances[
+        requestForEffect ? TRIXTA_FIELDS.requestForEffect : TRIXTA_FIELDS.requestForResponse
+      ][instanceIndex];
+    },
+  );
 
 /**
  * Selects the reactions[props.roleName:props.actionName]
  * for the given props.roleName , props.reactionName and returns the reaction
  */
 export const makesSelectTrixtaReactionForRole = () =>
-  createSelector(selectTrixtaReactionForRole, (selectedReaction) => {
-    if (selectedReaction) {
-      return selectedReaction;
-    }
-
-    return {};
+  createSelector([selectTrixtReactionStateSelector], (selectedReaction) => {
+    return selectedReaction;
   });
 
 /**
  * Returns the common for the props.reactionName
  */
 export const makeSelectTrixtaReactionCommonForRole = () =>
-  createSelector(selectTrixtaReactionForRole, (selectedReaction) => {
-    if (selectedReaction) {
-      return get(selectedReaction, `common`, {});
-    }
-
-    return {};
+  createSelector([selectTrixtReactionStateSelector], (selectedReaction) => {
+    return get<TrixtaCommon>(selectedReaction, `common`, undefined);
   });
 
 /**
  * Selects the reactions for given props.roleName
  */
 export const makeSelectTrixtaReactionsForRole = () =>
-  createSelector(selectTrixtaReactionsForRole, (reactions) => reactions && reactions);
+  createSelector([selectTrixtaReactions, selectTrixtaRoleNameProp], (trixtaReactions, roleName) =>
+    pickBy(trixtaReactions, (value, key) => key && key.split(':', 1)[0] === roleName),
+  );
 
 /**
  * Selects the reactions[props.roleName:props.reactionName].loadingStatus
@@ -140,12 +174,8 @@ export const makeSelectTrixtaReactionsForRole = () =>
  *
  */
 export const makeSelectIsTrixtaReactionInProgress = () =>
-  createSelector(selectTrixtaReactionLoadingStatus, (loadingStatus) => {
-    if (loadingStatus) {
-      return get(loadingStatus, 'status', false);
-    }
-
-    return false;
+  createSelector([selectTrixtReactionStateSelector], (selectedReaction) => {
+    return selectedReaction ? get(selectedReaction.loadingStatus, 'status', false) : false;
   });
 
 /**
@@ -153,7 +183,11 @@ export const makeSelectIsTrixtaReactionInProgress = () =>
  */
 export const makeSelectTrixtaReactionListForRole = () =>
   // eslint-disable-next-line arrow-body-style
-  createSelector(selectTrixtaReactionsForRole, (reactionsForRole) => {
+  createSelector([selectTrixtaReactions, selectTrixtaRoleNameProp], (trixtaReactions, roleName) => {
+    const reactionsForRole = pickBy(
+      trixtaReactions,
+      (value, key) => key && key.split(':', 1)[0] === roleName,
+    );
     const reactionKeys = Object.keys(reactionsForRole);
     const requestForEffects = [] as { name: string; instance: TrixtaReactionInstance }[];
     const requestForResponses = [] as { name: string; instance: TrixtaReactionInstance }[];

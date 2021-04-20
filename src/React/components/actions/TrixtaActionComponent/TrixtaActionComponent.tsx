@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { createStructuredSelector } from 'reselect';
 import { get } from '../../../../utils';
 import { submitTrixtaActionResponse } from '../../../reduxActions';
 import {
@@ -76,13 +75,21 @@ const TrixtaActionComponent = ({
   ));
 };
 
-const mapStateToProps = (state: RootState, props: TrixtaActionComponentProps) =>
-  createStructuredSelector<RootState, TrixtaActionComponentStateProps, any>({
-    common: makeSelectTrixtaActionCommonForRole(state, props),
-    instances: makeSelectTrixtaActionResponseInstancesForRole(state, props),
-    hasRoleAccess: makeSelectHasTrixtaRoleAccess(state, props),
-    loading: makeSelectIsTrixtaActionInProgress(state, props),
-  });
+const makeMapStateToProps = () => {
+  const getTrixtaCommonForRole = makeSelectTrixtaActionCommonForRole();
+  const getTrixtaActionResponseInstancesForRole = makeSelectTrixtaActionResponseInstancesForRole();
+  const getHasTrixtaRoleAccess = makeSelectHasTrixtaRoleAccess();
+  const getIsTrixtaActionInProgress = makeSelectIsTrixtaActionInProgress();
+  const mapStateToProps = (state: RootState, props: TrixtaActionComponentProps) => {
+    return {
+      common: getTrixtaCommonForRole(state, props),
+      instances: getTrixtaActionResponseInstancesForRole(state, props),
+      hasRoleAccess: getHasTrixtaRoleAccess(state, props),
+      loading: getIsTrixtaActionInProgress(state, props),
+    };
+  };
+  return mapStateToProps;
+};
 
 function mapDispatchToProps(
   dispatch: Dispatch,
@@ -106,5 +113,5 @@ function mapDispatchToProps(
   };
 }
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+const connector = connect(makeMapStateToProps, mapDispatchToProps);
 export default connector(TrixtaActionComponent);

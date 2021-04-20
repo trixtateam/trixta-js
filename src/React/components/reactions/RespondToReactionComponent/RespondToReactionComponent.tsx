@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import { isNullOrEmpty } from '../../../../utils';
 import { submitTrixtaReactionResponse } from '../../../reduxActions';
 import {
@@ -8,7 +7,7 @@ import {
   makeSelectTrixtaReactionResponseInstancesForRole
 } from '../../../selectors';
 import { RootState } from '../../../types';
-import { RespondToReactionComponentProps, RespondToReactionComponentStateProps } from './types';
+import { RespondToReactionComponentProps } from './types';
 
 const RespondToReactionComponent = ({
   roleName,
@@ -63,12 +62,18 @@ const RespondToReactionComponent = ({
   return null;
 };
 
-const mapStateToProps = (state: RootState, props: RespondToReactionComponentProps) =>
-  createStructuredSelector<RootState, RespondToReactionComponentStateProps, any>({
-    instances: makeSelectTrixtaReactionResponseInstancesForRole(state, props),
-    hasRoleAccess: makeSelectHasTrixtaRoleAccess(state, props),
-  });
+const makeMapStateToProps = () => {
+  const getTrixtaReactionResponseInstancesForRole = makeSelectTrixtaReactionResponseInstancesForRole();
+  const getHasTrixtaRoleAccess = makeSelectHasTrixtaRoleAccess();
+  const mapStateToProps = (state: RootState, props: RespondToReactionComponentProps) => {
+    return {
+      instances: getTrixtaReactionResponseInstancesForRole(state, props),
+      hasRoleAccess: getHasTrixtaRoleAccess(state, props),
+    };
+  };
+  return mapStateToProps;
+};
 
-const connector = connect(mapStateToProps, null);
+const connector = connect(makeMapStateToProps, null);
 
 export default connector(RespondToReactionComponent);

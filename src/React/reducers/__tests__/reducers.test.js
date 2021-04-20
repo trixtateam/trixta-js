@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-import { disconnectPhoenix } from '@trixta/phoenix-to-redux';
 import produce from 'immer';
 import {
   get,
@@ -21,11 +20,12 @@ import {
   TRIXTA_MODE_TYPE_FIELDS
 } from '../../constants';
 import * as actions from '../../reduxActions';
+import { signoutTrixta } from '../../reduxActions';
 import * as internalActions from '../../reduxActions/internal';
 import { initialState, trixtaReducer } from '../trixtaReducer';
 // eslint-disable-next-line jest/no-mocks-import
 import { trixtaState } from '../__mocks__/trixtaState';
-describe('Trixta Reducers', () => {
+import { trixtaState } from '../__mocks__/trixtaState';
   describe('trixtaReducer', () => {
     let state;
     beforeEach(() => {
@@ -35,13 +35,13 @@ describe('Trixta Reducers', () => {
       expect(trixtaReducer(undefined, {})).toEqual(initialState);
     });
 
-    it('disconnect phoenix should return the initial state', () => {
+    it('signoutTrixta should return the initial state', () => {
       state = trixtaState;
       const expectedResult = produce(state, (draft) => {
         draft = initialState;
       });
 
-      expect(trixtaReducer(state, disconnectPhoenix())).toEqual(expectedResult);
+      expect(trixtaReducer(state, signoutTrixta())).toEqual(expectedResult);
     });
 
     it('should handle the updateTrixtaError action correctly', () => {

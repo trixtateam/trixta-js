@@ -7,7 +7,12 @@ import {
   makeSelectTrixtaReactionResponseInstancesForRole
 } from '../selectors';
 import { trixtaDebugger, TrixtaDebugType, trixtaInstanceDebugger } from '../TrixtaDebugger';
-import { defaultUnknownType, RootState, TrixtaReactionBaseProps } from './../types';
+import {
+  defaultUnknownType,
+  RootState,
+  TrixtaReactionBaseProps,
+  TrixtaReactionInstance
+} from './../types';
 import {
   submitTrixtaFunctionParameters,
   UseTrixtaReactionProps,
@@ -39,22 +44,24 @@ export const useTrixtaReaction = <
 > => {
   const dispatch = useDispatch();
 
-  const selectHasRoleAccess = useMemo<ReturnType<typeof makeSelectHasTrixtaRoleAccess>>(
-    makeSelectHasTrixtaRoleAccess,
-    [],
-  );
-  const hasRoleAccess = useSelector((state: RootState) => selectHasRoleAccess(state, { roleName }));
-  const selectReactionResponses = useMemo<
-    ReturnType<typeof makeSelectTrixtaReactionResponseInstancesForRole>
-  >(makeSelectTrixtaReactionResponseInstancesForRole, []);
-  const selectReactionInProgress = useMemo<ReturnType<typeof makeSelectIsTrixtaReactionInProgress>>(
-    makeSelectIsTrixtaReactionInProgress,
-    [],
+  const selectHasRoleAccess: any = useMemo(makeSelectHasTrixtaRoleAccess, []);
+  const hasRoleAccess = useSelector<RootState, boolean>((state) =>
+    selectHasRoleAccess(state, { roleName }),
   );
   const reactionRoleProps = { roleName, requestForEffect, reactionName } as TrixtaReactionBaseProps;
-  const instances = useSelector((state: RootState) =>
-    selectReactionResponses(state, reactionRoleProps),
+  const selectReactionResponses: any = useMemo(
+    makeSelectTrixtaReactionResponseInstancesForRole,
+    [],
   );
+  const selectReactionInProgress: any = useMemo(makeSelectIsTrixtaReactionInProgress, []);
+  const isInProgress = useSelector<RootState, boolean>((state: RootState) =>
+    selectReactionInProgress(state, reactionRoleProps),
+  );
+
+  const instances = useSelector<
+    RootState,
+    TrixtaReactionInstance<TInitialData, TResponseType, TErrorType>[]
+  >((state) => selectReactionResponses(state, reactionRoleProps));
 
   const [latest] = instances;
   const latestInstance = latest;
@@ -85,10 +92,6 @@ export const useTrixtaReaction = <
       );
     },
     [dispatch, roleName, reactionName, hasRoleAccess, latestInstance],
-  );
-
-  const isInProgress = useSelector((state: RootState) =>
-    selectReactionInProgress(state, reactionRoleProps),
   );
 
   trixtaDebugger({

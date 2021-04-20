@@ -1,4 +1,5 @@
-import { channelActionTypes, socketActionTypes } from '@trixta/phoenix-to-redux';
+import { SIGN_OUT_TRIXTA } from './../constants/index';
+import { channelActionTypes } from '@trixta/phoenix-to-redux';
 import produce from 'immer';
 import {
   TrixtaCommon,
@@ -57,7 +58,7 @@ export const trixtaReducer = (
 ): TrixtaState =>
   produce(state, (draft) => {
     switch (action.type) {
-      case socketActionTypes.SOCKET_DISCONNECT:
+      case SIGN_OUT_TRIXTA:
         draft = initialState;
         break;
       case channelActionTypes.CHANNEL_JOIN_ERROR:

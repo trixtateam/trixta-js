@@ -25,7 +25,6 @@ import * as internalActions from '../../reduxActions/internal';
 import { initialState, trixtaReducer } from '../trixtaReducer';
 // eslint-disable-next-line jest/no-mocks-import
 import { trixtaState } from '../__mocks__/trixtaState';
-import { trixtaState } from '../__mocks__/trixtaState';
   describe('trixtaReducer', () => {
     let state;
     beforeEach(() => {

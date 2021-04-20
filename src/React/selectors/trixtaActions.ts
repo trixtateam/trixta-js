@@ -1,4 +1,4 @@
-import { createSelector, ParametricSelector, } from 'reselect';
+import { createSelector, ParametricSelector } from 'reselect';
 import { getReducerKeyName } from '../../utils';
 import { get, pickBy } from '../../utils/object';
 import { TrixtaAction, TrixtaActionBaseProps } from '../types/actions';
@@ -41,7 +41,10 @@ export const getTrixtActionState = (
  * Selects the actions[props.roleName:props.actionName]
  * for the given props.roleName, props.actionName and returns the action
  */
-export const selectTrixtaActionForRole = (state: RootState, props: DefaultSelectorProps) =>
+export const selectTrixtaActionForRole = (
+  state: RootState,
+  props: DefaultSelectorProps,
+): TrixtaAction | undefined =>
   getTrixtActionState(state, props) && getTrixtActionState(state, props);
 
 /**
@@ -80,15 +83,6 @@ export const selectTrixtaActionResponseInstance = (
 ): TrixtaInstance | undefined =>
   getTrixtActionState(state, props) &&
   getTrixtActionState(state, props)?.instances[props.instanceIndex];
-
-/**
- * Selects the actions for given props.roleName
- */
-export const selectTrixtaActionsForRole = (
-  state: RootState,
-  props: DefaultSelectorProps,
-): Record<string, TrixtaAction> =>
-  pickBy(state.trixta.actions, (value, key) => key && key.split(':', 1)[0] === props.roleName);
 
 /**
  * Selects the actions[props.roleName:props.actionName].common

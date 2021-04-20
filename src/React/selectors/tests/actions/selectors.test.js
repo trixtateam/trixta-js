@@ -2,7 +2,7 @@ import { get, getReducerKeyName, pickBy } from '../../../../utils';
 // eslint-disable-next-line jest/no-mocks-import
 import { mockedState } from '../../../reducers/__mocks__/trixtaState';
 import * as commonSelectors from '../../common';
-import { getTrixtActionState, trixtaActionSelectors } from '../../index';
+import { trixtaActionSelectors } from '../../index';
 describe('Trixta Selectors', () => {
   describe('Actions related Selectors', () => {
     let props;
@@ -65,7 +65,9 @@ describe('Trixta Selectors', () => {
         expect(selector(mockedState, props)).toEqual(expectedResult);
         expect(selector(mockedState, props)).toEqual([]);
       });
+    });
 
+    describe('selectors for TrixtaAction Response Instance For Role', () => {
       it('makesSelectTrixtaActionResponseInstance for existing role', () => {
         props.instanceIndex = 0;
         const selector = trixtaActionSelectors.makesSelectTrixtaActionResponseInstance();
@@ -95,6 +97,14 @@ describe('Trixta Selectors', () => {
           props,
         );
         const expectedResult = selectedAction ? selectedAction.instances[instanceIndex] : undefined;
+
+        expect(selector(mockedState, props)).toEqual(expectedResult);
+      });
+
+      it('makesSelectTrixtaActionInstanceResponse', () => {
+        const selector = trixtaActionSelectors.makesSelectTrixtaActionInstanceResponse();
+        props.instanceIndex = 0;
+        const expectedResult = { success: false, error: false };
 
         expect(selector(mockedState, props)).toEqual(expectedResult);
       });
@@ -158,15 +168,6 @@ describe('Trixta Selectors', () => {
       });
     });
 
-    it('selectTrixtaActionCommon', () => {
-      const expectedResult =
-        getTrixtActionState(mockedState, props) && getTrixtActionState(mockedState, props).common;
-
-      expect(trixtaActionSelectors.selectTrixtaActionCommon(mockedState, props)).toEqual(
-        expectedResult,
-      );
-    });
-
     it('makeSelectTrixtaActionCommonForRole', () => {
       const selector = trixtaActionSelectors.makeSelectTrixtaActionCommonForRole();
       const selectedAction = trixtaActionSelectors.selectTrixtActionStateSelector(
@@ -174,18 +175,7 @@ describe('Trixta Selectors', () => {
         props,
       );
 
-      let expectedResult = {};
-      if (selectedAction) {
-        expectedResult = get(selectedAction, `common`, {});
-      }
-
-      expect(selector(mockedState, props)).toEqual(expectedResult);
-    });
-
-    it('makesSelectTrixtaActionInstanceResponse', () => {
-      const selector = trixtaActionSelectors.makesSelectTrixtaActionInstanceResponse();
-      props.instanceIndex = 0;
-      const expectedResult = { success: false, error: false };
+      let expectedResult = get(selectedAction, `common`, undefined);
 
       expect(selector(mockedState, props)).toEqual(expectedResult);
     });

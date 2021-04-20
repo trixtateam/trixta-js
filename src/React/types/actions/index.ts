@@ -15,7 +15,7 @@ export interface TrixtaActionDebugOptions {
 }
 
 export interface TrixtaActionOptions {
-  options?: unknown;
+  options?: Record<string, unknown>;
 }
 
 export interface TrixtaActionHandlerType {
@@ -78,7 +78,7 @@ export interface SubmitTrixtaActionResponse<TFormData = defaultUnknownType> {
   /**
    * Options for action in Trixta flow
    */
-  actionOptions?: TrixtaActionOptions;
+  actionOptions?: Record<string, unknown>;
   /**
    * Enables debugging for action in Trixta flow
    */

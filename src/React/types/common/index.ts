@@ -162,5 +162,5 @@ export interface TrixtaAuthProps {
   /**
    * Trixta roles or role name
    */
-  roles: string | string[];
+  roles?: string | string[];
 }

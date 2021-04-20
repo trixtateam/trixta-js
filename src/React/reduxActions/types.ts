@@ -26,7 +26,6 @@ import {
   defaultUnknownType,
   TrixtaActionDebugOptions,
   TrixtaActionDetails,
-  TrixtaActionOptions,
   TrixtaActionResponseDetails,
   TrixtaReactionDetails,
   TrixtaReactionResponseDetails,
@@ -182,7 +181,7 @@ export type SubmitTrixtaActionResponseAction = {
     roleName: string;
     debugMode: boolean;
     clearResponse: boolean;
-    actionOptions: TrixtaActionOptions;
+    actionOptions: Record<string, unknown>;
     debugOptions: TrixtaActionDebugOptions;
     actionName: string;
     requestEvent?: string;

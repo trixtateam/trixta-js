@@ -1,6 +1,10 @@
-import { TrixtaCommon, TrixtaDispatch } from '../../types';
+import { defaultUnknownType, TrixtaCommon, TrixtaDispatch } from '../../types';
 import { TrixtaInstanceResponse } from './../../types';
-export interface TrixtaActionComponentArgs<TFormData = undefined, KResponse = unknown> {
+export interface TrixtaActionComponentArgs<
+  TFormData = defaultUnknownType,
+  TSuccessType = defaultUnknownType,
+  TErrorType = defaultUnknownType
+> {
   /**
    * Name of Trixta action
    */
@@ -13,5 +17,5 @@ export interface TrixtaActionComponentArgs<TFormData = undefined, KResponse = un
   submit: TrixtaDispatch<TFormData>;
   common: TrixtaCommon;
   loading: boolean;
-  response?: TrixtaInstanceResponse<KResponse>;
+  response?: TrixtaInstanceResponse<TSuccessType, TErrorType>;
 }

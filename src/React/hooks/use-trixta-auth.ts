@@ -10,8 +10,10 @@ import { TrixtaAuthProps } from '../types';
 import { RootState } from './../types/common';
 import { UseTrixtaAuthResponseReturn } from './types';
 
-export const useTrixtaAuth = ({ roles = [] }: TrixtaAuthProps): UseTrixtaAuthResponseReturn => {
-  const rolesArr = useMemo(() => (Array.isArray(roles) ? roles : [roles]), [roles]);
+export const useTrixtaAuth = ({
+  roles = [],
+}: TrixtaAuthProps | undefined = {}): UseTrixtaAuthResponseReturn => {
+  const rolesArr = useMemo(() => (Array.isArray(roles) ? roles : roles ? [roles] : []), [roles]);
   const socketDetailsSelector = useMemo<ReturnType<typeof makeSelectPhoenixSocketDetails>>(
     makeSelectPhoenixSocketDetails,
     [],

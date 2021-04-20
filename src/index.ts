@@ -1,11 +1,10 @@
-import { trixtaReducer } from './React/reducers';
 import { getChannelName, getMessageFromError, isNullOrEmpty } from './utils/index';
-export * from './React/sagas';
-export * from './React/hooks';
 export * from './React/components';
 export * from './React/constants';
-export * from './React/selectors';
+export * from './React/hooks';
+export * from './React/reducers';
 export * from './React/reduxActions';
+export * from './React/sagas';
+export * from './React/selectors';
 export * from './React/types';
-export { trixtaReducer };
 export const utils = { getChannelName, getMessageFromError, isNullOrEmpty };

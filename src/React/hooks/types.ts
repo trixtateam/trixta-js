@@ -1,11 +1,11 @@
 import {
-  defaultUnknownType,
-  TrixtaActionBaseProps,
-  TrixtaInstance,
-  TrixtaInstanceResponse,
-  TrixtaReactionBaseProps,
-  TrixtaReactionDispatch,
-  TrixtaReactionInstance
+    defaultUnknownType,
+    TrixtaActionBaseProps,
+    TrixtaInstance,
+    TrixtaInstanceResponse,
+    TrixtaReactionBaseProps,
+    TrixtaReactionDispatch,
+    TrixtaReactionInstance
 } from '../types';
 
 export interface UseRespondToReactionResponseProps extends TrixtaReactionBaseProps {
@@ -76,15 +76,15 @@ export interface submitTrixtaFunctionParameters {
    */
   ref?: string;
   /**
-   * Event name for data to dispatch before submitting to Trixta Reaction / Action response
+   * Event name / dispatch action type for data to dispatch before submitting to Trixta Reaction / Action response
    */
   requestEvent?: string;
   /**
-   * Event name for data to dispatch after Trixta Reaction / Action response
+   * Event name / dispatch action type for data to dispatch after Trixta Reaction / Action response
    */
   responseEvent?: string;
   /**
-   * Event name for data to dispatch after Trixta Reaction / Action error response
+   * Event name / dispatch action type for data to dispatch after Trixta Reaction / Action error response
    */
   errorEvent?: string;
 }

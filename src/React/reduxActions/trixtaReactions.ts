@@ -3,15 +3,15 @@ import { ClearTrixtaReactionResponseAction, SubmitTrixtaReactionResponseAction }
 import { CLEAR_TRIXTA_REACTION_RESPONSE, SUBMIT_TRIXTA_REACTION_RESPONSE } from '../constants';
 
 /**
- *  Listened for in the saga to push reaction to the space
- * @param {Object} params
- * @param {String} params.roleName - name of role
- * @param {String} params.reactionName - name of reaction
- * @param {Object} params.formData - data to submit to space for reactionName
- * @param {Object} params.ref - ref for reaction (eg ref)
- * @param {String=} [params.responseEvent = null] params.responseEvent - event for data to dispatch to on trixta reaction response
- * @param {String=} [params.requestEvent = null] params.requestEvent - event for data to dispatch to on trixta reaction before submitting to trixta
- * @param {String=} [params.errorEvent = null] params.errorEvent - event for error to dispatch to on trixta reaction error response
+ *  Listened for in the Trixta saga to submit to Trixta space using relevant phoenix channel for role
+ *
+ * @param params.roleName - name of role
+ * @param params.reactionName - name of reaction
+ * @param params.formData - data to submit to space for reactionName
+ * @param params.ref - ref for reaction (eg ref)
+ * @param params.responseEvent - event for data to dispatch to on trixta reaction response
+ * @param params.requestEvent - event for data to dispatch to on trixta reaction before submitting to trixta
+ * @param params.errorEvent - event for error to dispatch to on trixta reaction error response
  */
 export function submitTrixtaReactionResponse({
   formData,
@@ -37,10 +37,10 @@ export function submitTrixtaReactionResponse({
 }
 
 /**
- *  Listened for in the saga to clear response instances for params.roleName and params.reactionName
- * @param {Object} params
- * @param {String} params.roleName - name of role
- * @param {String} params.reactionName - name of reaction
+ *  Listened for in the Trixta saga to clear response instances for params.roleName and params.reactionName in TrixtaState
+ *
+ * @param params.roleName - name of role
+ * @param params.reactionName - name of reaction
  */
 export function clearTrixtaReactionResponse({
   roleName,

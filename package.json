@@ -1,13 +1,14 @@
 {
   "name": "@trixta/trixta-js",
-  "version": "3.5.0-beta.0",
+  "version": "3.6.0-alpha.6",
   "description": "Javascript library to integrate Trixta",
   "source": "src/index.ts",
-  "main": "dist/@trixta/trixta.cjs.js",
-  "module": "dist/@trixta/trixta.esm.js",
+  "main": "dist/@trixta/trixta-js.cjs.js",
+  "module": "dist/@trixta/trixta-js.esm.js",
   "types": "types/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "types"
   ],
   "publishConfig": {
     "access": "public"
@@ -111,29 +112,12 @@
     "redux": ">=4.0.1",
     "react-redux": ">=7.2.1",
     "phoenix": "~1.5.4",
-    "shortid": "^2.2.15",
     "@trixta/phoenix-to-redux": "3.4.7-beta.0",
     "@rjsf/core": "^2.5.1"
   },
   "dependencies": {
-    "@semantic-release/changelog": "^5.0.1",
-    "@semantic-release/commit-analyzer": "^8.0.1",
-    "@semantic-release/git": "^9.0.0",
-    "@semantic-release/github": "^7.2.0",
-    "@semantic-release/npm": "^7.0.10",
-    "@semantic-release/release-notes-generator": "^9.0.1",
     "@trixta/phoenix-to-redux": "3.4.7-beta.0",
-    "debug": "4.3.1",
-    "immer": "8.0.1",
-    "kcd-scripts": "^8.0.2",
     "phoenix": "1.5.4",
-    "prop-types": "^15.7.2",
-    "react": "16.8.6",
-    "react-dom": "16.8.6",
-    "react-redux": "7.2.1",
-    "redux": "4.0.1",
-    "redux-saga": "1.0.2",
-    "reselect": "4.0.0",
     "shortid": "^2.2.15"
   },
   "devDependencies": {
@@ -164,6 +148,12 @@
     "@storybook/react": "^6.1.20",
     "@storybook/storybook-deployer": "^2.8.7",
     "@storybook/theming": "^6.1.20",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/commit-analyzer": "^8.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/github": "^7.2.0",
+    "@semantic-release/npm": "^7.0.10",
+    "@semantic-release/release-notes-generator": "^9.0.1",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/react-hooks": "^5.1.0",
@@ -207,6 +197,7 @@
     "jest-cli": "26.6.3",
     "jest-coverage-badges": "^1.1.2",
     "jest-runtime": "^26.6.3",
+    "kcd-scripts": "^8.0.2",
     "lerna-alias": "^3.0.2",
     "npm-run-all": "^4.1.5",
     "pre-commit": "1.2.2",

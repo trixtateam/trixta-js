@@ -83,17 +83,23 @@ export interface SubmitTrixtaActionResponse<TFormData = defaultUnknownType> {
    * Enables debugging for action in Trixta flow
    */
   debugMode?: boolean;
+   /**
+   * Trixta flow debugging options
+   */
   debugOptions?: TrixtaActionDebugOptions;
   /**
-   * Event name for data to dispatch before submitting to Trixta action
+   * Event name / dispatch action type for data to dispatch before submitting to Trixta action
+   * [see Redux `dispatch` documentation for complete info](https://redux.js.org/api/store#dispatchaction)
    */
   requestEvent?: string;
   /**
-   * Event name for data to dispatch after Trixta action response
+   * Event name / dispatch action type for data to dispatch after Trixta action response
+   * [see Redux `dispatch` documentation for complete info](https://redux.js.org/api/store#dispatchaction)
    */
   responseEvent?: string;
   /**
-   * Event name for data to dispatch after Trixta action error response
+   * Event name / dispatch action type for data to dispatch after Trixta action error response
+   * [see Redux `dispatch` documentation for complete info](https://redux.js.org/api/store#dispatchaction)
    */
   errorEvent?: string;
 }

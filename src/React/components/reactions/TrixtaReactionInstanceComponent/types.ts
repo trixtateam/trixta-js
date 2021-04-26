@@ -10,15 +10,15 @@ export interface TrixtaReactionInstanceComponentDispatchProps {
 export interface TrixtaReactionInstanceComponentProps extends TrixtaReactionBaseProps {
   instanceIndex: number;
   /**
-   * Event name for data to dispatch before submitting to Trixta Reaction response
+   * Event name / dispatch action type for data to dispatch before submitting to Trixta Reaction response
    */
   requestEvent?: string;
   /**
-   * Event name for data to dispatch after Trixta reaction response
+   * Event name / dispatch action type for data to dispatch after Trixta reaction response
    */
   responseEvent?: string;
   /**
-   * Event name for data to dispatch after Trixta reaction error response
+   * Event name / dispatch action type for data to dispatch after Trixta reaction error response
    */
   errorEvent?: string;
   common: TrixtaCommon;

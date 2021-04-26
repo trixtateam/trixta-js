@@ -33,15 +33,18 @@ export interface TrixtaActionComponentProps extends TrixtaActionBaseProps {
    */
   debugMode?: boolean;
   /**
-   * Event name for data to dispatch before submitting to Trixta Action response
+   * Event name / dispatch action type for data to dispatch before submitting to Trixta Action response
+   * [see Redux `dispatch` documentation for complete info](https://redux.js.org/api/store#dispatchaction)
    */
   requestEvent?: string;
   /**
-   * Event name for data to dispatch after Trixta Action response
+   * Event name / dispatch action type for data to dispatch after Trixta Action response
+   * [see Redux `dispatch` documentation for complete info](https://redux.js.org/api/store#dispatchaction)
    */
   responseEvent?: string;
   /**
-   * Event name for data to dispatch after Trixta Action error response
+   * Event name / dispatch action type for data to dispatch after Trixta Action error response
+   * [see Redux `dispatch` documentation for complete info](https://redux.js.org/api/store#dispatchaction)
    */
   errorEvent?: string;
   /**

@@ -47,6 +47,7 @@ export interface TrixtaReactionDispatch {
   actionToDispatch?: Function;
   /**
    * Redux Action event to pass data to from Trixta reaction response
+   * [see Redux `dispatch` documentation for complete info](https://redux.js.org/api/store#dispatchaction)
    */
   dispatchResponseTo?: string;
 }
@@ -69,15 +70,18 @@ export interface SubmitTrixtaReactionResponse<TFormData = defaultUnknownType> {
    */
   ref: string;
   /**
-   * Event name for data to dispatch before submitting to Trixta Reaction response
+   * Event name / dispatch action type for data to dispatch before submitting to Trixta Reaction response
+   *  [see Redux `dispatch` documentation for complete info](https://redux.js.org/api/store#dispatchaction)
    */
   requestEvent?: string;
   /**
-   * Event name for data to dispatch after Trixta reaction response
+   * Event name / dispatch action type for data to dispatch after Trixta reaction response
+   * [see Redux `dispatch` documentation for complete info](https://redux.js.org/api/store#dispatchaction)
    */
   responseEvent?: string;
   /**
-   * Event name for data to dispatch after Trixta reaction error response
+   * Event name / dispatch action type for data to dispatch after Trixta reaction error response
+   * [see Redux `dispatch` documentation for complete info](https://redux.js.org/api/store#dispatchaction)
    */
   errorEvent?: string;
 }

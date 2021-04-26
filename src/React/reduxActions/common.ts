@@ -17,7 +17,7 @@ import {
 } from './types';
 
 /**
- * Initializes all trixta state
+ * Initializes all Trixta state
  */
 export function signoutTrixta(): SignoutTrixtaAction {
   return {
@@ -27,8 +27,8 @@ export function signoutTrixta(): SignoutTrixtaAction {
 
 /**
  * Any exception caused by trixta
- * @param {Object} params
- * @param {Object||String} params.error - error from trixta
+ *
+ * @param params.error - error from trixta
  */
 export function updateTrixtaError({ error }: { error: unknown }): UpdateTrixtaErrorAction {
   return {
@@ -38,11 +38,12 @@ export function updateTrixtaError({ error }: { error: unknown }): UpdateTrixtaEr
 }
 
 /**
- *  Listened for the in the saga to check roles to add and react on
- * @param {Object} params
- * @param {Object[]} params.roles - roles
- * @param {String} params.roles[].name - role name
- * @param {Boolean=} [params.roles[].logPresence = false] params.roles[].logPresence - determines if phoenix channel presence for role should be logged
+ *  Listened for the in the Trixta saga to check roles to add and join relevant
+ * phoenix channels
+ *
+ * @param  params.roles - roles
+ * @param params.roles[].name - role name
+ * @param params.roles[].logPresence - determines if phoenix channel presence for role should be logged
  */
 export function updateTrixtaRoles({
   roles,
@@ -58,10 +59,10 @@ export function updateTrixtaRoles({
 }
 
 /**
- *  Listened for the in the saga to check role to join after successfully joining
+ *  Listened for the in the Trixta saga to add role to agentDetails after successfully joining
  * the channel
- * @param {Object} params
- * @param {String} params.roleName - role name
+ *
+ * @param params.roleName - role name
  */
 export function joinTrixtaRole({ roleName }: { roleName: string }): JoinTrixtaRoleAction {
   return {
@@ -73,10 +74,11 @@ export function joinTrixtaRole({ roleName }: { roleName: string }): JoinTrixtaRo
 }
 
 /**
- *  Listened for the in the saga to check role to add and react on
- * @param {Object} params
- * @param {String} params.name - role name
- * @param {Boolean=} [params.logPresence = false] params.logPresence - determines if phoenix channel presence for role should be logged
+ * Listened for the in the Trixta saga to check role to add and join relevant
+ * phoenix channel
+ *
+ * @param params.name - role name
+ * @param params.logPresence - determines if phoenix channel presence for role should be logged
  */
 export function updateTrixtaRole({
   name,
@@ -94,10 +96,10 @@ export function updateTrixtaRole({
 }
 
 /**
- *  Listened for the in the saga to check role to remove and no longer
- *  react to
- * @param {Object} params
- * @param {String} params.name - role name
+ *  Listened for the in the Trixta saga to check role to remove and leave the relevant
+ * phoenix channel
+ *
+ * @param params.name - role name
  */
 export function removeTrixtaRole({ name }: { name: string }): RemoveTrixtaRoleAction {
   return {

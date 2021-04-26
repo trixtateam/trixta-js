@@ -72,10 +72,6 @@ export interface TrixtaCommon {
   tags: Array<string>;
 }
 
-export interface RootState  {
-  trixta:TrixtaState;
-}
-
 export type TrixtaState<TRole = string> = {
   reactions: Record<string, TrixtaReaction>;
   actions: Record<string, TrixtaAction>;

@@ -11,7 +11,8 @@ import {
   makeSelectTrixtaActionResponseInstancesForRole
 } from '../selectors';
 import { trixtaDebugger, TrixtaDebugType, trixtaInstanceDebugger } from '../TrixtaDebugger';
-import { defaultUnknownType, RootState, TrixtaActionBaseProps, TrixtaInstance } from './../types';
+import { TrixtaState } from '../types';
+import { defaultUnknownType, TrixtaActionBaseProps, TrixtaInstance } from './../types';
 import {
   submitTrixtaFunctionParameters,
   UseTrixtaActionProps,
@@ -39,19 +40,20 @@ export const useTrixtaAction = <
     dispatch(clearTrixtaActionResponse({ roleName, actionName }));
   }, [actionName, roleName, dispatch]);
   const selectHasRoleAccess = useMemo(makeSelectHasTrixtaRoleAccess, []);
-  const hasRoleAccess = useSelector<RootState, boolean>((state) =>
+  const hasRoleAccess = useSelector<{ trixta: TrixtaState }, boolean>((state) =>
     selectHasRoleAccess(state, { roleName }),
   );
   const roleActionProps = { roleName, actionName } as TrixtaActionBaseProps;
   const selectActionResponses: any = useMemo(makeSelectTrixtaActionResponseInstancesForRole, []);
   const selectActionInProgress: any = useMemo(makeSelectIsTrixtaActionInProgress, []);
-  const isInProgress = useSelector<RootState, boolean>((state) =>
+  const isInProgress = useSelector<{ trixta: TrixtaState }, boolean>((state) =>
     selectActionInProgress(state, roleActionProps),
   );
 
-  const instances = useSelector<RootState, TrixtaInstance<TResponseType, TErrorType>[]>((state) =>
-    selectActionResponses(state, roleActionProps),
-  );
+  const instances = useSelector<
+    { trixta: TrixtaState },
+    TrixtaInstance<TResponseType, TErrorType>[]
+  >((state) => selectActionResponses(state, roleActionProps));
   trixtaDebugger({
     type: TrixtaDebugType.Action,
     name: actionName,

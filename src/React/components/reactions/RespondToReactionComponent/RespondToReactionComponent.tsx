@@ -6,7 +6,7 @@ import {
   makeSelectHasTrixtaRoleAccess,
   makeSelectTrixtaReactionResponseInstancesForRole
 } from '../../../selectors';
-import { RootState } from '../../../types';
+import { TrixtaState } from '../../../types';
 import { RespondToReactionComponentProps } from './types';
 
 const RespondToReactionComponent = ({
@@ -65,7 +65,10 @@ const RespondToReactionComponent = ({
 const makeMapStateToProps = () => {
   const getTrixtaReactionResponseInstancesForRole = makeSelectTrixtaReactionResponseInstancesForRole();
   const getHasTrixtaRoleAccess = makeSelectHasTrixtaRoleAccess();
-  const mapStateToProps = (state: RootState, props: RespondToReactionComponentProps) => {
+  const mapStateToProps = (
+    state: { trixta: TrixtaState },
+    props: RespondToReactionComponentProps,
+  ) => {
     return {
       instances: getTrixtaReactionResponseInstancesForRole(state, props),
       hasRoleAccess: getHasTrixtaRoleAccess(state, props),

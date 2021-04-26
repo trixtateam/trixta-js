@@ -7,7 +7,7 @@ import {
   makeSelectTrixtaReactionResponseInstancesForRole
 } from '../../../selectors';
 import { trixtaDebugger, TrixtaDebugType } from '../../../TrixtaDebugger';
-import { RootState } from '../../../types';
+import { TrixtaState } from '../../../types';
 import { TrixtaReactionInstanceComponent } from '../TrixtaReactionInstanceComponent';
 import { TrixtaReactionComponentProps } from './types';
 
@@ -71,7 +71,7 @@ const makeMapStateToProps = () => {
   const getTrixtaCommonForRole = makeSelectTrixtaReactionCommonForRole();
   const getTrixtaReactionResponseInstancesForRole = makeSelectTrixtaReactionResponseInstancesForRole();
   const getHasTrixtaRoleAccess = makeSelectHasTrixtaRoleAccess();
-  const mapStateToProps = (state: RootState, props: TrixtaReactionComponentProps) => {
+  const mapStateToProps = (state: { trixta: TrixtaState }, props: TrixtaReactionComponentProps) => {
     return {
       common: getTrixtaCommonForRole(state, props),
       instances: getTrixtaReactionResponseInstancesForRole(state, props),
@@ -87,6 +87,6 @@ const connector = connect<
   ConnectProps,
   Record<string, unknown>,
   TrixtaReactionComponentProps,
-  RootState
+  { trixta: TrixtaState }
 >(makeMapStateToProps);
 export default connector(TrixtaReactionComponent);

@@ -5,7 +5,7 @@ import { get } from '../../../../utils';
 import { submitTrixtaReactionResponse } from '../../../reduxActions';
 import { makesSelectTrixtaReactionResponseInstance } from '../../../selectors';
 import { TrixtaDebugType, trixtaInstanceDebugger } from '../../../TrixtaDebugger';
-import { RootState, TrixtaInstanceResponse } from '../../../types';
+import { TrixtaInstanceResponse, TrixtaState } from '../../../types';
 import { TrixtaReactionComponentArgs } from '../types';
 import {
   TrixtaReactionInstanceComponentDispatchProps,
@@ -62,7 +62,10 @@ const TrixtaReactionInstanceComponent = ({
 const makeMapStateToProps = () => {
   const getTrixtaReactionResponseInstance = makesSelectTrixtaReactionResponseInstance();
 
-  const mapStateToProps = (state: RootState, props: TrixtaReactionInstanceComponentProps) => {
+  const mapStateToProps = (
+    state: { trixta: TrixtaState },
+    props: TrixtaReactionInstanceComponentProps,
+  ) => {
     return {
       instance: getTrixtaReactionResponseInstance(state, props),
     };
@@ -97,7 +100,7 @@ const connector = connect<
   ConnectProps,
   DispatchProps,
   TrixtaReactionInstanceComponentProps,
-  RootState
+  { trixta: TrixtaState }
 >(makeMapStateToProps, mapDispatchToProps);
 
 export default connector(

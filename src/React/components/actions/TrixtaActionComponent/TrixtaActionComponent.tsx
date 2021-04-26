@@ -10,7 +10,7 @@ import {
   makeSelectTrixtaActionResponseInstancesForRole
 } from '../../../selectors';
 import { trixtaDebugger, TrixtaDebugType } from '../../../TrixtaDebugger';
-import { RootState } from '../../../types';
+import { TrixtaState } from '../../../types';
 import { TrixtaActionInstanceComponent } from '../TrixtaActionInstanceComponent';
 import { TrixtaActionComponentArgs } from '../types';
 import {
@@ -80,7 +80,7 @@ const makeMapStateToProps = () => {
   const getTrixtaActionResponseInstancesForRole = makeSelectTrixtaActionResponseInstancesForRole();
   const getHasTrixtaRoleAccess = makeSelectHasTrixtaRoleAccess();
   const getIsTrixtaActionInProgress = makeSelectIsTrixtaActionInProgress();
-  const mapStateToProps = (state: RootState, props: TrixtaActionComponentProps) => {
+  const mapStateToProps = (state: { trixta: TrixtaState }, props: TrixtaActionComponentProps) => {
     return {
       common: getTrixtaCommonForRole(state, props),
       instances: getTrixtaActionResponseInstancesForRole(state, props),

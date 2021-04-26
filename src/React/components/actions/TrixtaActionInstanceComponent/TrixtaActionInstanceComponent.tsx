@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { makesSelectTrixtaActionResponseInstance } from '../../../selectors';
 import { TrixtaDebugType, trixtaInstanceDebugger } from '../../../TrixtaDebugger';
-import { RootState } from '../../../types';
+import { TrixtaState } from '../../../types';
 import {
   TrixtaActionInstanceComponentProps,
   TrixtaActionInstanceComponentStateProps
@@ -37,7 +37,10 @@ const TrixtaActionInstanceComponent = ({
 
 const makeMapStateToProps = () => {
   const getTrixtaActionResponseInstance = makesSelectTrixtaActionResponseInstance();
-  const mapStateToProps = (state: RootState, props: TrixtaActionInstanceComponentProps) => {
+  const mapStateToProps = (
+    state: { trixta: TrixtaState },
+    props: TrixtaActionInstanceComponentProps,
+  ) => {
     return {
       response: getTrixtaActionResponseInstance(state, props),
     };

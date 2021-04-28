@@ -44,10 +44,10 @@ jobs:
         run: yarn install
 
       - name: Build libraries 🔨
-        run: yarn build:libs
+        run: yarn build
 
       - name: Lint ✏️
         run: yarn lint
 
       - name: Test 🧪
-        run: yarn test:cov
+        run: yarn test:coverage

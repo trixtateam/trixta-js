@@ -40,7 +40,6 @@
   "scripts": {
     "dev": "rollup -c --watch",
     "link:phoenix-to-redux": "npm link @trixta/phoenix-to-redux",
-    "publish-libs": "run-s --continue-on-error publish:*",
     "build": "kcd-scripts build --bundle 'esm,cjs' --no-clean",
     "prebuild": "rimraf dist types",
     "checkTs": "tsc --noEmit",

@@ -3,7 +3,8 @@ JS
 <br />
 
 # What is trixta-JS?
-  trixta-js a javascript library to help any organization, easily connect to a Trixta space, build front-end components for you application. It leverages [phoenix-to-redux]       (https://github.com/trixtateam/phoenix-to-redux) to communicate with Trixta and gives you a variety of tools / utilities to build react components.
+  trixta-js a javascript library to help any organization, easily connect to a Trixta space, build front-end components for you application. It leverages 
+  [phoenix-to-redux](https://github.com/trixtateam/phoenix-to-redux) to communicate with Trixta and gives you a variety of tools / utilities to build react components.
 # Who is this for?
   Any orgranization using Trixta for their javascript application.
 

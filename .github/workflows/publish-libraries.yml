@@ -30,10 +30,10 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build libraries 🔨
-        run: yarn build:libs
+        run: yarn build
 
       - name: Publish libraries 🚀
         continue-on-error: true
-        run: yarn publish-libs
+        run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GH_TOKEN}}

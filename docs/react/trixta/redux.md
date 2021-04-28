@@ -1,5 +1,5 @@
 ## Reducer
- [trixtaReducer](https://github.com/trixtateam/trixtaJS/blob/master/src/React/reducers/trixtaReducer.js)
+ [trixtaReducer](https://github.com/trixtateam/trixtaJS/blob/master/src/React/reducers/trixtaReducer.ts)
 
 ## Reducer Structure Diagram
 

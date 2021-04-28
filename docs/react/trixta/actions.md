@@ -1,10 +1,10 @@
  ## Redux Actions
  ### Common Trixta Actions
-[`common actions`](https://github.com/trixtateam/trixtaJS/blob/master/src/React/reduxActions/common.js)  - includes all common Trixta redux actions
+[`common actions`](https://github.com/trixtateam/trixtaJS/blob/master/src/React/reduxActions/common.ts)  - includes all common Trixta redux actions
 
 ### Trixta Reaction Actions
-[`trixta reactions`](https://github.com/trixtateam/trixtaJS/blob/master/src/React/reduxActions/trixtaReactions.js)  - includes all related Trixta reaction actions
+[`trixta reactions`](https://github.com/trixtateam/trixtaJS/blob/master/src/React/reduxActions/trixtaReactions.ts)  - includes all related Trixta reaction actions
 
 ### Trixta Action Actions
-[`trixta actions`](https://github.com/trixtateam/trixtaJS/blob/master/src/React/reduxActions/trixtaActions.js)  - includes all related Trixta action actions
+[`trixta actions`](https://github.com/trixtateam/trixtaJS/blob/master/src/React/reduxActions/trixtaActions.ts)  - includes all related Trixta action actions
  ```

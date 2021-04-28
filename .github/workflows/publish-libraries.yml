@@ -1,0 +1,39 @@
+name: publish-libraries
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  publish:
+    name: Running publish
+    if:
+      "contains(toJSON(github.event.commits.*.message), 'chore(release):') ||
+      contains(toJSON(github.event.commits.*.message), 'chore(libs):') ||
+      contains(toJSON(github.event.commits.*.message), 'bump libs')"
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          always-auth: true
+          node-version: '14.x'
+          registry-url: 'https://npm.pkg.github.com'
+
+      - name: Install 💿
+        run: yarn install --frozen-lockfile
+
+      - name: Build libraries 🔨
+        run: yarn build
+
+      - name: Publish libraries 🚀
+        continue-on-error: true
+        run: yarn publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GH_TOKEN}}

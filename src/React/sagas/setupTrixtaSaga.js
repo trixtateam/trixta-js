@@ -1,9 +1,9 @@
-// eslint-disable-next-line import/no-unresolved
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
   channelActionTypes,
   getPhoenixChannel,
   leavePhoenixChannel,
-  pushToPhoenixChannel
+  pushToPhoenixChannel,
 } from '@trixta/phoenix-to-redux';
 import { all, fork, put, select, take, takeEvery } from 'redux-saga/effects';
 import { getChannelName, isNullOrEmpty } from '../../utils';
@@ -21,7 +21,7 @@ import {
   trixtaReactionLoadingStatus,
   TRIXTA_REACTION_RESPONSE,
   UPDATE_TRIXTA_ROLE,
-  UPDATE_TRIXTA_ROLES
+  UPDATE_TRIXTA_ROLES,
 } from '../constants';
 import { joinTrixtaRole, removeTrixtaRole, updateTrixtaError } from '../reduxActions';
 import {
@@ -29,7 +29,7 @@ import {
   updateTrixtaAction,
   updateTrixtaActionResponse,
   updateTrixtaReaction,
-  updateTrixtaReactionResponse
+  updateTrixtaReactionResponse,
 } from '../reduxActions/internal';
 import { makeSelectTrixtaAgentDetails } from '../selectors/common';
 

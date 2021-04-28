@@ -1,0 +1,64 @@
+name: publish-release
+
+on:
+  push:
+    branches:
+      - master
+
+  workflow_dispatch:
+
+jobs:
+  publish-release:
+    name: Running release
+    if:
+      "contains(toJSON(github.event.commits.*.message), 'chore(release):') ||
+      contains(toJSON(github.event.commits.*.message), 'docs:')"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [14]
+    env:
+      CI: true
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache node modules 💾
+        uses: actions/cache@v2
+        id: cache-modules
+        env:
+          cache-name: cache-modules
+        with:
+          path: |
+            **/node_modules
+          key:
+            ${{ runner.os }}-build-${{ env.cache-name }}-${{
+            hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install 💿
+        # if: steps.cache-modules.outputs.cache-hit != 'true'
+        run: yarn install --frozen-lockfile
+
+      - name: Build libraries 🔨
+        run: yarn build
+
+      # Get the tag of the release just created
+      - name: Find Tag
+        id: tagger
+        uses: digital-ai/query-tag-action@v2
+        with:
+          include: 'v*'
+          exclude: '*-rc*'
+          commit-ish: 'HEAD'
+          exact-match: 'true'
+
+      # Create Release Branch
+      - name: Create Branch
+        if: "contains(toJSON(github.event.commits.*.message), 'chore(release):')"
+        uses: peterjgrainger/action-create-branch@v2.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          branch: 'release/${{steps.tagger.outputs.tag}}'

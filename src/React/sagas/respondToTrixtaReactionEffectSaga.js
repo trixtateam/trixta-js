@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { put, take } from '@redux-saga/core/effects';
 import { listenForTrixtaReactionResponse } from '../constants';
 

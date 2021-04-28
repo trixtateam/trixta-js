@@ -2,6 +2,7 @@ import { getReducerKeyName } from '../../../utils';
 import {
   CLEAR_TRIXTA_ACTION_RESPONSE,
   CLEAR_TRIXTA_REACTION_RESPONSE,
+  SIGN_OUT_TRIXTA,
   SUBMIT_TRIXTA_ACTION_RESPONSE,
   SUBMIT_TRIXTA_REACTION_RESPONSE,
   UPDATE_TRIXTA_ACTION,
@@ -16,6 +17,7 @@ import {
   submitTrixtaReactionResponse,
   updateTrixtaError,
   updateTrixtaRoles,
+  signoutTrixta,
 } from '../index';
 import {
   updateTrixtaAction,
@@ -47,6 +49,15 @@ describe('Trixta redux Actions', () => {
           error: 'error',
         };
         expect(updateTrixtaError(parameters)).toEqual(expectedResult);
+      });
+    });
+
+    describe('signoutTrixta Action', () => {
+      it('has a type of SIGN_OUT_TRIXTA', () => {
+        expectedResult = {
+          type: SIGN_OUT_TRIXTA,
+        };
+        expect(signoutTrixta()).toEqual(expectedResult);
       });
     });
 
@@ -181,8 +192,8 @@ describe('Trixta redux Actions', () => {
                 role: 'trixta_app_user',
               },
             },
-            errorEvent: null,
-            responseEvent: null,
+            errorEvent: undefined,
+            responseEvent: undefined,
             requestEvent,
           },
         };
@@ -307,8 +318,8 @@ describe('Trixta redux Actions', () => {
             ref,
             roleName,
             reactionName,
-            errorEvent: null,
-            responseEvent: null,
+            errorEvent: undefined,
+            responseEvent: undefined,
             requestEvent,
           },
         };

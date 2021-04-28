@@ -3,7 +3,7 @@ name: publish-libraries
 on:
   push:
     branches:
-      - master
+      - [master,alpha,beta]
   workflow_dispatch:
 
 jobs:

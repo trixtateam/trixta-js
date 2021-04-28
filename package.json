@@ -101,23 +101,23 @@
     }
   },
   "peerDependencies": {
-    "reselect": "~4.0.0",
+    "@rjsf/core": "^2.5.1",
+    "@trixta/phoenix-to-redux": "3.4.7-beta.0",
     "debug": "4.3.1",
     "immer": ">=3.0.0",
+    "phoenix": "~1.5.4",
     "prop-types": "^15.7.2",
     "react": ">=16.8.6",
     "react-dom": ">=16.8.0",
-    "redux-saga": ">=1.0.2",
-    "redux": ">=4.0.1",
     "react-redux": ">=7.2.1",
-    "phoenix": "~1.5.4",
-    "@trixta/phoenix-to-redux": "3.4.7-beta.0",
-    "@rjsf/core": "^2.5.1"
+    "redux": ">=4.0.1",
+    "redux-saga": ">=1.0.2",
+    "reselect": "~4.0.0"
   },
   "dependencies": {
-    "react": ">=16.8.6",
     "@trixta/phoenix-to-redux": "3.4.7-beta.0",
     "phoenix": "1.5.4",
+    "react": ">=16.8.6",
     "shortid": "^2.2.15"
   },
   "devDependencies": {
@@ -132,10 +132,17 @@
     "@babel/preset-typescript": "^7.13.0",
     "@commitlint/cli": "^12.0.1",
     "@commitlint/config-conventional": "^12.0.1",
+    "@rjsf/core": "^2.5.1",
     "@rollup/plugin-babel": "5.2.3",
     "@rollup/plugin-commonjs": "17.1.0",
     "@rollup/plugin-json": "4.1.0",
     "@rollup/plugin-node-resolve": "^8.4.0",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/commit-analyzer": "^8.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/github": "^7.2.0",
+    "@semantic-release/npm": "^7.0.10",
+    "@semantic-release/release-notes-generator": "^9.0.1",
     "@storybook/addon-actions": "^6.1.20",
     "@storybook/addon-docs": "^6.1.20",
     "@storybook/addon-essentials": "^6.1.20",
@@ -148,12 +155,6 @@
     "@storybook/react": "^6.1.20",
     "@storybook/storybook-deployer": "^2.8.7",
     "@storybook/theming": "^6.1.20",
-    "@semantic-release/changelog": "^5.0.1",
-    "@semantic-release/commit-analyzer": "^8.0.1",
-    "@semantic-release/git": "^9.0.0",
-    "@semantic-release/github": "^7.2.0",
-    "@semantic-release/npm": "^7.0.10",
-    "@semantic-release/release-notes-generator": "^9.0.1",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/react-hooks": "^5.1.0",
@@ -209,8 +210,8 @@
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-watch": "^4.3.1",
-    "typescript": "~4.1.5",
-    "@rjsf/core": "^2.5.1"
+    "semantic-release": "^17.4.2",
+    "typescript": "~4.1.5"
   },
   "directories": {
     "doc": "docs",

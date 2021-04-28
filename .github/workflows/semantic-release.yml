@@ -41,7 +41,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build libraries 🔨
-        run: yarn build:libs
+        run: yarn build
 
       - name: Coverage badges 📊
         run: yarn test:cov && yarn coverage-badges

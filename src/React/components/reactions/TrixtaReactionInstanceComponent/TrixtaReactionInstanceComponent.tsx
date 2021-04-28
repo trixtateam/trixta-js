@@ -9,7 +9,7 @@ import { TrixtaInstanceResponse, TrixtaState } from '../../../types';
 import { TrixtaReactionComponentArgs } from '../types';
 import {
   TrixtaReactionInstanceComponentDispatchProps,
-  TrixtaReactionInstanceComponentProps
+  TrixtaReactionInstanceComponentProps,
 } from './types';
 const TrixtaReactionInstanceComponent = ({
   dispatchSubmitReactionResponse,
@@ -106,6 +106,9 @@ const connector = connect<
 export default connector(
   React.memo(
     TrixtaReactionInstanceComponent,
-    (props, nextProps) => props.instanceRef === nextProps.instanceRef,
+    (
+      props: TrixtaReactionInstanceComponentProps,
+      nextProps: TrixtaReactionInstanceComponentProps,
+    ) => props.instanceRef === nextProps.instanceRef,
   ),
 );

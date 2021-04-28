@@ -7,7 +7,7 @@ import {
   makeSelectHasTrixtaRoleAccess,
   makeSelectIsTrixtaActionInProgress,
   makeSelectTrixtaActionCommonForRole,
-  makeSelectTrixtaActionResponseInstancesForRole
+  makeSelectTrixtaActionResponseInstancesForRole,
 } from '../../../selectors';
 import { trixtaDebugger, TrixtaDebugType } from '../../../TrixtaDebugger';
 import { TrixtaState } from '../../../types';
@@ -16,7 +16,7 @@ import { TrixtaActionComponentArgs } from '../types';
 import {
   TrixtaActionComponentDispatchProps,
   TrixtaActionComponentProps,
-  TrixtaActionComponentStateProps
+  TrixtaActionComponentStateProps,
 } from './types';
 
 const TrixtaActionComponent = ({

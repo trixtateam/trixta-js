@@ -4,20 +4,20 @@ import {
   UPDATE_TRIXTA_ACTION,
   UPDATE_TRIXTA_ACTION_RESPONSE,
   UPDATE_TRIXTA_REACTION,
-  UPDATE_TRIXTA_REACTION_RESPONSE
+  UPDATE_TRIXTA_REACTION_RESPONSE,
 } from '../../constants';
 import {
   EmitTrixtaReactionResponseListenerEventAction,
   UpdateTrixtaActionDetailsAction,
   UpdateTrixtaActionResponseAction,
   UpdateTrixtaReactionDetailsAction,
-  UpdateTrixtaReactionResponseAction
+  UpdateTrixtaReactionResponseAction,
 } from '../types';
 import {
   TrixtaActionDetails,
   TrixtaActionResponseDetails,
   TrixtaReactionDetails,
-  TrixtaReactionResponseDetails
+  TrixtaReactionResponseDetails,
 } from './../../types';
 
 /**

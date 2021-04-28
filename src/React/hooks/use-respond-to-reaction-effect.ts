@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   makeSelectHasTrixtaRoleAccess,
-  makeSelectTrixtaReactionResponseInstancesForRole
+  makeSelectTrixtaReactionResponseInstancesForRole,
 } from '../selectors';
 import { trixtaDebugger, TrixtaDebugType } from '../TrixtaDebugger';
 import { defaultUnknownType, TrixtaState } from '../types';
@@ -20,7 +20,9 @@ export const useRespondToReactionEffect = <
   const { actionToDispatch, dispatchResponseTo, roleName, debugMode = false, reactionName } = props;
   const actionRef = useRef(actionToDispatch);
   const dispatch = useDispatch();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectReactionResponse: any = useMemo(makeSelectTrixtaReactionResponseInstancesForRole, []);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectHasRoleAccess: any = useMemo(makeSelectHasTrixtaRoleAccess, []);
   const reactionRoleProps = {
     roleName,

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { submitTrixtaReactionResponse } from '../reduxActions';
 import {
   makeSelectHasTrixtaRoleAccess,
-  makeSelectTrixtaReactionResponseInstancesForRole
+  makeSelectTrixtaReactionResponseInstancesForRole,
 } from '../selectors';
 import { trixtaDebugger, TrixtaDebugType } from '../TrixtaDebugger';
 import { TrixtaReactionBaseProps } from './../types';
@@ -11,7 +11,7 @@ import { defaultUnknownType, TrixtaReactionInstance, TrixtaState } from './../ty
 import {
   RespondToReactionFunctionParameters,
   UseRespondToReactionResponseProps,
-  UseRespondToReactionResponseReturn
+  UseRespondToReactionResponseReturn,
 } from './types';
 
 export const useRespondToReactionResponse = <

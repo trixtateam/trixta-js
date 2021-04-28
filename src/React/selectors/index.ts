@@ -6,4 +6,3 @@ export * from './common';
 export * from './trixtaActions';
 export * from './trixtaReactions';
 export { trixtaActionSelectors, trixtaReactionSelectors, trixtaCommonSelectors };
-

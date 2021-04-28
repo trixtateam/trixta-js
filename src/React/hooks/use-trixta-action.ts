@@ -3,12 +3,12 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   clearTrixtaActionResponse,
-  submitTrixtaActionResponse
+  submitTrixtaActionResponse,
 } from '../reduxActions/trixtaActions';
 import {
   makeSelectHasTrixtaRoleAccess,
   makeSelectIsTrixtaActionInProgress,
-  makeSelectTrixtaActionResponseInstancesForRole
+  makeSelectTrixtaActionResponseInstancesForRole,
 } from '../selectors';
 import { trixtaDebugger, TrixtaDebugType, trixtaInstanceDebugger } from '../TrixtaDebugger';
 import { TrixtaState } from '../types';
@@ -16,7 +16,7 @@ import { defaultUnknownType, TrixtaActionBaseProps, TrixtaInstance } from './../
 import {
   submitTrixtaFunctionParameters,
   UseTrixtaActionProps,
-  UseTrixtaActionResponseReturn
+  UseTrixtaActionResponseReturn,
 } from './types';
 
 export const useTrixtaAction = <
@@ -44,7 +44,9 @@ export const useTrixtaAction = <
     selectHasRoleAccess(state, { roleName }),
   );
   const roleActionProps = { roleName, actionName } as TrixtaActionBaseProps;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectActionResponses: any = useMemo(makeSelectTrixtaActionResponseInstancesForRole, []);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectActionInProgress: any = useMemo(makeSelectIsTrixtaActionInProgress, []);
   const isInProgress = useSelector<{ trixta: TrixtaState }, boolean>((state) =>
     selectActionInProgress(state, roleActionProps),
@@ -103,7 +105,7 @@ export const useTrixtaAction = <
     if (latestInstance.response.error && onError) {
       if (onError(latestInstance.response.error) === false) clearResponses();
     }
-  }, [latestInstance]);
+  }, [latestInstance, onError, onSuccess, clearResponses]);
 
   return {
     latestInstance,

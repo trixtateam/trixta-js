@@ -4,7 +4,7 @@ import {
   SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
   SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
   UPDATE_TRIXTA_ACTION,
-  UPDATE_TRIXTA_ACTION_RESPONSE
+  UPDATE_TRIXTA_ACTION_RESPONSE,
 } from './../constants/actions/index';
 import {
   JOIN_TRIXTA_ROLE,
@@ -12,7 +12,7 @@ import {
   SIGN_OUT_TRIXTA,
   UPDATE_TRIXTA_ERROR,
   UPDATE_TRIXTA_ROLE,
-  UPDATE_TRIXTA_ROLES
+  UPDATE_TRIXTA_ROLES,
 } from './../constants/index';
 import {
   CLEAR_TRIXTA_REACTION_RESPONSE,
@@ -20,7 +20,7 @@ import {
   SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
   SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
   UPDATE_TRIXTA_REACTION,
-  UPDATE_TRIXTA_REACTION_RESPONSE
+  UPDATE_TRIXTA_REACTION_RESPONSE,
 } from './../constants/reactions/index';
 import {
   defaultUnknownType,
@@ -29,7 +29,7 @@ import {
   TrixtaActionResponseDetails,
   TrixtaReactionDetails,
   TrixtaReactionResponseDetails,
-  TrixtaRoleParameter
+  TrixtaRoleParameter,
 } from './../types';
 
 export type SignoutTrixtaAction = {

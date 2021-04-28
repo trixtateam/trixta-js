@@ -4,7 +4,7 @@ import { isNullOrEmpty } from '../../../../utils';
 import { submitTrixtaReactionResponse } from '../../../reduxActions';
 import {
   makeSelectHasTrixtaRoleAccess,
-  makeSelectTrixtaReactionResponseInstancesForRole
+  makeSelectTrixtaReactionResponseInstancesForRole,
 } from '../../../selectors';
 import { TrixtaState } from '../../../types';
 import { RespondToReactionComponentProps } from './types';

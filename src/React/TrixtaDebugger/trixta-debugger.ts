@@ -4,7 +4,7 @@ import debug, { Debugger } from 'debug';
 import {
   TrixtaDebugType,
   TrixtaInstanceDebuggerParameters,
-  TrixtaInstancesDebuggerParameters
+  TrixtaInstancesDebuggerParameters,
 } from './types';
 debug.log = console.debug.bind(console);
 

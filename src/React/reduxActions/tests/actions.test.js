@@ -17,7 +17,7 @@ import {
   submitTrixtaReactionResponse,
   updateTrixtaError,
   updateTrixtaRoles,
-  signoutTrixta
+  signoutTrixta,
 } from '../index';
 import {
   updateTrixtaAction,

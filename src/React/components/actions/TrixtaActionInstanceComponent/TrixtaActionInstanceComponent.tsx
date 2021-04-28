@@ -5,7 +5,7 @@ import { TrixtaDebugType, trixtaInstanceDebugger } from '../../../TrixtaDebugger
 import { TrixtaState } from '../../../types';
 import {
   TrixtaActionInstanceComponentProps,
-  TrixtaActionInstanceComponentStateProps
+  TrixtaActionInstanceComponentStateProps,
 } from './types';
 
 const TrixtaActionInstanceComponent = ({

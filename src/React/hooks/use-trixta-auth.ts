@@ -1,10 +1,10 @@
-import { makeSelectPhoenixSocketDetails } from '@trixta/phoenix-to-redux';
+import { makeSelectPhoenixSocketIsAuthenticated } from '@trixta/phoenix-to-redux';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import {
   makeSelectHasTrixtaAuthorizationStarted,
   makeSelectHasTrixtaRoleAccessForRoles,
-  makeSelectIsTrixtaAuhorized
+  makeSelectIsTrixtaAuhorized,
 } from '../selectors';
 import { TrixtaAuthProps } from '../types';
 import { TrixtaState } from './../types/common';
@@ -14,10 +14,9 @@ export const useTrixtaAuth = ({
   roles = [],
 }: TrixtaAuthProps | undefined = {}): UseTrixtaAuthResponseReturn => {
   const rolesArr = useMemo(() => (Array.isArray(roles) ? roles : roles ? [roles] : []), [roles]);
-  const socketDetailsSelector = useMemo<ReturnType<typeof makeSelectPhoenixSocketDetails>>(
-    makeSelectPhoenixSocketDetails,
-    [],
-  );
+  const socketAuthenticatedSelector = useMemo<
+    ReturnType<typeof makeSelectPhoenixSocketIsAuthenticated>
+  >(makeSelectPhoenixSocketIsAuthenticated, []);
   const authorizedStatusSelector = useMemo<ReturnType<typeof makeSelectIsTrixtaAuhorized>>(
     makeSelectIsTrixtaAuhorized,
     [],
@@ -29,10 +28,8 @@ export const useTrixtaAuth = ({
   const hasRoles = useSelector((state: { trixta: TrixtaState }) =>
     roleAccessSelector(state, { roles: rolesArr }),
   );
-  const socketDetails = useSelector<{ trixta: TrixtaState }, { token?: string }>(
-    (state: { trixta: TrixtaState }) => socketDetailsSelector(state),
-  );
-  const isAuthenticated = socketDetails.token !== undefined;
+
+  const isAuthenticated = useSelector((state) => socketAuthenticatedSelector(state));
   const hasAuthorizationStarted = useSelector((state: { trixta: TrixtaState }) =>
     authorizationStartedSelector(state),
   );

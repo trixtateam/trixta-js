@@ -1,6 +1,6 @@
 {
   "name": "@trixta/trixta-js",
-  "version": "3.6.0-alpha.6",
+  "version": "3.6.0-alpha.7",
   "description": "Javascript library to integrate Trixta",
   "source": "src/index.ts",
   "main": "dist/@trixta/trixta-js.cjs.js",
@@ -116,6 +116,7 @@
     "@rjsf/core": "^2.5.1"
   },
   "dependencies": {
+    "react": ">=16.8.6",
     "@trixta/phoenix-to-redux": "3.4.7-beta.0",
     "phoenix": "1.5.4",
     "shortid": "^2.2.15"

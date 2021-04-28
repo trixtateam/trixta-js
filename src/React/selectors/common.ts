@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { createSelector } from 'reselect';
 import { get, isNullOrEmpty } from '../../utils';
 import { TrixtaActionBaseProps } from './../types/actions/index';

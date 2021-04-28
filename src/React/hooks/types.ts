@@ -1,11 +1,11 @@
 import {
-    defaultUnknownType,
-    TrixtaActionBaseProps,
-    TrixtaInstance,
-    TrixtaInstanceResponse,
-    TrixtaReactionBaseProps,
-    TrixtaReactionDispatch,
-    TrixtaReactionInstance
+  defaultUnknownType,
+  TrixtaActionBaseProps,
+  TrixtaInstance,
+  TrixtaInstanceResponse,
+  TrixtaReactionBaseProps,
+  TrixtaReactionDispatch,
+  TrixtaReactionInstance,
 } from '../types';
 
 export interface UseRespondToReactionResponseProps extends TrixtaReactionBaseProps {

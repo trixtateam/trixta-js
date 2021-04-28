@@ -4,7 +4,7 @@ import {
   SIGN_OUT_TRIXTA,
   UPDATE_TRIXTA_ERROR,
   UPDATE_TRIXTA_ROLE,
-  UPDATE_TRIXTA_ROLES
+  UPDATE_TRIXTA_ROLES,
 } from '../constants';
 import { TrixtaRoleParameter } from './../types';
 import {
@@ -13,7 +13,7 @@ import {
   SignoutTrixtaAction,
   UpdateTrixtaErrorAction,
   UpdateTrixtaRoleAction,
-  UpdateTrixtaRolesAction
+  UpdateTrixtaRolesAction,
 } from './types';
 
 /**

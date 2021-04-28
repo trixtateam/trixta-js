@@ -2,7 +2,7 @@ name: ci
 
 on:
   pull_request:
-    branches: [master, develop,alpha,beta]
+    branches: [master, develop, alpha, beta]
   workflow_dispatch:
 
 jobs:

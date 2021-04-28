@@ -3,7 +3,9 @@ name: semantic-release
 on:
   push:
     branches:
-      - [master, alpha, beta]
+       - master
+       - alpha
+       - beta
   workflow_dispatch:
 
 jobs:

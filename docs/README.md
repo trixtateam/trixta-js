@@ -205,8 +205,8 @@ import {
 export function* socketConnectedSaga() {
   // handle connection response
   const currentSession = yield select(makeSelectCurrentSession());
-  // save roles in reducer or somewhere to passs to trixta action
-  const roles = _.get(currentSession, 'roles', []).map((role) => ({
+  // save roles in reducer or somewhere to passs to trixta-js action
+  const roles = currentSession.roles.map((role) => ({
     name: role,
     logPresence: false,
   }));

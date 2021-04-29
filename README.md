@@ -2,9 +2,22 @@
 JS
 <br />
 
+![GitHub Release Date](https://img.shields.io/github/release-date/trixtateam/trixta-js?style=for-the-badge)
+![GitHub last commit](https://img.shields.io/github/last-commit/trixtateam/trixta-js?style=for-the-badge)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/trixtateam/trixta-js?style=for-the-badge)
+![GitHub commits since latest release](https://img.shields.io/github/commits-since/trixtateam/trixta-js/latest?style=for-the-badge)
+
+![Coverage statements](badges/badge-statements.svg)
+![Coverage branches](badges/badge-branches.svg)
+![Coverage functions](badges/badge-functions.svg)
+![Coverage lines](badges/badge-lines.svg)
+
+<br />
+
 # What is trixta-JS?
   trixta-js a javascript library to help any organization, easily connect to a Trixta space, build front-end components for you application. It leverages 
   [phoenix-to-redux](https://github.com/trixtateam/phoenix-to-redux) to communicate with Trixta and gives you a variety of tools / utilities to build react components.
+  
 # Who is this for?
   Any orgranization using Trixta for their javascript application.
 

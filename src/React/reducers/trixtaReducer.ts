@@ -193,7 +193,6 @@ export const trixtaReducer = (
           const reaction = getReactionDetails({
             reaction: reactionDetails,
           });
-          reaction.dateCreated = new Date().toLocaleString();
           const ref = get<string>(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref);
           if (!draft.reactions[keyName]) break;
           const mode = get<TrixtaInstanceMode>(state.reactions, `${keyName}.mode`);

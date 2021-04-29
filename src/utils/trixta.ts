@@ -25,10 +25,8 @@ import { get } from './object';
  */
 export function getReactionDetails({
   reaction,
-  dateCreated,
 }: {
   reaction: TrixtaReactionDetails;
-  dateCreated?: Date;
 }): TrixtaReactionResponseDetails {
   return {
     ref: get<string>(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, shortid.generate()),
@@ -37,7 +35,7 @@ export function getReactionDetails({
       ? TrixtaReactionType.requestForResponse
       : TrixtaReactionType.requestForEffect,
     initial_data: get<unknown>(reaction, ROLE_REACTION_RESPONSE_FIELDS.initial_data),
-    dateCreated: dateCreated ? dateCreated.toLocaleString() : new Date().toLocaleString(),
+    dateCreated: new Date().toLocaleString(),
   };
 }
 

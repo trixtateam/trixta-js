@@ -58,6 +58,8 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:coveralls": "jest --coverage --coverageReporters=text-lcov | coveralls",
+    "test:badges": "react-scripts test --coverage --watchAll=false --silent && yarn run coverage-badges",
+    "coverage-badges": "jest-coverage-badges --output ./badges",
     "test:staged": "jest --findRelatedTests"
   },
   "lint-staged": {

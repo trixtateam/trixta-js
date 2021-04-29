@@ -45,8 +45,8 @@ jobs:
       - name: Build libraries 🔨
         run: yarn build
 
-      - name: Coverage badges 📊
-        run: yarn test:coverage #&& yarn coverage-badges
+       - name: Coverage badges 📊
+        run: yarn test:cov && yarn coverage-badges
 
       # build not needed as we are not publishing the package in this workflow
       #      - name: Build ⚙️

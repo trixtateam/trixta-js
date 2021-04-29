@@ -11,7 +11,8 @@ on:
 jobs:
   semantic-release:
     name: Running semantic-release
-    if: "!contains(toJSON(github.event.commits.*.message), 'chore(release):')"
+    if:
+    "!contains(toJSON(github.event.commits.*.message), 'chore(release):')"
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -39,18 +40,13 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install 💿
-        # if: steps.cache-modules.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile
 
       - name: Build libraries 🔨
-        run: yarn build
+         run: yarn build
 
        - name: Coverage badges 📊
-        run: yarn test:coverage && yarn coverage-badges
-
-      # build not needed as we are not publishing the package in this workflow
-      #      - name: Build ⚙️
-      #        run: yarn build
+          run: yarn test:coverage && yarn coverage-badges
 
       - name: Release 📦
         env:

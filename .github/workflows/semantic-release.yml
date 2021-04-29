@@ -3,7 +3,7 @@ name: semantic-release
 on:
   push:
     branches:
-       - master
+      - master
        - alpha
        - beta
   workflow_dispatch:
@@ -11,8 +11,7 @@ on:
 jobs:
   semantic-release:
     name: Running semantic-release
-    if:
-    "!contains(toJSON(github.event.commits.*.message), 'chore(release):')"
+    if: "!contains(toJSON(github.event.commits.*.message), 'chore(release):')"
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -34,19 +33,21 @@ jobs:
         with:
           path: |
             **/node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{
+          key:
+            ${{ runner.os }}-build-${{ env.cache-name }}-${{
             hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install 💿
+        # if: steps.cache-modules.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile
 
       - name: Build libraries 🔨
-         run: yarn build
+        run: yarn build
 
-       - name: Coverage badges 📊
-          run: yarn test:coverage && yarn coverage-badges
+      - name: Coverage badges 📊
+        run: yarn test:coverage && yarn coverage-badges
 
       - name: Release 📦
         env:

@@ -803,6 +803,7 @@ describe('trixtaReducer', () => {
       it('should handle the updateTrixtaReactionResponse action for requestForResponse with ui mode replace correctly', () => {
         const nameOfRole = 'host[d1be63be-c0e4-4468-982c-5c04714a2987]';
         const nameOfReaction = 'request_guest_stream';
+        const dateCreated = new Date();
         const action = {
           data: {
             roleName: nameOfRole,
@@ -825,6 +826,7 @@ describe('trixtaReducer', () => {
           const keyName = get(action, 'data.keyName');
           const reactionDetails = get(action, 'data.reaction');
           const reaction = getReactionDetails({
+            dateCreated,
             reaction: reactionDetails,
           });
           const ref = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref);
@@ -910,6 +912,7 @@ describe('trixtaReducer', () => {
       it('should handle the updateTrixtaReactionResponse action for requestForResponse with ui mode accumulate correctly', () => {
         const nameOfRole = 'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]';
         const nameOfReaction = 'new_waitroom_status';
+        const dateCreated = new Date();
         const action = {
           data: {
             roleName: nameOfRole,
@@ -933,6 +936,7 @@ describe('trixtaReducer', () => {
           const reactionDetails = get(action, 'data.reaction');
           const reaction = getReactionDetails({
             reaction: reactionDetails,
+            dateCreated,
           });
           const ref = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref);
           if (!draft.reactions[keyName]) return;
@@ -1018,6 +1022,7 @@ describe('trixtaReducer', () => {
       it('should handle the updateTrixtaReactionResponse action for requestForResponse with expired status correctly', () => {
         const nameOfRole = 'host[d1be63be-c0e4-4468-982c-5c04714a2987]';
         const nameOfReaction = 'request_guest_stream';
+        const dateCreated = new Date();
         const action = {
           data: {
             roleName: nameOfRole,
@@ -1041,6 +1046,7 @@ describe('trixtaReducer', () => {
           const reactionDetails = get(action, 'data.reaction');
           const reaction = getReactionDetails({
             reaction: reactionDetails,
+            dateCreated,
           });
           const ref = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref);
           if (!draft.reactions[keyName]) return;

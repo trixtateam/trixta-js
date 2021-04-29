@@ -5,7 +5,7 @@ import {
   TrixtaAction,
   TrixtaInstance,
   TrixtaReaction,
-  TrixtaReactionInstance,
+  TrixtaReactionInstance
 } from '../React/types';
 import {
   TrixtaCommon,
@@ -13,7 +13,7 @@ import {
   TrixtaInstanceModeType,
   TrixtaReactionDetails,
   TrixtaReactionResponseDetails,
-  TrixtaReactionType,
+  TrixtaReactionType
 } from './../React/types';
 import { get } from './object';
 
@@ -21,11 +21,14 @@ import { get } from './object';
  * Returns only the necessary fields needed from reaction
  * @param {Object} params
  * @param {Object} params.reaction - reaction details
+ * @param {Date=} params.dateCreated - date created for timestamp
  */
 export function getReactionDetails({
   reaction,
+  dateCreated,
 }: {
   reaction: TrixtaReactionDetails;
+  dateCreated?: Date;
 }): TrixtaReactionResponseDetails {
   return {
     ref: get<string>(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, shortid.generate()),
@@ -34,7 +37,7 @@ export function getReactionDetails({
       ? TrixtaReactionType.requestForResponse
       : TrixtaReactionType.requestForEffect,
     initial_data: get<unknown>(reaction, ROLE_REACTION_RESPONSE_FIELDS.initial_data),
-    dateCreated: new Date().toLocaleString(),
+    dateCreated: dateCreated ? dateCreated.toLocaleString() : new Date().toLocaleString(),
   };
 }
 

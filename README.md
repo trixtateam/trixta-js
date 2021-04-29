@@ -1,6 +1,6 @@
 <img src="./docs/images/trixta-logo.png" alt="trixta logo"  />
 JS
-<br />
+<hr />
 
 ![GitHub Release Date](https://img.shields.io/github/release-date/trixtateam/trixta-js?style=for-the-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/trixtateam/trixta-js?style=for-the-badge)
@@ -232,6 +232,9 @@ export default function* rootSaga() {
   yield takeEvery(socketActionTypes.SOCKET_OPEN, socketConnectedSaga);
 }
 ```
+
+## Change Log
+- [Changes](CHANGELOG.md)
 
 ## Documentation
 - [**The detailed Guide to `trixta-js`**](docs/README.md)

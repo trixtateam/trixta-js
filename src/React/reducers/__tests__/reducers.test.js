@@ -9,7 +9,7 @@ import {
   getTrixtaInstanceResult,
   getTrixtaReactionReducerStructure,
   isObject,
-  pickBy,
+  pickBy
 } from '../../../utils';
 import {
   ROLE_REACTION_RESPONSE_FIELDS,
@@ -17,7 +17,7 @@ import {
   SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
   TRIXTA_FIELDS,
   TRIXTA_MODE_TYPE,
-  TRIXTA_MODE_TYPE_FIELDS,
+  TRIXTA_MODE_TYPE_FIELDS
 } from '../../constants';
 import * as actions from '../../reduxActions';
 import { signoutTrixta } from '../../reduxActions';
@@ -289,24 +289,23 @@ describe('trixtaReducer', () => {
         };
 
         const expectedResult = produce(state, (draft) => {
-          const keyName = get(action, 'data.keyName', null);
-          const mode = get(state.actions, `${keyName}.mode`, false);
+          const keyName = get(action, 'data.keyName');
+          const mode = get(state.actions, `${keyName}.mode`);
           const clearResponse = get(action, 'data.clearResponse');
           if (!draft.actions[keyName]) return;
           if (clearResponse) draft.actions[keyName].instances = [];
-
           if (draft.actions[keyName] && draft.actions[keyName].instances && mode) {
             const instance = getTrixtaInstanceResult({
-              error: false,
               success: get(action, 'data.response'),
+              error: false,
             });
-            switch (mode[TRIXTA_MODE_TYPE_FIELDS.type]) {
+            switch (mode.type) {
               case TRIXTA_MODE_TYPE.replace:
                 draft.actions[keyName].instances[0] = instance;
                 break;
               case TRIXTA_MODE_TYPE.accumulate:
                 {
-                  const accumalateLength = get(mode, TRIXTA_MODE_TYPE_FIELDS.limit, 10);
+                  const accumalateLength = mode.limit ?? 10;
                   draft.actions[keyName].instances.unshift(instance);
                   if (draft.actions[keyName].instances.length > accumalateLength)
                     draft.actions[keyName].instances.length = accumalateLength;
@@ -345,24 +344,23 @@ describe('trixtaReducer', () => {
         };
 
         const expectedResult = produce(state, (draft) => {
-          const keyName = get(action, 'data.keyName', null);
-          const mode = get(state.actions, `${keyName}.mode`, false);
+          const keyName = get(action, 'data.keyName');
+          const mode = get(state.actions, `${keyName}.mode`);
           const clearResponse = get(action, 'data.clearResponse');
           if (!draft.actions[keyName]) return;
           if (clearResponse) draft.actions[keyName].instances = [];
-
           if (draft.actions[keyName] && draft.actions[keyName].instances && mode) {
             const instance = getTrixtaInstanceResult({
-              error: false,
               success: get(action, 'data.response'),
+              error: false,
             });
-            switch (mode[TRIXTA_MODE_TYPE_FIELDS.type]) {
+            switch (mode.type) {
               case TRIXTA_MODE_TYPE.replace:
                 draft.actions[keyName].instances[0] = instance;
                 break;
               case TRIXTA_MODE_TYPE.accumulate:
                 {
-                  const accumalateLength = get(mode, TRIXTA_MODE_TYPE_FIELDS.limit, 10);
+                  const accumalateLength = mode.limit ?? 10;
                   draft.actions[keyName].instances.unshift(instance);
                   if (draft.actions[keyName].instances.length > accumalateLength)
                     draft.actions[keyName].instances.length = accumalateLength;
@@ -411,24 +409,23 @@ describe('trixtaReducer', () => {
         };
 
         const expectedResult = produce(state, (draft) => {
-          const keyName = get(action, 'data.keyName', null);
-          const mode = get(state.actions, `${keyName}.mode`, false);
+          const keyName = get(action, 'data.keyName');
+          const mode = get(state.actions, `${keyName}.mode`);
           const clearResponse = get(action, 'data.clearResponse');
           if (!draft.actions[keyName]) return;
           if (clearResponse) draft.actions[keyName].instances = [];
-
           if (draft.actions[keyName] && draft.actions[keyName].instances && mode) {
             const instance = getTrixtaInstanceResult({
-              error: false,
               success: get(action, 'data.response'),
+              error: false,
             });
-            switch (mode[TRIXTA_MODE_TYPE_FIELDS.type]) {
+            switch (mode.type) {
               case TRIXTA_MODE_TYPE.replace:
                 draft.actions[keyName].instances[0] = instance;
                 break;
               case TRIXTA_MODE_TYPE.accumulate:
                 {
-                  const accumalateLength = get(mode, TRIXTA_MODE_TYPE_FIELDS.limit, 10);
+                  const accumalateLength = mode.limit ?? 10;
                   draft.actions[keyName].instances.unshift(instance);
                   if (draft.actions[keyName].instances.length > accumalateLength)
                     draft.actions[keyName].instances.length = accumalateLength;
@@ -825,18 +822,14 @@ describe('trixtaReducer', () => {
         };
         state = trixtaState;
         const expectedResult = produce(state, (draft) => {
-          const keyName = get(action, 'data.keyName', null);
-          const reactionDetails = get(action, 'data.reaction', {});
-          const roleName = get(action, 'data.roleName', {});
-          const reactionName = get(action, 'data.reactionName', {});
+          const keyName = get(action, 'data.keyName');
+          const reactionDetails = get(action, 'data.reaction');
           const reaction = getReactionDetails({
             reaction: reactionDetails,
-            roleName,
-            reactionName,
           });
-          const ref = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, false);
+          const ref = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref);
           if (!draft.reactions[keyName]) return;
-          const mode = get(state.reactions, `${keyName}.mode`, false);
+          const mode = get(state.reactions, `${keyName}.mode`);
           const isExpired = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.status, '') === 'expired';
           const isRequestForResponse = reaction.type === TRIXTA_FIELDS.requestForResponse;
           if (isRequestForResponse) {
@@ -862,7 +855,7 @@ describe('trixtaReducer', () => {
               success: false,
               error: false,
             });
-            switch (mode[TRIXTA_MODE_TYPE_FIELDS.type]) {
+            switch (mode.type) {
               case TRIXTA_MODE_TYPE.replace:
                 if (isRequestForResponse) {
                   draft.reactions[keyName].instances[
@@ -874,7 +867,7 @@ describe('trixtaReducer', () => {
                 break;
               case TRIXTA_MODE_TYPE.accumulate:
                 {
-                  const accumalateLength = get(mode, TRIXTA_MODE_TYPE_FIELDS.limit, 10);
+                  const accumalateLength = mode.limit ?? 10;
                   if (isRequestForResponse) {
                     draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse].unshift(
                       instance,
@@ -936,18 +929,14 @@ describe('trixtaReducer', () => {
         };
         state = trixtaState;
         const expectedResult = produce(state, (draft) => {
-          const keyName = get(action, 'data.keyName', null);
-          const reactionDetails = get(action, 'data.reaction', {});
-          const roleName = get(action, 'data.roleName', {});
-          const reactionName = get(action, 'data.reactionName', {});
+          const keyName = get(action, 'data.keyName');
+          const reactionDetails = get(action, 'data.reaction');
           const reaction = getReactionDetails({
             reaction: reactionDetails,
-            roleName,
-            reactionName,
           });
-          const ref = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, false);
+          const ref = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref);
           if (!draft.reactions[keyName]) return;
-          const mode = get(state.reactions, `${keyName}.mode`, false);
+          const mode = get(state.reactions, `${keyName}.mode`);
           const isExpired = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.status, '') === 'expired';
           const isRequestForResponse = reaction.type === TRIXTA_FIELDS.requestForResponse;
           if (isRequestForResponse) {
@@ -973,7 +962,7 @@ describe('trixtaReducer', () => {
               success: false,
               error: false,
             });
-            switch (mode[TRIXTA_MODE_TYPE_FIELDS.type]) {
+            switch (mode.type) {
               case TRIXTA_MODE_TYPE.replace:
                 if (isRequestForResponse) {
                   draft.reactions[keyName].instances[
@@ -985,7 +974,7 @@ describe('trixtaReducer', () => {
                 break;
               case TRIXTA_MODE_TYPE.accumulate:
                 {
-                  const accumalateLength = get(mode, TRIXTA_MODE_TYPE_FIELDS.limit, 10);
+                  const accumalateLength = mode.limit ?? 10;
                   if (isRequestForResponse) {
                     draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse].unshift(
                       instance,
@@ -1048,18 +1037,14 @@ describe('trixtaReducer', () => {
         };
         state = trixtaState;
         const expectedResult = produce(state, (draft) => {
-          const keyName = get(action, 'data.keyName', null);
-          const reactionDetails = get(action, 'data.reaction', {});
-          const roleName = get(action, 'data.roleName', {});
-          const reactionName = get(action, 'data.reactionName', {});
+          const keyName = get(action, 'data.keyName');
+          const reactionDetails = get(action, 'data.reaction');
           const reaction = getReactionDetails({
             reaction: reactionDetails,
-            roleName,
-            reactionName,
           });
-          const ref = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, false);
+          const ref = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref);
           if (!draft.reactions[keyName]) return;
-          const mode = get(state.reactions, `${keyName}.mode`, false);
+          const mode = get(state.reactions, `${keyName}.mode`);
           const isExpired = get(reaction, ROLE_REACTION_RESPONSE_FIELDS.status, '') === 'expired';
           const isRequestForResponse = reaction.type === TRIXTA_FIELDS.requestForResponse;
           if (isRequestForResponse) {
@@ -1085,7 +1070,7 @@ describe('trixtaReducer', () => {
               success: false,
               error: false,
             });
-            switch (mode[TRIXTA_MODE_TYPE_FIELDS.type]) {
+            switch (mode.type) {
               case TRIXTA_MODE_TYPE.replace:
                 if (isRequestForResponse) {
                   draft.reactions[keyName].instances[
@@ -1097,7 +1082,7 @@ describe('trixtaReducer', () => {
                 break;
               case TRIXTA_MODE_TYPE.accumulate:
                 {
-                  const accumalateLength = get(mode, TRIXTA_MODE_TYPE_FIELDS.limit, 10);
+                  const accumalateLength = mode.limit ?? 10;
                   if (isRequestForResponse) {
                     draft.reactions[keyName].instances[TRIXTA_FIELDS.requestForResponse].unshift(
                       instance,

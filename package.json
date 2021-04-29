@@ -48,6 +48,7 @@
     "prettify": "prettier --write",
     "prepare": "npm run build",
     "clean": "yarn clean:modules && yarn clean:cache",
+    "clean:modules": "rimraf node_modules",
     "semantic-release": "semantic-release",
     "major": "npm --no-git-tag-version version premajor --preid=beta",
     "patch": "npm --no-git-tag-version version prepatch --preid=beta",

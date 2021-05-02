@@ -2,7 +2,6 @@
 
 ### listenForTrixtaReactionResponse action
 
-
 ```javascript
 import {
   fork,
@@ -38,9 +37,11 @@ yield takeEvery(listenForTrixtaReactionResponse({
 ```
 
 ### respondToTrixtaReactionEffectSaga
+
 [`respondToTrixtaReactionEffectSaga`](https://github.com/trixtateam/trixtaJS/blob/master/src/React/sagas/respondToTrixtaReactionEffectSaga.js) - allows to respond to Trixta reactions in sagas
 
 #### example
+
 ```javascript
 export const EXAMPLE_RESPONSE = 'app/EXAMPLE_RESPONSE';
 
@@ -71,7 +72,9 @@ yield fork(respondToTrixtaReactionEffectSaga,{
 }
 
 ```
+
 OR
+
 ```javascript
 import {EXAMPLE_RESPONSE} from './actions'
 import {

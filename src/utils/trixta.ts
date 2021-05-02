@@ -5,7 +5,7 @@ import {
   TrixtaAction,
   TrixtaInstance,
   TrixtaReaction,
-  TrixtaReactionInstance
+  TrixtaReactionInstance,
 } from '../React/types';
 import {
   TrixtaCommon,
@@ -13,7 +13,7 @@ import {
   TrixtaInstanceModeType,
   TrixtaReactionDetails,
   TrixtaReactionResponseDetails,
-  TrixtaReactionType
+  TrixtaReactionType,
 } from './../React/types';
 import { get } from './object';
 

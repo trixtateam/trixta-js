@@ -45,7 +45,7 @@
     "checkTs": "tsc --noEmit",
     "lint": "yarn run eslint src",
     "lint:fix": "yarn run lint --fix",
-    "prettify": "prettier --write",
+    "prettify": "prettier . --write",
     "prepare": "npm run build",
     "clean": "yarn clean:modules && yarn clean:cache",
     "clean:modules": "rimraf node_modules",

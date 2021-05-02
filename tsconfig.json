@@ -32,11 +32,7 @@
     "noFallthroughCasesInSwitch": true,
     "jsx": "react",
     "types": ["jest", "@testing-library/jest-dom", "node"],
-    "typeRoots": [
-      "packages/*/types",
-      "packages/*/src/types",
-      "node_modules/@types",
-    ],
+    "typeRoots": ["packages/*/types", "packages/*/src/types", "node_modules/@types"]
   },
   "include": ["src", "types"],
   "exclude": ["**/__tests__", "node_modules", "dist"]

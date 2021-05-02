@@ -11,8 +11,7 @@ on:
 jobs:
   publish:
     name: Running publish
-    if:
-      "contains(toJSON(github.event.commits.*.message), 'chore(release):') ||
+    if: "contains(toJSON(github.event.commits.*.message), 'chore(release):') ||
       contains(toJSON(github.event.commits.*.message), 'chore(libs):') ||
       contains(toJSON(github.event.commits.*.message), 'bump version')"
     runs-on: ubuntu-latest

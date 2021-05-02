@@ -77,7 +77,7 @@ export type TrixtaState<TRole = string> = {
   actions: Record<string, TrixtaAction>;
   error: defaultUnknownType;
   authorizationStarted: boolean;
-  authorizingStatus: Record<string, {status?:boolean}>;
+  authorizingStatus: Record<string, { status?: boolean }>;
   agentDetails: TRole[];
 };
 
@@ -121,36 +121,33 @@ export interface TrixtaInstanceDetails<TInitialData = defaultUnknownType>
 }
 
 export interface TrixtaInstance<
-/**
-* Type of data for Trixta response for Reaction / Action
-*/
-TSuccessType= defaultUnknownType,
-/**
- * Type of data for Trixta error response for Reaction / Action
- */
-TErrorType= defaultUnknownType
+  /**
+   * Type of data for Trixta response for Reaction / Action
+   */
+  TSuccessType = defaultUnknownType,
+  /**
+   * Type of data for Trixta error response for Reaction / Action
+   */
+  TErrorType = defaultUnknownType
 > extends Record<string, unknown> {
   response: TrixtaInstanceResponse<TSuccessType, TErrorType>;
 }
 
-
 export interface TrixtaReactionInstance<
-/**
+  /**
    * Type of data for initial data from Trixta for Reaction / Action
    */
- TInitialData = defaultUnknownType,
-/**
-  * Type of data for Trixta response for Reaction / Action
-  */
-TSuccessType= defaultUnknownType,
-/**
+  TInitialData = defaultUnknownType,
+  /**
+   * Type of data for Trixta response for Reaction / Action
+   */
+  TSuccessType = defaultUnknownType,
+  /**
    * Type of data for Trixta error response for Reaction / Action
    */
-TErrorType= defaultUnknownType> extends  TrixtaInstance<TSuccessType,
-TErrorType
->  {
+  TErrorType = defaultUnknownType
+> extends TrixtaInstance<TSuccessType, TErrorType> {
   details: TrixtaInstanceDetails<TInitialData>;
-
 }
 
 export type TrixtaDispatch<T = never> = [T] extends [never] ? () => void : (data: T) => void;

@@ -1,7 +1,12 @@
 import { UiSchema } from '@rjsf/core';
 import { JSONSchema7 } from 'json-schema';
-import { defaultUnknownType, TrixtaBaseRoleProps, TrixtaCommon, TrixtaInstance, TrixtaInstanceMode } from '../common';
-
+import {
+  defaultUnknownType,
+  TrixtaBaseRoleProps,
+  TrixtaCommon,
+  TrixtaInstance,
+  TrixtaInstanceMode,
+} from '../common';
 
 export interface TrixtaActionDebugOptions {
   slowdown: number;
@@ -53,7 +58,7 @@ export interface TrixtaAction {
   common: TrixtaCommon;
   mode: TrixtaInstanceMode;
   loadingStatus: {
-    status?:boolean;
+    status?: boolean;
   };
   instances: TrixtaInstance[];
 }
@@ -83,7 +88,7 @@ export interface SubmitTrixtaActionResponse<TFormData = defaultUnknownType> {
    * Enables debugging for action in Trixta flow
    */
   debugMode?: boolean;
-   /**
+  /**
    * Trixta flow debugging options
    */
   debugOptions?: TrixtaActionDebugOptions;

@@ -1,8 +1,3 @@
 ## Components
 
 COMING SOON
-
-
-
-
-

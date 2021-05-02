@@ -1,7 +1,6 @@
 ---
 name: ❓ Support Question
-about:
-  🛑 If you have a question 💬, please check out our support channels and docs!
+about: 🛑 If you have a question 💬, please check out our support channels and docs!
 ---
 
 -------------- 👆 Click "Preview"!

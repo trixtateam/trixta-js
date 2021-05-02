@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { createSelector } from 'reselect';
-import { get, isNullOrEmpty } from '../../utils';
+import { createSelector, OutputSelector } from 'reselect';
+import { get } from '../../utils';
 import { TrixtaActionBaseProps } from './../types/actions/index';
 import { TrixtaBaseRoleProps, TrixtaState } from './../types/common';
 import { TrixtaReactionBaseProps } from './../types/reactions/index';
@@ -115,12 +115,30 @@ export const makeSelectTrixtaAuthorizingStatusForRole = () =>
   );
 
 /**
+ * Selects the authorizingStatus for the given roleName
+ * @returns
+ */
+const selectIsTrixtaAuth = makeSelectIsTrixtaAuhorized();
+const selectAuthStarted = makeSelectHasTrixtaAuthorizationStarted();
+export const selectIsAuthorizing = createSelector(
+  [selectAuthStarted, selectIsTrixtaAuth],
+  (hasStarted, hasAuthorized) => (hasStarted ? !hasAuthorized : true),
+);
+
+/**
  * Determines if the roles are present for the agent details
  * @param {Array<string>} roles
  */
-export const makeSelectHasTrixtaRoleAccessForRoles = () =>
-  createSelector([selectTrixtaAgentDetails, selectTrixtaRolesProp], (agentDetails, roles) => {
-    if (isNullOrEmpty(roles)) return false;
-    if (!Array.isArray(roles)) return false;
+export const makeSelectHasTrixtaRoleAccessForRoles = (
+  roles: string[] | undefined,
+): OutputSelector<
+  {
+    trixta: TrixtaState;
+  },
+  boolean,
+  (res1: string[], res2: string | undefined) => boolean
+> =>
+  createSelector(selectTrixtaAgentDetails, (agentDetails: Array<string>) => {
+    if (!roles || !roles.length) return false;
     return roles.every((role) => agentDetails.includes(role));
   });

@@ -137,8 +137,8 @@ describe('Trixta Selectors', () => {
         'host[d1be63be-c0e4-4468-982c-5c04714a2987]',
       ];
       const props = { roles: trixtaRoles };
-      const selector = trixtaCommonSelectors.makeSelectHasTrixtaRoleAccessForRoles();
-      const agentRoles = trixtaCommonSelectors.selectTrixtaAgentDetails(mockedState, props);
+      const selector = trixtaCommonSelectors.makeSelectHasTrixtaRoleAccessForRoles(trixtaRoles);
+      const agentRoles = trixtaCommonSelectors.selectTrixtaAgentDetails(mockedState);
       const roles = trixtaCommonSelectors.selectTrixtaRolesProp(mockedState, props);
       let expectedResult = false;
       if (isNullOrEmpty(roles)) expectedResult = false;

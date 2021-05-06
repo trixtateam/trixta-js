@@ -13,10 +13,15 @@ import {
   TrixtaDebugType,
   trixtaInstanceDebugger,
 } from '../../../TrixtaDebugger';
-import { TrixtaInstanceResponse, TrixtaState } from '../../../types';
+import TrixtaReactJsonSchemaForm from '../../TrixtaFormComponent';
 import { TrixtaReactionComponentArgs } from '../types';
+import {
+  DefaultUnknownType,
+  TrixtaInstanceResponse,
+  TrixtaState,
+} from './../../../types/common';
 import { TrixtaReactionInstanceComponentProps } from './types';
-const TrixtaReactionInstanceComponent = ({
+function TrixtaReactionInstanceComponent({
   dispatchSubmitReactionResponse,
   roleName,
   reactionName,
@@ -26,14 +31,14 @@ const TrixtaReactionInstanceComponent = ({
   children,
   instance,
   isInProgress,
+  instanceRef,
   loading,
   isReady,
   ...rest
 }: ConnectProps &
   DispatchProps &
   TrixtaReactionInstanceComponentProps &
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Record<string, any>) => {
+  Record<string, any>) {
   const response = get<TrixtaInstanceResponse>(instance, 'response', {
     success: false,
     error: false,
@@ -70,8 +75,27 @@ const TrixtaReactionInstanceComponent = ({
     }
   }
 
+  if (!hasResponse && !children && instance?.details) {
+    const formData = instance?.details.initial_data ?? {};
+    const uiSchema = common.request_settings ?? {};
+    const schema = common.request_schema ?? {};
+    return (
+      <TrixtaReactJsonSchemaForm
+        formData={formData}
+        uiSchema={uiSchema}
+        schema={schema}
+        formContext={{ ...rest }}
+        idPrefix={`${roleName}-${reactionName}-${instanceRef}`}
+        submittable={!requestForEffect}
+        onSubmit={({ formData }: { formData: DefaultUnknownType }) => {
+          dispatchSubmitReactionResponse(formData);
+        }}
+      />
+    );
+  }
+
   return null;
-};
+}
 
 const makeMapStateToProps = () => {
   const getTrixtaReactionResponseInstance = makesSelectTrixtaReactionResponseInstance();

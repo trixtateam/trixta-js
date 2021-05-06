@@ -129,6 +129,10 @@ export interface TrixtaInstanceMode {
 
 export interface TrixtaCommon {
   /**
+   * Form data to pass to Trixta Json Schema Form
+   */
+  form_data?:DefaultUnknownType
+  /**
    * Name of Trixta action or reaction
    */
   name: string;

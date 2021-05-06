@@ -2,6 +2,7 @@ import { DocsContainer, DocsPage } from '@storybook/addon-docs';
 import { themes } from '@storybook/theming';
 import "bootstrap/dist/css/bootstrap.min.css";
 import ReduxDecorator from '../src/stories/utils/ReduxDecorator';
+
 export const parameters = {
   controls: { expanded: true },
   showPanel: true,

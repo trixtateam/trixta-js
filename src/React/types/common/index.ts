@@ -24,7 +24,7 @@ export interface TrixtaRole {
   name: string;
 }
 
-export type defaultUnknownType =
+export type DefaultUnknownType =
   | Record<string, unknown>
   | Array<Record<string, unknown> | unknown>
   | unknown
@@ -43,6 +43,10 @@ export interface TrixtaInstanceMode {
 }
 
 export interface TrixtaCommon {
+  /**
+   * Form data to pass to Trixta Json Schema Form
+   */
+  form_data?:DefaultUnknownType
   /**
    * Name of Trixta action or reaction
    */
@@ -75,15 +79,15 @@ export interface TrixtaCommon {
 export type TrixtaState<TRole = string> = {
   reactions: Record<string, TrixtaReaction>;
   actions: Record<string, TrixtaAction>;
-  error: defaultUnknownType;
+  error: DefaultUnknownType;
   authorizationStarted: boolean;
   authorizingStatus: Record<string, {status?:boolean}>;
   agentDetails: TRole[];
 };
 
 export interface TrixtaInstanceResponse<
-  TSuccessType = defaultUnknownType,
-  TErrorType = defaultUnknownType
+  TSuccessType = DefaultUnknownType,
+  TErrorType = DefaultUnknownType
 > {
   /**
    * If, error from Trixta, the error response for Reaction / Action
@@ -95,7 +99,7 @@ export interface TrixtaInstanceResponse<
   success?: TSuccessType;
 }
 
-export interface TrixtaInstanceDetails<TInitialData = defaultUnknownType>
+export interface TrixtaInstanceDetails<TInitialData = DefaultUnknownType>
   extends Record<string, unknown> {
   // eslint-disable-next-line camelcase
   /**
@@ -124,34 +128,15 @@ export interface TrixtaInstance<
 /**
 * Type of data for Trixta response for Reaction / Action
 */
-TSuccessType= defaultUnknownType,
+TSuccessType= DefaultUnknownType,
 /**
  * Type of data for Trixta error response for Reaction / Action
  */
-TErrorType= defaultUnknownType
+TErrorType= DefaultUnknownType
 > extends Record<string, unknown> {
   response: TrixtaInstanceResponse<TSuccessType, TErrorType>;
 }
 
-
-export interface TrixtaReactionInstance<
-/**
-   * Type of data for initial data from Trixta for Reaction / Action
-   */
- TInitialData = defaultUnknownType,
-/**
-  * Type of data for Trixta response for Reaction / Action
-  */
-TSuccessType= defaultUnknownType,
-/**
-   * Type of data for Trixta error response for Reaction / Action
-   */
-TErrorType= defaultUnknownType> extends  TrixtaInstance<TSuccessType,
-TErrorType
->  {
-  details: TrixtaInstanceDetails<TInitialData>;
-
-}
 
 export type TrixtaDispatch<T = never> = [T] extends [never] ? () => void : (data: T) => void;
 export interface TrixtaAuthProps {

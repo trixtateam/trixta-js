@@ -3,7 +3,10 @@
  * @param {any} variable - anything to check if is object
  */
 export function isObject(variable: unknown): variable is Dict {
-  return variable !== undefined && Object.prototype.toString.call(variable) === '[object Object]';
+  return (
+    variable !== undefined &&
+    Object.prototype.toString.call(variable) === '[object Object]'
+  );
 }
 
 // eslint-disable-next-line no-unused-vars

@@ -7,8 +7,13 @@ import {
   makeSelectTrixtaReactionResponseInstancesForRole,
 } from '../../../selectors';
 import { trixtaDebugger, TrixtaDebugType } from '../../../TrixtaDebugger';
-import { TrixtaState } from '../../../types';
 import { TrixtaReactionInstanceComponent } from '../TrixtaReactionInstanceComponent';
+import {
+  DefaultUnknownType,
+  TrixtaCommon,
+  TrixtaState,
+} from './../../../types/common';
+import { TrixtaReactionInstance } from './../../../types/reactions';
 import { TrixtaReactionComponentProps } from './types';
 
 function TrixtaReactionComponent({
@@ -71,11 +76,21 @@ const makeMapStateToProps = () => {
   const getTrixtaCommonForRole = makeSelectTrixtaReactionCommonForRole();
   const getTrixtaReactionResponseInstancesForRole = makeSelectTrixtaReactionResponseInstancesForRole();
   const getHasTrixtaRoleAccess = makeSelectHasTrixtaRoleAccess();
-  const mapStateToProps = (state: { trixta: TrixtaState }, props: TrixtaReactionComponentProps) => {
+  const mapStateToProps = (
+    state: { trixta: TrixtaState },
+    props: TrixtaReactionComponentProps,
+  ) => {
     return {
-      common: getTrixtaCommonForRole(state, props),
-      instances: getTrixtaReactionResponseInstancesForRole(state, props),
-      hasRoleAccess: getHasTrixtaRoleAccess(state, props),
+      common: getTrixtaCommonForRole(state, props) as TrixtaCommon,
+      instances: getTrixtaReactionResponseInstancesForRole(
+        state,
+        props,
+      ) as TrixtaReactionInstance<
+        DefaultUnknownType,
+        DefaultUnknownType,
+        DefaultUnknownType
+      >[],
+      hasRoleAccess: getHasTrixtaRoleAccess(state, props) as boolean,
     };
   };
   return mapStateToProps;

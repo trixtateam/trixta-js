@@ -6,7 +6,8 @@ import {
   makeSelectHasTrixtaRoleAccess,
   makeSelectTrixtaReactionResponseInstancesForRole,
 } from '../../../selectors';
-import { TrixtaState } from '../../../types';
+import { DefaultUnknownType, TrixtaState } from './../../../types/common';
+import { TrixtaReactionInstance } from './../../../types/reactions';
 import { RespondToReactionComponentProps } from './types';
 
 const RespondToReactionComponent = ({
@@ -19,7 +20,7 @@ const RespondToReactionComponent = ({
   shouldRespond = true,
   actionToDispatch = undefined,
   dispatchResponseTo,
-}: RespondToReactionComponentProps) => {
+}: RespondToReactionComponentProps & ConnectProps) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -70,13 +71,27 @@ const makeMapStateToProps = () => {
     props: RespondToReactionComponentProps,
   ) => {
     return {
-      instances: getTrixtaReactionResponseInstancesForRole(state, props),
-      hasRoleAccess: getHasTrixtaRoleAccess(state, props),
+      instances: getTrixtaReactionResponseInstancesForRole(
+        state,
+        props,
+      ) as TrixtaReactionInstance<
+        DefaultUnknownType,
+        DefaultUnknownType,
+        DefaultUnknownType
+      >[],
+      hasRoleAccess: getHasTrixtaRoleAccess(state, props) as boolean,
     };
   };
   return mapStateToProps;
 };
 
-const connector = connect(makeMapStateToProps, null);
+type ConnectProps = ReturnType<ReturnType<typeof makeMapStateToProps>>;
+
+const connector = connect<
+  ConnectProps,
+  Record<string, unknown>,
+  RespondToReactionComponentProps,
+  { trixta: TrixtaState }
+>(makeMapStateToProps);
 
 export default connector(RespondToReactionComponent);

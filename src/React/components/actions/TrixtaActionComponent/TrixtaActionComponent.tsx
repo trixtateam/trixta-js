@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { get } from '../../../../utils';
+import { get, isNullOrEmpty } from '../../../../utils';
 import { submitTrixtaActionResponse } from '../../../reduxActions';
 import {
   makeSelectHasTrixtaRoleAccess,
@@ -10,7 +10,8 @@ import {
   makeSelectTrixtaActionResponseInstancesForRole,
 } from '../../../selectors';
 import { trixtaDebugger, TrixtaDebugType } from '../../../TrixtaDebugger';
-import { TrixtaState } from '../../../types';
+import { DefaultUnknownType, TrixtaState } from '../../../types';
+import TrixtaReactJsonSchemaForm from '../../TrixtaFormComponent';
 import { TrixtaActionInstanceComponent } from '../TrixtaActionInstanceComponent';
 import { TrixtaActionComponentArgs } from '../types';
 import {
@@ -19,7 +20,7 @@ import {
   TrixtaActionComponentStateProps,
 } from './types';
 
-const TrixtaActionComponent = ({
+function TrixtaActionComponent({
   dispatchSubmitActionResponse,
   common,
   instances,
@@ -33,7 +34,7 @@ const TrixtaActionComponent = ({
   ...rest
 }: TrixtaActionComponentProps &
   TrixtaActionComponentStateProps &
-  TrixtaActionComponentDispatchProps) => {
+  TrixtaActionComponentDispatchProps) {
   trixtaDebugger({
     type: TrixtaDebugType.Action,
     debugMode,
@@ -44,6 +45,7 @@ const TrixtaActionComponent = ({
     roleName,
   });
   if (!hasRoleAccess) return null;
+  const hasResponse = !isNullOrEmpty(instances);
   const actionProps: TrixtaActionComponentArgs = {
     dispatchSubmitActionResponse,
     submit: dispatchSubmitActionResponse,
@@ -60,6 +62,23 @@ const TrixtaActionComponent = ({
     return children(actionProps);
   }
 
+  if (!hasResponse && !children && common) {
+    const formData = common.form_data ?? {};
+    const schema = common.request_schema ?? {};
+    const uiSchema = common.request_settings ?? {};
+    return (
+      <TrixtaReactJsonSchemaForm
+        idPrefix={`${roleName}-${actionName}`}
+        schema={schema}
+        formData={formData}
+        uiSchema={uiSchema}
+        onSubmit={({ formData }: { formData: DefaultUnknownType }) => {
+          dispatchSubmitActionResponse(formData);
+        }}
+      />
+    );
+  }
+
   return instances.map((_, index) => (
     <TrixtaActionInstanceComponent
       key={`${roleName}-${actionName}-${index}`}
@@ -73,14 +92,17 @@ const TrixtaActionComponent = ({
       {children && children}
     </TrixtaActionInstanceComponent>
   ));
-};
+}
 
 const makeMapStateToProps = () => {
   const getTrixtaCommonForRole = makeSelectTrixtaActionCommonForRole();
   const getTrixtaActionResponseInstancesForRole = makeSelectTrixtaActionResponseInstancesForRole();
   const getHasTrixtaRoleAccess = makeSelectHasTrixtaRoleAccess();
   const getIsTrixtaActionInProgress = makeSelectIsTrixtaActionInProgress();
-  const mapStateToProps = (state: { trixta: TrixtaState }, props: TrixtaActionComponentProps) => {
+  const mapStateToProps = (
+    state: { trixta: TrixtaState },
+    props: TrixtaActionComponentProps,
+  ) => {
     return {
       common: getTrixtaCommonForRole(state, props),
       instances: getTrixtaActionResponseInstancesForRole(state, props),
@@ -96,7 +118,7 @@ function mapDispatchToProps(
   ownProps: TrixtaActionComponentProps,
 ): TrixtaActionComponentDispatchProps {
   return {
-    dispatchSubmitActionResponse: (formData?: Record<string, unknown>) =>
+    dispatchSubmitActionResponse: (formData) =>
       dispatch(
         submitTrixtaActionResponse({
           errorEvent: ownProps.errorEvent,
@@ -113,5 +135,8 @@ function mapDispatchToProps(
   };
 }
 
-const connector = connect(makeMapStateToProps, mapDispatchToProps);
+const connector = connect<
+  ReturnType<typeof makeMapStateToProps>,
+  ReturnType<typeof mapDispatchToProps>
+>(makeMapStateToProps, mapDispatchToProps);
 export default connector(TrixtaActionComponent);

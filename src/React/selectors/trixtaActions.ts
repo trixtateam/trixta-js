@@ -17,8 +17,9 @@ export const selectTrixtaActionInstanceIndexProp = (
   props: DefaultSelectorProps & { instanceIndex: number },
 ): number => props.instanceIndex;
 
-export const selectTrixtaActions = (state: { trixta: TrixtaState }): Record<string, TrixtaAction> =>
-  state.trixta.actions;
+export const selectTrixtaActions = (state: {
+  trixta: TrixtaState;
+}): Record<string, TrixtaAction> => state.trixta.actions;
 
 export const selectTrixtActionStateSelector: ParametricSelector<
   { trixta: TrixtaState },
@@ -27,7 +28,9 @@ export const selectTrixtActionStateSelector: ParametricSelector<
 > = createSelector(
   [selectTrixtaRoleNameProp, selectTrixtaActionNameProp, selectTrixtaActions],
   (roleName, actionName, trixtaActions) => {
-    return trixtaActions[getReducerKeyName({ name: actionName, role: roleName })]
+    return trixtaActions[
+      getReducerKeyName({ name: actionName, role: roleName })
+    ]
       ? trixtaActions[getReducerKeyName({ name: actionName, role: roleName })]
       : undefined;
   },
@@ -37,8 +40,12 @@ export const getTrixtActionState = (
   state: { trixta: TrixtaState },
   props: DefaultSelectorProps,
 ): TrixtaAction | undefined =>
-  state.trixta.actions[getReducerKeyName({ name: props.actionName, role: props.roleName })] &&
-  state.trixta.actions[getReducerKeyName({ name: props.actionName, role: props.roleName })];
+  state.trixta.actions[
+    getReducerKeyName({ name: props.actionName, role: props.roleName })
+  ] &&
+  state.trixta.actions[
+    getReducerKeyName({ name: props.actionName, role: props.roleName })
+  ];
 
 /**
  * Selects the actions[props.roleName:props.actionName]
@@ -58,7 +65,8 @@ export const selectTrixtaActionLoadingStatus = (
   state: { trixta: TrixtaState },
   props: DefaultSelectorProps,
 ): { status?: boolean } | undefined =>
-  getTrixtActionState(state, props) && getTrixtActionState(state, props)?.loadingStatus;
+  getTrixtActionState(state, props) &&
+  getTrixtActionState(state, props)?.loadingStatus;
 
 /**
  * Selects the actions[props.roleName:props.actionName].instances for the given props.roleName,
@@ -72,7 +80,8 @@ export const selectTrixtaActionResponseInstancesForRole = (
   state: { trixta: TrixtaState },
   props: DefaultSelectorProps,
 ): TrixtaInstance[] | undefined =>
-  getTrixtActionState(state, props) && getTrixtActionState(state, props)?.instances
+  getTrixtActionState(state, props) &&
+  getTrixtActionState(state, props)?.instances
     ? getTrixtActionState(state, props)?.instances
     : [];
 
@@ -95,7 +104,8 @@ export const selectTrixtaActionCommon = (
   state: { trixta: TrixtaState },
   props: DefaultSelectorProps,
 ): TrixtaCommon | undefined =>
-  getTrixtActionState(state, props) && getTrixtActionState(state, props)?.common;
+  getTrixtActionState(state, props) &&
+  getTrixtActionState(state, props)?.common;
 
 /**
  * Selects the actions[props.roleName:props.actionName]
@@ -122,7 +132,9 @@ export const makesSelectTrixtaActionResponseInstance = () =>
   createSelector(
     [selectTrixtActionStateSelector, selectTrixtaActionInstanceIndexProp],
     (selectedAction, instanceIndex) => {
-      return selectedAction ? selectedAction.instances[instanceIndex] : undefined;
+      return selectedAction
+        ? selectedAction.instances[instanceIndex]
+        : undefined;
     },
   );
 
@@ -148,8 +160,13 @@ export const makesSelectTrixtaActionInstanceResponse = () =>
  * Selects the actions for given props.roleName
  */
 export const makeSelectTrixtaActionsForRole = () =>
-  createSelector([selectTrixtaActions, selectTrixtaRoleNameProp], (trixtaActions, roleName) =>
-    pickBy(trixtaActions, (value, key) => key && key.split(':', 1)[0] === roleName),
+  createSelector(
+    [selectTrixtaActions, selectTrixtaRoleNameProp],
+    (trixtaActions, roleName) =>
+      pickBy(
+        trixtaActions,
+        (value, key) => key && key.split(':', 1)[0] === roleName,
+      ),
   );
 
 /**
@@ -158,5 +175,7 @@ export const makeSelectTrixtaActionsForRole = () =>
  */
 export const makeSelectIsTrixtaActionInProgress = () =>
   createSelector([selectTrixtActionStateSelector], (selectedAction) => {
-    return selectedAction ? get<boolean>(selectedAction.loadingStatus, 'status', false) : false;
+    return selectedAction
+      ? get<boolean>(selectedAction.loadingStatus, 'status', false)
+      : false;
   });

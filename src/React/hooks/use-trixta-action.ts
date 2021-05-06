@@ -10,9 +10,14 @@ import {
   makeSelectIsTrixtaActionInProgress,
   makeSelectTrixtaActionResponseInstancesForRole,
 } from '../selectors';
-import { trixtaDebugger, TrixtaDebugType, trixtaInstanceDebugger } from '../TrixtaDebugger';
+import {
+  trixtaDebugger,
+  TrixtaDebugType,
+  trixtaInstanceDebugger,
+} from '../TrixtaDebugger';
 import { TrixtaState } from '../types';
-import { defaultUnknownType, TrixtaActionBaseProps, TrixtaInstance } from './../types';
+import { TrixtaActionBaseProps } from './../types/actions';
+import { DefaultUnknownType, TrixtaInstance } from './../types/common';
 import {
   submitTrixtaFunctionParameters,
   UseTrixtaActionProps,
@@ -23,18 +28,21 @@ export const useTrixtaAction = <
   /**
    * Type for response from Trixta
    */
-  TResponseType = defaultUnknownType,
+  TResponseType = DefaultUnknownType,
   /**
    * Type for error response from Trixta
    */
-  TErrorType = defaultUnknownType
+  TErrorType = DefaultUnknownType
 >({
   roleName,
   actionName,
   debugMode = false,
   onSuccess,
   onError,
-}: UseTrixtaActionProps): UseTrixtaActionResponseReturn<TResponseType, TErrorType> => {
+}: UseTrixtaActionProps): UseTrixtaActionResponseReturn<
+  TResponseType,
+  TErrorType
+> => {
   const dispatch = useDispatch();
   const clearResponses = useCallback(() => {
     dispatch(clearTrixtaActionResponse({ roleName, actionName }));
@@ -45,9 +53,15 @@ export const useTrixtaAction = <
   );
   const roleActionProps = { roleName, actionName } as TrixtaActionBaseProps;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const selectActionResponses: any = useMemo(makeSelectTrixtaActionResponseInstancesForRole, []);
+  const selectActionResponses: any = useMemo(
+    makeSelectTrixtaActionResponseInstancesForRole,
+    [],
+  );
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const selectActionInProgress: any = useMemo(makeSelectIsTrixtaActionInProgress, []);
+  const selectActionInProgress: any = useMemo(
+    makeSelectIsTrixtaActionInProgress,
+    [],
+  );
   const isInProgress = useSelector<{ trixta: TrixtaState }, boolean>((state) =>
     selectActionInProgress(state, roleActionProps),
   );
@@ -79,7 +93,12 @@ export const useTrixtaAction = <
   }
 
   const submitTrixtaAction = useCallback(
-    ({ data, responseEvent, requestEvent, errorEvent }: submitTrixtaFunctionParameters) => {
+    ({
+      data,
+      responseEvent,
+      requestEvent,
+      errorEvent,
+    }: submitTrixtaFunctionParameters) => {
       if (!hasRoleAccess) return;
 
       dispatch(
@@ -99,7 +118,8 @@ export const useTrixtaAction = <
   useEffect(() => {
     if (!latestInstance) return;
     if (latestInstance.response.success && onSuccess) {
-      if (onSuccess(latestInstance.response.success) === false) clearResponses();
+      if (onSuccess(latestInstance.response.success) === false)
+        clearResponses();
     }
 
     if (latestInstance.response.error && onError) {

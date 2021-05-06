@@ -23,7 +23,11 @@ import {
   UPDATE_TRIXTA_ROLE,
   UPDATE_TRIXTA_ROLES,
 } from '../constants';
-import { joinTrixtaRole, removeTrixtaRole, updateTrixtaError } from '../reduxActions';
+import {
+  joinTrixtaRole,
+  removeTrixtaRole,
+  updateTrixtaError,
+} from '../reduxActions';
 import {
   emitTrixtaReactionResponseListenerEvent,
   updateTrixtaAction,
@@ -87,7 +91,9 @@ function* checkTrixtaRolesSaga({ data }) {
 function* checkLoggedInRoleSaga({ role }) {
   if (!isNullOrEmpty(role)) {
     const channelTopic = getChannelName({ role: role.name });
-    yield put(getPhoenixChannel({ channelTopic, logPresence: role.logPresence }));
+    yield put(
+      getPhoenixChannel({ channelTopic, logPresence: role.logPresence }),
+    );
   }
 }
 
@@ -105,8 +111,16 @@ function* setupRoleSaga({ response, channel }) {
     const roleName = roleChannel.split(':')[1];
     yield put(joinTrixtaRole({ roleName }));
     if (!isNullOrEmpty(response)) {
-      const reactionsForRole = get(response, CHANNEL_JOINED_FIELDS.contract_reactions, {});
-      const actionsForRole = get(response, CHANNEL_JOINED_FIELDS.contract_actions, {});
+      const reactionsForRole = get(
+        response,
+        CHANNEL_JOINED_FIELDS.contract_reactions,
+        {},
+      );
+      const actionsForRole = get(
+        response,
+        CHANNEL_JOINED_FIELDS.contract_actions,
+        {},
+      );
       if (!isNullOrEmpty(actionsForRole)) {
         yield all(
           Object.keys(actionsForRole).map((actionName) =>
@@ -190,7 +204,13 @@ function* submitActionResponseSaga({ data }) {
         channelTopic,
         eventName: actionName,
         requestData: { action_payload: formData, ...options },
-        additionalData: { roleName, actionName, clearResponse, responseEvent, errorEvent },
+        additionalData: {
+          roleName,
+          actionName,
+          clearResponse,
+          responseEvent,
+          errorEvent,
+        },
         dispatchChannelError: true,
         channelErrorResponseEvent: SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
         channelResponseEvent: SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
@@ -368,7 +388,11 @@ function* submitResponseForReactionSaga({ data }) {
         dispatchChannelError: true,
         channelErrorResponseEvent: SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
         channelResponseEvent: SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
-        loadingStatusKey: trixtaReactionLoadingStatus({ roleName, reactionName, ref }),
+        loadingStatusKey: trixtaReactionLoadingStatus({
+          roleName,
+          reactionName,
+          ref,
+        }),
       }),
     );
   } catch (error) {
@@ -503,9 +527,21 @@ export function* setupTrixtaSaga() {
     fork(watchForTrixtActionSubmit),
     fork(watchForTrixtaReactionResponse),
     fork(watchForTrixtaReactionSubmit),
-    takeEvery(SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS, submitActionResponseSuccess),
-    takeEvery(SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE, submitReactionResponseFailure),
-    takeEvery(SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS, submitReactionResponseSuccess),
-    takeEvery(SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE, submitActionResponseFailure),
+    takeEvery(
+      SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
+      submitActionResponseSuccess,
+    ),
+    takeEvery(
+      SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
+      submitReactionResponseFailure,
+    ),
+    takeEvery(
+      SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
+      submitReactionResponseSuccess,
+    ),
+    takeEvery(
+      SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
+      submitActionResponseFailure,
+    ),
   ]);
 }

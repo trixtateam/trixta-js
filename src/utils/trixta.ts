@@ -1,11 +1,14 @@
 import shortid from 'shortid';
-import { ROLE_ACTION_FIELDS, ROLE_REACTION_RESPONSE_FIELDS } from '../React/constants';
 import {
-  defaultUnknownType,
+  ROLE_ACTION_FIELDS,
+  ROLE_REACTION_RESPONSE_FIELDS,
+} from '../React/constants';
+import {
+  DefaultUnknownType,
   TrixtaAction,
   TrixtaInstance,
   TrixtaReaction,
-  TrixtaReactionInstance
+  TrixtaReactionInstance,
 } from '../React/types';
 import {
   TrixtaCommon,
@@ -13,7 +16,7 @@ import {
   TrixtaInstanceModeType,
   TrixtaReactionDetails,
   TrixtaReactionResponseDetails,
-  TrixtaReactionType
+  TrixtaReactionType,
 } from './../React/types';
 import { get } from './object';
 
@@ -29,12 +32,19 @@ export function getReactionDetails({
   reaction: TrixtaReactionDetails;
 }): TrixtaReactionResponseDetails {
   return {
-    ref: get<string>(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, shortid.generate()),
+    ref: get<string>(
+      reaction,
+      ROLE_REACTION_RESPONSE_FIELDS.ref,
+      shortid.generate(),
+    ),
     status: <string>get(reaction, ROLE_REACTION_RESPONSE_FIELDS.status),
     type: get<boolean>(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, false)
       ? TrixtaReactionType.requestForResponse
       : TrixtaReactionType.requestForEffect,
-    initial_data: get<unknown>(reaction, ROLE_REACTION_RESPONSE_FIELDS.initial_data),
+    initial_data: get<unknown>(
+      reaction,
+      ROLE_REACTION_RESPONSE_FIELDS.initial_data,
+    ),
     dateCreated: new Date().toLocaleString(),
   };
 }
@@ -76,9 +86,9 @@ export function getTrixtaReactionReducerStructure({
  * @returns
  */
 export function getTrixtaInstanceResult<
-  TInitialData = defaultUnknownType,
-  TSuccessType = defaultUnknownType,
-  TErrorType = defaultUnknownType
+  TInitialData = DefaultUnknownType,
+  TSuccessType = DefaultUnknownType,
+  TErrorType = DefaultUnknownType
 >({
   details,
   error,
@@ -128,7 +138,13 @@ export function getTrixtaActionReducerStructure({
  * @param {string} params.name - name of action or reaction
  * @param {string} params.role - name of role
  */
-export function getReducerKeyName({ name, role }: { name: string; role: string }): string {
+export function getReducerKeyName({
+  name,
+  role,
+}: {
+  name: string;
+  role: string;
+}): string {
   return `${role}:${name}`;
 }
 

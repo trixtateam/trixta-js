@@ -23,7 +23,7 @@ import {
   UPDATE_TRIXTA_REACTION_RESPONSE,
 } from './../constants/reactions/index';
 import {
-  defaultUnknownType,
+  DefaultUnknownType,
   TrixtaActionDebugOptions,
   TrixtaActionDetails,
   TrixtaActionResponseDetails,
@@ -113,7 +113,7 @@ export type ClearTrixtaReactionResponseAction = {
 export type SubmitTrixtaReactionResponseAction = {
   type: typeof SUBMIT_TRIXTA_REACTION_RESPONSE;
   data: {
-    formData: defaultUnknownType;
+    formData: DefaultUnknownType;
     ref: string;
     responseEvent?: string;
     requestEvent?: string;
@@ -141,7 +141,12 @@ export type SubmitTrixtaReactionResponseFailureAction = {
 export type SubmitTrixtaReactionResponseSuccessAction = {
   type: typeof SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS;
   data:
-    | { roleName: string; reactionName: string; responseEvent?: string; errorEvent?: string }
+    | {
+        roleName: string;
+        reactionName: string;
+        responseEvent?: string;
+        errorEvent?: string;
+      }
     | TrixtaReactionResponseDetails;
 };
 
@@ -177,7 +182,7 @@ export type ClearTrixtaActionResponseAction = {
 export type SubmitTrixtaActionResponseAction = {
   type: typeof SUBMIT_TRIXTA_ACTION_RESPONSE;
   data: {
-    formData: defaultUnknownType;
+    formData: DefaultUnknownType;
     roleName: string;
     debugMode: boolean;
     clearResponse: boolean;

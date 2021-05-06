@@ -1,8 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { makesSelectTrixtaActionResponseInstance } from '../../../selectors';
-import { TrixtaDebugType, trixtaInstanceDebugger } from '../../../TrixtaDebugger';
-import { TrixtaState } from '../../../types';
+import {
+  TrixtaDebugType,
+  trixtaInstanceDebugger,
+} from '../../../TrixtaDebugger';
+import { TrixtaState } from '../../../types/common';
 import {
   TrixtaActionInstanceComponentProps,
   TrixtaActionInstanceComponentStateProps,
@@ -16,7 +19,8 @@ const TrixtaActionInstanceComponent = ({
   debugMode = false,
   children,
   ...props
-}: TrixtaActionInstanceComponentProps & TrixtaActionInstanceComponentStateProps) => {
+}: TrixtaActionInstanceComponentProps &
+  TrixtaActionInstanceComponentStateProps) => {
   trixtaInstanceDebugger({
     type: TrixtaDebugType.Action,
     debugMode,

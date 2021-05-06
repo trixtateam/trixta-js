@@ -1,11 +1,34 @@
 
-import { defaultUnknownType, TrixtaBaseRoleProps, TrixtaCommon, TrixtaInstanceMode, TrixtaReactionInstance } from '../common';
+import {
+  DefaultUnknownType, TrixtaBaseRoleProps, TrixtaCommon, TrixtaInstance,
+  TrixtaInstanceDetails, TrixtaInstanceMode
+} from '../common';
+
+export interface TrixtaReactionInstance<
+/**
+   * Type of data for initial data from Trixta for Reaction / Action
+   */
+ TInitialData = DefaultUnknownType,
+/**
+  * Type of data for Trixta response for Reaction / Action
+  */
+TSuccessType= DefaultUnknownType,
+/**
+   * Type of data for Trixta error response for Reaction / Action
+   */
+TErrorType= DefaultUnknownType> extends  TrixtaInstance<TSuccessType,
+TErrorType
+>  {
+  details: TrixtaInstanceDetails<TInitialData>;
+
+}
+
 export enum TrixtaReactionType {
   requestForEffect = 'requestForEffect',
   requestForResponse = 'requestForResponse',
 }
 
-export interface TrixtaReactionResponseDetails<TInitialData = defaultUnknownType> {
+export interface TrixtaReactionResponseDetails<TInitialData = DefaultUnknownType> {
   id?: string;
   settings?: unknown;
   errorEvent?: string;
@@ -52,7 +75,7 @@ export interface TrixtaReactionDispatch {
   dispatchResponseTo?: string;
 }
 
-export interface SubmitTrixtaReactionResponse<TFormData = defaultUnknownType> {
+export interface SubmitTrixtaReactionResponse<TFormData = DefaultUnknownType> {
   /**
    * Name of Trixta role
    */

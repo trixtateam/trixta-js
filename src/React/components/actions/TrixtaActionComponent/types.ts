@@ -1,10 +1,13 @@
 import {
   TrixtaActionBaseProps,
   TrixtaActionDebugOptions,
+} from './../../../types/actions/index';
+import {
+  DefaultUnknownType,
   TrixtaCommon,
   TrixtaDispatch,
-  TrixtaInstance
-} from '../../../types';
+  TrixtaInstance,
+} from './../../../types/common/index';
 
 export interface TrixtaActionComponentStateProps extends TrixtaActionBaseProps {
   common: TrixtaCommon;
@@ -19,8 +22,10 @@ export interface TrixtaActionComponentStateProps extends TrixtaActionBaseProps {
   loading: boolean;
 }
 
-export interface TrixtaActionComponentDispatchProps {
-  dispatchSubmitActionResponse: TrixtaDispatch;
+export interface TrixtaActionComponentDispatchProps<
+  TFormData = DefaultUnknownType
+> {
+  dispatchSubmitActionResponse: TrixtaDispatch<TFormData>;
 }
 export interface TrixtaActionComponentProps extends TrixtaActionBaseProps {
   /**

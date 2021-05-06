@@ -89,7 +89,8 @@ export const mockTrixtaReactions = {
                   userID: 'e6c0ca7d-b151-49d5-8124-e753ce2766a4',
                 },
               ],
-              publicURL: 'https://dev.waitroom.com/events/d1be63be-c0e4-4468-982c-5c04714a2987',
+              publicURL:
+                'https://dev.waitroom.com/events/d1be63be-c0e4-4468-982c-5c04714a2987',
               sessionID: 'd1be63be-c0e4-4468-982c-5c04714a2987',
               sessionSettings: {
                 enableRecording: false,

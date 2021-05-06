@@ -1,14 +1,17 @@
+import { TrixtaActionBaseProps } from '../types/actions';
 import {
-  defaultUnknownType,
-  TrixtaActionBaseProps,
+  DefaultUnknownType,
   TrixtaInstance,
   TrixtaInstanceResponse,
+} from '../types/common';
+import {
   TrixtaReactionBaseProps,
   TrixtaReactionDispatch,
   TrixtaReactionInstance,
-} from '../types';
+} from '../types/reactions';
 
-export interface UseRespondToReactionResponseProps extends TrixtaReactionBaseProps {
+export interface UseRespondToReactionResponseProps
+  extends TrixtaReactionBaseProps {
   /**
    * Enables Trixta console debbugging
    */
@@ -29,7 +32,8 @@ export interface RespondToReactionFunctionParameters {
   errorEvent?: string;
 }
 
-export interface UseRespondToReactionEffectProps extends TrixtaReactionDispatch {
+export interface UseRespondToReactionEffectProps
+  extends TrixtaReactionDispatch {
   /**
    * Trixta role name
    */
@@ -70,7 +74,7 @@ export interface submitTrixtaFunctionParameters {
   /**
    * Data to submit for Trixta Reaction / Action
    */
-  data: defaultUnknownType;
+  data: DefaultUnknownType;
   /**
    * Unique reference no for Trixta to respond for Reaction
    */
@@ -112,8 +116,8 @@ export interface UseTrixtaReactionProps extends TrixtaReactionBaseProps {
 }
 
 export interface UseTrixtaActionResponseReturn<
-  TSuccessType = defaultUnknownType,
-  TErrorType = defaultUnknownType
+  TSuccessType = DefaultUnknownType,
+  TErrorType = DefaultUnknownType
 > {
   /**
    * If 'true', Trixta roles or role name passed does have acccess for this user
@@ -133,9 +137,9 @@ export interface UseTrixtaActionResponseReturn<
 }
 
 export interface UseTrixtaReactionResponseReturn<
-  TInitialData = defaultUnknownType,
-  TSuccessType = defaultUnknownType,
-  TErrorType = defaultUnknownType
+  TInitialData = DefaultUnknownType,
+  TSuccessType = DefaultUnknownType,
+  TErrorType = DefaultUnknownType
 > {
   /**
    * If 'true', Trixta roles or role name passed does have acccess for this user
@@ -156,7 +160,9 @@ export interface UseTrixtaReactionResponseReturn<
   /**
    * Recent Trixta instance
    */
-  latestInstance?: TrixtaReactionInstance<TInitialData, TSuccessType, TErrorType> | undefined;
+  latestInstance?:
+    | TrixtaReactionInstance<TInitialData, TSuccessType, TErrorType>
+    | undefined;
   /**
    * Trixta instance responses
    */

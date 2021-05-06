@@ -1,6 +1,6 @@
 import { UiSchema } from '@rjsf/core';
 import { JSONSchema7 } from 'json-schema';
-import { defaultUnknownType, TrixtaBaseRoleProps, TrixtaCommon, TrixtaInstance, TrixtaInstanceMode } from '../common';
+import { DefaultUnknownType, TrixtaBaseRoleProps, TrixtaCommon, TrixtaInstance, TrixtaInstanceMode } from '../common';
 
 
 export interface TrixtaActionDebugOptions {
@@ -25,7 +25,7 @@ export interface TrixtaActionHandlerType {
   engine?: string;
 }
 
-export interface TrixtaActionDetails<TFormData = defaultUnknownType> {
+export interface TrixtaActionDetails<TFormData = DefaultUnknownType> {
   name: string;
   notes: string;
   role_id: string;
@@ -38,7 +38,7 @@ export interface TrixtaActionDetails<TFormData = defaultUnknownType> {
   tags: Array<string>;
 }
 
-export interface TrixtaActionResponseDetails<TInitialData = defaultUnknownType> {
+export interface TrixtaActionResponseDetails<TInitialData = DefaultUnknownType> {
   id: string;
   settings: unknown;
   initial_data: TInitialData;
@@ -58,7 +58,7 @@ export interface TrixtaAction {
   instances: TrixtaInstance[];
 }
 
-export interface SubmitTrixtaActionResponse<TFormData = defaultUnknownType> {
+export interface SubmitTrixtaActionResponse<TFormData = DefaultUnknownType> {
   /**
    * Name of Trixta role
    */

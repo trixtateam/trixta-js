@@ -1,6 +1,11 @@
-import { TrixtaCommon, TrixtaReactionBaseProps, TrixtaReactionInstance } from '../../../types';
+import { TrixtaCommon } from './../../../types/common';
+import {
+  TrixtaReactionBaseProps,
+  TrixtaReactionInstance,
+} from './../../../types/reactions';
 
-export interface TrixtaReactionComponentStateProps extends TrixtaReactionBaseProps {
+export interface TrixtaReactionComponentStateProps
+  extends TrixtaReactionBaseProps {
   common: TrixtaCommon;
   instances: TrixtaReactionInstance[];
   /**

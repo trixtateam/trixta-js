@@ -6,8 +6,11 @@ import {
   makeSelectTrixtaReactionResponseInstancesForRole,
 } from '../selectors';
 import { trixtaDebugger, TrixtaDebugType } from '../TrixtaDebugger';
-import { TrixtaReactionBaseProps } from './../types';
-import { defaultUnknownType, TrixtaReactionInstance, TrixtaState } from './../types/common/index';
+import { DefaultUnknownType, TrixtaState } from './../types/common';
+import {
+  TrixtaReactionBaseProps,
+  TrixtaReactionInstance,
+} from './../types/reactions';
 import {
   RespondToReactionFunctionParameters,
   UseRespondToReactionResponseProps,
@@ -18,7 +21,7 @@ export const useRespondToReactionResponse = <
   /**
    * Type for initial data from Trixta Reaction
    */
-  TInitialData = defaultUnknownType
+  TInitialData = DefaultUnknownType
 >({
   roleName,
   reactionName,
@@ -29,10 +32,9 @@ export const useRespondToReactionResponse = <
   const selectReactionResponses = useMemo<
     ReturnType<typeof makeSelectTrixtaReactionResponseInstancesForRole>
   >(makeSelectTrixtaReactionResponseInstancesForRole, []);
-  const selectHasRoleAccess = useMemo<ReturnType<typeof makeSelectHasTrixtaRoleAccess>>(
-    makeSelectHasTrixtaRoleAccess,
-    [],
-  );
+  const selectHasRoleAccess = useMemo<
+    ReturnType<typeof makeSelectHasTrixtaRoleAccess>
+  >(makeSelectHasTrixtaRoleAccess, []);
   const reactionRoleProps = {
     roleName,
     requestForEffect: false,
@@ -40,8 +42,14 @@ export const useRespondToReactionResponse = <
   } as TrixtaReactionBaseProps;
   const instances = useSelector<
     { trixta: TrixtaState },
-    TrixtaReactionInstance<TInitialData, defaultUnknownType, defaultUnknownType>[]
-  >((state: { trixta: TrixtaState }) => selectReactionResponses(state, reactionRoleProps));
+    TrixtaReactionInstance<
+      TInitialData,
+      DefaultUnknownType,
+      DefaultUnknownType
+    >[]
+  >((state: { trixta: TrixtaState }) =>
+    selectReactionResponses(state, reactionRoleProps),
+  );
   const [latest] = instances;
   const latestInstance = latest;
   const hasRoleAccess = useSelector((state: { trixta: TrixtaState }) =>
@@ -63,7 +71,12 @@ export const useRespondToReactionResponse = <
   }, []);
 
   const respondToReaction = useCallback(
-    ({ data, instance, responseEvent, errorEvent }: RespondToReactionFunctionParameters) => {
+    ({
+      data,
+      instance,
+      responseEvent,
+      errorEvent,
+    }: RespondToReactionFunctionParameters) => {
       if (!hasRoleAccess) return;
       if (!instance) return;
       if (!instance.details) return;

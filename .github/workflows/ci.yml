@@ -8,7 +8,9 @@ on:
 jobs:
   build:
     name: Running project
-    if: "!contains(toJSON(github.event.commits.*.message), 'chore(release):') && github.event.pull_request.draft != true"
+    if:
+      "!contains(toJSON(github.event.commits.*.message), 'chore(release):') &&
+      github.event.pull_request.draft != true"
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -47,7 +49,7 @@ jobs:
         run: yarn build
 
       - name: Lint ✏️
-        run: yarn lint
+        run: yarn lint:fix
 
       - name: Test 🧪
         run: yarn test:coverage

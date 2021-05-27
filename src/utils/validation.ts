@@ -9,7 +9,12 @@ export function isNullOrEmpty(value: unknown): boolean {
   if (value === undefined || value === null) return true;
   if (Array.isArray(value) && value.length === 0) return true;
   if (value === true || value === false) return false;
-  if (!Number.isInteger(value) && isObject(value) && Object.keys(value).length === 0) return true;
+  if (
+    !Number.isInteger(value) &&
+    isObject(value) &&
+    Object.keys(value).length === 0
+  )
+    return true;
   if (String(value).length === 0) return true;
   return false;
 }

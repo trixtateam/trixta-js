@@ -1,5 +1,8 @@
 import { ROLE_ACTION_FIELDS, TRIXTA_MODE_TYPE } from '../React/constants';
-import { getTrixtaReactionReducerStructure, getTrixtaActionReducerStructure } from '../utils';
+import {
+  getTrixtaReactionReducerStructure,
+  getTrixtaActionReducerStructure,
+} from '../utils';
 import { get } from '../utils/object';
 describe('Trixta Utilities', () => {
   describe('getTrixtaReactionReducerStructure', () => {
@@ -21,18 +24,22 @@ describe('Trixta Utilities', () => {
         tags: ['current'],
       };
 
-      const mode = get(exampleReaction, `${ROLE_ACTION_FIELDS.request_settings}.ui:options.mode`, {
-        type: TRIXTA_MODE_TYPE.replace,
-      });
+      const mode = get(
+        exampleReaction,
+        `${ROLE_ACTION_FIELDS.request_settings}.ui:options.mode`,
+        {
+          type: TRIXTA_MODE_TYPE.replace,
+        },
+      );
       const expectedResult = {
         mode,
         loadingStatus: {},
         instances: { requestForEffect: [], requestForResponse: [] },
         common: exampleReaction,
       };
-      expect(getTrixtaReactionReducerStructure({ details: exampleReaction })).toEqual(
-        expectedResult,
-      );
+      expect(
+        getTrixtaReactionReducerStructure({ details: exampleReaction }),
+      ).toEqual(expectedResult);
     });
 
     it('returns the correct structure for reaction and mode', () => {
@@ -57,19 +64,25 @@ describe('Trixta Utilities', () => {
         tags: ['current'],
       };
 
-      const mode = get(exampleReaction, `${ROLE_ACTION_FIELDS.request_settings}.ui:options.mode`, {
-        type: TRIXTA_MODE_TYPE.replace,
-      });
+      const mode = get(
+        exampleReaction,
+        `${ROLE_ACTION_FIELDS.request_settings}.ui:options.mode`,
+        {
+          type: TRIXTA_MODE_TYPE.replace,
+        },
+      );
       const expectedResult = {
         mode,
         loadingStatus: {},
         instances: { requestForEffect: [], requestForResponse: [] },
         common: exampleReaction,
       };
-      expect(getTrixtaReactionReducerStructure({ details: exampleReaction })).toEqual(
-        expectedResult,
-      );
-      expect(getTrixtaReactionReducerStructure({ details: exampleReaction }).mode).toEqual({
+      expect(
+        getTrixtaReactionReducerStructure({ details: exampleReaction }),
+      ).toEqual(expectedResult);
+      expect(
+        getTrixtaReactionReducerStructure({ details: exampleReaction }).mode,
+      ).toEqual({
         type: 'accumulate',
       });
     });
@@ -123,16 +136,22 @@ describe('Trixta Utilities', () => {
         loadingStatusKey: 'viewer:get_session_by_id',
       };
 
-      const mode = get(exampleAction, `${ROLE_ACTION_FIELDS.request_settings}.ui:options.mode`, {
-        type: TRIXTA_MODE_TYPE.replace,
-      });
+      const mode = get(
+        exampleAction,
+        `${ROLE_ACTION_FIELDS.request_settings}.ui:options.mode`,
+        {
+          type: TRIXTA_MODE_TYPE.replace,
+        },
+      );
       const expectedResult = {
         mode,
         loadingStatus: {},
         instances: [],
         common: exampleAction,
       };
-      expect(getTrixtaActionReducerStructure({ details: exampleAction })).toEqual(expectedResult);
+      expect(
+        getTrixtaActionReducerStructure({ details: exampleAction }),
+      ).toEqual(expectedResult);
     });
 
     it('returns the correct structure for action and mode', () => {
@@ -186,17 +205,25 @@ describe('Trixta Utilities', () => {
         loadingStatusKey: 'viewer:get_session_by_id',
       };
 
-      const mode = get(exampleAction, `${ROLE_ACTION_FIELDS.request_settings}.ui:options.mode`, {
-        type: TRIXTA_MODE_TYPE.replace,
-      });
+      const mode = get(
+        exampleAction,
+        `${ROLE_ACTION_FIELDS.request_settings}.ui:options.mode`,
+        {
+          type: TRIXTA_MODE_TYPE.replace,
+        },
+      );
       const expectedResult = {
         mode,
         loadingStatus: {},
         instances: [],
         common: exampleAction,
       };
-      expect(getTrixtaActionReducerStructure({ details: exampleAction })).toEqual(expectedResult);
-      expect(getTrixtaActionReducerStructure({ details: exampleAction }).mode).toEqual({
+      expect(
+        getTrixtaActionReducerStructure({ details: exampleAction }),
+      ).toEqual(expectedResult);
+      expect(
+        getTrixtaActionReducerStructure({ details: exampleAction }).mode,
+      ).toEqual({
         type: 'accumulate',
       });
     });

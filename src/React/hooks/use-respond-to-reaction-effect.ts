@@ -7,7 +7,10 @@ import {
 import { trixtaDebugger, TrixtaDebugType } from '../TrixtaDebugger';
 import { defaultUnknownType, TrixtaState } from '../types';
 import { TrixtaReactionBaseProps, TrixtaReactionInstance } from './../types';
-import { UseRespondToReactionEffectProps, UseRespondToReactionEffectReturn } from './types';
+import {
+  UseRespondToReactionEffectProps,
+  UseRespondToReactionEffectReturn,
+} from './types';
 
 export const useRespondToReactionEffect = <
   /**
@@ -17,11 +20,20 @@ export const useRespondToReactionEffect = <
 >(
   props: UseRespondToReactionEffectProps,
 ): UseRespondToReactionEffectReturn => {
-  const { actionToDispatch, dispatchResponseTo, roleName, debugMode = false, reactionName } = props;
+  const {
+    actionToDispatch,
+    dispatchResponseTo,
+    roleName,
+    debugMode = false,
+    reactionName,
+  } = props;
   const actionRef = useRef(actionToDispatch);
   const dispatch = useDispatch();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const selectReactionResponse: any = useMemo(makeSelectTrixtaReactionResponseInstancesForRole, []);
+  const selectReactionResponse: any = useMemo(
+    makeSelectTrixtaReactionResponseInstancesForRole,
+    [],
+  );
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectHasRoleAccess: any = useMemo(makeSelectHasTrixtaRoleAccess, []);
   const reactionRoleProps = {
@@ -31,10 +43,17 @@ export const useRespondToReactionEffect = <
   } as TrixtaReactionBaseProps;
   const instances = useSelector<
     { trixta: TrixtaState },
-    TrixtaReactionInstance<TInitialData, defaultUnknownType, defaultUnknownType>[]
-  >((state: { trixta: TrixtaState }) => selectReactionResponse(state, reactionRoleProps));
+    TrixtaReactionInstance<
+      TInitialData,
+      defaultUnknownType,
+      defaultUnknownType
+    >[]
+  >((state: { trixta: TrixtaState }) =>
+    selectReactionResponse(state, reactionRoleProps),
+  );
   const hasRoleAccess = useSelector<{ trixta: TrixtaState }, boolean>(
-    (state: { trixta: TrixtaState }) => selectHasRoleAccess(state, { roleName }),
+    (state: { trixta: TrixtaState }) =>
+      selectHasRoleAccess(state, { roleName }),
   );
 
   trixtaDebugger({

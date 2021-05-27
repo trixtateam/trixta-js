@@ -6,7 +6,11 @@ import {
   makeSelectIsTrixtaReactionInProgress,
   makeSelectTrixtaReactionResponseInstancesForRole,
 } from '../selectors';
-import { trixtaDebugger, TrixtaDebugType, trixtaInstanceDebugger } from '../TrixtaDebugger';
+import {
+  trixtaDebugger,
+  TrixtaDebugType,
+  trixtaInstanceDebugger,
+} from '../TrixtaDebugger';
 import {
   defaultUnknownType,
   TrixtaReactionBaseProps,
@@ -48,16 +52,24 @@ export const useTrixtaReaction = <
   const hasRoleAccess = useSelector<{ trixta: TrixtaState }, boolean>((state) =>
     selectHasRoleAccess(state, { roleName }),
   );
-  const reactionRoleProps = { roleName, requestForEffect, reactionName } as TrixtaReactionBaseProps;
+  const reactionRoleProps = {
+    roleName,
+    requestForEffect,
+    reactionName,
+  } as TrixtaReactionBaseProps;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectReactionResponses: any = useMemo(
     makeSelectTrixtaReactionResponseInstancesForRole,
     [],
   );
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const selectReactionInProgress: any = useMemo(makeSelectIsTrixtaReactionInProgress, []);
+  const selectReactionInProgress: any = useMemo(
+    makeSelectIsTrixtaReactionInProgress,
+    [],
+  );
   const isInProgress = useSelector<{ trixta: TrixtaState }, boolean>(
-    (state: { trixta: TrixtaState }) => selectReactionInProgress(state, reactionRoleProps),
+    (state: { trixta: TrixtaState }) =>
+      selectReactionInProgress(state, reactionRoleProps),
   );
 
   const instances = useSelector<
@@ -78,7 +90,13 @@ export const useTrixtaReaction = <
     });
   }
   const submitTrixtaReaction = useCallback(
-    ({ data, responseEvent, errorEvent, ref, requestEvent }: submitTrixtaFunctionParameters) => {
+    ({
+      data,
+      responseEvent,
+      errorEvent,
+      ref,
+      requestEvent,
+    }: submitTrixtaFunctionParameters) => {
       if (!hasRoleAccess) return;
 
       dispatch(

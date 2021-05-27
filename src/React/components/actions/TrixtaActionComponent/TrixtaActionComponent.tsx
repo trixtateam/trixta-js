@@ -80,7 +80,10 @@ const makeMapStateToProps = () => {
   const getTrixtaActionResponseInstancesForRole = makeSelectTrixtaActionResponseInstancesForRole();
   const getHasTrixtaRoleAccess = makeSelectHasTrixtaRoleAccess();
   const getIsTrixtaActionInProgress = makeSelectIsTrixtaActionInProgress();
-  const mapStateToProps = (state: { trixta: TrixtaState }, props: TrixtaActionComponentProps) => {
+  const mapStateToProps = (
+    state: { trixta: TrixtaState },
+    props: TrixtaActionComponentProps,
+  ) => {
     return {
       common: getTrixtaCommonForRole(state, props),
       instances: getTrixtaActionResponseInstancesForRole(state, props),

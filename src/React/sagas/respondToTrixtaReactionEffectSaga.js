@@ -18,7 +18,9 @@ export function* respondToTrixtaReactionEffectSaga({
   dispatchResponseTo,
 }) {
   while (true) {
-    const response = yield take(listenForTrixtaReactionResponse({ roleName, reactionName }));
+    const response = yield take(
+      listenForTrixtaReactionResponse({ roleName, reactionName }),
+    );
     if (actionToDispatch) {
       yield put(actionToDispatch(response.data.reactionDetails.initial_data));
     }

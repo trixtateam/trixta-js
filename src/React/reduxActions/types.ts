@@ -141,7 +141,12 @@ export type SubmitTrixtaReactionResponseFailureAction = {
 export type SubmitTrixtaReactionResponseSuccessAction = {
   type: typeof SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS;
   data:
-    | { roleName: string; reactionName: string; responseEvent?: string; errorEvent?: string }
+    | {
+        roleName: string;
+        reactionName: string;
+        responseEvent?: string;
+        errorEvent?: string;
+      }
     | TrixtaReactionResponseDetails;
 };
 

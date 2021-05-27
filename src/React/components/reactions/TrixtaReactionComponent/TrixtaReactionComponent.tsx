@@ -71,7 +71,10 @@ const makeMapStateToProps = () => {
   const getTrixtaCommonForRole = makeSelectTrixtaReactionCommonForRole();
   const getTrixtaReactionResponseInstancesForRole = makeSelectTrixtaReactionResponseInstancesForRole();
   const getHasTrixtaRoleAccess = makeSelectHasTrixtaRoleAccess();
-  const mapStateToProps = (state: { trixta: TrixtaState }, props: TrixtaReactionComponentProps) => {
+  const mapStateToProps = (
+    state: { trixta: TrixtaState },
+    props: TrixtaReactionComponentProps,
+  ) => {
     return {
       common: getTrixtaCommonForRole(state, props),
       instances: getTrixtaReactionResponseInstancesForRole(state, props),

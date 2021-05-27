@@ -1,4 +1,8 @@
-import { getChannelName, getMessageFromError, isNullOrEmpty } from './utils/index';
+import {
+  getChannelName,
+  getMessageFromError,
+  isNullOrEmpty,
+} from './utils/index';
 export * from './React/components';
 export * from './React/constants';
 export * from './React/hooks';

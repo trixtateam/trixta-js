@@ -5,4 +5,8 @@ import * as trixtaReactionSelectors from './trixtaReactions';
 export * from './common';
 export * from './trixtaActions';
 export * from './trixtaReactions';
-export { trixtaActionSelectors, trixtaReactionSelectors, trixtaCommonSelectors };
+export {
+  trixtaActionSelectors,
+  trixtaReactionSelectors,
+  trixtaCommonSelectors,
+};

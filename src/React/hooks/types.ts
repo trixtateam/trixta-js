@@ -8,7 +8,8 @@ import {
   TrixtaReactionInstance,
 } from '../types';
 
-export interface UseRespondToReactionResponseProps extends TrixtaReactionBaseProps {
+export interface UseRespondToReactionResponseProps
+  extends TrixtaReactionBaseProps {
   /**
    * Enables Trixta console debbugging
    */
@@ -29,7 +30,8 @@ export interface RespondToReactionFunctionParameters {
   errorEvent?: string;
 }
 
-export interface UseRespondToReactionEffectProps extends TrixtaReactionDispatch {
+export interface UseRespondToReactionEffectProps
+  extends TrixtaReactionDispatch {
   /**
    * Trixta role name
    */
@@ -156,7 +158,9 @@ export interface UseTrixtaReactionResponseReturn<
   /**
    * Recent Trixta instance
    */
-  latestInstance?: TrixtaReactionInstance<TInitialData, TSuccessType, TErrorType> | undefined;
+  latestInstance?:
+    | TrixtaReactionInstance<TInitialData, TSuccessType, TErrorType>
+    | undefined;
   /**
    * Trixta instance responses
    */

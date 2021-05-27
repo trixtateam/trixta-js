@@ -3,7 +3,7 @@ import {
   TrixtaActionDebugOptions,
   TrixtaCommon,
   TrixtaDispatch,
-  TrixtaInstance
+  TrixtaInstance,
 } from '../../../types';
 
 export interface TrixtaActionComponentStateProps extends TrixtaActionBaseProps {

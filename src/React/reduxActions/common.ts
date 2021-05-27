@@ -30,7 +30,11 @@ export function signoutTrixta(): SignoutTrixtaAction {
  *
  * @param params.error - error from trixta
  */
-export function updateTrixtaError({ error }: { error: unknown }): UpdateTrixtaErrorAction {
+export function updateTrixtaError({
+  error,
+}: {
+  error: unknown;
+}): UpdateTrixtaErrorAction {
   return {
     type: UPDATE_TRIXTA_ERROR,
     error,
@@ -64,7 +68,11 @@ export function updateTrixtaRoles({
  *
  * @param params.roleName - role name
  */
-export function joinTrixtaRole({ roleName }: { roleName: string }): JoinTrixtaRoleAction {
+export function joinTrixtaRole({
+  roleName,
+}: {
+  roleName: string;
+}): JoinTrixtaRoleAction {
   return {
     type: JOIN_TRIXTA_ROLE,
     data: {
@@ -101,7 +109,11 @@ export function updateTrixtaRole({
  *
  * @param params.name - role name
  */
-export function removeTrixtaRole({ name }: { name: string }): RemoveTrixtaRoleAction {
+export function removeTrixtaRole({
+  name,
+}: {
+  name: string;
+}): RemoveTrixtaRoleAction {
   return {
     type: REMOVE_TRIXTA_ROLE,
     data: {

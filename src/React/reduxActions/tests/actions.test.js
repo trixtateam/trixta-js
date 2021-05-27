@@ -232,7 +232,9 @@ describe('Trixta redux Actions', () => {
             }),
           },
         };
-        expect(updateTrixtaReactionResponse(parameters)).toEqual(expectedResult);
+        expect(updateTrixtaReactionResponse(parameters)).toEqual(
+          expectedResult,
+        );
       });
     });
 
@@ -323,7 +325,9 @@ describe('Trixta redux Actions', () => {
             requestEvent,
           },
         };
-        expect(submitTrixtaReactionResponse(parameters)).toEqual(expectedResult);
+        expect(submitTrixtaReactionResponse(parameters)).toEqual(
+          expectedResult,
+        );
       });
     });
   });

@@ -5,7 +5,10 @@ import { TrixtaActionBaseProps } from './../types/actions/index';
 import { TrixtaBaseRoleProps, TrixtaState } from './../types/common';
 import { TrixtaReactionBaseProps } from './../types/reactions/index';
 
-type DefaultSelectorProps = TrixtaBaseRoleProps | TrixtaReactionBaseProps | TrixtaActionBaseProps;
+type DefaultSelectorProps =
+  | TrixtaBaseRoleProps
+  | TrixtaReactionBaseProps
+  | TrixtaActionBaseProps;
 type RolesProps = { roles: Array<string> };
 export const selectTrixtaRoleNameProp = (
   _: { trixta: TrixtaState },
@@ -20,8 +23,9 @@ export const selectTrixtaRolesProp = (
 /**
  * Selects all the roles for the logged in agent
  */
-export const selectTrixtaAgentDetails = (state: { trixta: TrixtaState }): Array<string> =>
-  state.trixta.agentDetails;
+export const selectTrixtaAgentDetails = (state: {
+  trixta: TrixtaState;
+}): Array<string> => state.trixta.agentDetails;
 
 /**
  * Selects the authorizingStatus for joining Trixta roles
@@ -33,8 +37,9 @@ export const selectTrixtaAuthorizingStatus = (state: {
 /**
  * Selects the authorizationStarted, which happens when the first Trixta role is joined
  */
-export const selectTrixtaAuthorizationStarted = (state: { trixta: TrixtaState }): boolean =>
-  state.trixta.authorizationStarted;
+export const selectTrixtaAuthorizationStarted = (state: {
+  trixta: TrixtaState;
+}): boolean => state.trixta.authorizationStarted;
 
 /**
  * Selects the authorizingStatus for the given roleName
@@ -43,7 +48,8 @@ export const selectTrixtaAuthorizingStatusForRole = (
   state: { trixta: TrixtaState },
   props: DefaultSelectorProps,
 ): { status?: boolean } =>
-  state.trixta.authorizingStatus[props.roleName] && state.trixta.authorizingStatus[props.roleName];
+  state.trixta.authorizingStatus[props.roleName] &&
+  state.trixta.authorizingStatus[props.roleName];
 
 /**
  * Selects the roles for the given props.roleName and checks if included
@@ -51,13 +57,16 @@ export const selectTrixtaAuthorizingStatusForRole = (
 export const selectHasTrixtaRoleAccess = (
   state: { trixta: TrixtaState },
   props: TrixtaBaseRoleProps,
-): boolean => state.trixta.agentDetails && state.trixta.agentDetails.includes(props.roleName);
+): boolean =>
+  state.trixta.agentDetails &&
+  state.trixta.agentDetails.includes(props.roleName);
 
 /**
  * Checks if the authorizingStatus has no joining statuses for channels
  */
-export const selectIsTrixtaAuhorized = (state: { trixta: TrixtaState }): boolean =>
-  Object.keys(state.trixta.authorizingStatus).length === 0;
+export const selectIsTrixtaAuhorized = (state: {
+  trixta: TrixtaState;
+}): boolean => Object.keys(state.trixta.authorizingStatus).length === 0;
 
 /**
  * Checks if the authorizingStatus has any joining statuses for given props.roleName
@@ -70,7 +79,10 @@ export const selectIsTrixtaAuhorizedForRole = (
   get<boolean>(state.trixta.authorizingStatus[props.roleName], 'status', false);
 
 export const makeSelectTrixtaAgentDetails = () =>
-  createSelector([selectTrixtaAgentDetails], (agentDetails: Array<string>) => agentDetails);
+  createSelector(
+    [selectTrixtaAgentDetails],
+    (agentDetails: Array<string>) => agentDetails,
+  );
 
 /**
  * Checks if the authorizingStatus has no joining statuses for channels
@@ -93,8 +105,9 @@ export const makeSelectHasTrixtaAuthorizationStarted = () =>
  *  Selects the roles for the given props.roleName and checks if included
  */
 export const makeSelectHasTrixtaRoleAccess = () =>
-  createSelector([selectTrixtaAgentDetails, selectTrixtaRoleNameProp], (agentDetails, roleName) =>
-    agentDetails.includes(roleName),
+  createSelector(
+    [selectTrixtaAgentDetails, selectTrixtaRoleNameProp],
+    (agentDetails, roleName) => agentDetails.includes(roleName),
   );
 
 /**
@@ -102,7 +115,10 @@ export const makeSelectHasTrixtaRoleAccess = () =>
  * @returns true or false
  */
 export const makeSelectTrixtaAuthorizingStatus = () =>
-  createSelector(selectTrixtaAuthorizingStatus, (authorizingStatus) => authorizingStatus);
+  createSelector(
+    selectTrixtaAuthorizingStatus,
+    (authorizingStatus) => authorizingStatus,
+  );
 
 /**
  * Selects the authorizingStatus for the given roleName
@@ -119,8 +135,11 @@ export const makeSelectTrixtaAuthorizingStatusForRole = () =>
  * @param {Array<string>} roles
  */
 export const makeSelectHasTrixtaRoleAccessForRoles = () =>
-  createSelector([selectTrixtaAgentDetails, selectTrixtaRolesProp], (agentDetails, roles) => {
-    if (isNullOrEmpty(roles)) return false;
-    if (!Array.isArray(roles)) return false;
-    return roles.every((role) => agentDetails.includes(role));
-  });
+  createSelector(
+    [selectTrixtaAgentDetails, selectTrixtaRolesProp],
+    (agentDetails, roles) => {
+      if (isNullOrEmpty(roles)) return false;
+      if (!Array.isArray(roles)) return false;
+      return roles.every((role) => agentDetails.includes(role));
+    },
+  );

@@ -17,28 +17,43 @@ describe('Trixta Selectors', () => {
     it('selectTrixtaActions', () => {
       const expectedResult = mockedState.trixta.actions;
 
-      expect(trixtaActionSelectors.selectTrixtaActions(mockedState)).toEqual(expectedResult);
+      expect(trixtaActionSelectors.selectTrixtaActions(mockedState)).toEqual(
+        expectedResult,
+      );
     });
 
     it('selectTrixtaActionNameProp', () => {
       const expectedResult = props.actionName;
 
-      expect(trixtaActionSelectors.selectTrixtaActionNameProp(mockedState, props)).toEqual(
-        expectedResult,
-      );
+      expect(
+        trixtaActionSelectors.selectTrixtaActionNameProp(mockedState, props),
+      ).toEqual(expectedResult);
     });
 
     it('selectTrixtActionStateSelector', () => {
-      const roleName = commonSelectors.selectTrixtaRoleNameProp(mockedState, props);
-      const actionName = trixtaActionSelectors.selectTrixtaActionNameProp(mockedState, props);
-      const trixtaActions = trixtaActionSelectors.selectTrixtaActions(mockedState);
-      const expectedResult = trixtaActions[getReducerKeyName({ name: actionName, role: roleName })]
+      const roleName = commonSelectors.selectTrixtaRoleNameProp(
+        mockedState,
+        props,
+      );
+      const actionName = trixtaActionSelectors.selectTrixtaActionNameProp(
+        mockedState,
+        props,
+      );
+      const trixtaActions = trixtaActionSelectors.selectTrixtaActions(
+        mockedState,
+      );
+      const expectedResult = trixtaActions[
+        getReducerKeyName({ name: actionName, role: roleName })
+      ]
         ? trixtaActions[getReducerKeyName({ name: actionName, role: roleName })]
         : undefined;
 
-      expect(trixtaActionSelectors.selectTrixtActionStateSelector(mockedState, props)).toEqual(
-        expectedResult,
-      );
+      expect(
+        trixtaActionSelectors.selectTrixtActionStateSelector(
+          mockedState,
+          props,
+        ),
+      ).toEqual(expectedResult);
     });
 
     describe('selectors for TrixtaAction Response Instances For Role', () => {
@@ -79,7 +94,9 @@ describe('Trixta Selectors', () => {
           mockedState,
           props,
         );
-        const expectedResult = selectedAction ? selectedAction.instances[instanceIndex] : undefined;
+        const expectedResult = selectedAction
+          ? selectedAction.instances[instanceIndex]
+          : undefined;
 
         expect(selector(mockedState, props)).toEqual(expectedResult);
       });
@@ -96,7 +113,9 @@ describe('Trixta Selectors', () => {
           mockedState,
           props,
         );
-        const expectedResult = selectedAction ? selectedAction.instances[instanceIndex] : undefined;
+        const expectedResult = selectedAction
+          ? selectedAction.instances[instanceIndex]
+          : undefined;
 
         expect(selector(mockedState, props)).toEqual(expectedResult);
       });
@@ -112,8 +131,13 @@ describe('Trixta Selectors', () => {
 
     it('makeSelectTrixtaActionsForRole', () => {
       const selector = trixtaActionSelectors.makeSelectTrixtaActionsForRole();
-      const roleName = commonSelectors.selectTrixtaRoleNameProp(mockedState, props);
-      const trixtaActions = trixtaActionSelectors.selectTrixtaActions(mockedState);
+      const roleName = commonSelectors.selectTrixtaRoleNameProp(
+        mockedState,
+        props,
+      );
+      const trixtaActions = trixtaActionSelectors.selectTrixtaActions(
+        mockedState,
+      );
       const expectedResult = pickBy(
         trixtaActions,
         (value, key) => key && key.split(':', 1)[0] === roleName,

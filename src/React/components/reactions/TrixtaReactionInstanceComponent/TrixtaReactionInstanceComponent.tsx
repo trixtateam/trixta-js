@@ -4,7 +4,10 @@ import { Dispatch } from 'redux';
 import { get } from '../../../../utils';
 import { submitTrixtaReactionResponse } from '../../../reduxActions';
 import { makesSelectTrixtaReactionResponseInstance } from '../../../selectors';
-import { TrixtaDebugType, trixtaInstanceDebugger } from '../../../TrixtaDebugger';
+import {
+  TrixtaDebugType,
+  trixtaInstanceDebugger,
+} from '../../../TrixtaDebugger';
 import { TrixtaInstanceResponse, TrixtaState } from '../../../types';
 import { TrixtaReactionComponentArgs } from '../types';
 import {

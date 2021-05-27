@@ -19,6 +19,7 @@ import {
   SUBMIT_TRIXTA_REACTION_RESPONSE,
   SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
   SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
+  TRIXTA_REACTION_RESPONSE,
   UPDATE_TRIXTA_REACTION,
   UPDATE_TRIXTA_REACTION_RESPONSE,
 } from './../constants/reactions/index';
@@ -92,6 +93,13 @@ export type UpdateTrixtaReactionResponseAction = {
     reaction: TrixtaReactionResponseDetails;
     keyName: string;
   };
+};
+
+export type IncomingTrixtaReactionAction = {
+  type: typeof TRIXTA_REACTION_RESPONSE;
+  data: TrixtaReactionResponseDetails;
+  eventName: string;
+  channelTopic: string;
 };
 
 export type UpdateTrixtaReactionDetailsAction = {
@@ -199,28 +207,25 @@ export type SubmitTrixtaActionResponseAction = {
 
 export type SubmitTrixtaActionResponsSuccesseAction = {
   type: typeof SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS;
-  data:
-    | {
-        roleName: string;
-        actionName: string;
-        clearResponse?: boolean;
-        responseEvent?: string;
-        errorEvent?: string;
-      }
-    | TrixtaActionResponseDetails;
+  data: {
+    roleName: string;
+    actionName: string;
+    clearResponse?: boolean;
+    responseEvent?: string;
+    errorEvent?: string;
+  } & TrixtaActionResponseDetails;
 };
 
 export type SubmitTrixtaActionResponsFailureAction = {
   type: typeof SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE;
-  data:
-    | {
-        roleName: string;
-        actionName: string;
-        clearResponse?: boolean;
-        responseEvent?: string;
-        errorEvent?: string;
-      }
-    | unknown;
+  error: any;
+  data?: {
+    roleName: string;
+    actionName: string;
+    clearResponse?: boolean;
+    responseEvent?: string;
+    errorEvent?: string;
+  };
 };
 
 export type TrixtaReducerActions =

@@ -1,7 +1,13 @@
 import { UiSchema } from '@rjsf/core';
 import { JSONSchema7 } from 'json-schema';
-import { TrixtaAction } from '../actions';
-import { TrixtaReaction, TrixtaReactionType } from '../reactions';
+import { TrixtaAction, TrixtaActionDetails } from '../actions';
+import { TrixtaReaction, TrixtaReactionDetails, TrixtaReactionType } from '../reactions';
+
+
+export type TrixtaChannelJoinResponse = {
+  contract_reactions?:Record<string,TrixtaReactionDetails>
+  contract_actions?:Record<string,TrixtaActionDetails>
+}
 
 export interface TrixtaBaseRoleProps {
   /**

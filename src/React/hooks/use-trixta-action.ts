@@ -17,7 +17,7 @@ import {
 } from '../TrixtaDebugger';
 import { TrixtaState } from '../types';
 import {
-  defaultUnknownType,
+  DefaultUnknownType,
   TrixtaActionBaseProps,
   TrixtaInstance,
 } from './../types';
@@ -31,11 +31,11 @@ export const useTrixtaAction = <
   /**
    * Type for response from Trixta
    */
-  TResponseType = defaultUnknownType,
+  TResponseType = DefaultUnknownType,
   /**
    * Type for error response from Trixta
    */
-  TErrorType = defaultUnknownType
+  TErrorType = DefaultUnknownType
 >({
   roleName,
   actionName,

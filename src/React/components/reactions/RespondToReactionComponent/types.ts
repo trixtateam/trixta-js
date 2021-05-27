@@ -1,18 +1,20 @@
+import { TrixtaReactionDispatch, TrixtaReactionInstance } from '../../../types';
+import { DefaultUnknownType } from './../../../types';
 import { TrixtaReactionBaseProps } from './../../../types/reactions/index';
-import { TrixtaReactionInstance, TrixtaReactionDispatch } from '../../../types';
-import { defaultUnknownType } from './../../../types';
 
-export interface RespondToReactionComponentStateProps
-  extends TrixtaReactionBaseProps {
-  instances: TrixtaReactionInstance[];
+export interface RespondToReactionComponentStateProps<
+  TInitialData = DefaultUnknownType
+> extends TrixtaReactionBaseProps {
+  instances: TrixtaReactionInstance<TInitialData>[];
   /**
    * If 'true', Trixta roles or role name passed does have acccess for this user
    */
   hasRoleAccess: boolean;
 }
 
-export interface RespondToReactionComponentProps
-  extends TrixtaReactionDispatch {
+export interface RespondToReactionComponentProps<
+  TInitialData = DefaultUnknownType
+> extends TrixtaReactionDispatch<TInitialData> {
   /**
    * Name of Trixta role
    */
@@ -24,7 +26,7 @@ export interface RespondToReactionComponentProps
   /**
    * Data to submit to Trixta
    */
-  formData?: defaultUnknownType;
+  formData?: DefaultUnknownType;
   /**
    * If 'true', Trixta reaction will be responded when a reaction response instance is present
    */
@@ -32,5 +34,5 @@ export interface RespondToReactionComponentProps
   /**
    * Trixta reaction response instances
    */
-  instances?: TrixtaReactionInstance[];
+  instances?: TrixtaReactionInstance<TInitialData>[];
 }

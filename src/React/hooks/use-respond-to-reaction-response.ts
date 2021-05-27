@@ -8,7 +8,7 @@ import {
 import { trixtaDebugger, TrixtaDebugType } from '../TrixtaDebugger';
 import { TrixtaReactionBaseProps } from './../types';
 import {
-  defaultUnknownType,
+  DefaultUnknownType,
   TrixtaReactionInstance,
   TrixtaState,
 } from './../types/common/index';
@@ -22,7 +22,7 @@ export const useRespondToReactionResponse = <
   /**
    * Type for initial data from Trixta Reaction
    */
-  TInitialData = defaultUnknownType
+  TInitialData = DefaultUnknownType
 >({
   roleName,
   reactionName,
@@ -45,11 +45,19 @@ export const useRespondToReactionResponse = <
     { trixta: TrixtaState },
     TrixtaReactionInstance<
       TInitialData,
-      defaultUnknownType,
-      defaultUnknownType
+      DefaultUnknownType,
+      DefaultUnknownType
     >[]
-  >((state: { trixta: TrixtaState }) =>
-    selectReactionResponses(state, reactionRoleProps),
+  >(
+    (state: { trixta: TrixtaState }) =>
+      selectReactionResponses(
+        state,
+        reactionRoleProps,
+      ) as TrixtaReactionInstance<
+        TInitialData,
+        DefaultUnknownType,
+        DefaultUnknownType
+      >[],
   );
   const [latest] = instances;
   const latestInstance = latest;

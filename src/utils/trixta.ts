@@ -4,11 +4,12 @@ import {
   ROLE_REACTION_RESPONSE_FIELDS,
 } from '../React/constants';
 import {
-  defaultUnknownType,
+  DefaultUnknownType,
   TrixtaAction,
   TrixtaInstance,
   TrixtaReaction,
   TrixtaReactionInstance,
+  TrixtaReactionType,
 } from '../React/types';
 import {
   TrixtaCommon,
@@ -16,7 +17,6 @@ import {
   TrixtaInstanceModeType,
   TrixtaReactionDetails,
   TrixtaReactionResponseDetails,
-  TrixtaReactionType,
 } from './../React/types';
 import { get } from './object';
 
@@ -86,9 +86,9 @@ export function getTrixtaReactionReducerStructure({
  * @returns
  */
 export function getTrixtaInstanceResult<
-  TInitialData = defaultUnknownType,
-  TSuccessType = defaultUnknownType,
-  TErrorType = defaultUnknownType
+  TInitialData = DefaultUnknownType,
+  TSuccessType = DefaultUnknownType,
+  TErrorType = DefaultUnknownType
 >({
   details,
   error,

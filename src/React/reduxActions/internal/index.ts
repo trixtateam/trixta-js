@@ -6,6 +6,7 @@ import {
   UPDATE_TRIXTA_REACTION,
   UPDATE_TRIXTA_REACTION_RESPONSE,
 } from '../../constants';
+import { DefaultUnknownType } from '../../types';
 import {
   EmitTrixtaReactionResponseListenerEventAction,
   UpdateTrixtaActionDetailsAction,
@@ -58,15 +59,17 @@ export function updateTrixtaReactionResponse({
  * @param params.reactionDetails - details regarding response from reaction
  * @param params.roleName - name of role
  */
-export function emitTrixtaReactionResponseListenerEvent({
+export function emitTrixtaReactionResponseListenerEvent<
+  TInitialData = DefaultUnknownType
+>({
   roleName,
   reactionDetails,
   reactionName,
 }: {
   roleName: string;
-  reactionDetails: TrixtaReactionResponseDetails;
+  reactionDetails: TrixtaReactionResponseDetails<TInitialData>;
   reactionName: string;
-}): EmitTrixtaReactionResponseListenerEventAction {
+}): EmitTrixtaReactionResponseListenerEventAction<TInitialData> {
   return {
     type: emitTrixtaReactionResponse({ roleName, reactionName }),
     meta: { roleName, reactionName },

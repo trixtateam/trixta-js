@@ -4,19 +4,19 @@ import {
   TrixtaReactionBaseProps,
 } from '../../types';
 import {
-  defaultUnknownType,
+  DefaultUnknownType,
   TrixtaInstanceDetails,
   TrixtaInstanceResponse,
 } from './../../types';
 export interface TrixtaReactionComponentArgs<
-  TFormData = defaultUnknownType,
-  TSuccessType = defaultUnknownType,
-  TErrorType = defaultUnknownType
+  TFormData = DefaultUnknownType,
+  TSuccessType = DefaultUnknownType,
+  TErrorType = DefaultUnknownType
 > extends TrixtaReactionBaseProps {
   dispatchSubmitReactionResponse: TrixtaDispatch<TFormData>;
   submit: TrixtaDispatch<TFormData>;
   common: TrixtaCommon;
-  data: defaultUnknownType;
+  data: DefaultUnknownType;
   response?: TrixtaInstanceResponse<TSuccessType, TErrorType>;
   details?: TrixtaInstanceDetails;
 }

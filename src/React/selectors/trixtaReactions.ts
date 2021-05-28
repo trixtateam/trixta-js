@@ -2,17 +2,17 @@
 import { createSelector, ParametricSelector } from 'reselect';
 import { getReducerKeyName } from '../../utils';
 import { get, pickBy } from '../../utils/object';
-import { TRIXTA_FIELDS } from '../constants';
 import {
   TrixtaCommon,
   TrixtaReactionInstance,
   TrixtaState,
 } from '../types/common';
-import { TrixtaReaction, TrixtaReactionBaseProps } from '../types/reactions';
+import { TrixtaReaction, TrixtaReactionBaseProps, TrixtaReactionType } from '../types/reactions';
+import {
+} from '../types/reactions';
 import { selectTrixtaRoleNameProp } from './common';
 
 type DefaultSelectorProps = TrixtaReactionBaseProps;
-
 export const selectTrixtaReactionNameProp = (
   _: { trixta: TrixtaState },
   props: DefaultSelectorProps,
@@ -109,13 +109,13 @@ export const selectTrixtaReactionResponseInstancesForRole = (
   getTrixtaReactionState(state, props)?.instances &&
   getTrixtaReactionState(state, props)?.instances[
     props.requestForEffect
-      ? TRIXTA_FIELDS.requestForEffect
-      : TRIXTA_FIELDS.requestForResponse
+      ? TrixtaReactionType.requestForEffect
+      : TrixtaReactionType.requestForResponse
   ]
     ? getTrixtaReactionState(state, props)?.instances[
         props.requestForEffect
-          ? TRIXTA_FIELDS.requestForEffect
-          : TRIXTA_FIELDS.requestForResponse
+          ? TrixtaReactionType.requestForEffect
+          : TrixtaReactionType.requestForResponse
       ]
     : [];
 
@@ -131,13 +131,13 @@ export const selectTrixtaReactionResponseInstance = (
   getTrixtaReactionState(state, props)?.instances &&
   getTrixtaReactionState(state, props)?.instances[
     props.requestForEffect
-      ? TRIXTA_FIELDS.requestForEffect
-      : TRIXTA_FIELDS.requestForResponse
+      ? TrixtaReactionType.requestForEffect.toString()
+      : TrixtaReactionType.requestForResponse.toString()
   ]
     ? getTrixtaReactionState(state, props)?.instances[
         props.requestForEffect
-          ? TRIXTA_FIELDS.requestForEffect
-          : TRIXTA_FIELDS.requestForResponse
+          ? TrixtaReactionType.requestForEffect.toString()
+          : TrixtaReactionType.requestForResponse.toString()
       ][props.instanceIndex]
     : undefined;
 
@@ -152,8 +152,8 @@ export const makeSelectTrixtaReactionResponseInstancesForRole = () =>
       return selectedReaction
         ? selectedReaction?.instances[
             requestForEffect
-              ? TRIXTA_FIELDS.requestForEffect
-              : TRIXTA_FIELDS.requestForResponse
+              ? TrixtaReactionType.requestForEffect
+              : TrixtaReactionType.requestForResponse
           ]
         : [];
     },
@@ -173,8 +173,8 @@ export const makesSelectTrixtaReactionResponseInstance = () =>
     (selectedReaction, requestForEffect, instanceIndex) => {
       return selectedReaction?.instances[
         requestForEffect
-          ? TRIXTA_FIELDS.requestForEffect
-          : TRIXTA_FIELDS.requestForResponse
+          ? TrixtaReactionType.requestForEffect.toString()
+          : TrixtaReactionType.requestForResponse.toString()
       ][instanceIndex];
     },
   );
@@ -247,13 +247,13 @@ export const makeSelectTrixtaReactionListForRole = () =>
         const instances = get<TrixtaReactionInstance>(reaction, 'instances');
         const effectInstances = get<TrixtaReactionInstance[]>(
           instances,
-          TRIXTA_FIELDS.requestForEffect,
+          TrixtaReactionType.requestForEffect,
           [],
         );
 
         const responseInstances = get<TrixtaReactionInstance[]>(
           instances,
-          TRIXTA_FIELDS.requestForResponse,
+          TrixtaReactionType.requestForResponse,
           [],
         );
 

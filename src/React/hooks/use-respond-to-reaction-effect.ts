@@ -5,7 +5,7 @@ import {
   makeSelectTrixtaReactionResponseInstancesForRole,
 } from '../selectors';
 import { trixtaDebugger, TrixtaDebugType } from '../TrixtaDebugger';
-import { defaultUnknownType, TrixtaState } from '../types';
+import { DefaultUnknownType, TrixtaState } from '../types';
 import { TrixtaReactionBaseProps, TrixtaReactionInstance } from './../types';
 import {
   UseRespondToReactionEffectProps,
@@ -16,7 +16,7 @@ export const useRespondToReactionEffect = <
   /**
    * Type for initial data from Trixta Reaction
    */
-  TInitialData = defaultUnknownType
+  TInitialData = DefaultUnknownType
 >(
   props: UseRespondToReactionEffectProps,
 ): UseRespondToReactionEffectReturn => {
@@ -45,8 +45,8 @@ export const useRespondToReactionEffect = <
     { trixta: TrixtaState },
     TrixtaReactionInstance<
       TInitialData,
-      defaultUnknownType,
-      defaultUnknownType
+      DefaultUnknownType,
+      DefaultUnknownType
     >[]
   >((state: { trixta: TrixtaState }) =>
     selectReactionResponse(state, reactionRoleProps),

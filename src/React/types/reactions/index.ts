@@ -1,11 +1,12 @@
 
-import { defaultUnknownType, TrixtaBaseRoleProps, TrixtaCommon, TrixtaInstanceMode, TrixtaReactionInstance } from '../common';
+import { AnyAction } from 'redux';
+import { DefaultUnknownType, TrixtaBaseRoleProps, TrixtaCommon, TrixtaInstanceMode, TrixtaReactionInstance } from '../common';
 export enum TrixtaReactionType {
   requestForEffect = 'requestForEffect',
   requestForResponse = 'requestForResponse',
 }
 
-export interface TrixtaReactionResponseDetails<TInitialData = defaultUnknownType> {
+export interface TrixtaReactionResponseDetails<TInitialData = DefaultUnknownType> {
   id?: string;
   settings?: unknown;
   errorEvent?: string;
@@ -30,7 +31,7 @@ export interface TrixtaReactionDetails {
   tags: Array<string>;
 }
 
-export interface TrixtaReactionDispatch {
+export interface TrixtaReactionDispatch<TInitialData =DefaultUnknownType> {
   /**
    * Name of Trixta reaction
    */
@@ -44,15 +45,15 @@ export interface TrixtaReactionDispatch {
    * Redux Action creator function to pass data to from Trixta reaction response
    */
   // eslint-disable-next-line @typescript-eslint/ban-types
-  actionToDispatch?: Function;
+  actionToDispatch?: (data: TInitialData) => AnyAction;
   /**
    * Redux Action event to pass data to from Trixta reaction response
    * [see Redux `dispatch` documentation for complete info](https://redux.js.org/api/store#dispatchaction)
    */
-  dispatchResponseTo?: string;
+  dispatchResponseTo?: AnyAction['type'];
 }
 
-export interface SubmitTrixtaReactionResponse<TFormData = defaultUnknownType> {
+export interface SubmitTrixtaReactionResponse<TFormData = DefaultUnknownType> {
   /**
    * Name of Trixta role
    */

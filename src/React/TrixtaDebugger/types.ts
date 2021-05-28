@@ -1,5 +1,5 @@
 import {
-  defaultUnknownType,
+  DefaultUnknownType,
   TrixtaCommon,
   TrixtaInstance,
   TrixtaReactionInstance,
@@ -19,11 +19,11 @@ export interface TrixtaInstancesDebuggerParameters
   extends TrixtaDebuggerParameters {
   instances?:
     | TrixtaReactionInstance<
-        defaultUnknownType,
-        defaultUnknownType,
-        defaultUnknownType
+        DefaultUnknownType,
+        DefaultUnknownType,
+        DefaultUnknownType
       >[]
-    | TrixtaInstance<defaultUnknownType, defaultUnknownType>[]
+    | TrixtaInstance<DefaultUnknownType, DefaultUnknownType>[]
     | undefined;
   hasRoleAccess: boolean;
   common?: TrixtaCommon;
@@ -34,11 +34,11 @@ export interface TrixtaInstanceDebuggerParameters
   response: unknown;
   instance:
     | TrixtaReactionInstance<
-        defaultUnknownType,
-        defaultUnknownType,
-        defaultUnknownType
+        DefaultUnknownType,
+        DefaultUnknownType,
+        DefaultUnknownType
       >
-    | TrixtaInstance<defaultUnknownType, defaultUnknownType>
+    | TrixtaInstance<DefaultUnknownType, DefaultUnknownType>
     | undefined;
 }
 

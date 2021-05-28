@@ -9,7 +9,7 @@ import {
 import { TrixtaState } from '../../../types';
 import { RespondToReactionComponentProps } from './types';
 
-const RespondToReactionComponent = ({
+function RespondToReactionComponent({
   roleName,
   reactionName,
   requestForEffect = true,
@@ -19,7 +19,7 @@ const RespondToReactionComponent = ({
   shouldRespond = true,
   actionToDispatch = undefined,
   dispatchResponseTo,
-}: RespondToReactionComponentProps) => {
+}: RespondToReactionComponentProps) {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -36,7 +36,11 @@ const RespondToReactionComponent = ({
       if (actionToDispatch) {
         dispatch(actionToDispatch(latestInstance?.details?.initial_data));
       }
-      if (!requestForEffect && !actionToDispatch && !dispatchResponseTo) {
+      const isRequestForEffect =
+        requestForEffect === undefined && requestForEffect !== false
+          ? true
+          : false;
+      if (!isRequestForEffect && !actionToDispatch && !dispatchResponseTo) {
         dispatch(
           submitTrixtaReactionResponse({
             formData,
@@ -60,7 +64,7 @@ const RespondToReactionComponent = ({
     actionToDispatch,
   ]);
   return null;
-};
+}
 
 const makeMapStateToProps = () => {
   const getTrixtaReactionResponseInstancesForRole = makeSelectTrixtaReactionResponseInstancesForRole();

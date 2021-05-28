@@ -1,5 +1,5 @@
 import {
-  defaultUnknownType,
+  DefaultUnknownType,
   TrixtaActionBaseProps,
   TrixtaInstance,
   TrixtaInstanceResponse,
@@ -30,8 +30,9 @@ export interface RespondToReactionFunctionParameters {
   errorEvent?: string;
 }
 
-export interface UseRespondToReactionEffectProps
-  extends TrixtaReactionDispatch {
+export interface UseRespondToReactionEffectProps<
+  TInitialData = DefaultUnknownType
+> extends TrixtaReactionDispatch<TInitialData> {
   /**
    * Trixta role name
    */
@@ -72,7 +73,7 @@ export interface submitTrixtaFunctionParameters {
   /**
    * Data to submit for Trixta Reaction / Action
    */
-  data: defaultUnknownType;
+  data: DefaultUnknownType;
   /**
    * Unique reference no for Trixta to respond for Reaction
    */
@@ -114,8 +115,8 @@ export interface UseTrixtaReactionProps extends TrixtaReactionBaseProps {
 }
 
 export interface UseTrixtaActionResponseReturn<
-  TSuccessType = defaultUnknownType,
-  TErrorType = defaultUnknownType
+  TSuccessType = DefaultUnknownType,
+  TErrorType = DefaultUnknownType
 > {
   /**
    * If 'true', Trixta roles or role name passed does have acccess for this user
@@ -135,9 +136,9 @@ export interface UseTrixtaActionResponseReturn<
 }
 
 export interface UseTrixtaReactionResponseReturn<
-  TInitialData = defaultUnknownType,
-  TSuccessType = defaultUnknownType,
-  TErrorType = defaultUnknownType
+  TInitialData = DefaultUnknownType,
+  TSuccessType = DefaultUnknownType,
+  TErrorType = DefaultUnknownType
 > {
   /**
    * If 'true', Trixta roles or role name passed does have acccess for this user

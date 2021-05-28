@@ -7,8 +7,10 @@ import {
   TrixtaReactionInstance,
   TrixtaState,
 } from '../types/common';
-import { TrixtaReaction, TrixtaReactionBaseProps, TrixtaReactionType } from '../types/reactions';
 import {
+  TrixtaReaction,
+  TrixtaReactionBaseProps,
+  TrixtaReactionType,
 } from '../types/reactions';
 import { selectTrixtaRoleNameProp } from './common';
 

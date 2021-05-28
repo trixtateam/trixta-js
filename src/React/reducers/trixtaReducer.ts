@@ -4,7 +4,7 @@ import {
   TrixtaCommon,
   TrixtaInstance,
   TrixtaInstanceMode,
-  TrixtaReactionDetails
+  TrixtaReactionDetails,
 } from '../../React/types';
 import {
   get,
@@ -15,7 +15,7 @@ import {
   getTrixtaInstanceResult,
   getTrixtaReactionReducerStructure,
   isObject,
-  pickBy
+  pickBy,
 } from '../../utils';
 import {
   CLEAR_TRIXTA_ACTION_RESPONSE,
@@ -37,7 +37,7 @@ import {
   UPDATE_TRIXTA_REACTION,
   UPDATE_TRIXTA_REACTION_RESPONSE,
   UPDATE_TRIXTA_ROLE,
-  UPDATE_TRIXTA_ROLES
+  UPDATE_TRIXTA_ROLES,
 } from '../constants';
 import { SIGN_OUT_TRIXTA } from './../constants/index';
 import { TrixtaReducerActions } from './../reduxActions/types';

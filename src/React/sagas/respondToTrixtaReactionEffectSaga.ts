@@ -1,8 +1,7 @@
-import { AnyAction } from 'redux';
 import { put, PutEffect, take, TakeEffect } from '@redux-saga/core/effects';
+import { AnyAction } from 'redux';
 import { listenForTrixtaReactionResponse } from '../constants';
 import { EmitTrixtaReactionResponseListenerEventAction } from '../reduxActions';
-import { DefaultUnknownType } from '../types';
 
 /**
  * Will listen for a Trixta reaction response for the params.roleName and  params.reactionName and dispatch the response to the
@@ -13,9 +12,7 @@ import { DefaultUnknownType } from '../types';
  * @param {String} params.roleName - name of role
  * @param {String} params.reactionName - name of reaction
  */
-export function* respondToTrixtaReactionEffectSaga<
-  TInitialData = DefaultUnknownType
->({
+export function* respondToTrixtaReactionEffectSaga({
   roleName,
   reactionName,
   actionToDispatch = undefined,
@@ -24,12 +21,12 @@ export function* respondToTrixtaReactionEffectSaga<
   roleName: string;
   reactionName: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  actionToDispatch?: (data: TInitialData) => AnyAction;
+  actionToDispatch?: (data: any) => AnyAction;
   dispatchResponseTo?: AnyAction['type'];
 }): Generator<
   TakeEffect | PutEffect<AnyAction>,
   void,
-  EmitTrixtaReactionResponseListenerEventAction<TInitialData>
+  EmitTrixtaReactionResponseListenerEventAction<any>
 > {
   while (true) {
     const actionType = listenForTrixtaReactionResponse({
@@ -37,7 +34,7 @@ export function* respondToTrixtaReactionEffectSaga<
       reactionName,
     });
 
-    const response: EmitTrixtaReactionResponseListenerEventAction<TInitialData> = yield take(
+    const response: EmitTrixtaReactionResponseListenerEventAction<any> = yield take(
       actionType,
     );
     if (actionToDispatch) {

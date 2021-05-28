@@ -1,15 +1,22 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import {
+  all,
+  fork,
+  put,
+  select,
+  take,
+  takeEvery,
+} from '@redux-saga/core/effects';
 import {
   channelActionTypes,
   getPhoenixChannel,
   leavePhoenixChannel,
+  phoenixChannelJoin,
   pushToPhoenixChannel,
 } from '@trixta/phoenix-to-redux';
-import { all, fork, put, select, take, takeEvery } from 'redux-saga/effects';
+import { Channel } from 'phoenix';
 import { getChannelName, isNullOrEmpty } from '../../utils';
 import { get } from '../../utils/object';
 import {
-  CHANNEL_JOINED_FIELDS,
   REMOVE_TRIXTA_ROLE,
   SUBMIT_TRIXTA_ACTION_RESPONSE,
   SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
@@ -24,9 +31,19 @@ import {
   UPDATE_TRIXTA_ROLES,
 } from '../constants';
 import {
+  IncomingTrixtaReactionAction,
   joinTrixtaRole,
   removeTrixtaRole,
+  RemoveTrixtaRoleAction,
+  SubmitTrixtaActionResponseAction,
+  SubmitTrixtaActionResponsFailureAction,
+  SubmitTrixtaActionResponsSuccesseAction,
+  SubmitTrixtaReactionResponseAction,
+  SubmitTrixtaReactionResponseFailureAction,
+  SubmitTrixtaReactionResponseSuccessAction,
   updateTrixtaError,
+  UpdateTrixtaRoleAction,
+  UpdateTrixtaRolesAction,
 } from '../reduxActions';
 import {
   emitTrixtaReactionResponseListenerEvent,
@@ -36,6 +53,13 @@ import {
   updateTrixtaReactionResponse,
 } from '../reduxActions/internal';
 import { makeSelectTrixtaAgentDetails } from '../selectors/common';
+import {
+  TrixtaActionDebugOptions,
+  TrixtaChannelJoinResponse,
+  TrixtaRole,
+  TrixtaRoleParameter,
+  TrixtaState,
+} from '../types';
 
 /**
  * Removes the trixta role and related actions and reactions from the trixta reducer
@@ -46,8 +70,8 @@ import { makeSelectTrixtaAgentDetails } from '../selectors/common';
  * @param {Array} params.data.role
  * @returns {IterableIterator<*>}
  */
-function* removeTrixtaRoleSaga({ data }) {
-  const role = get(data, 'role');
+function* removeTrixtaRoleSaga({ data }: RemoveTrixtaRoleAction) {
+  const role = get<TrixtaRole>(data, 'role');
   try {
     if (!isNullOrEmpty(role)) {
       const channelTopic = getChannelName({ role: role.name });
@@ -66,8 +90,7 @@ function* removeTrixtaRoleSaga({ data }) {
  * @param {Array} params.data.roles
  * @returns {IterableIterator<*>}
  */
-function* checkTrixtaRolesSaga({ data }) {
-  const roles = get(data, 'roles', []);
+function* checkTrixtaRolesSaga({ roles }: { roles: TrixtaRoleParameter[] }) {
   try {
     if (!isNullOrEmpty(roles)) {
       yield all(
@@ -88,7 +111,7 @@ function* checkTrixtaRolesSaga({ data }) {
  * @param role
  * @returns {IterableIterator<*>}
  */
-function* checkLoggedInRoleSaga({ role }) {
+function* checkLoggedInRoleSaga({ role }: { role: TrixtaRoleParameter }) {
   if (!isNullOrEmpty(role)) {
     const channelTopic = getChannelName({ role: role.name });
     yield put(
@@ -105,22 +128,20 @@ function* checkLoggedInRoleSaga({ role }) {
  * @param channel
  * @returns {IterableIterator<*>}
  */
-function* setupRoleSaga({ response, channel }) {
+function* setupRoleSaga({
+  response,
+  channel,
+}: {
+  response: TrixtaChannelJoinResponse;
+  channel: Channel;
+}) {
   try {
-    const roleChannel = get(channel, 'topic', false);
+    const roleChannel = get<string>(channel, 'topic');
     const roleName = roleChannel.split(':')[1];
     yield put(joinTrixtaRole({ roleName }));
     if (!isNullOrEmpty(response)) {
-      const reactionsForRole = get(
-        response,
-        CHANNEL_JOINED_FIELDS.contract_reactions,
-        {},
-      );
-      const actionsForRole = get(
-        response,
-        CHANNEL_JOINED_FIELDS.contract_actions,
-        {},
-      );
+      const reactionsForRole = response.contract_reactions ?? [];
+      const actionsForRole = response.contract_actions ?? [];
       if (!isNullOrEmpty(actionsForRole)) {
         yield all(
           Object.keys(actionsForRole).map((actionName) =>
@@ -154,10 +175,8 @@ function* setupRoleSaga({ response, channel }) {
           ),
         );
         yield fork(addReactionListenersForRoleChannelSaga, {
-          data: {
-            reactionsForRole: Object.keys(reactionsForRole),
-            roleChannel,
-          },
+          reactionsForRole: Object.keys(reactionsForRole),
+          roleChannel,
         });
       }
     }
@@ -174,22 +193,24 @@ function* setupRoleSaga({ response, channel }) {
  * @param {String} params.data.actionName - name of action
  * @param {Object} params.data.formData - form data to submit
  * @param {Boolean=} [params.clearResponse = false] params.clearResponse - determines if the instances for action should be cleared before submitting
- * @param {String=} [params.responseEvent = null] params.responseEvent - event for data to dispatch to on trixta action response
- * @param {String=} [params.requestEvent = null] params.requestEvent - event for data to dispatch to on trixta action before submitting to trixta
- * @param {String=} [params.errorEvent = null] params.errorEvent - event for error to dispatch to on trixta action error response
+ * @param {String=} [params.responseEvent = undefined] params.responseEvent - event for data to dispatch to on trixta action response
+ * @param {String=} [params.requestEvent = undefined] params.requestEvent - event for data to dispatch to on trixta action before submitting to trixta
+ * @param {String=} [params.errorEvent = undefined] params.errorEvent - event for error to dispatch to on trixta action error response
  */
-function* submitActionResponseSaga({ data }) {
+function* submitActionResponseSaga({ data }: SubmitTrixtaActionResponseAction) {
   try {
-    const roleName = get(data, 'roleName');
-    const responseEvent = get(data, 'responseEvent');
-    const errorEvent = get(data, 'errorEvent');
-    const requestEvent = get(data, 'requestEvent');
-    const clearResponse = get(data, 'clearResponse');
-    const actionName = get(data, 'actionName');
+    const roleName = get<string>(data, 'roleName');
+    const responseEvent = get<string>(data, 'responseEvent');
+    const errorEvent = get<string>(data, 'errorEvent');
+    const requestEvent = get<string>(data, 'requestEvent');
+    const clearResponse = get<boolean>(data, 'clearResponse');
+    const actionName = get<string>(data, 'actionName');
     const formData = get(data, 'formData');
-    const debugMode = get(data, 'debugMode', false);
-    const debugOptions = get(data, 'debugOptions', {});
-    const actionOptions = get(data, 'actionOptions', {});
+    const debugMode = get<boolean>(data, 'debugMode', false);
+    const debugOptions = get<TrixtaActionDebugOptions>(data, 'debugOptions');
+    const actionOptions = get<
+      SubmitTrixtaActionResponseAction['data']['actionOptions']
+    >(data, 'actionOptions', {});
     const options = debugMode
       ? { debug: true, ...debugOptions, ...actionOptions }
       : { ...actionOptions };
@@ -229,12 +250,14 @@ function* submitActionResponseSaga({ data }) {
  * @param {String} params.data.roleName - name of role
  * @param {String} params.data.actionName - name of action
  */
-function* submitActionResponseSuccess({ data }) {
+function* submitActionResponseSuccess({
+  data,
+}: SubmitTrixtaActionResponsSuccesseAction) {
   if (data) {
-    const roleName = get(data, 'roleName', false);
-    const actionName = get(data, 'actionName', false);
-    const clearResponse = get(data, 'clearResponse', false);
-    const responseEvent = get(data, 'responseEvent', false);
+    const roleName = get<string>(data, 'roleName');
+    const actionName = get<string>(data, 'actionName');
+    const clearResponse = get<boolean>(data, 'clearResponse', false);
+    const responseEvent = get<string>(data, 'responseEvent');
     if (roleName && actionName) {
       // eslint-disable-next-line no-param-reassign
       delete data.responseEvent;
@@ -263,8 +286,11 @@ function* submitActionResponseSuccess({ data }) {
  * @param {Object} params.error
  * @param {Object} params.data - additionalData
  */
-function* submitActionResponseFailure({ error, data }) {
-  const errorEvent = get(data, 'errorEvent', false);
+function* submitActionResponseFailure({
+  error,
+  data,
+}: SubmitTrixtaActionResponsFailureAction) {
+  const errorEvent = data && data.errorEvent ? data.errorEvent : undefined;
   if (errorEvent) {
     yield put({ type: errorEvent, error });
   }
@@ -278,7 +304,11 @@ function* submitActionResponseFailure({ error, data }) {
  * @param eventName
  * @returns {IterableIterator<*>}
  */
-function* checkReactionResponseSaga({ data, eventName, channelTopic }) {
+function* checkReactionResponseSaga({
+  data,
+  eventName,
+  channelTopic,
+}: IncomingTrixtaReactionAction) {
   try {
     const reactionResponse = { eventName, ...data };
     const roleName = channelTopic.split(':')[1];
@@ -306,15 +336,19 @@ function* checkReactionResponseSaga({ data, eventName, channelTopic }) {
  * @param data
  * @returns {IterableIterator<*>}
  */
-function* addReactionListenersForRoleChannelSaga({ data }) {
-  const reactionsForRole = get(data, 'reactionsForRole', []);
-  const roleChannel = get(data, 'roleChannel', '');
-
+function* addReactionListenersForRoleChannelSaga({
+  reactionsForRole,
+  roleChannel,
+}: {
+  reactionsForRole: Array<string>;
+  roleChannel: string;
+}) {
   try {
     yield all(
       reactionsForRole.map((value) =>
         fork(addRoleListeningReactionRequestSaga, {
-          data: { reaction: value, roleChannel },
+          reactionName: value,
+          roleChannel,
         }),
       ),
     );
@@ -328,17 +362,21 @@ function* addReactionListenersForRoleChannelSaga({ data }) {
  * @param data
  * @returns {IterableIterator<*>}
  */
-function* addRoleListeningReactionRequestSaga({ data }) {
-  const roleChannel = get(data, 'roleChannel', false);
-  const selectedReaction = get(data, 'reaction', '');
+function* addRoleListeningReactionRequestSaga({
+  roleChannel,
+  reactionName,
+}: {
+  roleChannel: string;
+  reactionName: string;
+}) {
   try {
-    if (selectedReaction && roleChannel) {
+    if (reactionName && roleChannel) {
       yield put(
         getPhoenixChannel({
           channelTopic: roleChannel,
           events: [
             {
-              eventName: selectedReaction,
+              eventName: reactionName,
               eventActionType: TRIXTA_REACTION_RESPONSE,
             },
           ],
@@ -358,19 +396,23 @@ function* addRoleListeningReactionRequestSaga({ data }) {
  * @param {String} params.data.reactionName - name of reaction
  * @param {Object} params.data.formData - form data to submit
  * @param {Object} params.data.ref - ref for the reaction
- * @param {String=} [params.responseEvent = null] params.responseEvent - event for data to dispatch to on trixta reaction response
- * @param {String=} [params.requestEvent = null] params.requestEvent - event for data to dispatch to on trixta reaction before submitting to trixta
- * @param {String=} [params.errorEvent = null] params.errorEvent - event for error to dispatch to on trixta reaction error response
+ * @param {String=} [params.responseEvent = undefined] params.responseEvent - event for data to dispatch to on trixta reaction response
+ * @param {String=} [params.requestEvent = undefined] params.requestEvent - event for data to dispatch to on trixta reaction before submitting to trixta
+ * @param {String=} [params.errorEvent = undefined] params.errorEvent - event for error to dispatch to on trixta reaction error response
  */
-function* submitResponseForReactionSaga({ data }) {
+function* submitResponseForReactionSaga({
+  data,
+}: SubmitTrixtaReactionResponseAction) {
   try {
-    const roleName = get(data, 'roleName');
-    const responseEvent = get(data, 'responseEvent');
-    const errorEvent = get(data, 'errorEvent');
-    const requestEvent = get(data, 'requestEvent');
-    const reactionName = get(data, 'reactionName');
-    const formData = get(data, 'formData');
-    const ref = get(data, 'ref');
+    const roleName = get<string>(data, 'roleName');
+    const responseEvent = get<string>(data, 'responseEvent');
+    const errorEvent = get<string>(data, 'errorEvent');
+    const requestEvent = get<string>(data, 'requestEvent');
+    const reactionName = get<string>(data, 'reactionName');
+    const formData = get<
+      SubmitTrixtaReactionResponseAction['data']['formData']
+    >(data, 'formData');
+    const ref = get<string>(data, 'ref');
     const channelTopic = getChannelName({ role: roleName });
     yield put(getPhoenixChannel({ channelTopic }));
     if (requestEvent) {
@@ -406,8 +448,11 @@ function* submitResponseForReactionSaga({ data }) {
  * @param {Object} params.error
  * @param {Object} params.data - additionalData
  */
-function* submitReactionResponseFailure({ error, data }) {
-  const errorEvent = get(data, 'errorEvent', false);
+function* submitReactionResponseFailure({
+  error,
+  data,
+}: SubmitTrixtaReactionResponseFailureAction) {
+  const errorEvent = data && data.errorEvent ? data.errorEvent : undefined;
   if (errorEvent) {
     yield put({ type: errorEvent, error });
   }
@@ -418,8 +463,11 @@ function* submitReactionResponseFailure({ error, data }) {
  * @param {Object} params
  * @param {Object} params.data
  */
-function* submitReactionResponseSuccess({ data }) {
-  const responseEvent = get(data, 'responseEvent', false);
+function* submitReactionResponseSuccess({
+  data,
+}: SubmitTrixtaReactionResponseSuccessAction) {
+  const responseEvent =
+    data && data.responseEvent ? data.responseEvent : undefined;
   if (responseEvent) {
     yield put({ type: responseEvent, data });
   }
@@ -432,21 +480,28 @@ function* submitReactionResponseSuccess({ data }) {
  * @param channel
  * @returns {IterableIterator<*>}
  */
-function* handleChannelJoinSaga({ response, channel }) {
+function* handleChannelJoinSaga({
+  response,
+  channel,
+}: {
+  response: any;
+  channel: Channel;
+}) {
   yield fork(setupRoleSaga, { response, channel });
 }
 
 /**
  * After leaving the channel
  * call removeTrixtaRole if the role is present
- * @param response
  * @param channel
  * @returns {IterableIterator<*>}
  */
-function* handleChannelLeaveSaga({ channel }) {
-  const roleChannel = get(channel, 'topic', false);
+function* handleChannelLeaveSaga({ channel }: { channel: Channel }) {
+  const roleChannel = get<string>(channel, 'topic', undefined);
   const roleName = roleChannel.split(':')[1];
-  const agentDetails = yield select(makeSelectTrixtaAgentDetails());
+  const agentDetails: TrixtaState['agentDetails'] = yield select(
+    makeSelectTrixtaAgentDetails(),
+  );
   if (agentDetails && agentDetails.includes(roleName)) {
     yield put(removeTrixtaRole({ name: roleName }));
   }
@@ -458,66 +513,87 @@ function* handleChannelLeaveSaga({ channel }) {
 
 function* watchForUpdateTrixtaRoles() {
   while (true) {
-    const data = yield take(UPDATE_TRIXTA_ROLES);
-    yield fork(checkTrixtaRolesSaga, data);
+    const action: UpdateTrixtaRolesAction = yield take<UpdateTrixtaRolesAction>(
+      UPDATE_TRIXTA_ROLES,
+    );
+    yield fork(checkTrixtaRolesSaga, action.data);
   }
 }
 
 function* watchForUpdateTrixtaRole() {
   while (true) {
-    const data = yield take(UPDATE_TRIXTA_ROLE);
-    const { role } = data.data;
+    const action: UpdateTrixtaRoleAction = yield take<UpdateTrixtaRoleAction>(
+      UPDATE_TRIXTA_ROLE,
+    );
+    const { role } = action.data;
     yield fork(checkTrixtaRolesSaga, {
-      data: { roles: [{ ...role }] },
+      roles: [{ ...role }],
     });
   }
 }
 
 function* watchForRemoveTrixtaRole() {
   while (true) {
-    const data = yield take(REMOVE_TRIXTA_ROLE);
-    const { role } = data.data;
-    yield fork(removeTrixtaRoleSaga, {
-      data: { role },
-    });
+    const action: RemoveTrixtaRoleAction = yield take<RemoveTrixtaRoleAction>(
+      REMOVE_TRIXTA_ROLE,
+    );
+    yield fork(removeTrixtaRoleSaga, action);
   }
 }
 
 function* watchForTrixtActionSubmit() {
   while (true) {
-    const data = yield take(SUBMIT_TRIXTA_ACTION_RESPONSE);
-    yield fork(submitActionResponseSaga, data);
+    const action: SubmitTrixtaActionResponseAction = yield take<
+      SubmitTrixtaActionResponseAction
+    >(SUBMIT_TRIXTA_ACTION_RESPONSE);
+    yield fork(submitActionResponseSaga, action);
   }
 }
 
 function* watchForPhoenixChannelJoined() {
   while (true) {
-    const data = yield take(channelActionTypes.CHANNEL_JOIN);
-    yield fork(handleChannelJoinSaga, data);
+    const action: ReturnType<typeof phoenixChannelJoin> = yield take<
+      ReturnType<typeof phoenixChannelJoin>
+    >(channelActionTypes.CHANNEL_JOIN);
+    yield fork(handleChannelJoinSaga, action);
   }
 }
 
 function* watchForPhoenixChannelLeft() {
   while (true) {
-    const data = yield take(channelActionTypes.CHANNEL_LEAVE);
-    yield fork(handleChannelLeaveSaga, data);
+    const action: { channel: Channel } = yield take(
+      channelActionTypes.CHANNEL_LEAVE,
+    );
+    yield fork(handleChannelLeaveSaga, action);
   }
 }
 
-function* watchForTrixtaReactionResponse() {
+function* watchForTrixtaReactionResponse(): Generator<
+  any,
+  void,
+  IncomingTrixtaReactionAction
+> {
   while (true) {
-    const data = yield take(TRIXTA_REACTION_RESPONSE);
-    yield fork(checkReactionResponseSaga, data);
+    const action: IncomingTrixtaReactionAction = yield take<
+      IncomingTrixtaReactionAction
+    >(TRIXTA_REACTION_RESPONSE);
+    yield fork(checkReactionResponseSaga, action);
   }
 }
 
-function* watchForTrixtaReactionSubmit() {
+function* watchForTrixtaReactionSubmit(): Generator<
+  any,
+  void,
+  SubmitTrixtaReactionResponseAction
+> {
   while (true) {
-    const data = yield take(SUBMIT_TRIXTA_REACTION_RESPONSE);
-    yield fork(submitResponseForReactionSaga, data);
+    const action: SubmitTrixtaReactionResponseAction = yield take<
+      SubmitTrixtaReactionResponseAction
+    >(SUBMIT_TRIXTA_REACTION_RESPONSE);
+    yield fork(submitResponseForReactionSaga, action);
   }
 }
-export function* setupTrixtaSaga() {
+export function* setupTrixtaSaga(): Generator<any, void, unknown> {
   yield all([
     fork(watchForUpdateTrixtaRoles),
     fork(watchForUpdateTrixtaRole),

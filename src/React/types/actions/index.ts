@@ -5,13 +5,12 @@ import { DefaultUnknownType, TrixtaBaseRoleProps, TrixtaCommon, TrixtaInstance, 
 
 export interface TrixtaActionDebugOptions {
   slowdown: number;
-  debugRole?: string;
-  inspect: boolean;
-  debug_broadcast: {
-    role?: string;
-  };
-  // eslint-disable-next-line camelcase
-  effect_only?: boolean;
+    debugRole?: string;
+    inspect: boolean;
+    debug_broadcast: {
+        role?: string;
+    };
+    effect_only?: boolean;
 }
 
 export interface TrixtaActionOptions {

@@ -4,7 +4,6 @@ export const SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE = `@trixta/trixta-js/SUBMIT_T
 export const SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS = `@trixta/trixta-js/SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS`;
 export const UPDATE_TRIXTA_ACTION_RESPONSE = `@trixta/trixta-js/UPDATE_TRIXTA_ACTION_RESPONSE`;
 export const UPDATE_TRIXTA_ACTION = `@trixta/trixta-js/UPDATE_TRIXTA_ACTION`;
-
 export const TRIXTA_ACTION = 'TRIXTA_ACTION';
 
 export const trixtaActionLoadingStatus = ({

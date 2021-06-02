@@ -1,4 +1,4 @@
-import shortid from 'shortid';
+import { nanoid } from 'nanoid';
 import {
   ROLE_ACTION_FIELDS,
   ROLE_REACTION_RESPONSE_FIELDS,
@@ -32,11 +32,7 @@ export function getReactionDetails({
   reaction: TrixtaReactionDetails;
 }): TrixtaReactionResponseDetails {
   return {
-    ref: get<string>(
-      reaction,
-      ROLE_REACTION_RESPONSE_FIELDS.ref,
-      shortid.generate(),
-    ),
+    ref: get<string>(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, nanoid()),
     status: <string>get(reaction, ROLE_REACTION_RESPONSE_FIELDS.status),
     type: get<boolean>(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, false)
       ? TrixtaReactionType.requestForResponse

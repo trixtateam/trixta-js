@@ -1,9 +1,11 @@
 import {
   all,
   fork,
+  ForkEffect,
   put,
   select,
   take,
+  TakeEffect,
   takeEvery,
 } from '@redux-saga/core/effects';
 import {
@@ -550,11 +552,15 @@ function* watchForTrixtActionSubmit() {
   }
 }
 
-function* watchForPhoenixChannelJoined() {
+function* watchForPhoenixChannelJoined(): Generator<
+  TakeEffect | ForkEffect,
+  void,
+  any
+> {
   while (true) {
-    const action: ReturnType<typeof phoenixChannelJoin> = yield take<
-      ReturnType<typeof phoenixChannelJoin>
-    >(channelActionTypes.CHANNEL_JOIN);
+    const action: ReturnType<typeof phoenixChannelJoin> = yield take(
+      channelActionTypes.CHANNEL_JOIN,
+    );
     yield fork(handleChannelJoinSaga, action);
   }
 }

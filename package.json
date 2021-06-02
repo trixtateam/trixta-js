@@ -1,6 +1,6 @@
 {
   "name": "@trixta/trixta-js",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Javascript library to integrate Trixta",
   "source": "src/index.ts",
   "main": "dist/@trixta/trixta-js.cjs.js",
@@ -48,6 +48,7 @@
     "prettify": "prettier --write",
     "prepare": "yarn run build",
     "clean": "yarn clean:modules && yarn clean:cache",
+    "clean:cache":"yarn clean cache",
     "clean:modules": "rimraf node_modules",
     "semantic-release": "semantic-release",
     "major": "npm --no-git-tag-version version premajor --preid=beta",
@@ -120,7 +121,7 @@
   "dependencies": {
     "@trixta/phoenix-to-redux": "3.4.7-beta.0",
     "phoenix": "1.5.4",
-    "shortid": "^2.2.15"
+    "nanoid": "3.1.23"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",

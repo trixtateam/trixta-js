@@ -1,12 +1,12 @@
 import {
   CLEAR_TRIXTA_REACTION_RESPONSE,
   SUBMIT_TRIXTA_REACTION_RESPONSE,
-} from '../constants';
-import { SubmitTrixtaReactionResponse } from './../types';
+} from '../constants/reactions';
+import { SubmitTrixtaReactionResponse } from './../types/reactions';
 import {
   ClearTrixtaReactionResponseAction,
   SubmitTrixtaReactionResponseAction,
-} from './types';
+} from './types/reactions';
 
 /**
  *  Listened for in the Trixta saga to submit to Trixta space using relevant phoenix channel for role

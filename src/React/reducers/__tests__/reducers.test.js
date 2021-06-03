@@ -9,7 +9,7 @@ import {
   getTrixtaInstanceResult,
   getTrixtaReactionReducerStructure,
   isObject,
-  pickBy,
+  pickBy
 } from '../../../utils';
 import {
   ROLE_REACTION_RESPONSE_FIELDS,
@@ -17,7 +17,7 @@ import {
   SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
   TRIXTA_FIELDS,
   TRIXTA_MODE_TYPE,
-  TRIXTA_MODE_TYPE_FIELDS,
+  TRIXTA_MODE_TYPE_FIELDS
 } from '../../constants';
 import * as actions from '../../reduxActions';
 import { signoutTrixta } from '../../reduxActions';
@@ -1017,9 +1017,12 @@ describe('trixtaReducer', () => {
           }
         });
 
-        // expect(
-        //   trixtaReducer(state, internalActions.updateTrixtaReactionResponse(action.data)),
-        // ).toMatchObject(expectedResult);
+        expect(
+          trixtaReducer(
+            state,
+            internalActions.updateTrixtaReactionResponse(action.data),
+          ),
+        ).toEqual(expect.objectContaining(expectedResult));
         expect(
           expectedResult.reactions[action.data.keyName].instances
             .requestForResponse.length,
@@ -1140,9 +1143,12 @@ describe('trixtaReducer', () => {
             }
           }
         });
-        // expect(
-        //   trixtaReducer(state, internalActions.updateTrixtaReactionResponse(action.data)),
-        // ).toMatchObject(expectedResult);
+        expect(
+          trixtaReducer(
+            state,
+            internalActions.updateTrixtaReactionResponse(action.data),
+          ),
+        ).toEqual(expect.objectContaining(expectedResult));
         expect(
           expectedResult.reactions[action.data.keyName].instances
             .requestForResponse.length,
@@ -1265,9 +1271,12 @@ describe('trixtaReducer', () => {
             }
           }
         });
-        // expect(
-        //   trixtaReducer(state, internalActions.updateTrixtaReactionResponse(action.data)),
-        // ).toMatchObject(expectedResult);
+        expect(
+          trixtaReducer(
+            state,
+            internalActions.updateTrixtaReactionResponse(action.data),
+          ),
+        ).toEqual(expect.objectContaining(expectedResult));
         expect(
           expectedResult.reactions[action.data.keyName].instances
             .requestForResponse.length,

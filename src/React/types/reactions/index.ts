@@ -22,7 +22,7 @@ export interface TrixtaReactionResponseDetails<TInitialData = DefaultUnknownType
 }
 
 export interface TrixtaReactionDetails {
-  name: string;
+  name?: string;
   notes: string;
   role_id: string;
   request_schema: unknown;

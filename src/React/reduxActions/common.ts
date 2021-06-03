@@ -6,7 +6,7 @@ import {
   UPDATE_TRIXTA_ROLE,
   UPDATE_TRIXTA_ROLES,
 } from '../constants';
-import { TrixtaRoleParameter } from './../types';
+import { TrixtaRoleParameter } from './../types/common';
 import {
   JoinTrixtaRoleAction,
   RemoveTrixtaRoleAction,
@@ -14,7 +14,7 @@ import {
   UpdateTrixtaErrorAction,
   UpdateTrixtaRoleAction,
   UpdateTrixtaRolesAction,
-} from './types';
+} from './types/common';
 
 /**
  * Initializes all Trixta state

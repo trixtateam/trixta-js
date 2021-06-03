@@ -3,6 +3,7 @@ import {
   fork,
   ForkEffect,
   put,
+  PutEffect,
   select,
   take,
   TakeEffect,
@@ -43,7 +44,9 @@ import {
   SubmitTrixtaReactionResponseAction,
   SubmitTrixtaReactionResponseFailureAction,
   SubmitTrixtaReactionResponseSuccessAction,
+  UpdateTrixtaActionDetailsAction,
   updateTrixtaError,
+  UpdateTrixtaReactionDetailsAction,
   UpdateTrixtaRoleAction,
   UpdateTrixtaRolesAction,
 } from '../reduxActions';
@@ -56,8 +59,9 @@ import {
 } from '../reduxActions/internal';
 import { makeSelectTrixtaAgentDetails } from '../selectors/common';
 import {
-  TrixtaActionDebugOptions,
+  TrixtaActionDetails,
   TrixtaChannelJoinResponse,
+  TrixtaReactionDetails,
   TrixtaRole,
   TrixtaRoleParameter,
   TrixtaState,
@@ -147,16 +151,11 @@ function* setupRoleSaga({
       if (!isNullOrEmpty(actionsForRole)) {
         yield all(
           Object.keys(actionsForRole).map((actionName) =>
-            put(
-              updateTrixtaAction({
-                role: roleName,
-                action: {
-                  name: actionName,
-                  ...actionsForRole[actionName],
-                },
-                name: actionName,
-              }),
-            ),
+            fork(setupTrixtaActionForRole, {
+              roleName,
+              actionName,
+              actionDetails: actionsForRole[actionName],
+            }),
           ),
         );
       }
@@ -164,16 +163,11 @@ function* setupRoleSaga({
       if (!isNullOrEmpty(reactionsForRole)) {
         yield all(
           Object.keys(reactionsForRole).map((reactionName) =>
-            put(
-              updateTrixtaReaction({
-                role: roleName,
-                reaction: {
-                  name: reactionName,
-                  ...reactionsForRole[reactionName],
-                },
-                name: reactionName,
-              }),
-            ),
+            fork(setupTrixtaReactionForRole, {
+              roleName,
+              reactionName,
+              reactionDetails: reactionsForRole[reactionName],
+            }),
           ),
         );
         yield fork(addReactionListenersForRoleChannelSaga, {
@@ -185,6 +179,48 @@ function* setupRoleSaga({
   } catch (error) {
     yield put(updateTrixtaError({ error: error.toString() }));
   }
+}
+
+export function* setupTrixtaActionForRole({
+  roleName,
+  actionName,
+  actionDetails,
+}: {
+  roleName: string;
+  actionName: string;
+  actionDetails: TrixtaActionDetails<unknown>;
+}): Generator<PutEffect<UpdateTrixtaActionDetailsAction>, void, unknown> {
+  yield put(
+    updateTrixtaAction({
+      role: roleName,
+      action: {
+        name: actionName,
+        ...actionDetails,
+      },
+      name: actionName,
+    }),
+  );
+}
+
+export function* setupTrixtaReactionForRole({
+  roleName,
+  reactionName,
+  reactionDetails,
+}: {
+  roleName: string;
+  reactionName: string;
+  reactionDetails: TrixtaReactionDetails;
+}): Generator<PutEffect<UpdateTrixtaReactionDetailsAction>, void, unknown> {
+  yield put(
+    updateTrixtaReaction({
+      role: roleName,
+      reaction: {
+        name: reactionName,
+        ...reactionDetails,
+      },
+      name: reactionName,
+    }),
+  );
 }
 
 /**
@@ -201,15 +237,15 @@ function* setupRoleSaga({
  */
 function* submitActionResponseSaga({ data }: SubmitTrixtaActionResponseAction) {
   try {
-    const roleName = get<string>(data, 'roleName');
-    const responseEvent = get<string>(data, 'responseEvent');
-    const errorEvent = get<string>(data, 'errorEvent');
-    const requestEvent = get<string>(data, 'requestEvent');
-    const clearResponse = get<boolean>(data, 'clearResponse');
-    const actionName = get<string>(data, 'actionName');
-    const formData = get(data, 'formData');
-    const debugMode = get<boolean>(data, 'debugMode', false);
-    const debugOptions = get<TrixtaActionDebugOptions>(data, 'debugOptions');
+    const roleName = data.roleName;
+    const responseEvent = data.responseEvent;
+    const errorEvent = data.errorEvent;
+    const requestEvent = data.requestEvent;
+    const clearResponse = data.clearResponse;
+    const actionName = data.actionName;
+    const formData = data.formData;
+    const debugMode = data.debugMode;
+    const debugOptions = data.debugOptions;
     const actionOptions = get<
       SubmitTrixtaActionResponseAction['data']['actionOptions']
     >(data, 'actionOptions', {});
@@ -256,10 +292,10 @@ function* submitActionResponseSuccess({
   data,
 }: SubmitTrixtaActionResponsSuccesseAction) {
   if (data) {
-    const roleName = get<string>(data, 'roleName');
-    const actionName = get<string>(data, 'actionName');
-    const clearResponse = get<boolean>(data, 'clearResponse', false);
-    const responseEvent = get<string>(data, 'responseEvent');
+    const roleName = data.roleName;
+    const actionName = data.actionName;
+    const clearResponse = data.clearResponse;
+    const responseEvent = data.responseEvent;
     if (roleName && actionName) {
       // eslint-disable-next-line no-param-reassign
       delete data.responseEvent;
@@ -406,15 +442,13 @@ function* submitResponseForReactionSaga({
   data,
 }: SubmitTrixtaReactionResponseAction) {
   try {
-    const roleName = get<string>(data, 'roleName');
-    const responseEvent = get<string>(data, 'responseEvent');
-    const errorEvent = get<string>(data, 'errorEvent');
-    const requestEvent = get<string>(data, 'requestEvent');
-    const reactionName = get<string>(data, 'reactionName');
-    const formData = get<
-      SubmitTrixtaReactionResponseAction['data']['formData']
-    >(data, 'formData');
-    const ref = get<string>(data, 'ref');
+    const roleName = data.roleName;
+    const responseEvent = data.responseEvent;
+    const errorEvent = data.errorEvent;
+    const requestEvent = data.requestEvent;
+    const reactionName = data.reactionName;
+    const formData = data.formData;
+    const ref = data.ref;
     const channelTopic = getChannelName({ role: roleName });
     yield put(getPhoenixChannel({ channelTopic }));
     if (requestEvent) {
@@ -486,7 +520,7 @@ function* handleChannelJoinSaga({
   response,
   channel,
 }: {
-  response: any;
+  response: TrixtaChannelJoinResponse;
   channel: Channel;
 }) {
   yield fork(setupRoleSaga, { response, channel });
@@ -555,7 +589,7 @@ function* watchForTrixtActionSubmit() {
 function* watchForPhoenixChannelJoined(): Generator<
   TakeEffect | ForkEffect,
   void,
-  any
+  unknown
 > {
   while (true) {
     const action: ReturnType<typeof phoenixChannelJoin> = yield take(
@@ -575,7 +609,7 @@ function* watchForPhoenixChannelLeft() {
 }
 
 function* watchForTrixtaReactionResponse(): Generator<
-  any,
+  unknown,
   void,
   IncomingTrixtaReactionAction
 > {
@@ -588,7 +622,7 @@ function* watchForTrixtaReactionResponse(): Generator<
 }
 
 function* watchForTrixtaReactionSubmit(): Generator<
-  any,
+  unknown,
   void,
   SubmitTrixtaReactionResponseAction
 > {
@@ -599,7 +633,7 @@ function* watchForTrixtaReactionSubmit(): Generator<
     yield fork(submitResponseForReactionSaga, action);
   }
 }
-export function* setupTrixtaSaga(): Generator<any, void, unknown> {
+export function* setupTrixtaSaga(): Generator<unknown, void, unknown> {
   yield all([
     fork(watchForUpdateTrixtaRoles),
     fork(watchForUpdateTrixtaRole),

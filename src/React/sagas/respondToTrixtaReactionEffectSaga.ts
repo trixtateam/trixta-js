@@ -1,7 +1,7 @@
 import { put, PutEffect, take, TakeEffect } from '@redux-saga/core/effects';
 import { AnyAction } from 'redux';
-import { listenForTrixtaReactionResponse } from '../constants';
-import { EmitTrixtaReactionResponseListenerEventAction } from '../reduxActions';
+import { listenForTrixtaReactionResponse } from '../constants/reactions';
+import { EmitTrixtaReactionResponseListenerEventAction } from '../reduxActions/types/reactions';
 
 /**
  * Will listen for a Trixta reaction response for the params.roleName and  params.reactionName and dispatch the response to the

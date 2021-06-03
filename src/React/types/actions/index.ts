@@ -25,7 +25,7 @@ export interface TrixtaActionHandlerType {
 }
 
 export interface TrixtaActionDetails<TFormData = DefaultUnknownType> {
-  name: string;
+  name?: string;
   notes: string;
   role_id: string;
   form_data: TFormData;

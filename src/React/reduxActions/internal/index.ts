@@ -6,20 +6,24 @@ import {
   UPDATE_TRIXTA_REACTION,
   UPDATE_TRIXTA_REACTION_RESPONSE,
 } from '../../constants';
-import { DefaultUnknownType } from '../../types';
+import { DefaultUnknownType } from '../../types/common';
+import {
+  TrixtaReactionDetails,
+  TrixtaReactionResponseDetails,
+} from '../../types/reactions';
 import {
   EmitTrixtaReactionResponseListenerEventAction,
-  UpdateTrixtaActionDetailsAction,
-  UpdateTrixtaActionResponseAction,
   UpdateTrixtaReactionDetailsAction,
   UpdateTrixtaReactionResponseAction,
-} from '../types';
+} from '../types/reactions';
+import {
+  UpdateTrixtaActionDetailsAction,
+  UpdateTrixtaActionResponseAction,
+} from '../types/actions';
 import {
   TrixtaActionDetails,
   TrixtaActionResponseDetails,
-  TrixtaReactionDetails,
-  TrixtaReactionResponseDetails,
-} from './../../types';
+} from './../../types/actions';
 
 /**
  *  Updates the TrixtaState reactions[params.roleName:params.reactionName].instances

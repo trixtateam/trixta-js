@@ -1017,9 +1017,12 @@ describe('trixtaReducer', () => {
           }
         });
 
-        // expect(
-        //   trixtaReducer(state, internalActions.updateTrixtaReactionResponse(action.data)),
-        // ).toMatchObject(expectedResult);
+        expect(
+          trixtaReducer(
+            state,
+            internalActions.updateTrixtaReactionResponse(action.data),
+          ),
+        ).toEqual(expect.objectContaining(expectedResult));
         expect(
           expectedResult.reactions[action.data.keyName].instances
             .requestForResponse.length,
@@ -1140,9 +1143,12 @@ describe('trixtaReducer', () => {
             }
           }
         });
-        // expect(
-        //   trixtaReducer(state, internalActions.updateTrixtaReactionResponse(action.data)),
-        // ).toMatchObject(expectedResult);
+        expect(
+          trixtaReducer(
+            state,
+            internalActions.updateTrixtaReactionResponse(action.data),
+          ),
+        ).toEqual(expect.objectContaining(expectedResult));
         expect(
           expectedResult.reactions[action.data.keyName].instances
             .requestForResponse.length,
@@ -1265,9 +1271,12 @@ describe('trixtaReducer', () => {
             }
           }
         });
-        // expect(
-        //   trixtaReducer(state, internalActions.updateTrixtaReactionResponse(action.data)),
-        // ).toMatchObject(expectedResult);
+        expect(
+          trixtaReducer(
+            state,
+            internalActions.updateTrixtaReactionResponse(action.data),
+          ),
+        ).toEqual(expect.objectContaining(expectedResult));
         expect(
           expectedResult.reactions[action.data.keyName].instances
             .requestForResponse.length,

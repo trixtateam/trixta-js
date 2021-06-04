@@ -156,7 +156,6 @@ TErrorType= DefaultUnknownType> extends  TrixtaInstance<TSuccessType,
 TErrorType
 >  {
   details: TrixtaInstanceDetails<TInitialData>;
-
 }
 
 export type TrixtaDispatch<T = never> = [T] extends [never] ? () => void : (data: T) => void;

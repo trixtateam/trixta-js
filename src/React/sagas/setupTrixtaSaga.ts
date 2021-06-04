@@ -285,24 +285,20 @@ function* submitActionResponseSaga({ data }: SubmitTrixtaActionResponseAction) {
  *  Success response after submitting the action for the roleName
  * @param {Object} params
  * @param {Object} params.data
+ * @param {Object} params.additionalData
  * @param {String} params.data.roleName - name of role
  * @param {String} params.data.actionName - name of action
  */
 function* submitActionResponseSuccess({
+  additionalData,
   data,
 }: SubmitTrixtaActionResponsSuccesseAction) {
-  if (data) {
-    const roleName = data.roleName;
-    const actionName = data.actionName;
-    const clearResponse = data.clearResponse;
-    const responseEvent = data.responseEvent;
+  if (additionalData) {
+    const roleName = additionalData.roleName;
+    const actionName = additionalData.actionName;
+    const clearResponse = additionalData.clearResponse;
+    const responseEvent = additionalData.responseEvent;
     if (roleName && actionName) {
-      // eslint-disable-next-line no-param-reassign
-      delete data.responseEvent;
-      // eslint-disable-next-line no-param-reassign
-      delete data.clearResponse;
-      // eslint-disable-next-line no-param-reassign
-      delete data.errorEvent;
       yield put(
         updateTrixtaActionResponse({
           roleName,
@@ -322,13 +318,16 @@ function* submitActionResponseSuccess({
  * Failure response after submitting the action for the roleName
  * @param {Object} params
  * @param {Object} params.error
- * @param {Object} params.data - additionalData
+ * @param {Object} params.additionalData - additionalData
  */
 function* submitActionResponseFailure({
   error,
-  data,
+  additionalData,
 }: SubmitTrixtaActionResponsFailureAction) {
-  const errorEvent = data && data.errorEvent ? data.errorEvent : undefined;
+  const errorEvent =
+    additionalData && additionalData.errorEvent
+      ? additionalData.errorEvent
+      : undefined;
   if (errorEvent) {
     yield put({ type: errorEvent, error });
   }
@@ -462,7 +461,13 @@ function* submitResponseForReactionSaga({
           event: reactionName,
           value: formData,
         },
-        additionalData: { roleName, reactionName, responseEvent, errorEvent },
+        additionalData: {
+          roleName,
+          reactionName,
+          responseEvent,
+          errorEvent,
+          ref,
+        },
         dispatchChannelError: true,
         channelErrorResponseEvent: SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
         channelResponseEvent: SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
@@ -482,13 +487,16 @@ function* submitResponseForReactionSaga({
  * Failure response after responding to reaction for the roleName
  * @param {Object} params
  * @param {Object} params.error
- * @param {Object} params.data - additionalData
+ * @param {Object} params.additionalData - additionalData
  */
 function* submitReactionResponseFailure({
   error,
-  data,
+  additionalData,
 }: SubmitTrixtaReactionResponseFailureAction) {
-  const errorEvent = data && data.errorEvent ? data.errorEvent : undefined;
+  const errorEvent =
+    additionalData && additionalData.errorEvent
+      ? additionalData.errorEvent
+      : undefined;
   if (errorEvent) {
     yield put({ type: errorEvent, error });
   }
@@ -498,12 +506,16 @@ function* submitReactionResponseFailure({
  * Success response after responding to reaction for the roleName
  * @param {Object} params
  * @param {Object} params.data
+ * @param {Object} params.additionalData
  */
 function* submitReactionResponseSuccess({
   data,
+  additionalData,
 }: SubmitTrixtaReactionResponseSuccessAction) {
   const responseEvent =
-    data && data.responseEvent ? data.responseEvent : undefined;
+    additionalData && additionalData.responseEvent
+      ? additionalData.responseEvent
+      : undefined;
   if (responseEvent) {
     yield put({ type: responseEvent, data });
   }

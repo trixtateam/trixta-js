@@ -97,8 +97,3 @@ export const TRIXTA_MODE_TYPE_FIELDS = {
   type: 'type',
   limit: 'limit',
 };
-
-export const CHANNEL_JOINED_FIELDS = {
-  contract_actions: 'contract_actions',
-  contract_reactions: 'contract_reactions',
-};

@@ -94,8 +94,8 @@ export interface TrixtaReaction {
     status?:boolean;
   };
   instances: {
-        requestForEffect?: TrixtaReactionInstance[];
-        requestForResponse?: TrixtaReactionInstance[];
+        requestForEffect: TrixtaReactionInstance[];
+        requestForResponse: TrixtaReactionInstance[];
       };
 }
 

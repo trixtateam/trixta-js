@@ -139,8 +139,6 @@
     "@rjsf/core": "^2.5.1",
     "redux-saga": "1.0.5",
     "@redux-saga/core": "1.0.3",
-    "@rollup/plugin-babel": "5.2.3",
-    "@rollup/plugin-commonjs": "17.1.0",
     "@rollup/plugin-json": "4.1.0",
     "@rollup/plugin-node-resolve": "^8.4.0",
     "@semantic-release/changelog": "^5.0.1",

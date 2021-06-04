@@ -1,6 +1,6 @@
 {
   "name": "@trixta/trixta-js",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Javascript library to integrate Trixta",
   "source": "src/index.ts",
   "main": "dist/@trixta/trixta-js.cjs.js",
@@ -105,7 +105,7 @@
   },
   "peerDependencies": {
     "@rjsf/core": "^2.5.1",
-    "@trixta/phoenix-to-redux": "3.4.7-beta.0",
+    "@trixta/phoenix-to-redux": "3.5.0-beta.0",
     "debug": "4.3.1",
     "immer": ">=3.0.0",
     "phoenix": "~1.5.4",
@@ -119,7 +119,7 @@
     "reselect": "~4.0.0"
   },
   "dependencies": {
-    "@trixta/phoenix-to-redux": "3.4.7-beta.0",
+    "@trixta/phoenix-to-redux": "3.5.0-beta.0",
     "phoenix": "1.5.4",
     "nanoid": "3.1.23"
   },

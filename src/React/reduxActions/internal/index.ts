@@ -103,13 +103,11 @@ export function updateTrixtaReaction({
   return {
     type: UPDATE_TRIXTA_REACTION,
     data: {
-      role,
       keyName: getReducerKeyName({
         name,
         role,
       }),
       reaction,
-      name,
     },
   };
 }
@@ -168,7 +166,6 @@ export function updateTrixtaAction({
   return {
     type: UPDATE_TRIXTA_ACTION,
     data: {
-      role,
       keyName: getReducerKeyName({
         name,
         role,
@@ -176,7 +173,6 @@ export function updateTrixtaAction({
       action: {
         ...action,
       },
-      name,
     },
   };
 }

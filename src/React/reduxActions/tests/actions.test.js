@@ -149,7 +149,6 @@ describe('Trixta redux Actions', () => {
         expectedResult = {
           type: UPDATE_TRIXTA_ACTION,
           data: {
-            role: roleName,
             keyName: getReducerKeyName({
               name: actionName,
               role: roleName,
@@ -157,7 +156,6 @@ describe('Trixta redux Actions', () => {
             action: {
               ...action,
             },
-            name: actionName,
           },
         };
         expect(updateTrixtaAction(parameters)).toEqual(expectedResult);
@@ -286,13 +284,11 @@ describe('Trixta redux Actions', () => {
         expectedResult = {
           type: UPDATE_TRIXTA_REACTION,
           data: {
-            role: roleName,
             keyName: getReducerKeyName({
               name: reactionName,
               role: roleName,
             }),
             reaction,
-            name: reactionName,
           },
         };
         expect(updateTrixtaReaction(parameters)).toEqual(expectedResult);

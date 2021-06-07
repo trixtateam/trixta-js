@@ -3,7 +3,12 @@ import { createSelector, ParametricSelector } from 'reselect';
 import { getReducerKeyName } from '../../utils';
 import { get, pickBy } from '../../utils/object';
 import { TrixtaAction, TrixtaActionBaseProps } from '../types/actions';
-import { TrixtaCommon, TrixtaInstance, TrixtaState } from './../types/common';
+import {
+  RequestStatus,
+  TrixtaCommon,
+  TrixtaInstance,
+  TrixtaState,
+} from './../types/common';
 import { selectTrixtaRoleNameProp } from './common';
 type DefaultSelectorProps = TrixtaActionBaseProps;
 
@@ -36,6 +41,24 @@ export const selectTrixtActionStateSelector: ParametricSelector<
   },
 );
 
+export const selectTrixtActionRequestStatusSelector: ParametricSelector<
+  { trixta: TrixtaState },
+  DefaultSelectorProps,
+  RequestStatus | undefined
+> = createSelector(
+  [selectTrixtaRoleNameProp, selectTrixtaActionNameProp, selectTrixtaActions],
+  (roleName, actionName, trixtaActions) => {
+    return trixtaActions[
+      getReducerKeyName({ name: actionName, role: roleName })
+    ] &&
+      trixtaActions[getReducerKeyName({ name: actionName, role: roleName })]
+        .requestStatus
+      ? trixtaActions[getReducerKeyName({ name: actionName, role: roleName })]
+          .requestStatus
+      : undefined;
+  },
+);
+
 export const getTrixtActionState = (
   state: { trixta: TrixtaState },
   props: DefaultSelectorProps,
@@ -56,17 +79,6 @@ export const selectTrixtaActionForRole = (
   props: DefaultSelectorProps,
 ): TrixtaAction | undefined =>
   getTrixtActionState(state, props) && getTrixtActionState(state, props);
-
-/**
- * Selects the actions[props.roleName:props.actionName].loadingStatus
- * for the given props.roleName, props.actionName and returns the action
- */
-export const selectTrixtaActionLoadingStatus = (
-  state: { trixta: TrixtaState },
-  props: DefaultSelectorProps,
-): { status?: boolean } | undefined =>
-  getTrixtActionState(state, props) &&
-  getTrixtActionState(state, props)?.loadingStatus;
 
 /**
  * Selects the actions[props.roleName:props.actionName].instances for the given props.roleName,
@@ -170,12 +182,10 @@ export const makeSelectTrixtaActionsForRole = () =>
   );
 
 /**
- * Selects the actions[props.roleName:props.actionName].loadingStatus
+ * Selects the actions[props.roleName:props.actionName].requestStatus
  * for the given props.roleName and returns true or false
  */
 export const makeSelectIsTrixtaActionInProgress = () =>
-  createSelector([selectTrixtActionStateSelector], (selectedAction) => {
-    return selectedAction
-      ? get<boolean>(selectedAction.loadingStatus, 'status', false)
-      : false;
+  createSelector([selectTrixtActionRequestStatusSelector], (status) => {
+    return status ? status === RequestStatus.REQUEST : false;
   });

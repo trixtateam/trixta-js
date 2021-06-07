@@ -1,7 +1,8 @@
+import { RequestStatus } from '../../src/React/types/common/index';
 import { ROLE_ACTION_FIELDS, TRIXTA_MODE_TYPE } from '../React/constants';
 import {
-  getTrixtaReactionReducerStructure,
   getTrixtaActionReducerStructure,
+  getTrixtaReactionReducerStructure,
 } from '../utils';
 import { get } from '../utils/object';
 describe('Trixta Utilities', () => {
@@ -33,7 +34,8 @@ describe('Trixta Utilities', () => {
       );
       const expectedResult = {
         mode,
-        loadingStatus: {},
+        loadingStatus: { status: true },
+        requestStatus: RequestStatus.NONE,
         instances: { requestForEffect: [], requestForResponse: [] },
         common: exampleReaction,
       };
@@ -73,7 +75,8 @@ describe('Trixta Utilities', () => {
       );
       const expectedResult = {
         mode,
-        loadingStatus: {},
+        loadingStatus: { status: true },
+        requestStatus: RequestStatus.NONE,
         instances: { requestForEffect: [], requestForResponse: [] },
         common: exampleReaction,
       };
@@ -133,7 +136,6 @@ describe('Trixta Utilities', () => {
           type: 'object',
         },
         tags: [],
-        loadingStatusKey: 'viewer:get_session_by_id',
       };
 
       const mode = get(
@@ -145,7 +147,7 @@ describe('Trixta Utilities', () => {
       );
       const expectedResult = {
         mode,
-        loadingStatus: {},
+        requestStatus: RequestStatus.NONE,
         instances: [],
         common: exampleAction,
       };
@@ -202,7 +204,6 @@ describe('Trixta Utilities', () => {
           type: 'object',
         },
         tags: [],
-        loadingStatusKey: 'viewer:get_session_by_id',
       };
 
       const mode = get(
@@ -214,7 +215,7 @@ describe('Trixta Utilities', () => {
       );
       const expectedResult = {
         mode,
-        loadingStatus: {},
+        requestStatus: RequestStatus.NONE,
         instances: [],
         common: exampleAction,
       };

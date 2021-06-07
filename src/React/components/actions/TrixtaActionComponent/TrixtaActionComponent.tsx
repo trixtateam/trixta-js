@@ -13,17 +13,13 @@ import { trixtaDebugger, TrixtaDebugType } from '../../../TrixtaDebugger';
 import { TrixtaState } from '../../../types';
 import { TrixtaActionInstanceComponent } from '../TrixtaActionInstanceComponent';
 import { TrixtaActionComponentArgs } from '../types';
-import {
-  TrixtaActionComponentDispatchProps,
-  TrixtaActionComponentProps,
-  TrixtaActionComponentStateProps,
-} from './types';
+import { TrixtaActionComponentProps } from './types';
 
 const TrixtaActionComponent = ({
   dispatchSubmitActionResponse,
   common,
   instances,
-  loading,
+  isInProgress,
   roleName,
   actionName,
   hasRoleAccess,
@@ -31,9 +27,7 @@ const TrixtaActionComponent = ({
   children,
   debugMode = false,
   ...rest
-}: TrixtaActionComponentProps &
-  TrixtaActionComponentStateProps &
-  TrixtaActionComponentDispatchProps) => {
+}: TrixtaActionComponentProps & DispatchProps & ConnectProps) => {
   trixtaDebugger({
     type: TrixtaDebugType.Action,
     debugMode,
@@ -50,7 +44,7 @@ const TrixtaActionComponent = ({
     common,
     roleName,
     actionName,
-    loading,
+    isInProgress,
     response: get(instances, '0.response', { success: false, error: false }),
   };
   if (!renderResponse && React.isValidElement(children)) {
@@ -88,7 +82,10 @@ const makeMapStateToProps = () => {
       common: getTrixtaCommonForRole(state, props),
       instances: getTrixtaActionResponseInstancesForRole(state, props),
       hasRoleAccess: getHasTrixtaRoleAccess(state, props),
-      loading: getIsTrixtaActionInProgress(state, props),
+      /**
+       * If 'true', Trixta is waiting for response
+       */
+      isInProgress: getIsTrixtaActionInProgress(state, props),
     };
   };
   return mapStateToProps;
@@ -97,7 +94,7 @@ const makeMapStateToProps = () => {
 function mapDispatchToProps(
   dispatch: Dispatch,
   ownProps: TrixtaActionComponentProps,
-): TrixtaActionComponentDispatchProps {
+) {
   return {
     dispatchSubmitActionResponse: (formData?: Record<string, unknown>) =>
       dispatch(
@@ -115,6 +112,13 @@ function mapDispatchToProps(
       ),
   };
 }
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
+type ConnectProps = ReturnType<ReturnType<typeof makeMapStateToProps>>;
 
-const connector = connect(makeMapStateToProps, mapDispatchToProps);
+const connector = connect<
+  ConnectProps,
+  DispatchProps,
+  TrixtaActionComponentProps,
+  { trixta: TrixtaState }
+>(makeMapStateToProps, mapDispatchToProps);
 export default connector(TrixtaActionComponent);

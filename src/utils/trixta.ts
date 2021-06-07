@@ -5,16 +5,15 @@ import {
 } from '../React/constants';
 import {
   DefaultUnknownType,
+  RequestStatus,
   TrixtaAction,
   TrixtaInstance,
   TrixtaReaction,
   TrixtaReactionInstance,
-  TrixtaReactionType,
 } from '../React/types';
 import {
   TrixtaCommon,
   TrixtaInstanceMode,
-  TrixtaInstanceModeType,
   TrixtaReactionDetails,
   TrixtaReactionResponseDetails,
 } from './../React/types';
@@ -35,8 +34,8 @@ export function getReactionDetails({
     ref: get<string>(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, nanoid()),
     status: <string>get(reaction, ROLE_REACTION_RESPONSE_FIELDS.status),
     type: get<boolean>(reaction, ROLE_REACTION_RESPONSE_FIELDS.ref, false)
-      ? TrixtaReactionType.requestForResponse
-      : TrixtaReactionType.requestForEffect,
+      ? 'requestForResponse'
+      : 'requestForEffect',
     initial_data: get<unknown>(
       reaction,
       ROLE_REACTION_RESPONSE_FIELDS.initial_data,
@@ -61,13 +60,14 @@ export function getTrixtaReactionReducerStructure({
     details,
     `${ROLE_ACTION_FIELDS.request_settings}.ui:options.mode`,
     {
-      type: TrixtaInstanceModeType.replace,
+      type: 'replace',
     },
   );
 
   return {
     mode,
-    loadingStatus: {},
+    loadingStatus: { status: true },
+    requestStatus: RequestStatus.NONE,
     instances: { requestForEffect: [], requestForResponse: [] },
     common: details,
   };
@@ -115,13 +115,13 @@ export function getTrixtaActionReducerStructure({
     details,
     `${ROLE_ACTION_FIELDS.request_settings}.ui:options.mode`,
     {
-      type: TrixtaInstanceModeType.replace,
+      type: 'replace',
     },
   );
 
   return {
     mode,
-    loadingStatus: {},
+    requestStatus: RequestStatus.NONE,
     instances: [],
     common: details,
   };

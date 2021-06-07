@@ -5,14 +5,14 @@ import {
   makeSelectHasTrixtaAuthorizationStarted,
   makeSelectHasTrixtaRoleAccessForRoles,
   makeSelectIsTrixtaAuhorized,
-} from '../selectors';
-import { TrixtaAuthProps } from '../types';
-import { TrixtaState } from './../types/common';
-import { UseTrixtaAuthResponseReturn } from './types';
+} from '../../selectors';
+import { TrixtaAuthProps } from '../../types';
+import { TrixtaState } from './../../types/common';
+import { UseTrixtaAuthHookReturn } from './types';
 
 export const useTrixtaAuth = ({
   roles = [],
-}: TrixtaAuthProps | undefined = {}): UseTrixtaAuthResponseReturn => {
+}: TrixtaAuthProps | undefined = {}): UseTrixtaAuthHookReturn => {
   const rolesArr = useMemo(
     () => (Array.isArray(roles) ? roles : roles ? [roles] : []),
     [roles],

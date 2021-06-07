@@ -1,8 +1,14 @@
 import { UiSchema } from '@rjsf/core';
-import { JSONSchema7 } from 'json-schema';
-import { TrixtaAction, TrixtaActionDetails } from '../actions';
+import { JSONSchema7Object } from 'json-schema';
+import { TrixtaAction, TrixtaActionDetails, TrixtaActionHandlerType } from '../actions';
 import { TrixtaReaction, TrixtaReactionDetails, TrixtaReactionType } from '../reactions';
 
+export enum RequestStatus {
+  NONE = 0,
+  REQUEST = 1,
+  SUCCESS = 2,
+  FAILURE = 3,
+}
 
 export type TrixtaChannelJoinResponse = {
   contract_reactions?:Record<string,TrixtaReactionDetails>
@@ -38,10 +44,7 @@ export type DefaultUnknownType =
   | string
   | boolean;
 
-export enum TrixtaInstanceModeType {
-  replace = 'replace',
-  accumulate = 'accumulate',
-}
+export type TrixtaInstanceModeType = 'replace' |  'accumulate';
 
 export interface TrixtaInstanceMode {
   type: TrixtaInstanceModeType;
@@ -52,7 +55,7 @@ export interface TrixtaCommon {
   /**
    * Name of Trixta action or reaction
    */
-  name: string;
+  name?: string;
   /**
    * Description of Trixta action or reaction
    */
@@ -64,17 +67,18 @@ export interface TrixtaCommon {
   /**
    * Json schema for React Json Schema Form
    */
-  request_schema: JSONSchema7;
+  request_schema: JSONSchema7Object;
   /**
    * Json schema for React Json Schema Form on response
    */
   // eslint-disable-next-line camelcase
-  response_schema: JSONSchema7;
+  response_schema: JSONSchema7Object;
   /**
    * Ui Schema for React Json Schema Form
    */
   // eslint-disable-next-line camelcase
   request_settings: UiSchema;
+  handler?: TrixtaActionHandlerType;
   tags: Array<string>;
 }
 

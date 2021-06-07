@@ -53,7 +53,6 @@ import {
 import {
   emitTrixtaReactionResponseListenerEvent,
   updateTrixtaAction,
-  updateTrixtaActionResponse,
   updateTrixtaReaction,
   updateTrixtaReactionResponse,
 } from '../reduxActions/internal';
@@ -188,12 +187,12 @@ export function* setupTrixtaActionForRole({
 }: {
   roleName: string;
   actionName: string;
-  actionDetails: TrixtaActionDetails<unknown>;
+  actionDetails: TrixtaActionDetails;
 }): Generator<PutEffect<UpdateTrixtaActionDetailsAction>, void, unknown> {
   yield put(
     updateTrixtaAction({
       role: roleName,
-      action: {
+      trixtaAction: {
         name: actionName,
         ...actionDetails,
       },
@@ -214,7 +213,7 @@ export function* setupTrixtaReactionForRole({
   yield put(
     updateTrixtaReaction({
       role: roleName,
-      reaction: {
+      trixtaReaction: {
         name: reactionName,
         ...reactionDetails,
       },
@@ -293,24 +292,9 @@ function* submitActionResponseSuccess({
   additionalData,
   data,
 }: SubmitTrixtaActionResponsSuccesseAction) {
-  if (additionalData) {
-    const roleName = additionalData.roleName;
-    const actionName = additionalData.actionName;
-    const clearResponse = additionalData.clearResponse;
-    const responseEvent = additionalData.responseEvent;
-    if (roleName && actionName) {
-      yield put(
-        updateTrixtaActionResponse({
-          roleName,
-          clearResponse,
-          actionName,
-          response: data,
-        }),
-      );
-      if (responseEvent) {
-        yield put({ type: responseEvent, data });
-      }
-    }
+  const responseEvent = additionalData.responseEvent;
+  if (responseEvent) {
+    yield put({ type: responseEvent, data });
   }
 }
 

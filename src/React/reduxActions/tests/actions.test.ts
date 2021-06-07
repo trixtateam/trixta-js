@@ -6,22 +6,20 @@ import {
   SUBMIT_TRIXTA_ACTION_RESPONSE,
   SUBMIT_TRIXTA_REACTION_RESPONSE,
   UPDATE_TRIXTA_ACTION,
-  UPDATE_TRIXTA_ACTION_RESPONSE,
   UPDATE_TRIXTA_ERROR,
   UPDATE_TRIXTA_REACTION,
   UPDATE_TRIXTA_REACTION_RESPONSE,
   UPDATE_TRIXTA_ROLES,
 } from '../../constants';
 import {
+  signoutTrixta,
   submitTrixtaActionResponse,
   submitTrixtaReactionResponse,
   updateTrixtaError,
   updateTrixtaRoles,
-  signoutTrixta,
 } from '../index';
 import {
   updateTrixtaAction,
-  updateTrixtaActionResponse,
   updateTrixtaReaction,
   updateTrixtaReactionResponse,
 } from '../internal/index';
@@ -76,32 +74,6 @@ describe('Trixta redux Actions', () => {
   });
 
   describe('trixta actions related', () => {
-    describe('updateTrixtaActionResponse Action', () => {
-      it('has a type of UPDATE_TRIXTA_ACTION_RESPONSE', () => {
-        const roleName = 'trixta_app_user';
-        const actionName = 'configure_logger';
-        parameters = {
-          roleName,
-          response: { details: '' },
-          actionName,
-        };
-        expectedResult = {
-          type: UPDATE_TRIXTA_ACTION_RESPONSE,
-          data: {
-            clearResponse: false,
-            roleName,
-            response: { details: '' },
-            actionName,
-            keyName: getReducerKeyName({
-              name: actionName,
-              role: roleName,
-            }),
-          },
-        };
-        expect(updateTrixtaActionResponse(parameters)).toEqual(expectedResult);
-      });
-    });
-
     describe('clearTrixtaActionResponse Action', () => {
       it('has a type of CLEAR_TRIXTA_ACTION_RESPONSE', () => {
         const roleName = 'trixta_app_user';
@@ -125,25 +97,22 @@ describe('Trixta redux Actions', () => {
       it('has a type of UPDATE_TRIXTA_ACTION', () => {
         const roleName = 'trixta_app_user';
         const actionName = 'configure_logger';
-        const action = {
+        const trixtaAction = {
           name: 'configure_logger',
-          common: {
+          notes: '',
+          description: 'Starts the process to configure loggers',
+          handler: {
             name: 'configure_logger',
-            description: 'Starts the process to configure loggers',
-            handler: {
-              name: 'configure_logger',
-              type: 'flow',
-            },
-            request_schema: {},
-            response_schema: {
-              type: 'object',
-            },
-            tags: ['trixta_sys'],
+            type: 'flow',
           },
+          request_settings: {},
+          request_schema: {},
+          response_schema: {},
+          tags: ['trixta_sys'],
         };
         parameters = {
           role: roleName,
-          action,
+          trixtaAction,
           name: actionName,
         };
         expectedResult = {
@@ -153,8 +122,8 @@ describe('Trixta redux Actions', () => {
               name: actionName,
               role: roleName,
             }),
-            action: {
-              ...action,
+            trixtaAction: {
+              ...trixtaAction,
             },
           },
         };
@@ -206,12 +175,9 @@ describe('Trixta redux Actions', () => {
         const roleName = 'trixta_app_user';
         const reactionName = 'select_logger_backends';
         const reaction = {
-          details: {
-            ref: '5bda4f4e-925d-4881-85cd-4bef6414ccd1',
-            status: 'ok',
-            initial_data: ['loki', 'console'],
-            dateCreated: 'Wednesday, September 16th 2020, 3:07:12 pm',
-          },
+          ref: '5bda4f4e-925d-4881-85cd-4bef6414ccd1',
+          status: 'ok',
+          initial_data: ['loki', 'console'],
         };
         parameters = {
           roleName,
@@ -259,8 +225,12 @@ describe('Trixta redux Actions', () => {
       it('has a type of UPDATE_TRIXTA_REACTION', () => {
         const roleName = 'trixta_app_user';
         const reactionName = 'select_logger_backends';
-        const reaction = {
+        const trixtaReaction = {
           name: 'select_logger_backends',
+          notes: '',
+          description: '',
+          role_id: roleName,
+          response_schema: {},
           request_schema: {
             description: '',
             items: {
@@ -278,7 +248,7 @@ describe('Trixta redux Actions', () => {
         };
         parameters = {
           role: roleName,
-          reaction,
+          trixtaReaction,
           name: reactionName,
         };
         expectedResult = {
@@ -288,7 +258,7 @@ describe('Trixta redux Actions', () => {
               name: reactionName,
               role: roleName,
             }),
-            reaction,
+            trixtaReaction,
           },
         };
         expect(updateTrixtaReaction(parameters)).toEqual(expectedResult);

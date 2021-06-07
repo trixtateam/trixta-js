@@ -1,33 +1,53 @@
 
+import { UiSchema } from '@rjsf/core';
+import { JSONSchema7Object } from 'json-schema';
 import { AnyAction } from 'redux';
-import { DefaultUnknownType, TrixtaBaseRoleProps, TrixtaCommon, TrixtaInstanceMode, TrixtaReactionInstance } from '../common';
-export enum TrixtaReactionType {
-  requestForEffect = 'requestForEffect',
-  requestForResponse = 'requestForResponse',
-}
+import { DefaultUnknownType, RequestStatus, TrixtaBaseRoleProps, TrixtaCommon, TrixtaInstanceMode, TrixtaReactionInstance } from '../common';
+export type TrixtaReactionType ='requestForEffect'|'requestForResponse';
 
 export interface TrixtaReactionResponseDetails<TInitialData = DefaultUnknownType> {
   id?: string;
   settings?: unknown;
   errorEvent?: string;
   responseEvent?: string;
-  type: TrixtaReactionType;
+  type?: TrixtaReactionType;
   initial_data: TInitialData;
   data_schema?: unknown;
   name?: string;
   ref?: string;
   status: string;
   eventName?: string;
-  dateCreated: string;
+  dateCreated?: string;
 }
 
 export interface TrixtaReactionDetails {
-  name?: string;
-  notes: string;
+  /**
+   * Name of Trixta action or reaction
+   */
+   name?: string;
+   /**
+    * Description of Trixta action or reaction
+    */
+   description: string;
+   /**
+    * Notes of Trixta action or reaction
+    */
+   notes: string;
+   /**
+    * Json schema for React Json Schema Form
+    */
+   request_schema: JSONSchema7Object;
+   /**
+    * Json schema for React Json Schema Form on response
+    */
+   // eslint-disable-next-line camelcase
+   response_schema: JSONSchema7Object ;
+   /**
+    * Ui Schema for React Json Schema Form
+    */
+   // eslint-disable-next-line camelcase
+   request_settings: UiSchema;
   role_id: string;
-  request_schema: unknown;
-  request_settings: unknown;
-  description: string;
   tags: Array<string>;
 }
 
@@ -93,6 +113,7 @@ export interface TrixtaReaction {
   loadingStatus: {
     status?:boolean;
   };
+  requestStatus:RequestStatus;
   instances: {
         requestForEffect: TrixtaReactionInstance[];
         requestForResponse: TrixtaReactionInstance[];

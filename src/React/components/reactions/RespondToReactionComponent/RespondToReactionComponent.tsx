@@ -19,7 +19,7 @@ function RespondToReactionComponent({
   shouldRespond = true,
   actionToDispatch = undefined,
   dispatchResponseTo,
-}: RespondToReactionComponentProps) {
+}: RespondToReactionComponentProps & ConnectProps) {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -81,6 +81,12 @@ const makeMapStateToProps = () => {
   return mapStateToProps;
 };
 
-const connector = connect(makeMapStateToProps, null);
+type ConnectProps = ReturnType<ReturnType<typeof makeMapStateToProps>>;
 
+const connector = connect<
+  ConnectProps,
+  Record<string, unknown>,
+  RespondToReactionComponentProps,
+  { trixta: TrixtaState }
+>(makeMapStateToProps);
 export default connector(RespondToReactionComponent);

@@ -1,7 +1,7 @@
 import { get, getReducerKeyName, pickBy } from '../../../../utils';
-import { TRIXTA_FIELDS } from '../../../constants';
 // eslint-disable-next-line jest/no-mocks-import
 import { mockedState } from '../../../reducers/__mocks__/trixtaState';
+import { RequestStatus } from '../../../types';
 import * as commonSelectors from '../../common';
 import { trixtaReactionSelectors } from '../../index';
 
@@ -65,12 +65,12 @@ describe('Trixta Selectors', () => {
     describe('selectors for TrixtaReaction loading status For Role', () => {
       it('makeSelectIsTrixtaReactionInProgress for existing role', () => {
         const selector = trixtaReactionSelectors.makeSelectIsTrixtaReactionInProgress();
-        const selectedReaction = trixtaReactionSelectors.selectTrixtReactionStateSelector(
+        const status = trixtaReactionSelectors.selectTrixtReactionRequestStatusSelector(
           mockedState,
           props,
         );
-        const expectedResult = selectedReaction
-          ? get(selectedReaction.loadingStatus, 'status', false)
+        const expectedResult = status
+          ? status === RequestStatus.REQUEST
           : false;
 
         expect(selector(mockedState, props)).toEqual(expectedResult);
@@ -80,12 +80,12 @@ describe('Trixta Selectors', () => {
       it('makeSelectIsTrixtaReactionInProgress for non existing role', () => {
         props.roleName = 'unknown';
         const selector = trixtaReactionSelectors.makeSelectIsTrixtaReactionInProgress();
-        const selectedReaction = trixtaReactionSelectors.selectTrixtReactionStateSelector(
+        const status = trixtaReactionSelectors.selectTrixtReactionRequestStatusSelector(
           mockedState,
           props,
         );
-        const expectedResult = selectedReaction
-          ? get(selectedReaction.loadingStatus, 'status', false)
+        const expectedResult = status
+          ? status === RequestStatus.REQUEST
           : false;
 
         expect(selector(mockedState, props)).toEqual(expectedResult);
@@ -150,9 +150,7 @@ describe('Trixta Selectors', () => {
 
         let expectedResult = selectedReaction
           ? selectedReaction?.instances[
-              requestForEffect
-                ? TRIXTA_FIELDS.requestForEffect
-                : TRIXTA_FIELDS.requestForResponse
+              requestForEffect ? 'requestForEffect' : 'requestForResponse'
             ]
           : [];
 
@@ -173,9 +171,7 @@ describe('Trixta Selectors', () => {
 
         let expectedResult = selectedReaction
           ? selectedReaction?.instances[
-              requestForEffect
-                ? TRIXTA_FIELDS.requestForEffect
-                : TRIXTA_FIELDS.requestForResponse
+              requestForEffect ? 'requestForEffect' : 'requestForResponse'
             ]
           : [];
 
@@ -203,9 +199,7 @@ describe('Trixta Selectors', () => {
 
         let expectedResult =
           selectedReaction?.instances[
-            requestForEffect
-              ? TRIXTA_FIELDS.requestForEffect
-              : TRIXTA_FIELDS.requestForResponse
+            requestForEffect ? 'requestForEffect' : 'requestForResponse'
           ][instanceIndex];
 
         expect(selector(mockedState, props)).toEqual(expectedResult);
@@ -230,9 +224,7 @@ describe('Trixta Selectors', () => {
 
         let expectedResult =
           selectedReaction?.instances[
-            requestForEffect
-              ? TRIXTA_FIELDS.requestForEffect
-              : TRIXTA_FIELDS.requestForResponse
+            requestForEffect ? 'requestForEffect' : 'requestForResponse'
           ][instanceIndex];
 
         expect(selector(mockedState, props)).toEqual(expectedResult);

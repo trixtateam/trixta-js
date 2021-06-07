@@ -1,74 +1,11 @@
-import {
-  DefaultUnknownType,
-  TrixtaActionBaseProps,
-  TrixtaInstance,
-  TrixtaInstanceResponse,
-  TrixtaReactionBaseProps,
-  TrixtaReactionDispatch,
-  TrixtaReactionInstance,
-} from '../types';
+import { DefaultUnknownType } from '../types';
 
-export interface UseRespondToReactionResponseProps
-  extends TrixtaReactionBaseProps {
-  /**
-   * Enables Trixta console debbugging
-   */
-  debugMode?: boolean;
-}
-export interface UseRespondToReactionResponseReturn {
-  /**
-   * If 'true', Trixta roles or role name passed does have acccess for this user
-   */
-  hasRoleAccess: boolean;
-  latestInstance: TrixtaReactionInstance | undefined;
-  respondToReaction: (parameters: RespondToReactionFunctionParameters) => void;
-}
-export interface RespondToReactionFunctionParameters {
-  data: unknown;
-  instance: TrixtaReactionInstance;
-  responseEvent?: string;
-  errorEvent?: string;
-}
-
-export interface UseRespondToReactionEffectProps<
-  TInitialData = DefaultUnknownType
-> extends TrixtaReactionDispatch<TInitialData> {
-  /**
-   * Trixta role name
-   */
-  roleName: string;
-  /**
-   * Enables Trixta console debbugging
-   */
-  debugMode?: boolean;
-}
-
-export interface UseRespondToReactionEffectReturn {
-  /**
-   * If `true`, if the roleName specified has accesss
-   */
-  hasRoleAccess: boolean;
-}
-
-export interface UseTrixtaAuthResponseReturn {
-  /**
-   * If 'true' , Trixta socket  is connected with token parameter
-   */
-  isAuthenticated: boolean;
-  /**
-   * If 'true', Trixta roles or role name passed does have acccess for this user
-   */
-  hasRoles: boolean;
-  /**
-   * If 'true', Trixta roles or role name passed does have acccess for this user and isAuthenticated
-   */
-  hasAccess: boolean;
-  /**
-   * If 'true', Trixta is still authorizing roles and waiting for the Trixta role channels to be joined
-   */
-  isAuthorizing: boolean;
-}
-
+export * from '../hooks/use-respond-to-reaction-effect/types';
+export * from '../hooks/use-respond-to-reaction-response/types';
+export * from '../hooks/use-trixta-action/types';
+export * from '../hooks/use-trixta-action-reaction/types';
+export * from '../hooks/use-trixta-auth/types';
+export * from '../hooks/use-trixta-role-unmount/types';
 export interface submitTrixtaFunctionParameters {
   /**
    * Data to submit for Trixta Reaction / Action
@@ -90,82 +27,4 @@ export interface submitTrixtaFunctionParameters {
    * Event name / dispatch action type for data to dispatch after Trixta Reaction / Action error response
    */
   errorEvent?: string;
-}
-
-export interface UseTrixtaActionProps extends TrixtaActionBaseProps {
-  /**
-   * Enables Trixta console debbugging
-   */
-  debugMode?: boolean;
-  /**
-   * Respond on success response from Trixta, if false or undefined returned will clear responses
-   */
-  onSuccess?: (payload?: unknown) => boolean | undefined | void;
-  /**
-   * Respond on error response from Trixta, if false or undefined returned will clear responses
-   */
-  onError?: (payload?: unknown) => boolean | undefined | void;
-}
-
-export interface UseTrixtaReactionProps extends TrixtaReactionBaseProps {
-  /**
-   * Enables Trixta console debbugging
-   */
-  debugMode?: boolean;
-}
-
-export interface UseTrixtaActionResponseReturn<
-  TSuccessType = DefaultUnknownType,
-  TErrorType = DefaultUnknownType
-> {
-  /**
-   * If 'true', Trixta roles or role name passed does have acccess for this user
-   */
-  hasRoleAccess: boolean;
-  /**
-   * If 'true', Trixta action is still waiting for response
-   */
-  isInProgress: boolean;
-  /**
-   * Recent Trixta instance response
-   */
-  latestInstance?: TrixtaInstance<TSuccessType, TErrorType> | undefined;
-  response?: TrixtaInstanceResponse<TSuccessType, TErrorType>;
-  submitTrixtaAction: (parameters: submitTrixtaFunctionParameters) => void;
-  hasResponse: boolean;
-}
-
-export interface UseTrixtaReactionResponseReturn<
-  TInitialData = DefaultUnknownType,
-  TSuccessType = DefaultUnknownType,
-  TErrorType = DefaultUnknownType
-> {
-  /**
-   * If 'true', Trixta roles or role name passed does have acccess for this user
-   */
-  hasRoleAccess: boolean;
-  /**
-   * If 'true', Trixta reaction is still waiting for response
-   */
-  isInProgress: boolean;
-  /**
-   * Initial Data returned from Trixta for Reaction
-   */
-  initialData?: TInitialData;
-  /**
-   * Recent Trixta instance response
-   */
-  latestResponse?: TrixtaInstanceResponse<TSuccessType, TErrorType>;
-  /**
-   * Recent Trixta instance
-   */
-  latestInstance?:
-    | TrixtaReactionInstance<TInitialData, TSuccessType, TErrorType>
-    | undefined;
-  /**
-   * Trixta instance responses
-   */
-  instances: TrixtaReactionInstance<TInitialData, TSuccessType, TErrorType>[];
-  submitTrixtaReaction: (parameters: submitTrixtaFunctionParameters) => void;
-  hasResponse: boolean;
 }

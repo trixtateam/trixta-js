@@ -1,6 +1,7 @@
 import { get, getReducerKeyName, pickBy } from '../../../../utils';
 // eslint-disable-next-line jest/no-mocks-import
 import { mockedState } from '../../../reducers/__mocks__/trixtaState';
+import { RequestStatus } from '../../../types';
 import * as commonSelectors from '../../common';
 import { trixtaActionSelectors } from '../../index';
 describe('Trixta Selectors', () => {
@@ -148,12 +149,12 @@ describe('Trixta Selectors', () => {
     describe('selectors for TrixtaAction loading status For Role', () => {
       it('makeSelectIsTrixtaActionInProgress for existing role', () => {
         const selector = trixtaActionSelectors.makeSelectIsTrixtaActionInProgress();
-        const selectedAction = trixtaActionSelectors.selectTrixtActionStateSelector(
+        const status = trixtaActionSelectors.selectTrixtActionRequestStatusSelector(
           mockedState,
           props,
         );
-        const expectedResult = selectedAction
-          ? get(selectedAction.loadingStatus, 'status', false)
+        const expectedResult = status
+          ? status === RequestStatus.REQUEST
           : false;
 
         expect(selector(mockedState, props)).toEqual(expectedResult);
@@ -163,12 +164,12 @@ describe('Trixta Selectors', () => {
       it('makeSelectIsTrixtaActionInProgress for existing role and actionName', () => {
         props.actionName = 'get_profile';
         const selector = trixtaActionSelectors.makeSelectIsTrixtaActionInProgress();
-        const selectedAction = trixtaActionSelectors.selectTrixtActionStateSelector(
+        const status = trixtaActionSelectors.selectTrixtActionRequestStatusSelector(
           mockedState,
           props,
         );
-        const expectedResult = selectedAction
-          ? get(selectedAction.loadingStatus, 'status', false)
+        const expectedResult = status
+          ? status === RequestStatus.REQUEST
           : false;
 
         expect(selector(mockedState, props)).toEqual(expectedResult);
@@ -179,13 +180,12 @@ describe('Trixta Selectors', () => {
       it('makeSelectIsTrixtaActionInProgress for non existing role', () => {
         props.roleName = 'unknown';
         const selector = trixtaActionSelectors.makeSelectIsTrixtaActionInProgress();
-
-        const selectedAction = trixtaActionSelectors.selectTrixtActionStateSelector(
+        const status = trixtaActionSelectors.selectTrixtActionRequestStatusSelector(
           mockedState,
           props,
         );
-        const expectedResult = selectedAction
-          ? get(selectedAction.loadingStatus, 'status', false)
+        const expectedResult = status
+          ? status === RequestStatus.REQUEST
           : false;
 
         expect(selector(mockedState, props)).toEqual(expectedResult);

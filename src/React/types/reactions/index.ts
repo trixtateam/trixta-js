@@ -1,34 +1,24 @@
 
 import { AnyAction } from 'redux';
-import { DefaultUnknownType, TrixtaBaseRoleProps, TrixtaCommon, TrixtaInstanceMode, TrixtaReactionInstance } from '../common';
-export enum TrixtaReactionType {
-  requestForEffect = 'requestForEffect',
-  requestForResponse = 'requestForResponse',
-}
+import { DefaultUnknownType, LoadingStatus, RequestStatus, TrixtaBaseRoleProps, TrixtaCommon, TrixtaInstanceMode, TrixtaReactionInstance } from '../common';
+export type TrixtaReactionType ='requestForEffect'|'requestForResponse';
 
 export interface TrixtaReactionResponseDetails<TInitialData = DefaultUnknownType> {
   id?: string;
   settings?: unknown;
   errorEvent?: string;
   responseEvent?: string;
-  type: TrixtaReactionType;
+  type?: TrixtaReactionType;
   initial_data: TInitialData;
   data_schema?: unknown;
   name?: string;
   ref?: string;
   status: string;
   eventName?: string;
-  dateCreated: string;
+  dateCreated?: string;
 }
 
-export interface TrixtaReactionDetails {
-  name?: string;
-  notes: string;
-  role_id: string;
-  request_schema: unknown;
-  request_settings: unknown;
-  description: string;
-  tags: Array<string>;
+export interface TrixtaReactionDetails extends TrixtaCommon {
 }
 
 export interface TrixtaReactionDispatch<TInitialData =DefaultUnknownType> {
@@ -90,9 +80,8 @@ export interface SubmitTrixtaReactionResponse<TFormData = DefaultUnknownType> {
 export interface TrixtaReaction {
   common: TrixtaCommon;
   mode: TrixtaInstanceMode;
-  loadingStatus: {
-    status?:boolean;
-  };
+  loadingStatus: LoadingStatus;
+  requestStatus:RequestStatus;
   instances: {
         requestForEffect: TrixtaReactionInstance[];
         requestForResponse: TrixtaReactionInstance[];

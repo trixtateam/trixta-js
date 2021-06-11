@@ -3,13 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   makeSelectHasTrixtaRoleAccess,
   makeSelectTrixtaReactionResponseInstancesForRole,
-} from '../selectors';
-import { trixtaDebugger, TrixtaDebugType } from '../TrixtaDebugger';
-import { DefaultUnknownType, TrixtaState } from '../types';
-import { TrixtaReactionBaseProps, TrixtaReactionInstance } from './../types';
+} from '../../selectors';
+import { trixtaDebugger, TrixtaDebugType } from '../../TrixtaDebugger';
+import {
+  DefaultUnknownType,
+  TrixtaReactionInstance,
+  TrixtaState,
+} from './../../types/common';
+import { TrixtaReactionBaseProps } from './../../types/reactions';
 import {
   UseRespondToReactionEffectProps,
-  UseRespondToReactionEffectReturn,
+  UseRespondToReactionEffectHookReturn,
 } from './types';
 
 export const useRespondToReactionEffect = <
@@ -19,7 +23,7 @@ export const useRespondToReactionEffect = <
   TInitialData = DefaultUnknownType
 >(
   props: UseRespondToReactionEffectProps,
-): UseRespondToReactionEffectReturn => {
+): UseRespondToReactionEffectHookReturn => {
   const {
     actionToDispatch,
     dispatchResponseTo,

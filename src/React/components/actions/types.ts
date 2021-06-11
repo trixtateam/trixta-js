@@ -16,6 +16,6 @@ export interface TrixtaActionComponentArgs<
   dispatchSubmitActionResponse: TrixtaDispatch<TFormData>;
   submit: TrixtaDispatch<TFormData>;
   common: TrixtaCommon;
-  loading: boolean;
+  isInProgress: boolean;
   response?: TrixtaInstanceResponse<TSuccessType, TErrorType>;
 }

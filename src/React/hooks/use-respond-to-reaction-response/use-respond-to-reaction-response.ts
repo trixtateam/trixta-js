@@ -1,21 +1,21 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { submitTrixtaReactionResponse } from '../reduxActions';
+import { submitTrixtaReactionResponse } from '../../reduxActions';
 import {
   makeSelectHasTrixtaRoleAccess,
   makeSelectTrixtaReactionResponseInstancesForRole,
-} from '../selectors';
-import { trixtaDebugger, TrixtaDebugType } from '../TrixtaDebugger';
-import { TrixtaReactionBaseProps } from './../types';
+} from '../../selectors';
+import { trixtaDebugger, TrixtaDebugType } from '../../TrixtaDebugger';
 import {
   DefaultUnknownType,
   TrixtaReactionInstance,
   TrixtaState,
-} from './../types/common/index';
+} from './../../types/common';
+import { TrixtaReactionBaseProps } from './../../types/reactions';
 import {
   RespondToReactionFunctionParameters,
+  UseRespondToReactionResponseHookReturn,
   UseRespondToReactionResponseProps,
-  UseRespondToReactionResponseReturn,
 } from './types';
 
 export const useRespondToReactionResponse = <
@@ -27,15 +27,14 @@ export const useRespondToReactionResponse = <
   roleName,
   reactionName,
   debugMode = false,
-}: UseRespondToReactionResponseProps): UseRespondToReactionResponseReturn => {
+}: UseRespondToReactionResponseProps): UseRespondToReactionResponseHookReturn => {
   const dispatch = useDispatch();
   const respondedInstanceRef = useRef<string | undefined>();
-  const selectReactionResponses = useMemo<
-    ReturnType<typeof makeSelectTrixtaReactionResponseInstancesForRole>
-  >(makeSelectTrixtaReactionResponseInstancesForRole, []);
-  const selectHasRoleAccess = useMemo<
-    ReturnType<typeof makeSelectHasTrixtaRoleAccess>
-  >(makeSelectHasTrixtaRoleAccess, []);
+  const selectReactionResponses = useMemo(
+    makeSelectTrixtaReactionResponseInstancesForRole,
+    [],
+  );
+  const selectHasRoleAccess = useMemo(makeSelectHasTrixtaRoleAccess, []);
   const reactionRoleProps = {
     roleName,
     requestForEffect: false,

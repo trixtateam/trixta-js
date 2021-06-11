@@ -45,7 +45,14 @@ jobs:
         # if: steps.cache-modules.outputs.cache-hit != 'true'
         run: yarn install
 
-      - name: Build libraries 🔨
+      - name: Yarn Lock Changes
+        # for now, use `main` before the stable release will be published as `v1`
+        uses: Simek/yarn-lock-changes@main
+        with:
+          updateComment: 'true'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Build library 🔨
         run: yarn build
 
       - name: Lint ✏️

@@ -1,7 +1,7 @@
-import { ROLE_ACTION_FIELDS, TRIXTA_MODE_TYPE } from '../React/constants';
+import { RequestStatus, TrixtaInstanceMode } from '../React/types/common/index';
 import {
-  getTrixtaReactionReducerStructure,
   getTrixtaActionReducerStructure,
+  getTrixtaReactionReducerStructure,
 } from '../utils';
 import { get } from '../utils/object';
 describe('Trixta Utilities', () => {
@@ -10,6 +10,8 @@ describe('Trixta Utilities', () => {
       const exampleReaction = {
         name: 'set_queue',
         description: '',
+        notes: '',
+        response_schema: {},
         request_schema: {
           properties: {
             input: {
@@ -24,16 +26,17 @@ describe('Trixta Utilities', () => {
         tags: ['current'],
       };
 
-      const mode = get(
-        exampleReaction,
-        `${ROLE_ACTION_FIELDS.request_settings}.ui:options.mode`,
+      const mode = get<TrixtaInstanceMode>(
+        exampleReaction.request_settings,
+        `ui:options.mode`,
         {
-          type: TRIXTA_MODE_TYPE.replace,
+          type: 'replace',
         },
       );
       const expectedResult = {
         mode,
-        loadingStatus: {},
+        loadingStatus: { status: true },
+        requestStatus: RequestStatus.NONE,
         instances: { requestForEffect: [], requestForResponse: [] },
         common: exampleReaction,
       };
@@ -46,6 +49,8 @@ describe('Trixta Utilities', () => {
       const exampleReaction = {
         name: 'set_queue',
         description: '',
+        notes: '',
+        response_schema: {},
         request_schema: {
           properties: {
             input: {
@@ -64,16 +69,17 @@ describe('Trixta Utilities', () => {
         tags: ['current'],
       };
 
-      const mode = get(
-        exampleReaction,
-        `${ROLE_ACTION_FIELDS.request_settings}.ui:options.mode`,
+      const mode = get<TrixtaInstanceMode>(
+        exampleReaction.request_settings,
+        `ui:options.mode`,
         {
-          type: TRIXTA_MODE_TYPE.replace,
+          type: 'replace',
         },
       );
       const expectedResult = {
         mode,
-        loadingStatus: {},
+        loadingStatus: { status: true },
+        requestStatus: RequestStatus.NONE,
         instances: { requestForEffect: [], requestForResponse: [] },
         common: exampleReaction,
       };
@@ -92,6 +98,7 @@ describe('Trixta Utilities', () => {
     it('returns the correct structure for action', () => {
       const exampleAction = {
         name: 'get_session_by_id',
+        notes: '',
         description: '',
         handler: {
           func: '',
@@ -133,19 +140,18 @@ describe('Trixta Utilities', () => {
           type: 'object',
         },
         tags: [],
-        loadingStatusKey: 'viewer:get_session_by_id',
       };
 
-      const mode = get(
-        exampleAction,
-        `${ROLE_ACTION_FIELDS.request_settings}.ui:options.mode`,
+      const mode = get<TrixtaInstanceMode>(
+        exampleAction.request_settings,
+        `ui:options.mode`,
         {
-          type: TRIXTA_MODE_TYPE.replace,
+          type: 'replace',
         },
       );
       const expectedResult = {
         mode,
-        loadingStatus: {},
+        requestStatus: RequestStatus.NONE,
         instances: [],
         common: exampleAction,
       };
@@ -158,6 +164,7 @@ describe('Trixta Utilities', () => {
       const exampleAction = {
         name: 'get_session_by_id',
         description: '',
+        notes: '',
         handler: {
           func: '',
           name: 'get_session_by_id_dynamo_update',
@@ -202,19 +209,18 @@ describe('Trixta Utilities', () => {
           type: 'object',
         },
         tags: [],
-        loadingStatusKey: 'viewer:get_session_by_id',
       };
 
-      const mode = get(
-        exampleAction,
-        `${ROLE_ACTION_FIELDS.request_settings}.ui:options.mode`,
+      const mode = get<TrixtaInstanceMode>(
+        exampleAction.request_settings,
+        `ui:options.mode`,
         {
-          type: TRIXTA_MODE_TYPE.replace,
+          type: 'replace',
         },
       );
       const expectedResult = {
         mode,
-        loadingStatus: {},
+        requestStatus: RequestStatus.NONE,
         instances: [],
         common: exampleAction,
       };

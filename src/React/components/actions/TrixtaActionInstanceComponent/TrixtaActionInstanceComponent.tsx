@@ -6,10 +6,7 @@ import {
   trixtaInstanceDebugger,
 } from '../../../TrixtaDebugger';
 import { TrixtaState } from '../../../types';
-import {
-  TrixtaActionInstanceComponentProps,
-  TrixtaActionInstanceComponentStateProps,
-} from './types';
+import { TrixtaActionInstanceComponentProps } from './types';
 
 const TrixtaActionInstanceComponent = ({
   response,
@@ -19,8 +16,7 @@ const TrixtaActionInstanceComponent = ({
   debugMode = false,
   children,
   ...props
-}: TrixtaActionInstanceComponentProps &
-  TrixtaActionInstanceComponentStateProps) => {
+}: TrixtaActionInstanceComponentProps & ConnectProps) => {
   trixtaInstanceDebugger({
     type: TrixtaDebugType.Action,
     debugMode,
@@ -52,5 +48,12 @@ const makeMapStateToProps = () => {
   return mapStateToProps;
 };
 
-const connector = connect(makeMapStateToProps, null);
+type ConnectProps = ReturnType<ReturnType<typeof makeMapStateToProps>>;
+
+const connector = connect<
+  ConnectProps,
+  Record<string, unknown>,
+  TrixtaActionInstanceComponentProps,
+  { trixta: TrixtaState }
+>(makeMapStateToProps);
 export default connector(TrixtaActionInstanceComponent);

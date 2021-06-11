@@ -31,8 +31,4 @@ export interface RespondToReactionComponentProps<
    * If 'true', Trixta reaction will be responded when a reaction response instance is present
    */
   shouldRespond?: boolean;
-  /**
-   * Trixta reaction response instances
-   */
-  instances?: TrixtaReactionInstance<TInitialData>[];
 }

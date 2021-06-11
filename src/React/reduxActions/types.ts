@@ -1,9 +1,9 @@
-import { TrixtaActionReducerActions } from './types/actions';
-import { TrixtaReactionReducerActions } from './types/reactions';
+import { TrixtaActionReducerActions } from './types/trixtaActions';
+import { TrixtaReactionReducerActions } from './types/trixtaReactions';
 import { TrixtaCommonReducerActions } from './types/common';
 
-export * from './types/actions';
-export * from './types/reactions';
+export * from './types/trixtaActions';
+export * from './types/trixtaReactions';
 export * from './types/common';
 
 export type TrixtaReducerActions =

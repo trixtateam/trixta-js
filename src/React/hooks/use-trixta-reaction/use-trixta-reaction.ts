@@ -1,27 +1,28 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { submitTrixtaReactionResponse } from '../reduxActions/trixtaReactions';
+import {
+  clearTrixtaReactionResponse,
+  submitTrixtaReactionResponse,
+} from '../../reduxActions/trixtaReactions';
 import {
   makeSelectHasTrixtaRoleAccess,
   makeSelectIsTrixtaReactionInProgress,
+  makeSelectIsTrixtaReactionLoading,
   makeSelectTrixtaReactionResponseInstancesForRole,
-} from '../selectors';
+} from '../../selectors';
 import {
   trixtaDebugger,
   TrixtaDebugType,
   trixtaInstanceDebugger,
-} from '../TrixtaDebugger';
+} from '../../TrixtaDebugger';
+import { submitTrixtaFunctionParameters } from '../types';
 import {
   DefaultUnknownType,
-  TrixtaReactionBaseProps,
   TrixtaReactionInstance,
   TrixtaState,
-} from './../types';
-import {
-  submitTrixtaFunctionParameters,
-  UseTrixtaReactionProps,
-  UseTrixtaReactionResponseReturn,
-} from './types';
+} from './../../types/common';
+import { TrixtaReactionBaseProps } from './../../types/reactions';
+import { UseTrixtaReactionHookReturn, UseTrixtaReactionProps } from './types';
 
 export const useTrixtaReaction = <
   /**
@@ -41,12 +42,26 @@ export const useTrixtaReaction = <
   reactionName,
   requestForEffect = false,
   debugMode = false,
-}: UseTrixtaReactionProps): UseTrixtaReactionResponseReturn<
+  onSuccess,
+  onError,
+}: UseTrixtaReactionProps): UseTrixtaReactionHookReturn<
   TInitialData,
   TResponseType,
   TErrorType
 > => {
   const dispatch = useDispatch();
+
+  if (!roleName) {
+    throw Error('Please provide roleName parameter.');
+  }
+
+  if (!reactionName) {
+    throw Error('Please provide reactionName parameter.');
+  }
+
+  const clearReactionResponses = useCallback(() => {
+    dispatch(clearTrixtaReactionResponse({ roleName, reactionName }));
+  }, [reactionName, roleName, dispatch]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectHasRoleAccess: any = useMemo(makeSelectHasTrixtaRoleAccess, []);
   const hasRoleAccess = useSelector<{ trixta: TrixtaState }, boolean>((state) =>
@@ -67,9 +82,17 @@ export const useTrixtaReaction = <
     makeSelectIsTrixtaReactionInProgress,
     [],
   );
-  const isInProgress = useSelector<{ trixta: TrixtaState }, boolean>(
-    (state: { trixta: TrixtaState }) =>
-      selectReactionInProgress(state, reactionRoleProps),
+  const isInProgress = useSelector<{ trixta: TrixtaState }, boolean>((state) =>
+    selectReactionInProgress(state, reactionRoleProps),
+  );
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const selectReactionLoading: any = useMemo(
+    makeSelectIsTrixtaReactionLoading,
+    [],
+  );
+  const loading = useSelector<{ trixta: TrixtaState }, boolean>((state) =>
+    selectReactionLoading(state, reactionRoleProps),
   );
 
   const instances = useSelector<
@@ -114,6 +137,19 @@ export const useTrixtaReaction = <
     [dispatch, roleName, reactionName, hasRoleAccess, latestInstance],
   );
 
+  useEffect(() => {
+    if (!latestInstance) return;
+    if (latestInstance.response.success && onSuccess) {
+      if (onSuccess(latestInstance.response.success) === false)
+        clearReactionResponses();
+    }
+
+    if (latestInstance.response.error && onError) {
+      if (onError(latestInstance.response.error) === false)
+        clearReactionResponses();
+    }
+  }, [latestInstance, onError, onSuccess, clearReactionResponses]);
+
   trixtaDebugger({
     type: TrixtaDebugType.Reaction,
     name: reactionName,
@@ -132,6 +168,8 @@ export const useTrixtaReaction = <
     hasResponse: !!latestInstance,
     instances,
     isInProgress,
+    loading,
+    clearReactionResponses,
     submitTrixtaReaction,
   };
 };

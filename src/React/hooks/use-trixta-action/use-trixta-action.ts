@@ -4,28 +4,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   clearTrixtaActionResponse,
   submitTrixtaActionResponse,
-} from '../reduxActions/trixtaActions';
+} from '../../reduxActions/trixtaActions';
 import {
   makeSelectHasTrixtaRoleAccess,
   makeSelectIsTrixtaActionInProgress,
   makeSelectTrixtaActionResponseInstancesForRole,
-} from '../selectors';
+} from '../../selectors';
 import {
   trixtaDebugger,
   TrixtaDebugType,
   trixtaInstanceDebugger,
-} from '../TrixtaDebugger';
-import { TrixtaState } from '../types';
+} from '../../TrixtaDebugger';
 import {
   DefaultUnknownType,
   TrixtaActionBaseProps,
   TrixtaInstance,
-} from './../types';
-import {
-  submitTrixtaFunctionParameters,
-  UseTrixtaActionProps,
-  UseTrixtaActionResponseReturn,
-} from './types';
+  TrixtaState,
+} from '../../types';
+import { submitTrixtaFunctionParameters } from '../types';
+import { UseTrixtaActionHookReturn, UseTrixtaActionProps } from './types';
 
 export const useTrixtaAction = <
   /**
@@ -42,14 +39,24 @@ export const useTrixtaAction = <
   debugMode = false,
   onSuccess,
   onError,
-}: UseTrixtaActionProps): UseTrixtaActionResponseReturn<
+}: UseTrixtaActionProps): UseTrixtaActionHookReturn<
   TResponseType,
   TErrorType
 > => {
   const dispatch = useDispatch();
-  const clearResponses = useCallback(() => {
+
+  if (!roleName) {
+    throw Error('Please provide roleName parameter.');
+  }
+
+  if (!actionName) {
+    throw Error('Please provide actionName parameter.');
+  }
+
+  const clearActionResponses = useCallback(() => {
     dispatch(clearTrixtaActionResponse({ roleName, actionName }));
   }, [actionName, roleName, dispatch]);
+
   const selectHasRoleAccess = useMemo(makeSelectHasTrixtaRoleAccess, []);
   const hasRoleAccess = useSelector<{ trixta: TrixtaState }, boolean>((state) =>
     selectHasRoleAccess(state, { roleName }),
@@ -122,19 +129,21 @@ export const useTrixtaAction = <
     if (!latestInstance) return;
     if (latestInstance.response.success && onSuccess) {
       if (onSuccess(latestInstance.response.success) === false)
-        clearResponses();
+        clearActionResponses();
     }
 
     if (latestInstance.response.error && onError) {
-      if (onError(latestInstance.response.error) === false) clearResponses();
+      if (onError(latestInstance.response.error) === false)
+        clearActionResponses();
     }
-  }, [latestInstance, onError, onSuccess, clearResponses]);
+  }, [latestInstance, onError, onSuccess, clearActionResponses]);
 
   return {
     latestInstance,
     hasRoleAccess,
     isInProgress,
     hasResponse: !!latestInstance,
+    clearActionResponses,
     response: latestInstance?.response,
     submitTrixtaAction,
   };

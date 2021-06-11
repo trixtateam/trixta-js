@@ -15,22 +15,29 @@ JS
 <br />
 
 # What is trixta-JS?
-  trixta-js a javascript library to help any organization, easily connect to a Trixta space, build front-end components for you application. It leverages 
-  [phoenix-to-redux](https://github.com/trixtateam/phoenix-to-redux) to communicate with Trixta and gives you a variety of tools / utilities to build react components.
-  
+
+trixta-js a javascript library to help any organization, easily connect to a
+Trixta space, build front-end components for you application. It leverages
+[phoenix-to-redux](https://github.com/trixtateam/phoenix-to-redux) to
+communicate with Trixta and gives you a variety of tools / utilities to build
+react components.
+
 # Who is this for?
-  Any orgranization using Trixta for their javascript application.
+
+Any orgranization using Trixta for their javascript application.
 
 # Quick Start Guide
+
 ## Install
+
 Install the package with npm
 
-```npm i @trixta/trixta-js```
-or yarn - whichever you prefer
+`npm i @trixta/trixta-js` or yarn - whichever you prefer
 
-```yarn add @trixta/trixta-js```
+`yarn add @trixta/trixta-js`
 
 ## 1. Setup Reducer
+
 ```javascript
 /**
  * Combine all reducers in this file and export the combined reducers.
@@ -49,6 +56,7 @@ export default function createReducer() {
 ```
 
 ## 2. Setup Middleware
+
 ```javascript
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'connected-react-router';
@@ -60,9 +68,7 @@ const phoenixChannelMiddleWare = createPhoenixChannelMiddleware();
 export default function configureStore(initialState = {}) {
   // Create the store with two middlewares
   // 1. phoenixChannelMiddleWare: Makes redux connected to phoenix channels
-  const middlewares = [
-    phoenixChannelMiddleWare,
-  ];
+  const middlewares = [phoenixChannelMiddleWare];
 
   const enhancers = [applyMiddleware(...middlewares)];
 
@@ -79,7 +85,7 @@ export default function configureStore(initialState = {}) {
   const store = createStore(
     createReducer(),
     initialState,
-    composeEnhancers(...enhancers)
+    composeEnhancers(...enhancers),
   );
 
   // Make reducers hot reloadable, see http://mxs.is/googmo
@@ -93,8 +99,11 @@ export default function configureStore(initialState = {}) {
   return store;
 }
 ```
+
 ## 3. Setup Trixta Saga
+
 ### Option 1
+
 ```javascript
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'connected-react-router';
@@ -107,9 +116,7 @@ const phoenixChannelMiddleWare = createPhoenixChannelMiddleware();
 export default function configureStore(initialState = {}) {
   // Create the store with two middlewares
   // 1. phoenixChannelMiddleWare: Makes redux connected to phoenix channels
-  const middlewares = [
-    phoenixChannelMiddleWare,
-  ];
+  const middlewares = [phoenixChannelMiddleWare];
 
   const enhancers = [applyMiddleware(...middlewares)];
 
@@ -126,10 +133,10 @@ export default function configureStore(initialState = {}) {
   const store = createStore(
     createReducer(),
     initialState,
-    composeEnhancers(...enhancers)
+    composeEnhancers(...enhancers),
   );
 
-   sagaMiddleware.run(setupTrixtaSaga)
+  sagaMiddleware.run(setupTrixtaSaga);
 
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */
@@ -142,7 +149,9 @@ export default function configureStore(initialState = {}) {
   return store;
 }
 ```
+
 ### Option 2
+
 ```javascript
 import { put, select, takeLatest, takeEvery, fork } from 'redux-saga/effects';
 import { setupTrixtaSaga } from '@trixta/trixta-js';
@@ -150,7 +159,6 @@ import { setupTrixtaSaga } from '@trixta/trixta-js';
 export default function* rootSaga() {
   yield fork(setupTrixtaSaga);
 }
-
 ```
 
 ```javascript
@@ -165,9 +173,7 @@ const phoenixChannelMiddleWare = createPhoenixChannelMiddleware();
 export default function configureStore(initialState = {}) {
   // Create the store with two middlewares
   // 1. phoenixChannelMiddleWare: Makes redux connected to phoenix channels
-  const middlewares = [
-    phoenixChannelMiddleWare,
-  ];
+  const middlewares = [phoenixChannelMiddleWare];
 
   const enhancers = [applyMiddleware(...middlewares)];
 
@@ -184,10 +190,10 @@ export default function configureStore(initialState = {}) {
   const store = createStore(
     createReducer(),
     initialState,
-    composeEnhancers(...enhancers)
+    composeEnhancers(...enhancers),
   );
 
-   sagaMiddleware.run(rootSaga)
+  sagaMiddleware.run(rootSaga);
 
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */
@@ -202,13 +208,11 @@ export default function configureStore(initialState = {}) {
 ```
 
 ## 4. Setup Trixta Roles
+
 ```javascript
 import { put, select, takeLatest, takeEvery, fork } from 'redux-saga/effects';
 import { updateTrixtaRoles } from '@trixta/trixta-js';
-import {
-  socketActionTypes,
-} from '@trixta/phoenix-to-redux';
-
+import { socketActionTypes } from '@trixta/phoenix-to-redux';
 
 /**
  * After the socket is connected,
@@ -234,11 +238,14 @@ export default function* rootSaga() {
 ```
 
 ## Change Log
+
 - [Changes](CHANGELOG.md)
 
 ## Documentation
+
 - [**The detailed Guide to `trixta-js`**](docs/README.md)
 
 ## License
 
-This project is licensed under the MIT license, Copyright (c) 2020 Trixta Inc. For more information see `LICENSE.md`.
+This project is licensed under the MIT license, Copyright (c) 2020 Trixta Inc.
+For more information see `LICENSE.md`.

@@ -1,12 +1,14 @@
 import {
+  CLEAR_TRIXTA_ACTION_REQUEST_STATUS,
   CLEAR_TRIXTA_ACTION_RESPONSE,
   SUBMIT_TRIXTA_ACTION_RESPONSE,
 } from '../constants/actions';
 import { SubmitTrixtaActionResponse } from './../types/actions';
 import {
+  ClearTrixtaActionRequestStatusAction,
   ClearTrixtaActionResponseAction,
   SubmitTrixtaActionResponseAction,
-} from './types/actions';
+} from './types/trixtaActions';
 
 /**
  *  Listened for in the Trixta saga to submit to Trixta space using relevant phoenix channel for role
@@ -59,7 +61,7 @@ export function submitTrixtaActionResponse({
 }
 
 /**
- *  Listened for in the Trixta saga to clear response instances for params.roleName and params.action in TrixtaState
+ *  Clears response instances for params.roleName and params.action in TrixtaState
  * @param params.roleName - name of role
  * @param params.actionName - name of action
  */
@@ -78,6 +80,35 @@ export function clearTrixtaActionResponse({
 }): ClearTrixtaActionResponseAction {
   return {
     type: CLEAR_TRIXTA_ACTION_RESPONSE,
+    data: {
+      roleName,
+      actionName,
+    },
+  };
+}
+
+/**
+ *  Sets the request status for params.roleName and params.actionName in TrixtaState
+ * to NONE
+ *
+ * @param params.roleName - name of role
+ * @param params.actionName - name of action
+ */
+export function clearTrixtaActionRequestStatus({
+  roleName,
+  actionName,
+}: {
+  /**
+   * Name of Trixta role
+   */
+  roleName: string;
+  /**
+   * Name of Trixta action
+   */
+  actionName: string;
+}): ClearTrixtaActionRequestStatusAction {
+  return {
+    type: CLEAR_TRIXTA_ACTION_REQUEST_STATUS,
     data: {
       roleName,
       actionName,

@@ -5,14 +5,14 @@ import {
   makeSelectHasTrixtaAuthorizationStarted,
   makeSelectHasTrixtaRoleAccessForRoles,
   makeSelectIsTrixtaAuhorized,
-} from '../selectors';
-import { TrixtaAuthProps } from '../types';
-import { TrixtaState } from './../types/common';
-import { UseTrixtaAuthResponseReturn } from './types';
+} from '../../selectors';
+import { TrixtaAuthProps } from '../../types';
+import { TrixtaState } from './../../types/common';
+import { UseTrixtaAuthHookReturn } from './types';
 
 export const useTrixtaAuth = ({
   roles = [],
-}: TrixtaAuthProps | undefined = {}): UseTrixtaAuthResponseReturn => {
+}: TrixtaAuthProps | undefined = {}): UseTrixtaAuthHookReturn => {
   const rolesArr = useMemo(
     () => (Array.isArray(roles) ? roles : roles ? [roles] : []),
     [roles],
@@ -20,24 +20,28 @@ export const useTrixtaAuth = ({
   const socketAuthenticatedSelector = useMemo<
     ReturnType<typeof makeSelectPhoenixSocketIsAuthenticated>
   >(makeSelectPhoenixSocketIsAuthenticated, []);
-  const authorizedStatusSelector = useMemo<
-    ReturnType<typeof makeSelectIsTrixtaAuhorized>
-  >(makeSelectIsTrixtaAuhorized, []);
-  const authorizationStartedSelector = useMemo<
-    ReturnType<typeof makeSelectHasTrixtaAuthorizationStarted>
-  >(makeSelectHasTrixtaAuthorizationStarted, []);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const authorizedStatusSelector: any = useMemo(
+    makeSelectIsTrixtaAuhorized,
+    [],
+  );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const authorizationStartedSelector: any = useMemo(
+    makeSelectHasTrixtaAuthorizationStarted,
+    [],
+  );
   const roleAccessSelector = useMemo(makeSelectHasTrixtaRoleAccessForRoles, []);
-  const hasRoles = useSelector((state: { trixta: TrixtaState }) =>
+  const hasRoles = useSelector<{ trixta: TrixtaState }, boolean>((state) =>
     roleAccessSelector(state, { roles: rolesArr }),
   );
 
-  const isAuthenticated = useSelector((state) =>
-    socketAuthenticatedSelector(state),
+  const isAuthenticated = useSelector<{ trixta: TrixtaState }, boolean>(
+    (state) => socketAuthenticatedSelector(state),
   );
-  const hasAuthorizationStarted = useSelector(
-    (state: { trixta: TrixtaState }) => authorizationStartedSelector(state),
+  const hasAuthorizationStarted = useSelector<{ trixta: TrixtaState }, boolean>(
+    (state) => authorizationStartedSelector(state),
   );
-  const hasAuthorized = useSelector((state: { trixta: TrixtaState }) =>
+  const hasAuthorized = useSelector<{ trixta: TrixtaState }, boolean>((state) =>
     authorizedStatusSelector(state),
   );
   let isAuthorizing = true;

@@ -33,7 +33,7 @@ export function signoutTrixta(): SignoutTrixtaAction {
 export function updateTrixtaError({
   error,
 }: {
-  error: unknown;
+  error: any;
 }): UpdateTrixtaErrorAction {
   return {
     type: UPDATE_TRIXTA_ERROR,

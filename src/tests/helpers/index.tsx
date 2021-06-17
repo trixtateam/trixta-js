@@ -5,6 +5,7 @@ import {
 import React from 'react';
 import { Provider } from 'react-redux';
 import { combineReducers, createStore, Store } from 'redux';
+import configureStore, { MockStoreEnhanced } from 'redux-mock-store';
 import {
   initialState as defaultTrixtaState,
   trixtaReducer,
@@ -33,6 +34,36 @@ export const storeProviderWrapper = (
     phoenix: initialPhoenixState,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } as any);
+  return {
+    store,
+    wrapper: ({
+      children,
+    }: {
+      children: React.ReactNode | null;
+    }): React.ReactElement | null => {
+      return <Provider store={store}>{children}</Provider>;
+    },
+  };
+};
+
+export const mockStoreProviderWrapper = (
+  initialState: TrixtaState = defaultTrixtaState,
+  initialPhoenixState = phoenixState,
+): {
+  store: MockStoreEnhanced<{
+    trixta: TrixtaState;
+    phoenix: ReturnType<typeof phoenixReducer>;
+  }>;
+  wrapper: React.FC;
+} => {
+  const mockstore = configureStore<{
+    trixta: TrixtaState;
+    phoenix: ReturnType<typeof phoenixReducer>;
+  }>([]);
+  const store = mockstore({
+    trixta: initialState,
+    phoenix: initialPhoenixState,
+  });
   return {
     store,
     wrapper: ({

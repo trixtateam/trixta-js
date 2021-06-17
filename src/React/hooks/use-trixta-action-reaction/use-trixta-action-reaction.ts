@@ -1,5 +1,4 @@
 // ! WORK IN PROGRESS
-import { useEffect } from 'react';
 import { DefaultUnknownType } from '../../types';
 import { useTrixtaAction } from '../use-trixta-action/use-trixta-action';
 import { useTrixtaReaction } from '../use-trixta-reaction/use-trixta-reaction';
@@ -33,7 +32,7 @@ export const useTrixtaActionReaction = <
   actionProps,
   reactionProps,
   autoSubmit,
-  actionData = { data: {} },
+  actionParameters = { data: {} },
 }: UseTrixtaActionReactionProps): UseTrixtaActionReactionHookReturn<
   TInitialData,
   TActionResponseType,
@@ -44,16 +43,21 @@ export const useTrixtaActionReaction = <
   const { submitTrixtaAction, ...action } = useTrixtaAction<
     TActionResponseType,
     TActionErrorType
-  >(actionProps);
+  >({ ...actionProps, options: { autoSubmit }, actionParameters });
   const reaction = useTrixtaReaction<
     TInitialData,
     TReactionResponseType,
     TReactionErrorType
-  >(reactionProps);
+  >({
+    reactionName: reactionProps.reactionName,
+    roleName: reactionProps.roleName
+      ? reactionProps.roleName
+      : actionProps.roleName,
+    requestForEffect: reactionProps.requestForEffect,
+  });
 
-  useEffect(() => {
-    if (autoSubmit) submitTrixtaAction(actionData);
-  }, [autoSubmit, submitTrixtaAction, actionData]);
+  const hasActionResponse = action.hasResponse;
+  const hasReactionResponse = reaction.hasResponse;
 
   return {
     initialData: reaction.initialData,
@@ -61,6 +65,9 @@ export const useTrixtaActionReaction = <
     isInProgress: action.isInProgress || reaction.isInProgress,
     loading: reaction.loading,
     actionResponse: action.response,
+    hasActionResponse,
+    hasReactionResponse,
+    hasResponse: hasActionResponse || hasReactionResponse,
     reactionResponse: reaction.latestResponse,
     clearActionResponses: action.clearActionResponses,
     clearReactionResponses: reaction.clearReactionResponses,

@@ -34,7 +34,7 @@ describe('useTrixtaAuth', () => {
     expect(result.current.isAuthorizing).toBe(false);
   });
 
-  it('should return isAuthorizing true for role guest[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
+  it('should return isAuthorizing true for roleName: guest[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
     const { wrapper } = storeProviderWrapper(
       mockDefaultTrixtaState({
         authorizationStarted: true,
@@ -57,7 +57,7 @@ describe('useTrixtaAuth', () => {
     expect(result.current.isAuthorizing).toBe(true);
   });
 
-  it('should return hasAccess true for role guest[d1be63be-c0e4-4468-982c-5c04714a2987] passed as array', () => {
+  it('should return hasAccess true for  roleName: guest[d1be63be-c0e4-4468-982c-5c04714a2987] passed as array', () => {
     const role = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]';
     const { wrapper } = storeProviderWrapper(
       mockDefaultTrixtaState({
@@ -80,7 +80,7 @@ describe('useTrixtaAuth', () => {
     expect(result.current.hasRoles).toBe(true);
     expect(result.current.isAuthorizing).toBe(false);
   });
-  it('should return hasAccess true for role guest[d1be63be-c0e4-4468-982c-5c04714a2987] passed as string', () => {
+  it('should return hasAccess true for  roleName: guest[d1be63be-c0e4-4468-982c-5c04714a2987] passed as string', () => {
     const role = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]';
     const { wrapper } = storeProviderWrapper(
       mockDefaultTrixtaState({
@@ -118,7 +118,7 @@ describe('useTrixtaAuth', () => {
     expect(result.current.isAuthorizing).toBe(true);
   });
 
-  it('should return hasAccess true', () => {
+  it('should return hasAccess true for  roleName: guest[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
     const role = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]';
     const { wrapper } = storeProviderWrapper(
       mockDefaultTrixtaState({

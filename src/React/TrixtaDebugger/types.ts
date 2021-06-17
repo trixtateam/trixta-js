@@ -9,7 +9,7 @@ export interface TrixtaDebuggerParameters {
   /**
    * Enables Trixta console debbugging
    */
-  debugMode: boolean;
+  debugMode?: boolean;
   roleName: string;
   name: string;
   type: TrixtaDebugType;

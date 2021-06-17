@@ -3,8 +3,8 @@ import {
   DefaultUnknownType,
   TrixtaInstanceResponse,
   TrixtaReactionInstance,
+  submitTrixtaFunctionParameters,
 } from '../../types/common';
-import { submitTrixtaFunctionParameters } from '../types';
 
 export interface UseTrixtaReactionProps extends TrixtaReactionBaseProps {
   /**
@@ -12,13 +12,13 @@ export interface UseTrixtaReactionProps extends TrixtaReactionBaseProps {
    */
   debugMode?: boolean;
   /**
-   * Respond on success response from Trixta, if false or undefined returned will clear request status
+   * This function will fire any time the response from Trixta successfully returns data and will be passed the data.
    */
-  onSuccess?: (payload?: unknown) => boolean | undefined | void;
+  onSuccess?: (success?: unknown) => void;
   /**
-   * Respond on error response from Trixta, if false or undefined returned will clear request status
+   * This function will fire if the response from Trixta encounters an error and will be passed the error.
    */
-  onError?: (payload?: unknown) => boolean | undefined | void;
+  onError?: (error?: unknown) => void;
 }
 
 export interface UseTrixtaReactionHookReturn<

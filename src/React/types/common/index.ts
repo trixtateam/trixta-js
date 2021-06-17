@@ -1,5 +1,6 @@
 import { UiSchema } from '@rjsf/core';
 import { JSONSchema7Object } from 'json-schema';
+import { SubmitTrixtaActionResponseAction, SubmitTrixtaReactionResponseAction } from '../../reduxActions';
 import { TrixtaAction, TrixtaActionDetails, TrixtaActionHandlerType } from '../actions';
 import { TrixtaReaction, TrixtaReactionDetails, TrixtaReactionType } from '../reactions';
 
@@ -20,6 +21,39 @@ export enum RequestStatus {
   FAILURE = 3,
 }
 
+
+export interface submitTrixtaFunctionParameters {
+  /**
+   * Data to submit for Trixta Reaction / Action
+   */
+  data: DefaultUnknownType;
+  /**
+   * Unique reference no for Trixta to respond for Reaction
+   */
+  ref?: string;
+  /**
+   * Event name / dispatch action type for data to dispatch before submitting to Trixta Reaction / Action response
+   */
+  requestEvent?: string;
+  /**
+   * Event name / dispatch action type for data to dispatch after Trixta Reaction / Action response
+   */
+  responseEvent?: string;
+  /**
+   * Event name / dispatch action type for data to dispatch after Trixta Reaction / Action error response
+   */
+  errorEvent?: string;
+}
+
+export interface LastActionSubmit  {
+  parameters:SubmitTrixtaActionResponseAction['data'];
+  timeStamp:string;
+}
+
+export interface LastReactionSubmit  {
+  parameters:SubmitTrixtaReactionResponseAction['data'];
+  timeStamp:string;
+}
 export type TrixtaChannelJoinResponse = {
   contract_reactions?:Record<string,TrixtaReactionDetails>
   contract_actions?:Record<string,TrixtaActionDetails>

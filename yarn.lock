@@ -3314,13 +3314,13 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
-"@trixta/phoenix-to-redux@3.5.0-beta.0":
-  version "3.5.0-beta.0"
-  resolved "https://registry.yarnpkg.com/@trixta/phoenix-to-redux/-/phoenix-to-redux-3.5.0-beta.0.tgz#94f9c6b04239c0137dca69bbb9610968e334036e"
-  integrity sha512-n03eWHDe/nvYwKDLkTh2V+vKBk0K57/G9gJRObYpyuhEkix4QsbY4WPUa4yOw+E704Kpw0ikZUpRVub3YxouDg==
+"@trixta/phoenix-to-redux@3.5.1-beta.0":
+  version "3.5.1-beta.0"
+  resolved "https://registry.yarnpkg.com/@trixta/phoenix-to-redux/-/phoenix-to-redux-3.5.1-beta.0.tgz#09e6f135be4803252729977227c0e3372b6f2014"
+  integrity sha512-GVi43H0Mn69TBUTIxfE0uj0cLZCwdhQ6iaxc0OhLEk9hUkgzS5Wvj6srP13WVzbdqiu8w1evVPrfulWIcyqZdQ==
   dependencies:
-    immer ">=8.0.1"
-    phoenix "1.5.4"
+    immer "~8.0.1"
+    phoenix "~1.5.9"
 
 "@types/anymatch@*":
   version "1.3.1"
@@ -8947,10 +8947,10 @@ immer@8.0.1:
   resolved "https://registry.yarnpkg.com/immer/-/immer-8.0.1.tgz#9c73db683e2b3975c424fb0572af5889877ae656"
   integrity sha512-aqXhGP7//Gui2+UrEtvxZxSquQVXTpZ7KDxfCcKAF3Vysvw0CViVaW9RZ1j1xlIYqaaaipBoqdqeibkc18PNvA==
 
-immer@>=8.0.1:
-  version "9.0.2"
-  resolved "https://registry.yarnpkg.com/immer/-/immer-9.0.2.tgz#83e4593df9914acaecfd9fac6a8601ef44d883fc"
-  integrity sha512-mkcmzLtIfSp40vAqteRr1MbWNSoI7JE+/PB36FNPoSfJ9RQRmNKuTYCjKkyXyuq3Dgn07HuJBrwJd4ZSk2yUbw==
+immer@~8.0.1:
+  version "8.0.4"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-8.0.4.tgz#3a21605a4e2dded852fb2afd208ad50969737b7a"
+  integrity sha512-jMfL18P+/6P6epANRvRk6q8t+3gGhqsJ9EuJ25AXE+9bNTYtssvzeYbEd0mXRYWCmmXSIbnlpz6vd6iJlmGGGQ==
 
 import-fresh@^3.0.0, import-fresh@^3.1.0, import-fresh@^3.2.1:
   version "3.3.0"
@@ -12556,12 +12556,7 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
-phoenix@1.5.4:
-  version "1.5.4"
-  resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.5.4.tgz#d42bb537f03f55076b4e7a6757fe29318a8439f0"
-  integrity sha512-mTxseCKWDgrBQRIriqzvxL+QH5xruu6KQPqFdDx0jrdu/nqWCo914MLihVksn7SV2Bol3T+e/VtovJgC5UZT+w==
-
-phoenix@1.5.9:
+phoenix@1.5.9, phoenix@~1.5.9:
   version "1.5.9"
   resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.5.9.tgz#5aad82072c8d90e7e20a187063c5db9b9ab9b5cd"
   integrity sha512-NBRQaCYIrXL/wd5+OoO+DLlNTIdRvxKat0DSkfJ/c8qwYqKK7jNrf1GWPBOPzSVJ9HNMPjgmniJ87m9Os9IQGg==

@@ -222,7 +222,7 @@ export const makeSelectTrixtaActionsForRole = () =>
 
 /**
  * Selects the actions[props.roleName:props.actionName].requestStatus
- * for the given props.roleName and returns true or false
+ * ffor the given props.roleName ,  props.actionName and returns true or false
  */
 export const makeSelectIsTrixtaActionInProgress = (): OutputParametricSelector<
   {
@@ -234,4 +234,20 @@ export const makeSelectIsTrixtaActionInProgress = (): OutputParametricSelector<
 > =>
   createSelector([selectTrixtActionRequestStatusSelector], (status) => {
     return status ? status === RequestStatus.REQUEST : false;
+  });
+
+/**
+ * Selects the actions[props.roleName:props.actionName].requestStatus
+ * for the given props.roleName ,  props.actionName
+ */
+export const makeSelectTrixtaActionRequestStatus = (): OutputParametricSelector<
+  {
+    trixta: TrixtaState;
+  },
+  TrixtaActionBaseProps,
+  RequestStatus | undefined,
+  (res: RequestStatus | undefined) => RequestStatus | undefined
+> =>
+  createSelector([selectTrixtActionRequestStatusSelector], (status) => {
+    return status;
   });

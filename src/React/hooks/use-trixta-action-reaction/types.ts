@@ -1,13 +1,28 @@
 import { TrixtaActionBaseProps } from '../../../React/types/actions';
-import { TrixtaReactionBaseProps } from '../../../React/types/reactions';
-import { DefaultUnknownType, TrixtaInstanceResponse } from '../../types/common';
-import { submitTrixtaFunctionParameters } from '../types';
+import {
+  DefaultUnknownType,
+  submitTrixtaFunctionParameters,
+  TrixtaInstanceResponse,
+} from '../../types/common';
 
 export interface UseTrixtaActionReactionProps {
   actionProps: TrixtaActionBaseProps;
-  reactionProps: TrixtaReactionBaseProps;
+  reactionProps: {
+    /**
+     * Name of Trixta role
+     */
+    roleName?: string;
+    /**
+     * Name of Trixta reaction
+     */
+    reactionName: string;
+    /**
+     * If 'true', Trixta reaction is not waiting for response
+     */
+    requestForEffect?: boolean;
+  };
   autoSubmit?: boolean;
-  actionData: submitTrixtaFunctionParameters;
+  actionParameters?: submitTrixtaFunctionParameters;
 }
 
 export interface UseTrixtaActionReactionHookReturn<
@@ -33,6 +48,18 @@ export interface UseTrixtaActionReactionHookReturn<
    * If 'true', Trixta roles or role name passed does have acccess for this user
    */
   hasRoleAccess: boolean;
+  /**
+   * If 'true', there is a Trixta action instance response or Trixta reaction instance response
+   */
+  hasResponse: boolean;
+  /**
+   * If 'true', there is a Trixta reaction instance response
+   */
+  hasReactionResponse: boolean;
+  /**
+   * If 'true', there is a Trixta action instance response
+   */
+  hasActionResponse: boolean;
   /**
    * If 'true', Trixta reaction/action is still waiting for response
    */

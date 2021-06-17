@@ -299,6 +299,22 @@ export const makeSelectIsTrixtaReactionInProgress = (): OutputParametricSelector
   });
 
 /**
+ * Selects the reactions[props.roleName:props.reactionName].requestStatus
+ * for the given props.roleName ,  props.reactionName
+ */
+export const makeSelectTrixtaReactionRequestStatus = (): OutputParametricSelector<
+  {
+    trixta: TrixtaState;
+  },
+  TrixtaReactionBaseProps,
+  RequestStatus | undefined,
+  (res: RequestStatus | undefined) => RequestStatus | undefined
+> =>
+  createSelector([selectTrixtReactionRequestStatusSelector], (status) => {
+    return status;
+  });
+
+/**
  * Selects the reactions[props.roleName:props.reactionName].loadingStatus
  * for the given props.roleName and returns true or false
  *

@@ -48,13 +48,22 @@ export const useTrixtaAuth = ({
   if (hasAuthorizationStarted) {
     isAuthorizing = !hasAuthorized;
   }
+
   const values = useMemo(
-    () => ({
-      isAuthenticated,
-      hasRoles,
-      hasAccess: isAuthenticated && hasRoles,
-      isAuthorizing,
-    }),
+    () =>
+      isAuthorizing
+        ? {
+            isAuthenticated,
+            hasRoles,
+            hasAccess: false,
+            isAuthorizing,
+          }
+        : {
+            isAuthenticated,
+            hasRoles,
+            hasAccess: isAuthenticated && hasRoles,
+            isAuthorizing,
+          },
     [hasRoles, isAuthenticated, isAuthorizing],
   );
 

@@ -9,7 +9,7 @@ import { useTrixtaAuth } from './use-trixta-auth';
 
 describe('useTrixtaAuth', () => {
   it('should return the correct default values', () => {
-    const { store, wrapper } = storeProviderWrapper();
+    const { wrapper } = storeProviderWrapper();
     const { result } = renderHook(() => useTrixtaAuth({}), {
       wrapper,
     });
@@ -21,7 +21,7 @@ describe('useTrixtaAuth', () => {
   });
 
   it('should return isAuthorizing false', () => {
-    const { store, wrapper } = storeProviderWrapper(
+    const { wrapper } = storeProviderWrapper(
       mockDefaultTrixtaState({ authorizationStarted: true }),
     );
     const { result } = renderHook(() => useTrixtaAuth({}), {
@@ -35,7 +35,7 @@ describe('useTrixtaAuth', () => {
   });
 
   it('should return isAuthorizing true for role guest[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
-    const { store, wrapper } = storeProviderWrapper(
+    const { wrapper } = storeProviderWrapper(
       mockDefaultTrixtaState({
         authorizationStarted: true,
         authorizingStatus: mockAuthorizingStatus,

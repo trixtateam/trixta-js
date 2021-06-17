@@ -323,7 +323,7 @@ export const makeSelectIsTrixtaReactionLoading = (): OutputParametricSelector<
  */
 export const makeSelectTrixtaReactionListForRole = (): OutputParametricSelector<
   {
-    trixta: TrixtaState<string>;
+    trixta: TrixtaState;
   },
   DefaultSelectorProps,
   {

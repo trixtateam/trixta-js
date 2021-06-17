@@ -8,7 +8,7 @@ describe('useTrixtaAction', () => {
   it('should throw error if no actionName parameter', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
     const { result } = renderHook(
-      () => useTrixtaAction({ roleName: 'test', actionName: undefined }),
+      () => useTrixtaAction({ roleName: 'test', actionName: '' }),
       {
         wrapper,
       },
@@ -20,7 +20,7 @@ describe('useTrixtaAction', () => {
   it('should throw error if no roleName parameter', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
     const { result } = renderHook(
-      () => useTrixtaAction({ roleName: undefined, actionName: 'test' }),
+      () => useTrixtaAction({ roleName: '', actionName: 'test' }),
       {
         wrapper,
       },

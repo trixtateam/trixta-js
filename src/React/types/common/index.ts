@@ -92,13 +92,13 @@ export interface TrixtaCommon {
   tags: Array<string>;
 }
 
-export type TrixtaState<TRole = string> = {
+export type TrixtaState = {
   reactions: Record<string, TrixtaReaction>;
   actions: Record<string, TrixtaAction>;
   error: DefaultUnknownType;
   authorizationStarted: boolean;
   authorizingStatus: Record<string, LoadingStatus>;
-  agentDetails: TRole[];
+  agentDetails: string[];
 };
 
 export interface TrixtaInstanceResponse<

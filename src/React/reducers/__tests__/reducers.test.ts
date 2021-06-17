@@ -9,11 +9,11 @@ import {
   getTrixtaInstanceResult,
   getTrixtaReactionReducerStructure,
   isObject,
-  pickBy
+  pickBy,
 } from '../../../utils';
 import {
   SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
-  SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS
+  SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
 } from '../../constants';
 import * as actions from '../../reduxActions';
 import { signoutTrixta } from '../../reduxActions';
@@ -23,7 +23,7 @@ import {
   TrixtaInstance,
   TrixtaInstanceMode,
   TrixtaReactionInstance,
-  TrixtaState
+  TrixtaState,
 } from '../../types/common';
 import { initialState, trixtaReducer } from '../trixtaReducer';
 // eslint-disable-next-line jest/no-mocks-import

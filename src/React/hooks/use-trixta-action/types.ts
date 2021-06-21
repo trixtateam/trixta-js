@@ -3,21 +3,31 @@ import {
   DefaultUnknownType,
   TrixtaInstance,
   TrixtaInstanceResponse,
+  submitTrixtaFunctionParameters,
 } from '../../types/common';
-import { submitTrixtaFunctionParameters } from '../types';
 export interface UseTrixtaActionProps extends TrixtaActionBaseProps {
+  options?: {
+    /**
+     * Enables Trixta console debbugging
+     */
+    debugMode?: boolean;
+    /**
+     * Submit to trixta action when component mounts
+     */
+    autoSubmit?: boolean;
+  };
   /**
-   * Enables Trixta console debbugging
+   * Parameters to submit to Trixta for autoSubmit
    */
-  debugMode?: boolean;
+  actionParameters?: submitTrixtaFunctionParameters;
   /**
-   * Respond on success response from Trixta, if false or undefined returned will clear request status
+   * This function will fire any time the response from Trixta successfully returns data and will be passed the data.
    */
-  onSuccess?: (payload?: unknown) => boolean | undefined | void;
+  onSuccess?: (success?: unknown) => void;
   /**
-   * Respond on error response from Trixta, if false or undefined returned will clear request status
+   * This function will fire if the response from Trixta encounters an error and will be passed the error.
    */
-  onError?: (payload?: unknown) => boolean | undefined | void;
+  onError?: (error?: unknown) => void;
 }
 
 export interface UseTrixtaActionHookReturn<

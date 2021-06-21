@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { isNullOrEmpty } from '../../../utils';
 import { submitTrixtaReactionResponse } from '../../reduxActions';
 import {
   makeSelectHasTrixtaRoleAccess,
@@ -29,6 +30,13 @@ export const useRespondToReactionResponse = <
   debugMode = false,
 }: UseRespondToReactionResponseProps): UseRespondToReactionResponseHookReturn => {
   const dispatch = useDispatch();
+  if (isNullOrEmpty(roleName)) {
+    throw Error('Please provide roleName parameter.');
+  }
+
+  if (isNullOrEmpty(reactionName)) {
+    throw Error('Please provide reactionName parameter.');
+  }
   const respondedInstanceRef = useRef<string | undefined>();
   const selectReactionResponses = useMemo(
     makeSelectTrixtaReactionResponseInstancesForRole,

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { isNullOrEmpty } from '../../../utils';
 import {
   makeSelectHasTrixtaRoleAccess,
   makeSelectTrixtaReactionResponseInstancesForRole,
@@ -12,8 +13,8 @@ import {
 } from './../../types/common';
 import { TrixtaReactionBaseProps } from './../../types/reactions';
 import {
-  UseRespondToReactionEffectProps,
   UseRespondToReactionEffectHookReturn,
+  UseRespondToReactionEffectProps,
 } from './types';
 
 export const useRespondToReactionEffect = <
@@ -33,6 +34,15 @@ export const useRespondToReactionEffect = <
   } = props;
   const actionRef = useRef(actionToDispatch);
   const dispatch = useDispatch();
+
+  if (isNullOrEmpty(roleName)) {
+    throw Error('Please provide roleName parameter.');
+  }
+
+  if (isNullOrEmpty(reactionName)) {
+    throw Error('Please provide reactionName parameter.');
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectReactionResponse: any = useMemo(
     makeSelectTrixtaReactionResponseInstancesForRole,
@@ -78,12 +88,14 @@ export const useRespondToReactionEffect = <
     if (!hasRoleAccess) return;
     if (Array.isArray(instances) && instances.length) {
       const latestInstance = instances[0];
+
       if (dispatchResponseTo) {
         dispatch({
           type: dispatchResponseTo,
           data: latestInstance?.details?.initial_data,
         });
       }
+
       if (actionRef.current) {
         dispatch(actionRef.current(latestInstance?.details?.initial_data));
       }

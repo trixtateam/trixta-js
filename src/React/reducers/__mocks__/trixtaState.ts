@@ -77,9 +77,23 @@ export const mockTrixtaReactions: TrixtaState['reactions'] = {
       type: 'accumulate',
     },
     requestStatus: 0,
-    loadingStatus: { status: true },
+    loadingStatus: {},
     instances: {
-      requestForEffect: [],
+      requestForEffect: [
+        {
+          details: {
+            status: 'ok',
+            ref: '',
+            type: 'requestForEffect',
+            initial_data: { data: 'test_data' },
+            dateCreated: '3/16/2021, 11:37:36 AM',
+          },
+          response: {
+            success: false,
+            error: false,
+          },
+        },
+      ],
       requestForResponse: [],
     },
     common: {
@@ -287,6 +301,45 @@ export const mockTrixtaActions: TrixtaState['actions'] = {
       handler: {
         func: '',
         name: 'request_user_info',
+        type: 'flow',
+      },
+      request_schema: {
+        properties: {
+          input: {
+            description: 'Description',
+            title: 'Title',
+            type: 'string',
+          },
+        },
+        type: 'object',
+      },
+      request_settings: {},
+      response_schema: {
+        properties: {
+          input: {
+            description: 'Description',
+            title: 'Title',
+            type: 'string',
+          },
+        },
+        type: 'object',
+      },
+      tags: [],
+    },
+  },
+  'everyone_authed:request_user_info_request': {
+    mode: {
+      type: 'replace',
+    },
+    requestStatus: 0,
+    instances: [],
+    common: {
+      name: 'request_user_info_request',
+      description: '',
+      notes: '',
+      handler: {
+        func: '',
+        name: 'request_user_info_request',
         type: 'flow',
       },
       request_schema: {

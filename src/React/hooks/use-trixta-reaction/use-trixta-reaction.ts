@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { isNullOrEmpty } from '../../../utils';
 import {
   clearTrixtaReactionResponse,
   submitTrixtaReactionResponse,
 } from '../../reduxActions/trixtaReactions';
 import {
   makeSelectHasTrixtaRoleAccess,
-  makeSelectIsTrixtaReactionInProgress,
   makeSelectIsTrixtaReactionLoading,
+  makeSelectTrixtaReactionRequestStatus,
   makeSelectTrixtaReactionResponseInstancesForRole,
 } from '../../selectors';
 import {
@@ -15,9 +16,10 @@ import {
   TrixtaDebugType,
   trixtaInstanceDebugger,
 } from '../../TrixtaDebugger';
-import { submitTrixtaFunctionParameters } from '../types';
 import {
   DefaultUnknownType,
+  RequestStatus,
+  submitTrixtaFunctionParameters,
   TrixtaReactionInstance,
   TrixtaState,
 } from './../../types/common';
@@ -51,11 +53,11 @@ export const useTrixtaReaction = <
 > => {
   const dispatch = useDispatch();
 
-  if (!roleName) {
+  if (isNullOrEmpty(roleName)) {
     throw Error('Please provide roleName parameter.');
   }
 
-  if (!reactionName) {
+  if (isNullOrEmpty(reactionName)) {
     throw Error('Please provide reactionName parameter.');
   }
 
@@ -77,14 +79,16 @@ export const useTrixtaReaction = <
     makeSelectTrixtaReactionResponseInstancesForRole,
     [],
   );
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const selectReactionInProgress: any = useMemo(
-    makeSelectIsTrixtaReactionInProgress,
+  const selectTrixtaReactionRequestStatus: any = useMemo(
+    makeSelectTrixtaReactionRequestStatus,
     [],
   );
-  const isInProgress = useSelector<{ trixta: TrixtaState }, boolean>((state) =>
-    selectReactionInProgress(state, reactionRoleProps),
+  const requestStatus = useSelector<{ trixta: TrixtaState }, RequestStatus>(
+    (state) => selectTrixtaReactionRequestStatus(state, reactionRoleProps),
   );
+  const isInProgress = requestStatus
+    ? requestStatus === RequestStatus.REQUEST
+    : false;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectReactionLoading: any = useMemo(
@@ -139,16 +143,20 @@ export const useTrixtaReaction = <
 
   useEffect(() => {
     if (!latestInstance) return;
-    if (latestInstance.response.success && onSuccess) {
-      if (onSuccess(latestInstance.response.success) === false)
-        clearReactionResponses();
+    if (requestStatus === RequestStatus.SUCCESS && onSuccess) {
+      onSuccess(latestInstance.response.success);
     }
 
-    if (latestInstance.response.error && onError) {
-      if (onError(latestInstance.response.error) === false)
-        clearReactionResponses();
+    if (requestStatus === RequestStatus.FAILURE && onError) {
+      onError(latestInstance.response.error);
     }
-  }, [latestInstance, onError, onSuccess, clearReactionResponses]);
+  }, [
+    latestInstance,
+    onError,
+    onSuccess,
+    clearReactionResponses,
+    requestStatus,
+  ]);
 
   trixtaDebugger({
     type: TrixtaDebugType.Reaction,

@@ -32,7 +32,7 @@ export const useTrixtaActionReaction = <
   actionProps,
   reactionProps,
   autoSubmit,
-  actionParameters = { data: {} },
+  actionParameters,
 }: UseTrixtaActionReactionProps): UseTrixtaActionReactionHookReturn<
   TInitialData,
   TActionResponseType,

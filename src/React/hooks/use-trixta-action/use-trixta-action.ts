@@ -1,5 +1,6 @@
 // ! WORK IN PROGRESS
-import { useCallback, useEffect, useMemo } from 'react';
+import deequal from 'deequal';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { isNullOrEmpty } from '../../../utils';
 import {
@@ -19,9 +20,9 @@ import {
 import {
   DefaultUnknownType,
   RequestStatus,
+  submitTrixtaFunctionParameters,
   TrixtaActionBaseProps,
   TrixtaInstance,
-  submitTrixtaFunctionParameters,
   TrixtaState,
 } from '../../types';
 import { UseTrixtaActionHookReturn, UseTrixtaActionProps } from './types';
@@ -38,9 +39,7 @@ export const useTrixtaAction = <
 >({
   roleName,
   actionName,
-  actionParameters = {
-    data: {},
-  },
+  actionParameters,
   options = { debugMode: false, autoSubmit: false },
   onSuccess,
   onError,
@@ -57,6 +56,10 @@ export const useTrixtaAction = <
   if (isNullOrEmpty(actionName)) {
     throw Error('Please provide actionName parameter.');
   }
+
+  const actionParamatersRef = useRef<
+    UseTrixtaActionProps['actionParameters'] | undefined
+  >(undefined);
 
   const clearActionResponses = useCallback(() => {
     dispatch(clearTrixtaActionResponse({ roleName, actionName }));
@@ -133,19 +136,28 @@ export const useTrixtaAction = <
   );
 
   useEffect(() => {
-    if (options.autoSubmit) submitTrixtaAction(actionParameters);
+    if (options.autoSubmit) {
+      if (
+        !deequal(actionParamatersRef.current, actionParameters) ||
+        actionParamatersRef.current === undefined
+      ) {
+        actionParamatersRef.current = actionParameters;
+        submitTrixtaAction(actionParameters ?? { data: {} });
+      }
+    }
   }, [options.autoSubmit, submitTrixtaAction, actionParameters]);
 
+  const success = latestInstance ? latestInstance.response.success : false;
+  const error = latestInstance ? latestInstance.response.error : false;
   useEffect(() => {
-    if (!latestInstance) return;
     if (requestStatus === RequestStatus.SUCCESS && onSuccess) {
-      onSuccess(latestInstance.response.success);
+      onSuccess(success);
     }
 
-    if (latestInstance.response.error && onError) {
-      onError(latestInstance.response.error);
+    if (requestStatus === RequestStatus.FAILURE && onError) {
+      onError(error);
     }
-  }, [latestInstance, onError, onSuccess, clearActionResponses, requestStatus]);
+  }, [success, error, onError, onSuccess, clearActionResponses, requestStatus]);
 
   return {
     latestInstance,

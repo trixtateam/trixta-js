@@ -40,10 +40,6 @@ export const useTrixtaActionReaction = <
   TReactionResponseType,
   TReactionErrorType
 > => {
-  const { submitTrixtaAction, ...action } = useTrixtaAction<
-    TActionResponseType,
-    TActionErrorType
-  >({ ...actionProps, options: { autoSubmit }, actionParameters });
   const reaction = useTrixtaReaction<
     TInitialData,
     TReactionResponseType,
@@ -56,6 +52,11 @@ export const useTrixtaActionReaction = <
     requestForEffect: reactionProps.requestForEffect,
   });
 
+  const { submitTrixtaAction, ...action } = useTrixtaAction<
+    TActionResponseType,
+    TActionErrorType
+  >({ ...actionProps, options: { autoSubmit }, actionParameters });
+
   const hasActionResponse = action.hasResponse;
   const hasReactionResponse = reaction.hasResponse;
 
@@ -63,7 +64,7 @@ export const useTrixtaActionReaction = <
     initialData: reaction.initialData,
     hasRoleAccess: reaction.hasRoleAccess,
     isInProgress: action.isInProgress || reaction.isInProgress,
-    loading: reaction.loading,
+    loading: reaction.loading || action.loading,
     actionResponse: action.response,
     hasActionResponse,
     hasReactionResponse,

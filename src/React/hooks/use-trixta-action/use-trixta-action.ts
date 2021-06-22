@@ -7,11 +7,12 @@ import {
   clearTrixtaActionResponse,
   submitTrixtaActionResponse,
 } from '../../reduxActions/trixtaActions';
+import { makeSelectHasTrixtaRoleAccess } from '../../selectors/common';
 import {
-  makeSelectHasTrixtaRoleAccess,
+  makeSelectIsTrixtaActionReadyForRole,
   makeSelectTrixtaActionRequestStatus,
   makeSelectTrixtaActionResponseInstancesForRole,
-} from '../../selectors';
+} from '../../selectors/trixtaActions';
 import {
   trixtaDebugger,
   TrixtaDebugType,
@@ -70,6 +71,14 @@ export const useTrixtaAction = <
     selectHasRoleAccess(state, { roleName }),
   );
   const roleActionProps = { roleName, actionName } as TrixtaActionBaseProps;
+
+  const selectIsTrixtaActionReady = useMemo(
+    makeSelectIsTrixtaActionReadyForRole,
+    [],
+  );
+  const isTrixtaActionReady = useSelector<{ trixta: TrixtaState }, boolean>(
+    (state) => selectIsTrixtaActionReady(state, roleActionProps),
+  );
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectActionResponses: any = useMemo(
     makeSelectTrixtaActionResponseInstancesForRole,
@@ -119,7 +128,7 @@ export const useTrixtaAction = <
       requestEvent,
       errorEvent,
     }: submitTrixtaFunctionParameters) => {
-      if (!hasRoleAccess) return;
+      if (!hasRoleAccess || !isTrixtaActionReady) return;
 
       dispatch(
         submitTrixtaActionResponse({
@@ -132,11 +141,11 @@ export const useTrixtaAction = <
         }),
       );
     },
-    [dispatch, roleName, actionName, hasRoleAccess],
+    [dispatch, isTrixtaActionReady, roleName, actionName, hasRoleAccess],
   );
 
   useEffect(() => {
-    if (options.autoSubmit) {
+    if (options.autoSubmit && isTrixtaActionReady) {
       if (
         !deequal(actionParamatersRef.current, actionParameters) ||
         actionParamatersRef.current === undefined
@@ -145,7 +154,12 @@ export const useTrixtaAction = <
         submitTrixtaAction(actionParameters ?? { data: {} });
       }
     }
-  }, [options.autoSubmit, submitTrixtaAction, actionParameters]);
+  }, [
+    options.autoSubmit,
+    submitTrixtaAction,
+    isTrixtaActionReady,
+    actionParameters,
+  ]);
 
   const success = latestInstance ? latestInstance.response.success : false;
   const error = latestInstance ? latestInstance.response.error : false;
@@ -162,7 +176,8 @@ export const useTrixtaAction = <
   return {
     latestInstance,
     hasRoleAccess,
-    isInProgress,
+    isInProgress: isTrixtaActionReady ? isInProgress : true,
+    loading: !isTrixtaActionReady,
     hasResponse: !!latestInstance,
     clearActionResponses,
     response: latestInstance?.response,

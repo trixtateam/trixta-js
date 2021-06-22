@@ -254,6 +254,22 @@ export const makesSelectTrixtaReactionForRole = (): OutputParametricSelector<
   });
 
 /**
+ * Selects the reactions[props.roleName:props.actionName]
+ * for the given props.roleName , props.reactionName and returns true or false if it exists
+ */
+export const makesSelectIsTrixtaReactionReadyForRole = (): OutputParametricSelector<
+  {
+    trixta: TrixtaState;
+  },
+  TrixtaReactionBaseProps,
+  boolean,
+  (res: TrixtaReaction | undefined) => boolean
+> =>
+  createSelector([selectTrixtReactionStateSelector], (selectedReaction) => {
+    return selectedReaction !== undefined;
+  });
+
+/**
  * Returns the common for the props.reactionName
  */
 export const makeSelectTrixtaReactionCommonForRole = (): OutputParametricSelector<

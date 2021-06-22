@@ -146,6 +146,31 @@ describe('Trixta Selectors', () => {
       expect(selector(mockedState, props)).toEqual(expectedResult);
     });
 
+    describe('makeSelectIsTrixtaActionReadyForRole', () => {
+      it('makeSelectIsTrixtaActionReadyForRole should return true if exists', () => {
+        const selector = trixtaActionSelectors.makeSelectIsTrixtaActionReadyForRole();
+        const selectedAction = trixtaActionSelectors.selectTrixtActionStateSelector(
+          mockedState,
+          props,
+        );
+        const expectedResult = selectedAction !== undefined;
+        expect(selector(mockedState, props)).toEqual(expectedResult);
+        expect(expectedResult).toEqual(true);
+      });
+
+      it('makeSelectIsTrixtaActionReadyForRole should return false if does not exist', () => {
+        const selector = trixtaActionSelectors.makeSelectIsTrixtaActionReadyForRole();
+        props.actionName = 'nonense';
+        const selectedAction = trixtaActionSelectors.selectTrixtActionStateSelector(
+          mockedState,
+          props,
+        );
+        const expectedResult = selectedAction !== undefined;
+        expect(selector(mockedState, props)).toEqual(expectedResult);
+        expect(expectedResult).toEqual(false);
+      });
+    });
+
     describe('selectors for TrixtaAction loading status For Role', () => {
       it('makeSelectIsTrixtaActionInProgress for existing role', () => {
         const selector = trixtaActionSelectors.makeSelectIsTrixtaActionInProgress();

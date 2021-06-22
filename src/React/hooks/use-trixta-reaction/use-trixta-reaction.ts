@@ -141,21 +141,23 @@ export const useTrixtaReaction = <
     [dispatch, roleName, reactionName, hasRoleAccess, latestInstance],
   );
 
+  const success = latestInstance ? latestInstance.response.success : false;
+  const error = latestInstance ? latestInstance.response.error : false;
   useEffect(() => {
-    if (!latestInstance) return;
     if (requestStatus === RequestStatus.SUCCESS && onSuccess) {
-      onSuccess(latestInstance.response.success);
+      onSuccess(success);
     }
 
     if (requestStatus === RequestStatus.FAILURE && onError) {
-      onError(latestInstance.response.error);
+      onError(error);
     }
   }, [
-    latestInstance,
     onError,
     onSuccess,
     clearReactionResponses,
     requestStatus,
+    success,
+    error,
   ]);
 
   trixtaDebugger({

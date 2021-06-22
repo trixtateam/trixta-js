@@ -9,6 +9,7 @@ import {
   TrixtaInstanceResponse,
 } from './../../types';
 export interface TrixtaReactionComponentArgs<
+  TInitialData = DefaultUnknownType,
   TFormData = DefaultUnknownType,
   TSuccessType = DefaultUnknownType,
   TErrorType = DefaultUnknownType
@@ -16,7 +17,7 @@ export interface TrixtaReactionComponentArgs<
   dispatchSubmitReactionResponse: TrixtaDispatch<TFormData>;
   submit: TrixtaDispatch<TFormData>;
   common: TrixtaCommon;
-  data: DefaultUnknownType;
+  data: TInitialData;
   response?: TrixtaInstanceResponse<TSuccessType, TErrorType>;
-  details?: TrixtaInstanceDetails;
+  details?: TrixtaInstanceDetails<TInitialData>;
 }

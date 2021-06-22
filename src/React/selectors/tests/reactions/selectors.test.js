@@ -105,6 +105,31 @@ describe('Trixta Selectors', () => {
       expect(selector(mockedState, props)).toEqual(expectedResult);
     });
 
+    describe('makesSelectIsTrixtaReactionReadyForRole', () => {
+      it('makesSelectIsTrixtaReactionReadyForRole should return true if exists', () => {
+        const selector = trixtaReactionSelectors.makesSelectIsTrixtaReactionReadyForRole();
+        const selectedReaction = trixtaReactionSelectors.selectTrixtReactionStateSelector(
+          mockedState,
+          props,
+        );
+        const expectedResult = selectedReaction !== undefined;
+        expect(selector(mockedState, props)).toEqual(expectedResult);
+        expect(expectedResult).toEqual(true);
+      });
+
+      it('makesSelectIsTrixtaReactionReadyForRole should return false if does not exist', () => {
+        const selector = trixtaReactionSelectors.makesSelectIsTrixtaReactionReadyForRole();
+        props.reactionName = 'nonense';
+        const selectedReaction = trixtaReactionSelectors.selectTrixtReactionStateSelector(
+          mockedState,
+          props,
+        );
+        const expectedResult = selectedReaction !== undefined;
+        expect(selector(mockedState, props)).toEqual(expectedResult);
+        expect(expectedResult).toEqual(false);
+      });
+    });
+
     it('makeSelectTrixtaReactionCommonForRole', () => {
       const selector = trixtaReactionSelectors.makeSelectTrixtaReactionCommonForRole();
       const selectedReaction = trixtaReactionSelectors.selectTrixtReactionStateSelector(

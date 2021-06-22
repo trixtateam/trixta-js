@@ -1,9 +1,9 @@
 import { TrixtaActionBaseProps } from '../../../React/types/actions';
 import {
   DefaultUnknownType,
+  submitTrixtaFunctionParameters,
   TrixtaInstance,
   TrixtaInstanceResponse,
-  submitTrixtaFunctionParameters,
 } from '../../types/common';
 export interface UseTrixtaActionProps extends TrixtaActionBaseProps {
   options?: {
@@ -59,4 +59,8 @@ export interface UseTrixtaActionHookReturn<
    * If 'true', there is a Trixta action instance response
    */
   hasResponse: boolean;
+  /**
+   * If 'true',Trixta action is waiting to be loaded
+   */
+  loading: boolean;
 }

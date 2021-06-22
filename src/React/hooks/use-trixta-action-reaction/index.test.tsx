@@ -19,7 +19,9 @@ describe('useTrixtaActionReaction', () => {
       },
     );
 
-    expect(result.error).toEqual(Error('Please provide actionName parameter.'));
+    expect(result.error).toEqual(
+      Error('Please provide reactionName parameter.'),
+    );
   });
 
   it('should throw error if no reactionName parameter', () => {
@@ -249,7 +251,7 @@ describe('useTrixtaActionReaction', () => {
 
     expect(result.current.actionResponse).toBeUndefined();
     expect(result.current.hasResponse).toBe(false);
-    expect(result.current.isInProgress).toBe(false);
+    expect(result.current.loading).toBe(true);
 
     act(() => {
       result.current.submitTrixtaActionResponse({ data: {} });

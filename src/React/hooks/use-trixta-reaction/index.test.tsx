@@ -196,7 +196,7 @@ describe('useTrixtaReaction', () => {
       expect(result.current.latestResponse).toBeUndefined();
       expect(result.current.latestInstance).toBeUndefined();
       expect(result.current.hasResponse).toBe(false);
-      expect(result.current.isInProgress).toBe(false);
+      expect(result.current.isInProgress).toBe(true);
 
       act(() => {
         store.dispatch(
@@ -230,7 +230,7 @@ describe('useTrixtaReaction', () => {
       expect(result.current.latestResponse).toBeUndefined();
       expect(result.current.latestInstance).toBeUndefined();
       expect(result.current.hasResponse).toBe(false);
-      expect(result.current.isInProgress).toBe(false);
+      expect(result.current.isInProgress).toBe(true);
 
       act(() => {
         store.dispatch(
@@ -281,7 +281,7 @@ describe('useTrixtaReaction', () => {
       expect(result.current.latestResponse).toBeUndefined();
       expect(result.current.latestInstance).toBeUndefined();
       expect(result.current.hasResponse).toBe(false);
-      expect(result.current.isInProgress).toBe(false);
+      expect(result.current.isInProgress).toBe(true);
 
       act(() => {
         store.dispatch(

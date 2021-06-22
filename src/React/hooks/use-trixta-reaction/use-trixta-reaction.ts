@@ -5,12 +5,13 @@ import {
   clearTrixtaReactionResponse,
   submitTrixtaReactionResponse,
 } from '../../reduxActions/trixtaReactions';
+import { makeSelectHasTrixtaRoleAccess } from '../../selectors/common';
 import {
-  makeSelectHasTrixtaRoleAccess,
   makeSelectIsTrixtaReactionLoading,
   makeSelectTrixtaReactionRequestStatus,
   makeSelectTrixtaReactionResponseInstancesForRole,
-} from '../../selectors';
+  makesSelectIsTrixtaReactionReadyForRole,
+} from '../../selectors/trixtaReactions';
 import {
   trixtaDebugger,
   TrixtaDebugType,
@@ -75,6 +76,14 @@ export const useTrixtaReaction = <
     reactionName,
   } as TrixtaReactionBaseProps;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+  const selectIsTrixtaReactionReadyForRole: any = useMemo(
+    makesSelectIsTrixtaReactionReadyForRole,
+    [],
+  );
+  const isTrixtaReactionReady = useSelector<{ trixta: TrixtaState }, boolean>(
+    (state) => selectIsTrixtaReactionReadyForRole(state, reactionRoleProps),
+  );
   const selectReactionResponses: any = useMemo(
     makeSelectTrixtaReactionResponseInstancesForRole,
     [],
@@ -124,7 +133,7 @@ export const useTrixtaReaction = <
       ref,
       requestEvent,
     }: submitTrixtaFunctionParameters) => {
-      if (!hasRoleAccess) return;
+      if (!hasRoleAccess || !isTrixtaReactionReady) return;
 
       dispatch(
         submitTrixtaReactionResponse({
@@ -138,7 +147,14 @@ export const useTrixtaReaction = <
         }),
       );
     },
-    [dispatch, roleName, reactionName, hasRoleAccess, latestInstance],
+    [
+      dispatch,
+      roleName,
+      reactionName,
+      isTrixtaReactionReady,
+      hasRoleAccess,
+      latestInstance,
+    ],
   );
 
   const success = latestInstance ? latestInstance.response.success : false;
@@ -177,8 +193,8 @@ export const useTrixtaReaction = <
     hasRoleAccess,
     hasResponse: !!latestInstance,
     instances,
-    isInProgress,
-    loading,
+    isInProgress: isTrixtaReactionReady ? isInProgress : true,
+    loading: isTrixtaReactionReady ? loading : true,
     clearReactionResponses,
     submitTrixtaReaction,
   };

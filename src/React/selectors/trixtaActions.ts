@@ -141,6 +141,22 @@ export const makeSelectTrixtaActionCommonForRole = (): OutputParametricSelector<
   });
 
 /**
+ * Selects the actions[props.roleName:props.actionName]
+ * for the given props.roleName, props.actionName and returns true or false if it exists
+ */
+export const makeSelectIsTrixtaActionReadyForRole = (): OutputParametricSelector<
+  {
+    trixta: TrixtaState;
+  },
+  TrixtaActionBaseProps,
+  boolean,
+  (res: TrixtaAction | undefined) => boolean
+> =>
+  createSelector([selectTrixtActionStateSelector], (selectedAction) => {
+    return selectedAction !== undefined;
+  });
+
+/**
  * Selects the actions[props.roleName:props.actionName].instances for the given props.roleName,props.actionName and returns the action instances
  */
 export const makeSelectTrixtaActionResponseInstancesForRole = (): OutputParametricSelector<

@@ -5,17 +5,14 @@ import {
   SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
   SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
   UPDATE_TRIXTA_ACTION,
-  UPDATE_TRIXTA_ACTION_RESPONSE
+  UPDATE_TRIXTA_ACTION_RESPONSE,
 } from '../../constants/actions/index';
 import {
   TrixtaActionDebugOptions,
   TrixtaActionDetails,
-  TrixtaActionResponseDetails
+  TrixtaActionResponseDetails,
 } from '../../types/actions';
-import {
-  DefaultUnknownType
-} from '../../types/common';
-
+import { DefaultUnknownType } from '../../types/common';
 
 export type UpdateTrixtaActionDetailsAction = {
   type: typeof UPDATE_TRIXTA_ACTION;
@@ -52,10 +49,10 @@ export type ClearTrixtaActionRequestStatusAction = {
   };
 };
 
-export type SubmitTrixtaActionResponseAction = {
+export type SubmitTrixtaActionResponseAction<TFormData = DefaultUnknownType> = {
   type: typeof SUBMIT_TRIXTA_ACTION_RESPONSE;
   data: {
-    formData: DefaultUnknownType;
+    formData: TFormData;
     roleName: string;
     debugMode: boolean;
     clearResponse: boolean;
@@ -70,7 +67,7 @@ export type SubmitTrixtaActionResponseAction = {
 
 export type SubmitTrixtaActionResponsSuccesseAction = {
   type: typeof SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS;
-  data:any;
+  data: any;
   additionalData: {
     roleName: string;
     actionName: string;
@@ -91,7 +88,6 @@ export type SubmitTrixtaActionResponsFailureAction = {
     errorEvent?: string;
   };
 };
-
 
 export type TrixtaActionReducerActions =
   | UpdateTrixtaActionResponseAction

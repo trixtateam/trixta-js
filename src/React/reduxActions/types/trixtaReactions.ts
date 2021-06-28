@@ -6,14 +6,12 @@ import {
   SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
   TRIXTA_REACTION_RESPONSE,
   UPDATE_TRIXTA_REACTION,
-  UPDATE_TRIXTA_REACTION_RESPONSE
+  UPDATE_TRIXTA_REACTION_RESPONSE,
 } from './../../constants/reactions/index';
-import {
-  DefaultUnknownType
-} from './../../types/common';
+import { DefaultUnknownType } from './../../types/common';
 import {
   TrixtaReactionDetails,
-  TrixtaReactionResponseDetails
+  TrixtaReactionResponseDetails,
 } from './../../types/reactions';
 
 export type EmitTrixtaReactionResponseListenerEventAction<
@@ -70,10 +68,12 @@ export type ClearTrixtaReactionRequestStatusAction = {
   };
 };
 
-export type SubmitTrixtaReactionResponseAction = {
+export type SubmitTrixtaReactionResponseAction<
+  TFormData = DefaultUnknownType
+> = {
   type: typeof SUBMIT_TRIXTA_REACTION_RESPONSE;
   data: {
-    formData: DefaultUnknownType;
+    formData: TFormData;
     ref: string;
     responseEvent?: string;
     requestEvent?: string;
@@ -86,27 +86,26 @@ export type SubmitTrixtaReactionResponseAction = {
 export type SubmitTrixtaReactionResponseFailureAction = {
   type: typeof SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE;
   error: any;
-  additionalData:{
+  additionalData: {
     ref?: string;
     roleName: string;
     reactionName: string;
     responseEvent?: string;
     errorEvent?: string;
-  },
+  };
 };
 
 export type SubmitTrixtaReactionResponseSuccessAction = {
   type: typeof SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS;
-  additionalData:{
+  additionalData: {
     ref?: string;
     roleName: string;
     reactionName: string;
     responseEvent?: string;
     errorEvent?: string;
-  }
+  };
   data: any;
 };
-
 
 export type TrixtaReactionReducerActions =
   | SubmitTrixtaReactionResponseFailureAction

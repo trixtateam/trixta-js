@@ -7,7 +7,7 @@ import {
   makeSelectHasTrixtaRoleAccess,
   makeSelectIsTrixtaActionInProgress,
   makeSelectTrixtaActionCommonForRole,
-  makeSelectTrixtaActionResponseInstancesForRole,
+  makeSelectTrixtaActionResponseInstancesForRole
 } from '../../../selectors';
 import { trixtaDebugger, TrixtaDebugType } from '../../../TrixtaDebugger';
 import { TrixtaState } from '../../../types';
@@ -48,10 +48,10 @@ const TrixtaActionComponent = ({
     response: get(instances, '0.response', { success: false, error: false }),
   };
   if (!renderResponse && React.isValidElement(children)) {
-    return React.cloneElement(children, actionProps);
+    return React.cloneElement(children, { ...actionProps, ...rest });
   }
   if (!renderResponse && typeof children === 'function') {
-    return children(actionProps);
+    return children({ ...actionProps, ...rest });
   }
 
   return instances.map((_, index) => (

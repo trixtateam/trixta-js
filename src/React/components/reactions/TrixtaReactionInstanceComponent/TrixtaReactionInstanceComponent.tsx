@@ -6,13 +6,13 @@ import { submitTrixtaReactionResponse } from '../../../reduxActions';
 import { makesSelectTrixtaReactionResponseInstance } from '../../../selectors';
 import {
   TrixtaDebugType,
-  trixtaInstanceDebugger,
+  trixtaInstanceDebugger
 } from '../../../TrixtaDebugger';
 import { TrixtaInstanceResponse, TrixtaState } from '../../../types';
 import { TrixtaReactionComponentArgs } from '../types';
 import {
   TrixtaReactionInstanceComponentDispatchProps,
-  TrixtaReactionInstanceComponentProps,
+  TrixtaReactionInstanceComponentProps
 } from './types';
 const TrixtaReactionInstanceComponent = ({
   dispatchSubmitReactionResponse,
@@ -23,6 +23,7 @@ const TrixtaReactionInstanceComponent = ({
   debugMode,
   children,
   instance,
+  ...rest
 }: ConnectProps & DispatchProps & TrixtaReactionInstanceComponentProps) => {
   const response = get<TrixtaInstanceResponse>(instance, 'response', {
     success: false,
@@ -52,10 +53,10 @@ const TrixtaReactionInstanceComponent = ({
       details: instance?.details,
     };
     if (typeof children === 'function') {
-      return children(reactionProps);
+      return children({ ...reactionProps, ...rest });
     }
     if (React.isValidElement(children)) {
-      return React.cloneElement(children, reactionProps);
+      return React.cloneElement(children, { ...reactionProps, ...rest });
     }
   }
 

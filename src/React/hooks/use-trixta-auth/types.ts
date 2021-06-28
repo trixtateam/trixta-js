@@ -2,7 +2,7 @@ export interface UseTrixtaAuthHookReturn {
   /**
    * If 'true' , Trixta socket  is connected with token parameter
    */
-  isAuthenticated: boolean;
+  isAuthenticated?: boolean;
   /**
    * If 'true', Trixta roles or role name passed does have acccess for this user
    */

@@ -15,7 +15,7 @@ describe('useTrixtaAuth', () => {
     });
 
     expect(result.current.hasAccess).toBe(false);
-    expect(result.current.isAuthenticated).toBe(false);
+    expect(result.current.isAuthenticated).toBeUndefined();
     expect(result.current.hasRoles).toBe(false);
     expect(result.current.isAuthorizing).toBe(true);
   });
@@ -29,7 +29,7 @@ describe('useTrixtaAuth', () => {
     });
 
     expect(result.current.hasAccess).toBe(false);
-    expect(result.current.isAuthenticated).toBe(false);
+    expect(result.current.isAuthenticated).toBeUndefined();
     expect(result.current.hasRoles).toBe(false);
     expect(result.current.isAuthorizing).toBe(false);
   });
@@ -52,7 +52,7 @@ describe('useTrixtaAuth', () => {
     );
 
     expect(result.current.hasAccess).toBe(false);
-    expect(result.current.isAuthenticated).toBe(false);
+    expect(result.current.isAuthenticated).toBeUndefined();
     expect(result.current.hasRoles).toBe(false);
     expect(result.current.isAuthorizing).toBe(true);
   });
@@ -76,7 +76,7 @@ describe('useTrixtaAuth', () => {
     );
 
     expect(result.current.hasAccess).toBe(false);
-    expect(result.current.isAuthenticated).toBe(false);
+    expect(result.current.isAuthenticated).toBeUndefined();
     expect(result.current.hasRoles).toBe(true);
     expect(result.current.isAuthorizing).toBe(false);
   });
@@ -99,7 +99,7 @@ describe('useTrixtaAuth', () => {
     );
 
     expect(result.current.hasAccess).toBe(false);
-    expect(result.current.isAuthenticated).toBe(false);
+    expect(result.current.isAuthenticated).toBeUndefined();
     expect(result.current.hasRoles).toBe(true);
     expect(result.current.isAuthorizing).toBe(false);
   });
@@ -114,6 +114,20 @@ describe('useTrixtaAuth', () => {
 
     expect(result.current.hasAccess).toBe(false);
     expect(result.current.isAuthenticated).toBe(true);
+    expect(result.current.hasRoles).toBe(false);
+    expect(result.current.isAuthorizing).toBe(true);
+  });
+
+  it('should return isAuthenticated false', () => {
+    const { wrapper } = storeProviderWrapper(mockDefaultTrixtaState({}), {
+      details: { id: 'userId' },
+    });
+    const { result } = renderHook(() => useTrixtaAuth({}), {
+      wrapper,
+    });
+
+    expect(result.current.hasAccess).toBe(false);
+    expect(result.current.isAuthenticated).toBe(false);
     expect(result.current.hasRoles).toBe(false);
     expect(result.current.isAuthorizing).toBe(true);
   });

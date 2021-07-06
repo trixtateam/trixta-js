@@ -1,20 +1,4 @@
-import { DefaultUnknownType } from '../../../types';
-import {
-  TrixtaCommon,
-  TrixtaReactionBaseProps,
-  TrixtaReactionInstance,
-} from '../../../types';
-
-export interface TrixtaReactionComponentStateProps<
-  TInitialData = DefaultUnknownType
-> extends TrixtaReactionBaseProps {
-  common: TrixtaCommon;
-  instances: TrixtaReactionInstance<TInitialData>[];
-  /**
-   * If 'true', Trixta roles or role name passed does have acccess for this user
-   */
-  hasRoleAccess: boolean;
-}
+import { TrixtaReactionBaseProps } from '../../../types';
 
 export interface TrixtaReactionComponentProps extends TrixtaReactionBaseProps {
   /**

@@ -10,10 +10,7 @@ import {
 } from '../../../TrixtaDebugger';
 import { TrixtaInstanceResponse, TrixtaState } from '../../../types';
 import { TrixtaReactionComponentArgs } from '../types';
-import {
-  TrixtaReactionInstanceComponentDispatchProps,
-  TrixtaReactionInstanceComponentProps,
-} from './types';
+import { TrixtaReactionInstanceComponentProps } from './types';
 const TrixtaReactionInstanceComponent = ({
   dispatchSubmitReactionResponse,
   roleName,
@@ -80,9 +77,9 @@ const makeMapStateToProps = () => {
 function mapDispatchToProps(
   dispatch: Dispatch,
   ownProps: TrixtaReactionInstanceComponentProps,
-): TrixtaReactionInstanceComponentDispatchProps {
+) {
   return {
-    dispatchSubmitReactionResponse: (formData) =>
+    dispatchSubmitReactionResponse: (formData: unknown) =>
       dispatch(
         submitTrixtaReactionResponse({
           formData,
@@ -100,12 +97,7 @@ function mapDispatchToProps(
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 type ConnectProps = ReturnType<ReturnType<typeof makeMapStateToProps>>;
 
-const connector = connect<
-  ConnectProps,
-  DispatchProps,
-  TrixtaReactionInstanceComponentProps,
-  { trixta: TrixtaState }
->(makeMapStateToProps, mapDispatchToProps);
+const connector = connect(makeMapStateToProps, mapDispatchToProps);
 
 export default connector(
   React.memo(

@@ -1,16 +1,5 @@
-import {
-  TrixtaActionBaseProps,
-  TrixtaInstance,
-  TrixtaInstanceResponse,
-} from '../../../types';
+import { TrixtaActionBaseProps, TrixtaInstance } from '../../../types';
 
-export interface TrixtaActionInstanceComponentStateProps
-  extends TrixtaActionBaseProps {
-  /**
-   * Response for Trixta action instance
-   */
-  response?: false | Record<string, TrixtaInstanceResponse>;
-}
 export interface TrixtaActionInstanceComponentProps
   extends TrixtaActionBaseProps {
   instanceIndex: number;

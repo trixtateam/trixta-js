@@ -1,27 +1,8 @@
 import {
   TrixtaActionBaseProps,
   TrixtaActionDebugOptions,
-  TrixtaCommon,
-  TrixtaDispatch,
-  TrixtaInstance,
 } from '../../../types';
 
-export interface TrixtaActionComponentStateProps extends TrixtaActionBaseProps {
-  common: TrixtaCommon;
-  instances: TrixtaInstance[];
-  /**
-   * If 'true', Trixta roles or role name passed does have acccess for this user
-   */
-  hasRoleAccess: boolean;
-  /**
-   * If 'true', Trixta is waiting for response
-   */
-  loading: boolean;
-}
-
-export interface TrixtaActionComponentDispatchProps {
-  dispatchSubmitActionResponse: TrixtaDispatch;
-}
 export interface TrixtaActionComponentProps extends TrixtaActionBaseProps {
   /**
    * If 'true', will render the Trixta action response instances

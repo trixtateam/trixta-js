@@ -1,16 +1,5 @@
-import { TrixtaReactionDispatch, TrixtaReactionInstance } from '../../../types';
+import { TrixtaReactionDispatch } from '../../../types';
 import { DefaultUnknownType } from './../../../types';
-import { TrixtaReactionBaseProps } from './../../../types/reactions/index';
-
-export interface RespondToReactionComponentStateProps<
-  TInitialData = DefaultUnknownType
-> extends TrixtaReactionBaseProps {
-  instances: TrixtaReactionInstance<TInitialData>[];
-  /**
-   * If 'true', Trixta roles or role name passed does have acccess for this user
-   */
-  hasRoleAccess: boolean;
-}
 
 export interface RespondToReactionComponentProps<
   TInitialData = DefaultUnknownType

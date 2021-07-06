@@ -15,7 +15,7 @@ import { TrixtaActionInstanceComponent } from '../TrixtaActionInstanceComponent'
 import { TrixtaActionComponentArgs } from '../types';
 import { TrixtaActionComponentProps } from './types';
 
-const TrixtaActionComponent = ({
+function TrixtaActionComponent({
   dispatchSubmitActionResponse,
   common,
   instances,
@@ -27,7 +27,7 @@ const TrixtaActionComponent = ({
   children,
   debugMode = false,
   ...rest
-}: TrixtaActionComponentProps & DispatchProps & ConnectProps) => {
+}: TrixtaActionComponentProps & DispatchProps & ConnectProps) {
   trixtaDebugger({
     type: TrixtaDebugType.Action,
     debugMode,
@@ -67,7 +67,7 @@ const TrixtaActionComponent = ({
       {children && children}
     </TrixtaActionInstanceComponent>
   ));
-};
+}
 
 const makeMapStateToProps = () => {
   const getTrixtaCommonForRole = makeSelectTrixtaActionCommonForRole();
@@ -115,10 +115,5 @@ function mapDispatchToProps(
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 type ConnectProps = ReturnType<ReturnType<typeof makeMapStateToProps>>;
 
-const connector = connect<
-  ConnectProps,
-  DispatchProps,
-  TrixtaActionComponentProps,
-  { trixta: TrixtaState }
->(makeMapStateToProps, mapDispatchToProps);
+const connector = connect(makeMapStateToProps, mapDispatchToProps);
 export default connector(TrixtaActionComponent);

@@ -8,7 +8,7 @@ import {
 import { TrixtaState } from '../../../types';
 import { TrixtaActionInstanceComponentProps } from './types';
 
-const TrixtaActionInstanceComponent = ({
+function TrixtaActionInstanceComponent({
   response,
   actionName,
   roleName,
@@ -16,7 +16,7 @@ const TrixtaActionInstanceComponent = ({
   debugMode = false,
   children,
   ...props
-}: TrixtaActionInstanceComponentProps & ConnectProps) => {
+}: TrixtaActionInstanceComponentProps & ConnectProps) {
   trixtaInstanceDebugger({
     type: TrixtaDebugType.Action,
     debugMode,
@@ -33,7 +33,7 @@ const TrixtaActionInstanceComponent = ({
   if (typeof children === 'function') {
     return children(actionProps);
   }
-};
+}
 
 const makeMapStateToProps = () => {
   const getTrixtaActionResponseInstance = makesSelectTrixtaActionResponseInstance();
@@ -50,10 +50,5 @@ const makeMapStateToProps = () => {
 
 type ConnectProps = ReturnType<ReturnType<typeof makeMapStateToProps>>;
 
-const connector = connect<
-  ConnectProps,
-  Record<string, unknown>,
-  TrixtaActionInstanceComponentProps,
-  { trixta: TrixtaState }
->(makeMapStateToProps);
+const connector = connect(makeMapStateToProps);
 export default connector(TrixtaActionInstanceComponent);

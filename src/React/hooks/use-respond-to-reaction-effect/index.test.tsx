@@ -65,7 +65,10 @@ describe('useRespondToReactionEffect', () => {
     const { wrapper, store } = mockStoreProviderWrapper(trixtaState);
     const roleName = trixtaState.agentDetails[1];
     const reactionName = 'new_waitroom_status';
-    const actionToDispatch = (data: any) => ({ type: 'TEST_ACTION', data });
+    const actionToDispatch = (payload: any) => ({
+      type: 'TEST_ACTION',
+      payload,
+    });
     const initialReactionData =
       trixtaState.reactions[
         'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]:new_waitroom_status'
@@ -97,7 +100,7 @@ describe('useRespondToReactionEffect', () => {
       ].instances.requestForEffect[0].details.initial_data;
     const expectedActionPayload = {
       type: 'TEST_ACTION',
-      data: initialReactionData,
+      payload: initialReactionData,
     };
     const {} = renderHook(
       () =>

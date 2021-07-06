@@ -1,9 +1,18 @@
-
 import { AnyAction } from 'redux';
-import { DefaultUnknownType, LoadingStatus, RequestStatus, TrixtaBaseRoleProps, TrixtaCommon, TrixtaInstanceMode, TrixtaReactionInstance } from '../common';
-export type TrixtaReactionType ='requestForEffect'|'requestForResponse';
+import {
+  DefaultUnknownType,
+  LoadingStatus,
+  RequestStatus,
+  TrixtaBaseRoleProps,
+  TrixtaCommon,
+  TrixtaInstanceMode,
+  TrixtaReactionInstance,
+} from '../common';
+export type TrixtaReactionType = 'requestForEffect' | 'requestForResponse';
 
-export interface TrixtaReactionResponseDetails<TInitialData = DefaultUnknownType> {
+export interface TrixtaReactionResponseDetails<
+  TInitialData = DefaultUnknownType
+> {
   id?: string;
   settings?: unknown;
   errorEvent?: string;
@@ -18,10 +27,9 @@ export interface TrixtaReactionResponseDetails<TInitialData = DefaultUnknownType
   dateCreated?: string;
 }
 
-export interface TrixtaReactionDetails extends TrixtaCommon {
-}
+export interface TrixtaReactionDetails extends TrixtaCommon {}
 
-export interface TrixtaReactionDispatch<TInitialData =DefaultUnknownType> {
+export interface TrixtaReactionDispatch<TInitialData = DefaultUnknownType> {
   /**
    * Name of Trixta reaction
    */
@@ -32,10 +40,12 @@ export interface TrixtaReactionDispatch<TInitialData =DefaultUnknownType> {
   requestForEffect?: boolean;
 
   /**
-   * Redux Action creator function to pass data to from Trixta reaction response
+   * Redux Action creator function to pass payload to ,from Trixta reaction response
    */
   // eslint-disable-next-line @typescript-eslint/ban-types
-  actionToDispatch?: (data: TInitialData) => AnyAction;
+  actionToDispatch?: (
+    payload: TInitialData,
+  ) => { type: string; payload: TInitialData };
   /**
    * Redux Action event to pass data to from Trixta reaction response
    * [see Redux `dispatch` documentation for complete info](https://redux.js.org/api/store#dispatchaction)
@@ -81,11 +91,11 @@ export interface TrixtaReaction {
   common: TrixtaCommon;
   mode: TrixtaInstanceMode;
   loadingStatus: LoadingStatus;
-  requestStatus:RequestStatus;
+  requestStatus: RequestStatus;
   instances: {
-        requestForEffect: TrixtaReactionInstance[];
-        requestForResponse: TrixtaReactionInstance[];
-      };
+    requestForEffect: TrixtaReactionInstance[];
+    requestForResponse: TrixtaReactionInstance[];
+  };
 }
 
 export interface TrixtaReactionBaseProps extends TrixtaBaseRoleProps {

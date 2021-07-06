@@ -23,7 +23,7 @@ import { listenForTrixtaReactionResponse } from '@trixta/trixta-js';
  */
 export default function* checkReactionSaga({meta, reactionDetails}) {
   if(meta.reactionName === 'name of Trixta reaction'){
-    yield put({type:'EXAMPLE',data: reactionDetails.initial_data });
+    yield put({type:'EXAMPLE',payload: reactionDetails.initial_data });
   }
 }
 
@@ -46,7 +46,7 @@ export const EXAMPLE_RESPONSE = 'app/EXAMPLE_RESPONSE';
 
 export const getResponse(response) => ({
   type: EXAMPLE_RESPONSE,
-  data: response,
+  payload: response,
 })
 ```
 

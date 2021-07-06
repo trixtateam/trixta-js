@@ -16,7 +16,7 @@ import { DefaultUnknownType } from '../../types/common';
 
 export type UpdateTrixtaActionDetailsAction = {
   type: typeof UPDATE_TRIXTA_ACTION;
-  data: {
+  payload: {
     keyName: string;
     trixtaAction: TrixtaActionDetails;
   };
@@ -24,7 +24,7 @@ export type UpdateTrixtaActionDetailsAction = {
 
 export type UpdateTrixtaActionResponseAction = {
   type: typeof UPDATE_TRIXTA_ACTION_RESPONSE;
-  data: {
+  payload: {
     clearResponse: boolean;
     roleName: string;
     actionName: string;
@@ -35,7 +35,7 @@ export type UpdateTrixtaActionResponseAction = {
 
 export type ClearTrixtaActionResponseAction = {
   type: typeof CLEAR_TRIXTA_ACTION_RESPONSE;
-  data: {
+  payload: {
     roleName: string;
     actionName: string;
   };
@@ -43,7 +43,7 @@ export type ClearTrixtaActionResponseAction = {
 
 export type ClearTrixtaActionRequestStatusAction = {
   type: typeof CLEAR_TRIXTA_ACTION_REQUEST_STATUS;
-  data: {
+  payload: {
     roleName: string;
     actionName: string;
   };
@@ -51,7 +51,7 @@ export type ClearTrixtaActionRequestStatusAction = {
 
 export type SubmitTrixtaActionResponseAction<TFormData = DefaultUnknownType> = {
   type: typeof SUBMIT_TRIXTA_ACTION_RESPONSE;
-  data: {
+  payload: {
     formData: TFormData;
     roleName: string;
     debugMode: boolean;

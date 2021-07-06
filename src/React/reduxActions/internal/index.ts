@@ -36,7 +36,7 @@ export function updateTrixtaReactionResponse({
 }): UpdateTrixtaReactionResponseAction {
   return {
     type: UPDATE_TRIXTA_REACTION_RESPONSE,
-    data: {
+    payload: {
       roleName,
       reactionName,
       reactionResponse,
@@ -70,7 +70,7 @@ export function emitTrixtaReactionResponseListenerEvent<
   return {
     type: emitTrixtaReactionResponse({ roleName, reactionName }),
     meta: { roleName, reactionName },
-    data: {
+    payload: {
       reactionDetails,
     },
   };
@@ -95,7 +95,7 @@ export function updateTrixtaReaction({
 }): UpdateTrixtaReactionDetailsAction {
   return {
     type: UPDATE_TRIXTA_REACTION,
-    data: {
+    payload: {
       keyName: getReducerKeyName({
         name,
         role,
@@ -124,7 +124,7 @@ export function updateTrixtaAction({
 }): UpdateTrixtaActionDetailsAction {
   return {
     type: UPDATE_TRIXTA_ACTION,
-    data: {
+    payload: {
       keyName: getReducerKeyName({
         name,
         role,

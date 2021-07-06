@@ -6,10 +6,10 @@ import {
   makeSelectHasTrixtaRoleAccess,
   makeSelectTrixtaReactionResponseInstancesForRole,
 } from '../../../selectors';
-import { TrixtaState } from '../../../types';
+import { DefaultUnknownType, TrixtaState } from '../../../types';
 import { RespondToReactionComponentProps } from './types';
 
-function RespondToReactionComponent({
+function RespondToReactionComponent<TInitialData = DefaultUnknownType>({
   roleName,
   reactionName,
   requestForEffect = true,
@@ -19,7 +19,7 @@ function RespondToReactionComponent({
   shouldRespond = true,
   actionToDispatch = undefined,
   dispatchResponseTo,
-}: RespondToReactionComponentProps & ConnectProps) {
+}: RespondToReactionComponentProps<TInitialData> & ConnectProps) {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,11 +30,15 @@ function RespondToReactionComponent({
       if (dispatchResponseTo) {
         dispatch({
           type: dispatchResponseTo,
-          data: latestInstance?.details?.initial_data,
+          payload: latestInstance?.details?.initial_data,
         });
       }
       if (actionToDispatch) {
-        dispatch(actionToDispatch(latestInstance?.details?.initial_data));
+        dispatch(
+          actionToDispatch(
+            latestInstance?.details?.initial_data as TInitialData,
+          ),
+        );
       }
       const isRequestForEffect =
         requestForEffect === undefined && requestForEffect !== false

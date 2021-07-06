@@ -64,7 +64,7 @@ describe('Trixta redux Actions', () => {
         parameters = { roles: [{ name: 'test' }, { name: 'user' }] };
         expectedResult = {
           type: UPDATE_TRIXTA_ROLES,
-          data: {
+          payload: {
             roles: [{ name: 'test' }, { name: 'user' }],
           },
         };
@@ -84,7 +84,7 @@ describe('Trixta redux Actions', () => {
         };
         expectedResult = {
           type: CLEAR_TRIXTA_ACTION_RESPONSE,
-          data: {
+          payload: {
             roleName,
             actionName,
           },
@@ -117,7 +117,7 @@ describe('Trixta redux Actions', () => {
         };
         expectedResult = {
           type: UPDATE_TRIXTA_ACTION,
-          data: {
+          payload: {
             keyName: getReducerKeyName({
               name: actionName,
               role: roleName,
@@ -145,7 +145,7 @@ describe('Trixta redux Actions', () => {
         };
         expectedResult = {
           type: SUBMIT_TRIXTA_ACTION_RESPONSE,
-          data: {
+          payload: {
             formData,
             roleName,
             actionName,
@@ -186,7 +186,7 @@ describe('Trixta redux Actions', () => {
         };
         expectedResult = {
           type: UPDATE_TRIXTA_REACTION_RESPONSE,
-          data: {
+          payload: {
             roleName,
             reactionName,
             reactionResponse,
@@ -212,7 +212,7 @@ describe('Trixta redux Actions', () => {
         };
         expectedResult = {
           type: CLEAR_TRIXTA_REACTION_RESPONSE,
-          data: {
+          payload: {
             roleName,
             reactionName,
           },
@@ -253,7 +253,7 @@ describe('Trixta redux Actions', () => {
         };
         expectedResult = {
           type: UPDATE_TRIXTA_REACTION,
-          data: {
+          payload: {
             keyName: getReducerKeyName({
               name: reactionName,
               role: roleName,
@@ -281,7 +281,7 @@ describe('Trixta redux Actions', () => {
         };
         expectedResult = {
           type: SUBMIT_TRIXTA_REACTION_RESPONSE,
-          data: {
+          payload: {
             formData,
             ref,
             roleName,

@@ -22,14 +22,14 @@ export type EmitTrixtaReactionResponseListenerEventAction<
     roleName: string;
     reactionName: string;
   };
-  data: {
+  payload: {
     reactionDetails: TrixtaReactionResponseDetails<TInitialData>;
   };
 };
 
 export type UpdateTrixtaReactionResponseAction = {
   type: typeof UPDATE_TRIXTA_REACTION_RESPONSE;
-  data: {
+  payload: {
     roleName: string;
     reactionName: string;
     reactionResponse: TrixtaReactionResponseDetails;
@@ -46,7 +46,7 @@ export type IncomingTrixtaReactionAction = {
 
 export type UpdateTrixtaReactionDetailsAction = {
   type: typeof UPDATE_TRIXTA_REACTION;
-  data: {
+  payload: {
     keyName: string;
     trixtaReaction: TrixtaReactionDetails;
   };
@@ -54,7 +54,7 @@ export type UpdateTrixtaReactionDetailsAction = {
 
 export type ClearTrixtaReactionResponseAction = {
   type: typeof CLEAR_TRIXTA_REACTION_RESPONSE;
-  data: {
+  payload: {
     roleName: string;
     reactionName: string;
   };
@@ -62,7 +62,7 @@ export type ClearTrixtaReactionResponseAction = {
 
 export type ClearTrixtaReactionRequestStatusAction = {
   type: typeof CLEAR_TRIXTA_REACTION_REQUEST_STATUS;
-  data: {
+  payload: {
     roleName: string;
     reactionName: string;
   };
@@ -72,7 +72,7 @@ export type SubmitTrixtaReactionResponseAction<
   TFormData = DefaultUnknownType
 > = {
   type: typeof SUBMIT_TRIXTA_REACTION_RESPONSE;
-  data: {
+  payload: {
     formData: TFormData;
     ref: string;
     responseEvent?: string;

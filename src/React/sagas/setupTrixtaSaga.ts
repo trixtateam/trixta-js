@@ -71,12 +71,12 @@ import {
  * and leaves the phoenix channel for the given role
  *
  * @param {Object} params
- * @param {Object} params.data
- * @param {Array} params.data.role
+ * @param {Object} params.payload
+ * @param {Array} params.payload.role
  * @returns {IterableIterator<*>}
  */
-function* removeTrixtaRoleSaga({ data }: RemoveTrixtaRoleAction) {
-  const role = get<TrixtaRole>(data, 'role');
+function* removeTrixtaRoleSaga({ payload }: RemoveTrixtaRoleAction) {
+  const role = get<TrixtaRole>(payload, 'role');
   try {
     if (!isNullOrEmpty(role)) {
       const channelTopic = getChannelName({ role: role.name });
@@ -225,36 +225,38 @@ export function* setupTrixtaReactionForRole({
 /**
  * When submitTrixtaActionResponse is called  for the given role action
  * @param {Object} params
- * @param {Object} params.data
- * @param {String} params.data.roleName - name of role
- * @param {String} params.data.actionName - name of action
- * @param {Object} params.data.formData - form data to submit
+ * @param {Object} params.payload
+ * @param {String} params.payload.roleName - name of role
+ * @param {String} params.payload.actionName - name of action
+ * @param {Object} params.payload.formData - form data to submit
  * @param {Boolean=} [params.clearResponse = false] params.clearResponse - determines if the instances for action should be cleared before submitting
  * @param {String=} [params.responseEvent = undefined] params.responseEvent - event for data to dispatch to on trixta action response
  * @param {String=} [params.requestEvent = undefined] params.requestEvent - event for data to dispatch to on trixta action before submitting to trixta
  * @param {String=} [params.errorEvent = undefined] params.errorEvent - event for error to dispatch to on trixta action error response
  */
-function* submitActionResponseSaga({ data }: SubmitTrixtaActionResponseAction) {
+function* submitActionResponseSaga({
+  payload,
+}: SubmitTrixtaActionResponseAction) {
   try {
-    const roleName = data.roleName;
-    const responseEvent = data.responseEvent;
-    const errorEvent = data.errorEvent;
-    const requestEvent = data.requestEvent;
-    const clearResponse = data.clearResponse;
-    const actionName = data.actionName;
-    const formData = data.formData;
-    const debugMode = data.debugMode;
-    const debugOptions = data.debugOptions;
+    const roleName = payload.roleName;
+    const responseEvent = payload.responseEvent;
+    const errorEvent = payload.errorEvent;
+    const requestEvent = payload.requestEvent;
+    const clearResponse = payload.clearResponse;
+    const actionName = payload.actionName;
+    const formData = payload.formData;
+    const debugMode = payload.debugMode;
+    const debugOptions = payload.debugOptions;
     const actionOptions = get<
-      SubmitTrixtaActionResponseAction['data']['actionOptions']
-    >(data, 'actionOptions', {});
+      SubmitTrixtaActionResponseAction['payload']['actionOptions']
+    >(payload, 'actionOptions', {});
     const options = debugMode
       ? { debug: true, ...debugOptions, ...actionOptions }
       : { ...actionOptions };
 
     const channelTopic = getChannelName({ role: roleName });
     if (requestEvent) {
-      yield put({ type: requestEvent, payload: data });
+      yield put({ type: requestEvent, payload });
     }
     yield put(getPhoenixChannel({ channelTopic }));
     yield put(
@@ -294,7 +296,7 @@ function* submitActionResponseSuccess({
 }: SubmitTrixtaActionResponsSuccesseAction) {
   const responseEvent = additionalData.responseEvent;
   if (responseEvent) {
-    yield put({ type: responseEvent, data });
+    yield put({ type: responseEvent, payload: data });
   }
 }
 
@@ -318,7 +320,7 @@ function* submitActionResponseFailure({
 }
 
 /**
- * Checks the reaction response and updates the reactions[roleName][reactionName] reducer
+ * Checks the reaction response from phoenix-to-redux and updates the reactions[roleName][reactionName] reducer
  * accordingly. If you need to update data somewhere in the reducer based on a reaction, should
  * be done here
  * @param data
@@ -354,7 +356,9 @@ function* checkReactionResponseSaga({
 
 /**
  * Create listening channels for all reactions for the selected role
- * @param data
+ * @param {Object} params
+ * @param {Array} params.reactionsForRole
+ * @param {String} params.roleChannel
  * @returns {IterableIterator<*>}
  */
 function* addReactionListenersForRoleChannelSaga({
@@ -380,7 +384,9 @@ function* addReactionListenersForRoleChannelSaga({
 
 /**
  * Joins the role channel for the reaction and listens on REACTION_RESPONSE
- * @param data
+ * @param {Object} params
+ * @param {String} params.roleChannel
+ * @param {String} params.reactionName
  * @returns {IterableIterator<*>}
  */
 function* addRoleListeningReactionRequestSaga({
@@ -412,30 +418,30 @@ function* addRoleListeningReactionRequestSaga({
 /**
  * When submitTrixtaReactionResponse is called for the given role reaction
  * @param {Object} params
- * @param {Object} params.data
- * @param {String} params.data.roleName - name of role
- * @param {String} params.data.reactionName - name of reaction
- * @param {Object} params.data.formData - form data to submit
- * @param {Object} params.data.ref - ref for the reaction
+ * @param {Object} params.payload
+ * @param {String} params.payload.roleName - name of role
+ * @param {String} params.payload.reactionName - name of reaction
+ * @param {Object} params.payload.formData - form data to submit
+ * @param {Object} params.payload.ref - ref for the reaction
  * @param {String=} [params.responseEvent = undefined] params.responseEvent - event for data to dispatch to on trixta reaction response
  * @param {String=} [params.requestEvent = undefined] params.requestEvent - event for data to dispatch to on trixta reaction before submitting to trixta
  * @param {String=} [params.errorEvent = undefined] params.errorEvent - event for error to dispatch to on trixta reaction error response
  */
 function* submitResponseForReactionSaga({
-  data,
+  payload,
 }: SubmitTrixtaReactionResponseAction) {
   try {
-    const roleName = data.roleName;
-    const responseEvent = data.responseEvent;
-    const errorEvent = data.errorEvent;
-    const requestEvent = data.requestEvent;
-    const reactionName = data.reactionName;
-    const formData = data.formData;
-    const ref = data.ref;
+    const roleName = payload.roleName;
+    const responseEvent = payload.responseEvent;
+    const errorEvent = payload.errorEvent;
+    const requestEvent = payload.requestEvent;
+    const reactionName = payload.reactionName;
+    const formData = payload.formData;
+    const ref = payload.ref;
     const channelTopic = getChannelName({ role: roleName });
     yield put(getPhoenixChannel({ channelTopic }));
     if (requestEvent) {
-      yield put({ type: requestEvent, payload: data });
+      yield put({ type: requestEvent, payload });
     }
     yield put(
       pushToPhoenixChannel({
@@ -501,7 +507,7 @@ function* submitReactionResponseSuccess({
       ? additionalData.responseEvent
       : undefined;
   if (responseEvent) {
-    yield put({ type: responseEvent, data });
+    yield put({ type: responseEvent, payload: data });
   }
 }
 
@@ -548,7 +554,7 @@ function* watchForUpdateTrixtaRoles() {
     const action: UpdateTrixtaRolesAction = yield take<UpdateTrixtaRolesAction>(
       UPDATE_TRIXTA_ROLES,
     );
-    yield fork(checkTrixtaRolesSaga, action.data);
+    yield fork(checkTrixtaRolesSaga, action.payload);
   }
 }
 
@@ -557,7 +563,7 @@ function* watchForUpdateTrixtaRole() {
     const action: UpdateTrixtaRoleAction = yield take<UpdateTrixtaRoleAction>(
       UPDATE_TRIXTA_ROLE,
     );
-    const { role } = action.data;
+    const { role } = action.payload;
     yield fork(checkTrixtaRolesSaga, {
       roles: [{ ...role }],
     });

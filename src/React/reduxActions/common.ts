@@ -56,7 +56,7 @@ export function updateTrixtaRoles({
 }): UpdateTrixtaRolesAction {
   return {
     type: UPDATE_TRIXTA_ROLES,
-    data: {
+    payload: {
       roles,
     },
   };
@@ -75,7 +75,7 @@ export function joinTrixtaRole({
 }): JoinTrixtaRoleAction {
   return {
     type: JOIN_TRIXTA_ROLE,
-    data: {
+    payload: {
       roleName,
     },
   };
@@ -94,7 +94,7 @@ export function updateTrixtaRole({
 }: TrixtaRoleParameter): UpdateTrixtaRoleAction {
   return {
     type: UPDATE_TRIXTA_ROLE,
-    data: {
+    payload: {
       role: {
         name,
         logPresence,
@@ -116,7 +116,7 @@ export function removeTrixtaRole({
 }): RemoveTrixtaRoleAction {
   return {
     type: REMOVE_TRIXTA_ROLE,
-    data: {
+    payload: {
       role: {
         name,
       },

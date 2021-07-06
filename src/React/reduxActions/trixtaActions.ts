@@ -43,7 +43,7 @@ export function submitTrixtaActionResponse<TFormData extends unknown>({
 }: SubmitTrixtaActionResponse<TFormData>): SubmitTrixtaActionResponseAction {
   return {
     type: SUBMIT_TRIXTA_ACTION_RESPONSE,
-    data: {
+    payload: {
       formData,
       roleName,
       debugMode,
@@ -76,7 +76,7 @@ export function clearTrixtaActionResponse({
 }): ClearTrixtaActionResponseAction {
   return {
     type: CLEAR_TRIXTA_ACTION_RESPONSE,
-    data: {
+    payload: {
       roleName,
       actionName,
     },
@@ -105,7 +105,7 @@ export function clearTrixtaActionRequestStatus({
 }): ClearTrixtaActionRequestStatusAction {
   return {
     type: CLEAR_TRIXTA_ACTION_REQUEST_STATUS,
-    data: {
+    payload: {
       roleName,
       actionName,
     },

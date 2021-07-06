@@ -62,30 +62,30 @@ describe('trixtaReducer', () => {
 
   it('should handle the joinTrixtaRole action correctly', () => {
     const nameOfRole = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]';
-    const action = { data: { roleName: nameOfRole } };
+    const action = { payload: { roleName: nameOfRole } };
     state = trixtaState;
     const expectedResult = produce<TrixtaState>(state, (draft) => {
       draft.authorizationStarted = true;
-      const roleName = action.data.roleName;
+      const roleName = action.payload.roleName;
       const index = draft.agentDetails.findIndex((role) => role === roleName);
       if (index === -1) {
         draft.agentDetails.push(roleName);
       }
       delete draft.authorizingStatus[roleName];
     });
-    expect(trixtaReducer(state, actions.joinTrixtaRole(action.data))).toEqual(
-      expectedResult,
-    );
+    expect(
+      trixtaReducer(state, actions.joinTrixtaRole(action.payload)),
+    ).toEqual(expectedResult);
     expect(expectedResult.authorizingStatus[nameOfRole]).toEqual(undefined);
     expect(expectedResult.agentDetails).toContain(nameOfRole);
   });
 
   it('should handle the updateTrixtaRole action correctly', () => {
     const nameOfRole = 'everyone_anon';
-    const action = { data: { role: { name: nameOfRole } } };
+    const action = { payload: { role: { name: nameOfRole } } };
     state = trixtaState;
     const expectedResult = produce<TrixtaState>(state, (draft) => {
-      const roleName = action.data.role.name;
+      const roleName = action.payload.role.name;
       if (roleName) {
         const index = draft.agentDetails.findIndex((role) => role === roleName);
         if (index === -1) {
@@ -94,7 +94,7 @@ describe('trixtaReducer', () => {
       }
     });
     expect(
-      trixtaReducer(state, actions.updateTrixtaRole(action.data.role)),
+      trixtaReducer(state, actions.updateTrixtaRole(action.payload.role)),
     ).toEqual(expectedResult);
     expect(expectedResult.authorizingStatus[nameOfRole]).toEqual({
       status: true,
@@ -103,7 +103,7 @@ describe('trixtaReducer', () => {
 
   it('should handle the updateTrixtaRoles action correctly', () => {
     const action = {
-      data: {
+      payload: {
         roles: [
           { name: 'everyone_anon' },
           { name: 'everyone_authed' },
@@ -113,7 +113,7 @@ describe('trixtaReducer', () => {
     };
     state = trixtaState;
     const expectedResult = produce<TrixtaState>(state, (draft) => {
-      action.data.roles.forEach(({ name }) => {
+      action.payload.roles.forEach(({ name }) => {
         const index = draft.agentDetails.findIndex((role) => role === name);
         if (index === -1) {
           draft.authorizingStatus[name] = { status: true };
@@ -123,26 +123,26 @@ describe('trixtaReducer', () => {
     expect(
       trixtaReducer(
         state,
-        actions.updateTrixtaRoles({ roles: action.data.roles }),
+        actions.updateTrixtaRoles({ roles: action.payload.roles }),
       ),
     ).toEqual(expectedResult);
     expect(
-      expectedResult.authorizingStatus[action.data.roles[0].name],
+      expectedResult.authorizingStatus[action.payload.roles[0].name],
     ).toEqual({ status: true });
-    expect(expectedResult.authorizingStatus[action.data.roles[1].name]).toEqual(
-      undefined,
-    );
-    expect(expectedResult.authorizingStatus[action.data.roles[2].name]).toEqual(
-      undefined,
-    );
+    expect(
+      expectedResult.authorizingStatus[action.payload.roles[1].name],
+    ).toEqual(undefined);
+    expect(
+      expectedResult.authorizingStatus[action.payload.roles[2].name],
+    ).toEqual(undefined);
   });
 
   it('should handle the removeTrixtaRole action correctly', () => {
     const nameOfRole = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]';
-    const action = { data: { role: { name: nameOfRole } } };
+    const action = { payload: { role: { name: nameOfRole } } };
     state = trixtaState;
     const expectedResult = produce<TrixtaState>(state, (draft) => {
-      const roleName = action.data.role.name;
+      const roleName = action.payload.role.name;
       const index = draft.agentDetails.findIndex((role) => role === roleName);
       delete draft.authorizingStatus[roleName];
       if (index !== -1) draft.agentDetails.splice(index, 1);
@@ -156,7 +156,7 @@ describe('trixtaReducer', () => {
       );
     });
     expect(
-      trixtaReducer(state, actions.removeTrixtaRole(action.data.role)),
+      trixtaReducer(state, actions.removeTrixtaRole(action.payload.role)),
     ).toEqual(expectedResult);
     expect(expectedResult.actions[nameOfRole]).toEqual(undefined);
     expect(expectedResult.reactions[nameOfRole]).toEqual(undefined);
@@ -168,7 +168,7 @@ describe('trixtaReducer', () => {
         const nameOfRole = 'guest1[d1be63be-c0e4-4468-982c-5c04714a2987]';
         const nameOfAction = 'add_to_queue';
         const action = {
-          data: {
+          payload: {
             formData: {},
             roleName: nameOfRole,
             actionName: nameOfAction,
@@ -176,8 +176,8 @@ describe('trixtaReducer', () => {
         };
         state = trixtaState;
         const expectedResult = produce<TrixtaState>(state, (draft) => {
-          const actionName = action.data.actionName;
-          const roleName = action.data.roleName;
+          const actionName = action.payload.actionName;
+          const roleName = action.payload.roleName;
           const keyName = getReducerKeyName({
             name: actionName,
             role: roleName,
@@ -186,7 +186,10 @@ describe('trixtaReducer', () => {
           draft.actions[keyName].requestStatus = RequestStatus.REQUEST;
         });
         expect(
-          trixtaReducer(state, actions.submitTrixtaActionResponse(action.data)),
+          trixtaReducer(
+            state,
+            actions.submitTrixtaActionResponse(action.payload),
+          ),
         ).toEqual(expectedResult);
       });
 
@@ -194,7 +197,7 @@ describe('trixtaReducer', () => {
         const nameOfRole = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]';
         const nameOfAction = 'add_to_queue';
         const action = {
-          data: {
+          payload: {
             formData: {},
             roleName: nameOfRole,
             actionName: nameOfAction,
@@ -202,8 +205,8 @@ describe('trixtaReducer', () => {
         };
         state = trixtaState;
         const expectedResult = produce<TrixtaState>(state, (draft) => {
-          const actionName = action.data.actionName;
-          const roleName = action.data.roleName;
+          const actionName = action.payload.actionName;
+          const roleName = action.payload.roleName;
           const keyName = getReducerKeyName({
             name: actionName,
             role: roleName,
@@ -212,7 +215,10 @@ describe('trixtaReducer', () => {
           draft.actions[keyName].requestStatus = RequestStatus.REQUEST;
         });
         expect(
-          trixtaReducer(state, actions.submitTrixtaActionResponse(action.data)),
+          trixtaReducer(
+            state,
+            actions.submitTrixtaActionResponse(action.payload),
+          ),
         ).toEqual(expectedResult);
         expect(
           expectedResult.actions[`${nameOfRole}:${nameOfAction}`].requestStatus,
@@ -333,7 +339,7 @@ describe('trixtaReducer', () => {
             mode
           ) {
             const instance = getTrixtaInstanceResult({
-              success: action.data,
+              success: action.payload,
               error: false,
             }) as TrixtaInstance;
             switch (mode.type) {
@@ -368,7 +374,7 @@ describe('trixtaReducer', () => {
         ).toEqual(RequestStatus.REQUEST);
         const successResult = trixtaReducer(updatedResult, {
           type: SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
-          data: action.data,
+          data: action.payload,
           additionalData: action.additionalData,
         });
         expect(successResult).toEqual(expectedResult);
@@ -635,7 +641,7 @@ describe('trixtaReducer', () => {
         const nameOfRole = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]';
         const nameOfAction = 'add_to_queue';
         const action = {
-          data: {
+          payload: {
             role: nameOfRole,
             keyName: getReducerKeyName({
               name: nameOfAction,
@@ -654,19 +660,24 @@ describe('trixtaReducer', () => {
         };
         state = trixtaState;
         const expectedResult = produce<TrixtaState>(state, (draft) => {
-          const actionDetails = action.data.trixtaAction;
-          const keyName = action.data.keyName;
+          const actionDetails = action.payload.trixtaAction;
+          const keyName = action.payload.keyName;
           draft.actions[keyName] = getTrixtaActionReducerStructure({
             details: actionDetails,
           });
         });
 
         expect(
-          trixtaReducer(state, internalActions.updateTrixtaAction(action.data)),
+          trixtaReducer(
+            state,
+            internalActions.updateTrixtaAction(action.payload),
+          ),
         ).toEqual(expectedResult);
         expect(
-          trixtaReducer(state, internalActions.updateTrixtaAction(action.data))
-            .actions[action.data.keyName].mode,
+          trixtaReducer(
+            state,
+            internalActions.updateTrixtaAction(action.payload),
+          ).actions[action.payload.keyName].mode,
         ).toEqual({
           type: 'replace',
         });
@@ -675,7 +686,7 @@ describe('trixtaReducer', () => {
         const nameOfRole = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]';
         const nameOfAction = 'add_to_queue';
         const action = {
-          data: {
+          payload: {
             role: nameOfRole,
             keyName: getReducerKeyName({
               name: nameOfAction,
@@ -694,28 +705,33 @@ describe('trixtaReducer', () => {
         };
         state = trixtaState;
         const expectedResult = produce<TrixtaState>(state, (draft) => {
-          const actionDetails = action.data.trixtaAction;
-          const keyName = action.data.keyName;
+          const actionDetails = action.payload.trixtaAction;
+          const keyName = action.payload.keyName;
           draft.actions[keyName] = getTrixtaActionReducerStructure({
             details: actionDetails,
           });
         });
 
         expect(
-          trixtaReducer(state, internalActions.updateTrixtaAction(action.data))
-            .actions[action.data.keyName].mode,
+          trixtaReducer(
+            state,
+            internalActions.updateTrixtaAction(action.payload),
+          ).actions[action.payload.keyName].mode,
         ).toEqual({
           type: 'accumulate',
         });
         expect(
-          trixtaReducer(state, internalActions.updateTrixtaAction(action.data)),
+          trixtaReducer(
+            state,
+            internalActions.updateTrixtaAction(action.payload),
+          ),
         ).toEqual(expectedResult);
       });
       it('should handle the updateTrixtaAction action with no mode correctly', () => {
         const nameOfRole = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]';
         const nameOfAction = 'add_to_queue';
         const action = {
-          data: {
+          payload: {
             role: nameOfRole,
             keyName: getReducerKeyName({
               name: nameOfAction,
@@ -727,19 +743,24 @@ describe('trixtaReducer', () => {
         };
         state = trixtaState;
         const expectedResult = produce<TrixtaState>(state, (draft) => {
-          const actionDetails = action.data.trixtaAction;
-          const keyName = action.data.keyName;
+          const actionDetails = action.payload.trixtaAction;
+          const keyName = action.payload.keyName;
           draft.actions[keyName] = getTrixtaActionReducerStructure({
             details: actionDetails,
           });
         });
 
         expect(
-          trixtaReducer(state, internalActions.updateTrixtaAction(action.data)),
+          trixtaReducer(
+            state,
+            internalActions.updateTrixtaAction(action.payload),
+          ),
         ).toEqual(expectedResult);
         expect(
-          trixtaReducer(state, internalActions.updateTrixtaAction(action.data))
-            .actions[action.data.keyName].mode,
+          trixtaReducer(
+            state,
+            internalActions.updateTrixtaAction(action.payload),
+          ).actions[action.payload.keyName].mode,
         ).toEqual({ type: 'replace' });
       });
     });
@@ -750,7 +771,7 @@ describe('trixtaReducer', () => {
       const nameOfRole = 'host[d1be63be-c0e4-4468-982c-5c04714a2987]';
       const nameOfReaction = 'pause_queue';
       const action = {
-        data: {
+        payload: {
           formData: {},
           roleName: nameOfRole,
           ref: 'f3ed1875-1841-4572-81b1-2966e28254a0',
@@ -759,8 +780,8 @@ describe('trixtaReducer', () => {
       };
       state = trixtaState;
       const expectedResult = produce<TrixtaState>(state, (draft) => {
-        const reactionName = action.data.reactionName;
-        const roleName = action.data.roleName;
+        const reactionName = action.payload.reactionName;
+        const roleName = action.payload.roleName;
         const keyName = getReducerKeyName({
           name: reactionName,
           role: roleName,
@@ -769,7 +790,10 @@ describe('trixtaReducer', () => {
         draft.reactions[keyName].requestStatus = RequestStatus.REQUEST;
       });
       expect(
-        trixtaReducer(state, actions.submitTrixtaReactionResponse(action.data)),
+        trixtaReducer(
+          state,
+          actions.submitTrixtaReactionResponse(action.payload),
+        ),
       ).toEqual(expectedResult);
       expect(
         expectedResult.reactions[`${nameOfRole}:${nameOfReaction}`]
@@ -782,7 +806,7 @@ describe('trixtaReducer', () => {
         const nameOfRole = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987';
         const nameOfReaction = 'up_next';
         const action = {
-          data: {
+          payload: {
             role: nameOfRole,
             keyName: getReducerKeyName({
               name: nameOfReaction,
@@ -802,8 +826,8 @@ describe('trixtaReducer', () => {
         };
         state = trixtaState;
         const expectedResult = produce<TrixtaState>(state, (draft) => {
-          const reactionDetails = action.data.trixtaReaction;
-          const keyName = action.data.keyName;
+          const reactionDetails = action.payload.trixtaReaction;
+          const keyName = action.payload.keyName;
           draft.reactions[keyName] = getTrixtaReactionReducerStructure({
             details: reactionDetails,
           });
@@ -812,7 +836,7 @@ describe('trixtaReducer', () => {
         expect(
           trixtaReducer(
             state,
-            internalActions.updateTrixtaReaction(action.data),
+            internalActions.updateTrixtaReaction(action.payload),
           ),
         ).toEqual(expectedResult);
       });
@@ -820,7 +844,7 @@ describe('trixtaReducer', () => {
         const nameOfRole = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987';
         const nameOfReaction = 'up_next';
         const action = {
-          data: {
+          payload: {
             role: nameOfRole,
             keyName: getReducerKeyName({
               name: nameOfReaction,
@@ -835,8 +859,8 @@ describe('trixtaReducer', () => {
         };
         state = trixtaState;
         const expectedResult = produce<TrixtaState>(state, (draft) => {
-          const reactionDetails = action.data.trixtaReaction;
-          const keyName = action.data.keyName;
+          const reactionDetails = action.payload.trixtaReaction;
+          const keyName = action.payload.keyName;
           draft.reactions[keyName] = getTrixtaReactionReducerStructure({
             details: reactionDetails,
           });
@@ -845,7 +869,7 @@ describe('trixtaReducer', () => {
         expect(
           trixtaReducer(
             state,
-            internalActions.updateTrixtaReaction(action.data),
+            internalActions.updateTrixtaReaction(action.payload),
           ),
         ).toEqual(expectedResult);
       });
@@ -853,7 +877,7 @@ describe('trixtaReducer', () => {
         const nameOfRole = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987';
         const nameOfReaction = 'up_next';
         const action = {
-          data: {
+          payload: {
             role: nameOfRole,
             keyName: getReducerKeyName({
               name: nameOfReaction,
@@ -874,8 +898,8 @@ describe('trixtaReducer', () => {
         state = trixtaState;
 
         const expectedResult = produce<TrixtaState>(state, (draft) => {
-          const reactionDetails = action.data.trixtaReaction;
-          const keyName = action.data.keyName;
+          const reactionDetails = action.payload.trixtaReaction;
+          const keyName = action.payload.keyName;
           draft.reactions[keyName] = getTrixtaReactionReducerStructure({
             details: reactionDetails,
           });
@@ -884,14 +908,14 @@ describe('trixtaReducer', () => {
         expect(
           trixtaReducer(
             state,
-            internalActions.updateTrixtaReaction(action.data),
+            internalActions.updateTrixtaReaction(action.payload),
           ),
         ).toEqual(expectedResult);
         expect(
           trixtaReducer(
             state,
-            internalActions.updateTrixtaReaction(action.data),
-          ).reactions[action.data.keyName].mode,
+            internalActions.updateTrixtaReaction(action.payload),
+          ).reactions[action.payload.keyName].mode,
         ).toEqual({
           type: 'accumulate',
         });
@@ -904,7 +928,7 @@ describe('trixtaReducer', () => {
         const nameOfReaction = 'request_guest_stream';
 
         const action = {
-          data: {
+          payload: {
             roleName: nameOfRole,
             reactionName: nameOfReaction,
             reactionResponse: {
@@ -923,8 +947,8 @@ describe('trixtaReducer', () => {
         };
         state = trixtaState;
         const expectedResult = produce<TrixtaState>(state, (draft) => {
-          const keyName = action.data.keyName;
-          const reactionDetails = action.data.reactionResponse;
+          const keyName = action.payload.keyName;
+          const reactionDetails = action.payload.reactionResponse;
           const reaction = getReactionDetails({
             reaction: reactionDetails,
           });
@@ -1009,11 +1033,11 @@ describe('trixtaReducer', () => {
         expect(
           trixtaReducer(
             state,
-            internalActions.updateTrixtaReactionResponse(action.data),
+            internalActions.updateTrixtaReactionResponse(action.payload),
           ),
         ).toEqual(expect.objectContaining(expectedResult));
         expect(
-          expectedResult.reactions[action.data.keyName].instances
+          expectedResult.reactions[action.payload.keyName].instances
             .requestForResponse.length,
         ).toEqual(1);
       });
@@ -1022,7 +1046,7 @@ describe('trixtaReducer', () => {
         const nameOfReaction = 'new_waitroom_status';
 
         const action = {
-          data: {
+          payload: {
             roleName: nameOfRole,
             reactionName: nameOfReaction,
             reactionResponse: {
@@ -1040,8 +1064,8 @@ describe('trixtaReducer', () => {
         };
         state = trixtaState;
         const expectedResult = produce<TrixtaState>(state, (draft) => {
-          const keyName = action.data.keyName;
-          const reactionDetails = action.data.reactionResponse;
+          const keyName = action.payload.keyName;
+          const reactionDetails = action.payload.reactionResponse;
           const reaction = getReactionDetails({
             reaction: reactionDetails,
           });
@@ -1125,14 +1149,14 @@ describe('trixtaReducer', () => {
         expect(
           trixtaReducer(
             state,
-            internalActions.updateTrixtaReactionResponse(action.data),
+            internalActions.updateTrixtaReactionResponse(action.payload),
           ),
         ).toEqual(expect.objectContaining(expectedResult));
         expect(
-          expectedResult.reactions[action.data.keyName].instances
+          expectedResult.reactions[action.payload.keyName].instances
             .requestForResponse.length,
         ).toEqual(
-          trixtaState.reactions[action.data.keyName].instances
+          trixtaState.reactions[action.payload.keyName].instances
             .requestForResponse.length + 1,
         );
       });
@@ -1140,7 +1164,7 @@ describe('trixtaReducer', () => {
         const nameOfRole = 'host[d1be63be-c0e4-4468-982c-5c04714a2987]';
         const nameOfReaction = 'request_guest_stream';
         const action = {
-          data: {
+          payload: {
             roleName: nameOfRole,
             reactionName: nameOfReaction,
             reactionResponse: {
@@ -1158,8 +1182,8 @@ describe('trixtaReducer', () => {
         };
         state = trixtaState;
         const expectedResult = produce<TrixtaState>(state, (draft) => {
-          const keyName = action.data.keyName;
-          const reactionDetails = action.data.reactionResponse;
+          const keyName = action.payload.keyName;
+          const reactionDetails = action.payload.reactionResponse;
           const reaction = getReactionDetails({
             reaction: reactionDetails,
           });
@@ -1247,14 +1271,14 @@ describe('trixtaReducer', () => {
         expect(
           trixtaReducer(
             state,
-            internalActions.updateTrixtaReactionResponse(action.data),
+            internalActions.updateTrixtaReactionResponse(action.payload),
           ),
         ).toEqual(expect.objectContaining(expectedResult));
         expect(
-          expectedResult.reactions[action.data.keyName].instances
+          expectedResult.reactions[action.payload.keyName].instances
             .requestForResponse.length,
         ).toEqual(
-          trixtaState.reactions[action.data.keyName].instances
+          trixtaState.reactions[action.payload.keyName].instances
             .requestForResponse.length - 1,
         );
       });

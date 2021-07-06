@@ -424,7 +424,7 @@ describe('useTrixtaReaction', () => {
       };
 
       let responseData = {};
-      const onSuccess = (data: any) => (responseData = data);
+      const onSuccess = (payload: any) => (responseData = payload);
       const { result } = renderHook(
         () =>
           useTrixtaReaction({

@@ -1,18 +1,28 @@
 import { UiSchema } from '@rjsf/core';
 import { JSONSchema7Object } from 'json-schema';
-import { SubmitTrixtaActionResponseAction, SubmitTrixtaReactionResponseAction } from '../../reduxActions';
-import { TrixtaAction, TrixtaActionDetails, TrixtaActionHandlerType } from '../actions';
-import { TrixtaReaction, TrixtaReactionDetails, TrixtaReactionType } from '../reactions';
+import {
+  SubmitTrixtaActionResponseAction,
+  SubmitTrixtaReactionResponseAction,
+} from '../../reduxActions';
+import {
+  TrixtaAction,
+  TrixtaActionDetails,
+  TrixtaActionHandlerType,
+} from '../actions';
+import {
+  TrixtaReaction,
+  TrixtaReactionDetails,
+  TrixtaReactionType,
+} from '../reactions';
 
-
-export interface LoadingStatus  {
-status?: boolean;
+export interface LoadingStatus {
+  status?: boolean;
 }
 
 export type TrixtaErrorResponse = {
   message?: string;
   reason?: string;
-}
+};
 
 export enum RequestStatus {
   NONE = 0,
@@ -20,7 +30,6 @@ export enum RequestStatus {
   SUCCESS = 2,
   FAILURE = 3,
 }
-
 
 export interface submitTrixtaFunctionParameters {
   /**
@@ -45,19 +54,19 @@ export interface submitTrixtaFunctionParameters {
   errorEvent?: string;
 }
 
-export interface LastActionSubmit  {
-  parameters:SubmitTrixtaActionResponseAction['data'];
-  timeStamp:string;
+export interface LastActionSubmit {
+  parameters: SubmitTrixtaActionResponseAction['payload'];
+  timeStamp: string;
 }
 
-export interface LastReactionSubmit  {
-  parameters:SubmitTrixtaReactionResponseAction['data'];
-  timeStamp:string;
+export interface LastReactionSubmit {
+  parameters: SubmitTrixtaReactionResponseAction['payload'];
+  timeStamp: string;
 }
 export type TrixtaChannelJoinResponse = {
-  contract_reactions?:Record<string,TrixtaReactionDetails>
-  contract_actions?:Record<string,TrixtaActionDetails>
-}
+  contract_reactions?: Record<string, TrixtaReactionDetails>;
+  contract_actions?: Record<string, TrixtaActionDetails>;
+};
 
 export interface TrixtaBaseRoleProps {
   /**
@@ -88,7 +97,7 @@ export type DefaultUnknownType =
   | string
   | boolean;
 
-export type TrixtaInstanceModeType = 'replace' |  'accumulate';
+export type TrixtaInstanceModeType = 'replace' | 'accumulate';
 
 export interface TrixtaInstanceMode {
   type: TrixtaInstanceModeType;
@@ -175,38 +184,38 @@ export interface TrixtaInstanceDetails<TInitialData = DefaultUnknownType>
 }
 
 export interface TrixtaInstance<
-/**
-* Type of data for Trixta response for Reaction / Action
-*/
-TSuccessType= DefaultUnknownType,
-/**
- * Type of data for Trixta error response for Reaction / Action
- */
-TErrorType= DefaultUnknownType
+  /**
+   * Type of data for Trixta response for Reaction / Action
+   */
+  TSuccessType = DefaultUnknownType,
+  /**
+   * Type of data for Trixta error response for Reaction / Action
+   */
+  TErrorType = DefaultUnknownType
 > extends Record<string, unknown> {
   response: TrixtaInstanceResponse<TSuccessType, TErrorType>;
 }
 
-
 export interface TrixtaReactionInstance<
-/**
+  /**
    * Type of data for initial data from Trixta for Reaction / Action
    */
- TInitialData = DefaultUnknownType,
-/**
-  * Type of data for Trixta response for Reaction / Action
-  */
-TSuccessType= DefaultUnknownType,
-/**
+  TInitialData = DefaultUnknownType,
+  /**
+   * Type of data for Trixta response for Reaction / Action
+   */
+  TSuccessType = DefaultUnknownType,
+  /**
    * Type of data for Trixta error response for Reaction / Action
    */
-TErrorType= DefaultUnknownType> extends  TrixtaInstance<TSuccessType,
-TErrorType
->  {
+  TErrorType = DefaultUnknownType
+> extends TrixtaInstance<TSuccessType, TErrorType> {
   details: TrixtaInstanceDetails<TInitialData>;
 }
 
-export type TrixtaDispatch<T = never> = [T] extends [never] ? () => void : (data: T) => void;
+export type TrixtaDispatch<T = never> = [T] extends [never]
+  ? () => void
+  : (data: T) => void;
 export interface TrixtaAuthProps {
   /**
    * Trixta roles or role name

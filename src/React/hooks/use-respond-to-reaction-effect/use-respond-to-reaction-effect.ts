@@ -23,7 +23,7 @@ export const useRespondToReactionEffect = <
    */
   TInitialData = DefaultUnknownType
 >(
-  props: UseRespondToReactionEffectProps,
+  props: UseRespondToReactionEffectProps<TInitialData>,
 ): UseRespondToReactionEffectHookReturn => {
   const {
     actionToDispatch,
@@ -92,7 +92,7 @@ export const useRespondToReactionEffect = <
       if (dispatchResponseTo) {
         dispatch({
           type: dispatchResponseTo,
-          data: latestInstance?.details?.initial_data,
+          payload: latestInstance?.details?.initial_data,
         });
       }
 

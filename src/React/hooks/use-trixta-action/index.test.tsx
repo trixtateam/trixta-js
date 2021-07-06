@@ -204,7 +204,7 @@ describe('useTrixtaAction', () => {
     };
     const actionName = 'request_user_info_request';
     let responseData = {};
-    const onSuccess = (data: any) => (responseData = data);
+    const onSuccess = (payload: any) => (responseData = payload);
     const { result } = renderHook(
       () =>
         useTrixtaAction({

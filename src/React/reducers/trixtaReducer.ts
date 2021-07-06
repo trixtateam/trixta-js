@@ -69,7 +69,7 @@ export const trixtaReducer = (
         break;
       case REMOVE_TRIXTA_ROLE:
         {
-          const roleName = action.data.role.name;
+          const roleName = action.payload.role.name;
           const index = draft.agentDetails.findIndex(
             (role) => role === roleName,
           );
@@ -87,7 +87,7 @@ export const trixtaReducer = (
         break;
       case JOIN_TRIXTA_ROLE: {
         draft.authorizationStarted = true;
-        const roleName = action.data.roleName;
+        const roleName = action.payload.roleName;
         const index = draft.agentDetails.findIndex((role) => role === roleName);
         if (index === -1) {
           draft.agentDetails.push(roleName);
@@ -97,7 +97,7 @@ export const trixtaReducer = (
       }
       case UPDATE_TRIXTA_ROLE:
         {
-          const roleName = action.data.role.name;
+          const roleName = action.payload.role.name;
           if (roleName) {
             const index = draft.agentDetails.findIndex(
               (role) => role === roleName,
@@ -109,7 +109,7 @@ export const trixtaReducer = (
         }
         break;
       case UPDATE_TRIXTA_ROLES:
-        action.data.roles.forEach(({ name }) => {
+        action.payload.roles.forEach(({ name }) => {
           const index = draft.agentDetails.findIndex((role) => role === name);
           if (index === -1) {
             draft.authorizingStatus[name] = { status: true };
@@ -118,8 +118,8 @@ export const trixtaReducer = (
         break;
       case SUBMIT_TRIXTA_REACTION_RESPONSE:
         {
-          const reactionName = action.data.reactionName;
-          const roleName = action.data.roleName;
+          const reactionName = action.payload.reactionName;
+          const roleName = action.payload.roleName;
           const keyName = getReducerKeyName({
             name: reactionName,
             role: roleName,
@@ -186,8 +186,8 @@ export const trixtaReducer = (
         break;
       case UPDATE_TRIXTA_REACTION_RESPONSE:
         {
-          const keyName = action.data.keyName;
-          const reactionDetails = action.data.reactionResponse;
+          const keyName = action.payload.keyName;
+          const reactionDetails = action.payload.reactionResponse;
           const reaction = getReactionDetails({
             reaction: reactionDetails,
           });
@@ -270,8 +270,8 @@ export const trixtaReducer = (
         break;
       case CLEAR_TRIXTA_REACTION_REQUEST_STATUS:
         {
-          const reactionName = action.data.reactionName;
-          const roleName = action.data.roleName;
+          const reactionName = action.payload.reactionName;
+          const roleName = action.payload.roleName;
           const keyName = getReducerKeyName({
             name: reactionName,
             role: roleName,
@@ -281,8 +281,8 @@ export const trixtaReducer = (
         break;
       case CLEAR_TRIXTA_REACTION_RESPONSE:
         {
-          const reactionName = action.data.reactionName;
-          const roleName = action.data.roleName;
+          const reactionName = action.payload.reactionName;
+          const roleName = action.payload.roleName;
           const keyName = getReducerKeyName({
             name: reactionName,
             role: roleName,
@@ -296,8 +296,8 @@ export const trixtaReducer = (
         break;
       case UPDATE_TRIXTA_ACTION:
         {
-          const actionDetails = action.data.trixtaAction;
-          const keyName = action.data.keyName;
+          const actionDetails = action.payload.trixtaAction;
+          const keyName = action.payload.keyName;
           draft.actions[keyName] = getTrixtaActionReducerStructure({
             details: actionDetails,
           });
@@ -305,16 +305,16 @@ export const trixtaReducer = (
         break;
       case UPDATE_TRIXTA_REACTION:
         {
-          const reactionDetails = action.data.trixtaReaction;
-          const keyName = action.data.keyName;
+          const reactionDetails = action.payload.trixtaReaction;
+          const keyName = action.payload.keyName;
           draft.reactions[keyName] = getTrixtaReactionReducerStructure({
             details: reactionDetails,
           });
         }
         break;
       case CLEAR_TRIXTA_ACTION_REQUEST_STATUS:
-        const actionName = action.data.actionName;
-        const roleName = action.data.roleName;
+        const actionName = action.payload.actionName;
+        const roleName = action.payload.roleName;
         const keyName = getReducerKeyName({
           name: actionName,
           role: roleName,
@@ -323,8 +323,8 @@ export const trixtaReducer = (
         break;
       case CLEAR_TRIXTA_ACTION_RESPONSE:
         {
-          const actionName = action.data.actionName;
-          const roleName = action.data.roleName;
+          const actionName = action.payload.actionName;
+          const roleName = action.payload.roleName;
           const keyName = getReducerKeyName({
             name: actionName,
             role: roleName,
@@ -336,8 +336,8 @@ export const trixtaReducer = (
         break;
       case SUBMIT_TRIXTA_ACTION_RESPONSE:
         {
-          const actionName = action.data.actionName;
-          const roleName = action.data.roleName;
+          const actionName = action.payload.actionName;
+          const roleName = action.payload.roleName;
           const keyName = getReducerKeyName({
             name: actionName,
             role: roleName,

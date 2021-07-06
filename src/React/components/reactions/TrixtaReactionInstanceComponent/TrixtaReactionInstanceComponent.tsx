@@ -6,13 +6,13 @@ import { submitTrixtaReactionResponse } from '../../../reduxActions';
 import { makesSelectTrixtaReactionResponseInstance } from '../../../selectors';
 import {
   TrixtaDebugType,
-  trixtaInstanceDebugger
+  trixtaInstanceDebugger,
 } from '../../../TrixtaDebugger';
 import { TrixtaInstanceResponse, TrixtaState } from '../../../types';
 import { TrixtaReactionComponentArgs } from '../types';
 import {
   TrixtaReactionInstanceComponentDispatchProps,
-  TrixtaReactionInstanceComponentProps
+  TrixtaReactionInstanceComponentProps,
 } from './types';
 const TrixtaReactionInstanceComponent = ({
   dispatchSubmitReactionResponse,

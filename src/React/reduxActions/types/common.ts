@@ -22,14 +22,14 @@ export type UpdateTrixtaErrorAction = {
 
 export type JoinTrixtaRoleAction = {
   type: typeof JOIN_TRIXTA_ROLE;
-  data: {
+  payload: {
     roleName: string;
   };
 };
 
 export type RemoveTrixtaRoleAction = {
   type: typeof REMOVE_TRIXTA_ROLE;
-  data: {
+  payload: {
     role: {
       name: string;
     };
@@ -38,14 +38,14 @@ export type RemoveTrixtaRoleAction = {
 
 export type UpdateTrixtaRoleAction = {
   type: typeof UPDATE_TRIXTA_ROLE;
-  data: {
+  payload: {
     role: TrixtaRoleParameter;
   };
 };
 
 export type UpdateTrixtaRolesAction = {
   type: typeof UPDATE_TRIXTA_ROLES;
-  data: {
+  payload: {
     roles: Array<TrixtaRoleParameter>;
   };
 };

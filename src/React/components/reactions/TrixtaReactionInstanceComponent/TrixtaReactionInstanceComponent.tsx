@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { get } from '../../../../utils';
 import { submitTrixtaReactionResponse } from '../../../reduxActions';
-import { makesSelectTrixtaReactionResponseInstance } from '../../../selectors';
+import {
+  makeSelectIsTrixtaReactionInProgress,
+  makeSelectIsTrixtaReactionLoading,
+  makesSelectIsTrixtaReactionReadyForRole,
+  makesSelectTrixtaReactionResponseInstance,
+} from '../../../selectors';
 import {
   TrixtaDebugType,
   trixtaInstanceDebugger,
@@ -20,6 +25,9 @@ const TrixtaReactionInstanceComponent = ({
   debugMode,
   children,
   instance,
+  isInProgress,
+  loading,
+  isReady,
   ...rest
 }: ConnectProps & DispatchProps & TrixtaReactionInstanceComponentProps) => {
   const response = get<TrixtaInstanceResponse>(instance, 'response', {
@@ -41,6 +49,8 @@ const TrixtaReactionInstanceComponent = ({
     const reactionProps: TrixtaReactionComponentArgs = {
       dispatchSubmitReactionResponse,
       submit: dispatchSubmitReactionResponse,
+      isInProgress: isReady ? isInProgress : true,
+      loading: isReady ? loading : true,
       common,
       data: get(instance, 'details.initial_data', {}),
       roleName,
@@ -62,13 +72,18 @@ const TrixtaReactionInstanceComponent = ({
 
 const makeMapStateToProps = () => {
   const getTrixtaReactionResponseInstance = makesSelectTrixtaReactionResponseInstance();
-
+  const getTrixtaReactionInProgress = makeSelectIsTrixtaReactionInProgress();
+  const getIsTrixtaReactionLoading = makeSelectIsTrixtaReactionLoading();
+  const getIsTrixtaReactionReady = makesSelectIsTrixtaReactionReadyForRole();
   const mapStateToProps = (
     state: { trixta: TrixtaState },
     props: TrixtaReactionInstanceComponentProps,
   ) => {
     return {
       instance: getTrixtaReactionResponseInstance(state, props),
+      isInProgress: getTrixtaReactionInProgress(state, props),
+      loading: getIsTrixtaReactionLoading(state, props),
+      isReady: getIsTrixtaReactionReady(state, props),
     };
   };
   return mapStateToProps;

@@ -18,6 +18,8 @@ export interface TrixtaReactionComponentArgs<
   submit: TrixtaDispatch<TFormData>;
   common: TrixtaCommon;
   data: TInitialData;
+  isInProgress: boolean;
+  loading?: boolean;
   response?: TrixtaInstanceResponse<TSuccessType, TErrorType>;
   details?: TrixtaInstanceDetails<TInitialData>;
 }

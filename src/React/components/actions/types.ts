@@ -19,3 +19,10 @@ export interface TrixtaActionComponentArgs<
   isInProgress: boolean;
   response?: TrixtaInstanceResponse<TSuccessType, TErrorType>;
 }
+
+export interface TrixtaActionResponseComponentArgs<
+  TSuccessType = DefaultUnknownType,
+  TErrorType = DefaultUnknownType
+> {
+  response?: TrixtaInstanceResponse<TSuccessType, TErrorType>;
+}

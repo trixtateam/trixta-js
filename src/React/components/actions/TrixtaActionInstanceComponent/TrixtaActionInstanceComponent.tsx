@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { makesSelectTrixtaActionResponseInstance } from '../../../selectors';
 import {
   TrixtaDebugType,
-  trixtaInstanceDebugger,
+  trixtaInstanceDebugger
 } from '../../../TrixtaDebugger';
 import { TrixtaState } from '../../../types';
 import { TrixtaActionInstanceComponentProps } from './types';
@@ -14,7 +14,6 @@ function TrixtaActionInstanceComponent({
   roleName,
   instance,
   debugMode = false,
-  children,
   ...props
 }: TrixtaActionInstanceComponentProps & ConnectProps) {
   trixtaInstanceDebugger({
@@ -26,13 +25,10 @@ function TrixtaActionInstanceComponent({
     roleName,
   });
   if (!response) return null;
-  const actionProps = { ...props, response };
-  if (React.isValidElement(children)) {
-    return React.cloneElement(children, actionProps);
-  }
-  if (typeof children === 'function') {
-    return children(actionProps);
-  }
+  //const actionProps = { ...props, response };
+
+  // TODO render response using json schema form
+  return <>{JSON.stringify(response, null, 2)}</>;
 }
 
 const makeMapStateToProps = () => {

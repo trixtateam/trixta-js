@@ -224,6 +224,51 @@ export const makesSelectTrixtaActionInstanceResponse = (): OutputParametricSelec
   );
 
 /**
+ * Selects the actions[props.roleName:props.actionName].instances[props.instanceIndex]
+ * for the given props.roleName ,  props.actionName and returns the action instance response
+ */
+export const makesSelectTrixtaLatestActionInstanceResponse = (): OutputParametricSelector<
+  {
+    trixta: TrixtaState;
+  },
+  TrixtaActionBaseProps,
+  TrixtaInstanceResponse<unknown, unknown>,
+  (res1: TrixtaAction | undefined) => TrixtaInstanceResponse<unknown, unknown>
+> =>
+  createSelector([selectTrixtActionStateSelector], (selectedAction) => {
+    if (selectedAction) {
+      return selectedAction.instances[0]?.response
+        ? selectedAction.instances[0]?.response
+        : { success: false, error: false };
+    }
+
+    return { success: false, error: false };
+  });
+
+/**
+ * Selects the actions[props.roleName:props.actionName].instances[props.instanceIndex]
+ * for the given props.roleName ,  props.actionName and returns the action instance
+ */
+export const makesSelectTrixtaLatestActionInstance = (): OutputParametricSelector<
+  {
+    trixta: TrixtaState;
+  },
+  TrixtaActionBaseProps,
+  TrixtaInstance<unknown, unknown> | undefined,
+  (
+    res1: TrixtaAction | undefined,
+  ) => TrixtaInstance<unknown, unknown> | undefined
+> =>
+  createSelector([selectTrixtActionStateSelector], (selectedAction) => {
+    if (selectedAction) {
+      return selectedAction.instances[0]
+        ? selectedAction.instances[0]
+        : undefined;
+    }
+    return undefined;
+  });
+
+/**
  * Selects the actions for given props.roleName
  */
 export const makeSelectTrixtaActionsForRole = () =>

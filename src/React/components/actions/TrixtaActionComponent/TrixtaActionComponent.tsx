@@ -63,9 +63,7 @@ function TrixtaActionComponent({
       debugMode={debugMode}
       roleName={roleName}
       {...rest}
-    >
-      {children && children}
-    </TrixtaActionInstanceComponent>
+    />
   ));
 }
 

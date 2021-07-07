@@ -3,7 +3,6 @@ import { AnyAction } from 'redux';
 import { listenForTrixtaReactionResponse } from '../constants/reactions';
 import { EmitTrixtaReactionResponseListenerEventAction } from '../reduxActions/types/trixtaReactions';
 import { TrixtaReactionDispatch } from '../types';
-import { DefaultUnknownType } from '../types';
 
 /**
  * Will listen for a Trixta reaction response for the params.roleName and  params.reactionName and dispatch the response to the
@@ -14,9 +13,7 @@ import { DefaultUnknownType } from '../types';
  * @param {String} params.roleName - name of role
  * @param {String} params.reactionName - name of reaction
  */
-export function* respondToTrixtaReactionEffectSaga<
-  TInitialData = DefaultUnknownType
->({
+export function* respondToTrixtaReactionEffectSaga({
   roleName,
   reactionName,
   actionToDispatch = undefined,
@@ -25,10 +22,10 @@ export function* respondToTrixtaReactionEffectSaga<
   roleName: string;
   reactionName: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  actionToDispatch?: TrixtaReactionDispatch<TInitialData>['actionToDispatch'];
+  actionToDispatch?: TrixtaReactionDispatch<any>['actionToDispatch'];
   dispatchResponseTo?: AnyAction['type'];
 }): Generator<
-  TakeEffect | PutEffect<AnyAction>,
+  TakeEffect | PutEffect,
   void,
   EmitTrixtaReactionResponseListenerEventAction<any>
 > {

@@ -44,8 +44,8 @@ export interface TrixtaReactionDispatch<TInitialData = DefaultUnknownType> {
    */
   // eslint-disable-next-line @typescript-eslint/ban-types
   actionToDispatch?: (
-    payload: TInitialData,
-  ) => { type: string; payload: TInitialData };
+    payload?: TInitialData,
+  ) => { type: string; payload?: TInitialData };
   /**
    * Redux Action event to pass data to from Trixta reaction response
    * [see Redux `dispatch` documentation for complete info](https://redux.js.org/api/store#dispatchaction)

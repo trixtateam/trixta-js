@@ -43,9 +43,9 @@ Install the package with npm
  * Combine all reducers in this file and export the combined reducers.
  */
 
-import { combineReducers } from 'redux';
-import { trixtaReducer } from '@trixta/trixta-js';
+import { combineReducers } from '@reduxjs/toolkit';
 import { phoenixReducer } from '@trixta/phoenix-to-redux';
+import { trixtaReducer } from '@trixta/trixta-js';
 export default function createReducer() {
   const rootReducer = combineReducers({
     trixta: trixtaReducer,
@@ -56,95 +56,88 @@ export default function createReducer() {
 ```
 
 ## 2. Setup Middleware
-
+[See example to setup middleware](https://redux-toolkit.js.org/api/configureStore)
 ```javascript
-import { createStore, applyMiddleware, compose } from 'redux';
-import { routerMiddleware } from 'connected-react-router';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { createPhoenixChannelMiddleware } from '@trixta/phoenix-to-redux';
-import createReducer from './reducers';
+import createSagaMiddleware from 'redux-saga';
+import { createReducer } from './reducers';
 
-const phoenixChannelMiddleWare = createPhoenixChannelMiddleware();
+export default function configureStore() {
+  const reduxSagaMonitorOptions = {};
+  // Makes redux connected to phoenix channels
+  const phoenixChannelMiddleWare = createPhoenixChannelMiddleware();
+  const sagaMiddleware = createSagaMiddleware(reduxSagaMonitorOptions);
+  const middlewares = [sagaMiddleware,phoenixChannelMiddleWare];
 
-export default function configureStore(initialState = {}) {
-  // Create the store with two middlewares
-  // 1. phoenixChannelMiddleWare: Makes redux connected to phoenix channels
+  // Create the store with saga middleware
   const middlewares = [phoenixChannelMiddleWare];
 
-  const enhancers = [applyMiddleware(...middlewares)];
+   const enhancers = [];
 
-  // If Redux DevTools Extension is installed use it, otherwise use Redux compose
-  /* eslint-disable no-underscore-dangle, indent */
-  const composeEnhancers =
-    process.env.NODE_ENV !== 'production' &&
-    typeof window === 'object' &&
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-      ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-      : compose;
-  /* eslint-enable */
+  const store = configureStore({
+    reducer: createReducer(),
+    middleware: [
+      ...getDefaultMiddleware({
+        thunk: false,
+        immutableCheck: {
+          ignore: ['socket', 'channel', 'trixta', 'phoenix', 'router'],
+        },
+        serializableCheck: false,
+      }),
+      ...middlewares,
+    ],
+    devTools:
+      /* istanbul ignore next line */
+      process.env.NODE_ENV !== 'production' ||
+      process.env.PUBLIC_URL.length > 0,
+    enhancers,
+  });
 
-  const store = createStore(
-    createReducer(),
-    initialState,
-    composeEnhancers(...enhancers),
-  );
-
-  // Make reducers hot reloadable, see http://mxs.is/googmo
-  /* istanbul ignore next */
-  if (module.hot) {
-    module.hot.accept('./reducers', () => {
-      store.replaceReducer(createReducer());
-    });
-  }
-
-  return store;
+   return store;
 }
 ```
 
 ## 3. Setup Trixta Saga
-
+[See redux-saga](https://redux-saga.js.org/docs/introduction/GettingStarted)
 ### Option 1
 
 ```javascript
-import { createStore, applyMiddleware, compose } from 'redux';
-import { routerMiddleware } from 'connected-react-router';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { createPhoenixChannelMiddleware } from '@trixta/phoenix-to-redux';
+import createSagaMiddleware from 'redux-saga';
 import { setupTrixtaSaga } from '@trixta/trixta-js';
 import createReducer from './reducers';
 
-const phoenixChannelMiddleWare = createPhoenixChannelMiddleware();
+export default function configureStore() {
+  const reduxSagaMonitorOptions = {};
+  // Makes redux connected to phoenix channels
+  const phoenixChannelMiddleWare = createPhoenixChannelMiddleware();
+  const sagaMiddleware = createSagaMiddleware(reduxSagaMonitorOptions);
+  const middlewares = [sagaMiddleware,phoenixChannelMiddleWare];
 
-export default function configureStore(initialState = {}) {
-  // Create the store with two middlewares
-  // 1. phoenixChannelMiddleWare: Makes redux connected to phoenix channels
-  const middlewares = [phoenixChannelMiddleWare];
+  const enhancers = [];
 
-  const enhancers = [applyMiddleware(...middlewares)];
-
-  // If Redux DevTools Extension is installed use it, otherwise use Redux compose
-  /* eslint-disable no-underscore-dangle, indent */
-  const composeEnhancers =
-    process.env.NODE_ENV !== 'production' &&
-    typeof window === 'object' &&
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-      ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-      : compose;
-  /* eslint-enable */
-
-  const store = createStore(
-    createReducer(),
-    initialState,
-    composeEnhancers(...enhancers),
-  );
+  const store = configureStore({
+    reducer: createReducer(),
+    middleware: [
+      ...getDefaultMiddleware({
+        thunk: false,
+        immutableCheck: {
+          ignore: ['socket', 'channel', 'trixta', 'phoenix', 'router'],
+        },
+        serializableCheck: false,
+      }),
+      ...middlewares,
+    ],
+    devTools:
+      /* istanbul ignore next line */
+      process.env.NODE_ENV !== 'production' ||
+      process.env.PUBLIC_URL.length > 0,
+    enhancers,
+  });
 
   sagaMiddleware.run(setupTrixtaSaga);
-
-  // Make reducers hot reloadable, see http://mxs.is/googmo
-  /* istanbul ignore next */
-  if (module.hot) {
-    module.hot.accept('./reducers', () => {
-      store.replaceReducer(createReducer());
-    });
-  }
 
   return store;
 }
@@ -162,46 +155,41 @@ export default function* rootSaga() {
 ```
 
 ```javascript
-import { createStore, applyMiddleware, compose } from 'redux';
-import { routerMiddleware } from 'connected-react-router';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { createPhoenixChannelMiddleware } from '@trixta/phoenix-to-redux';
+import createSagaMiddleware from 'redux-saga';
 import rootSaga from './rootSaga';
 import createReducer from './reducers';
 
-const phoenixChannelMiddleWare = createPhoenixChannelMiddleware();
+export default function configureStore() {
+   const reduxSagaMonitorOptions = {};
+  // Makes redux connected to phoenix channels
+  const phoenixChannelMiddleWare = createPhoenixChannelMiddleware();
+  const sagaMiddleware = createSagaMiddleware(reduxSagaMonitorOptions);
+  const middlewares = [sagaMiddleware,phoenixChannelMiddleWare];
 
-export default function configureStore(initialState = {}) {
-  // Create the store with two middlewares
-  // 1. phoenixChannelMiddleWare: Makes redux connected to phoenix channels
-  const middlewares = [phoenixChannelMiddleWare];
+  const enhancers = [];
 
-  const enhancers = [applyMiddleware(...middlewares)];
-
-  // If Redux DevTools Extension is installed use it, otherwise use Redux compose
-  /* eslint-disable no-underscore-dangle, indent */
-  const composeEnhancers =
-    process.env.NODE_ENV !== 'production' &&
-    typeof window === 'object' &&
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-      ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-      : compose;
-  /* eslint-enable */
-
-  const store = createStore(
-    createReducer(),
-    initialState,
-    composeEnhancers(...enhancers),
-  );
+  const store = configureStore({
+    reducer: createReducer(),
+    middleware: [
+      ...getDefaultMiddleware({
+        thunk: false,
+        immutableCheck: {
+          ignore: ['socket', 'channel', 'trixta', 'phoenix', 'router'],
+        },
+        serializableCheck: false,
+      }),
+      ...middlewares,
+    ],
+    devTools:
+      /* istanbul ignore next line */
+      process.env.NODE_ENV !== 'production' ||
+      process.env.PUBLIC_URL.length > 0,
+    enhancers,
+  });
 
   sagaMiddleware.run(rootSaga);
-
-  // Make reducers hot reloadable, see http://mxs.is/googmo
-  /* istanbul ignore next */
-  if (module.hot) {
-    module.hot.accept('./reducers', () => {
-      store.replaceReducer(createReducer());
-    });
-  }
 
   return store;
 }
@@ -212,7 +200,7 @@ export default function configureStore(initialState = {}) {
 ```javascript
 import { put, select, takeLatest, takeEvery, fork } from 'redux-saga/effects';
 import { updateTrixtaRoles } from '@trixta/trixta-js';
-import { socketActionTypes } from '@trixta/phoenix-to-redux';
+import { socketActionTypes,connectPhoenix } from '@trixta/phoenix-to-redux';
 
 /**
  * After the socket is connected,
@@ -231,7 +219,12 @@ export function* socketConnectedSaga() {
   }
 }
 
+export function* connectPhoenixSaga() {
+  yield put(connectPhoenix({ domainUrl: 'localhost:4000', params : {  }));
+}
+
 export default function* rootSaga() {
+  yield call(connectPhoenixSaga);
   yield fork(setupTrixtaSaga);
   yield takeEvery(socketActionTypes.SOCKET_OPEN, socketConnectedSaga);
 }

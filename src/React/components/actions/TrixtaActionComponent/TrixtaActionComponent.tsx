@@ -27,7 +27,10 @@ function TrixtaActionComponent({
   children,
   debugMode = false,
   ...rest
-}: TrixtaActionComponentProps & DispatchProps & ConnectProps) {
+}: TrixtaActionComponentProps &
+  DispatchProps &
+  ConnectProps &
+  Record<string, any>) {
   trixtaDebugger({
     type: TrixtaDebugType.Action,
     debugMode,

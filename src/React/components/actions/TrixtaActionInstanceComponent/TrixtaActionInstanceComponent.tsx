@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { makesSelectTrixtaActionResponseInstance } from '../../../selectors';
 import {
   TrixtaDebugType,
-  trixtaInstanceDebugger
+  trixtaInstanceDebugger,
 } from '../../../TrixtaDebugger';
 import { TrixtaState } from '../../../types';
 import { TrixtaActionInstanceComponentProps } from './types';
@@ -15,7 +15,7 @@ function TrixtaActionInstanceComponent({
   instance,
   debugMode = false,
   ...props
-}: TrixtaActionInstanceComponentProps & ConnectProps) {
+}: TrixtaActionInstanceComponentProps & ConnectProps & Record<string, any>) {
   trixtaInstanceDebugger({
     type: TrixtaDebugType.Action,
     debugMode,

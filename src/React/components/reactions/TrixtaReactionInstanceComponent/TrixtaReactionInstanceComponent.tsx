@@ -29,7 +29,10 @@ const TrixtaReactionInstanceComponent = ({
   loading,
   isReady,
   ...rest
-}: ConnectProps & DispatchProps & TrixtaReactionInstanceComponentProps) => {
+}: ConnectProps &
+  DispatchProps &
+  TrixtaReactionInstanceComponentProps &
+  Record<string, any>) => {
   const response = get<TrixtaInstanceResponse>(instance, 'response', {
     success: false,
     error: false,

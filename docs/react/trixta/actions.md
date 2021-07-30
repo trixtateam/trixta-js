@@ -7,4 +7,4 @@
 
 ### Trixta Action Actions
 [`trixta actions`](https://github.com/trixtateam/trixtaJS/blob/master/src/React/reduxActions/trixtaActions.ts)  - includes all related Trixta action actions
- ```
+

@@ -1,17 +1,13 @@
 import {
-  JOIN_TRIXTA_ROLE,
   REMOVE_TRIXTA_ROLE,
   SIGN_OUT_TRIXTA,
-  UPDATE_TRIXTA_ERROR,
   UPDATE_TRIXTA_ROLE,
   UPDATE_TRIXTA_ROLES,
 } from '../constants';
 import { TrixtaRoleParameter } from './../types/common';
 import {
-  JoinTrixtaRoleAction,
   RemoveTrixtaRoleAction,
   SignoutTrixtaAction,
-  UpdateTrixtaErrorAction,
   UpdateTrixtaRoleAction,
   UpdateTrixtaRolesAction,
 } from './types/common';
@@ -22,22 +18,6 @@ import {
 export function signoutTrixta(): SignoutTrixtaAction {
   return {
     type: SIGN_OUT_TRIXTA,
-  };
-}
-
-/**
- * Any exception caused by trixta
- *
- * @param params.error - error from trixta
- */
-export function updateTrixtaError({
-  error,
-}: {
-  error: any;
-}): UpdateTrixtaErrorAction {
-  return {
-    type: UPDATE_TRIXTA_ERROR,
-    error,
   };
 }
 
@@ -58,25 +38,6 @@ export function updateTrixtaRoles({
     type: UPDATE_TRIXTA_ROLES,
     payload: {
       roles,
-    },
-  };
-}
-
-/**
- *  Listened for the in the Trixta saga to add role to agentDetails after successfully joining
- * the channel
- *
- * @param params.roleName - role name
- */
-export function joinTrixtaRole({
-  roleName,
-}: {
-  roleName: string;
-}): JoinTrixtaRoleAction {
-  return {
-    type: JOIN_TRIXTA_ROLE,
-    payload: {
-      roleName,
     },
   };
 }

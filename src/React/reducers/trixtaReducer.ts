@@ -32,7 +32,11 @@ import {
   UPDATE_TRIXTA_ROLE,
   UPDATE_TRIXTA_ROLES,
 } from '../constants';
-import { RequestStatus, TrixtaReactionInstance } from '../types';
+import {
+  RequestStatus,
+  TrixtaReactionInstance,
+  TrixtaRoleParameter,
+} from '../types';
 import { SIGN_OUT_TRIXTA } from './../constants/index';
 import { TrixtaReducerActions } from './../reduxActions/types';
 import { TrixtaState } from './../types';
@@ -109,7 +113,7 @@ export const trixtaReducer = (
         }
         break;
       case UPDATE_TRIXTA_ROLES:
-        action.payload.roles.forEach(({ name }) => {
+        action.payload.roles.forEach(({ name }: TrixtaRoleParameter) => {
           const index = draft.agentDetails.findIndex((role) => role === name);
           if (index === -1) {
             draft.authorizingStatus[name] = { status: true };

@@ -23,6 +23,7 @@ import {
   TrixtaInstance,
   TrixtaInstanceMode,
   TrixtaReactionInstance,
+  TrixtaRoleParameter,
   TrixtaState,
 } from '../../types/common';
 import { initialState, trixtaReducer } from '../trixtaReducer';
@@ -113,7 +114,7 @@ describe('trixtaReducer', () => {
     };
     state = trixtaState;
     const expectedResult = produce<TrixtaState>(state, (draft) => {
-      action.payload.roles.forEach(({ name }) => {
+      action.payload.roles.forEach(({ name }: TrixtaRoleParameter) => {
         const index = draft.agentDetails.findIndex((role) => role === name);
         if (index === -1) {
           draft.authorizingStatus[name] = { status: true };

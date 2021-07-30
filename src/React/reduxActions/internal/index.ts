@@ -1,7 +1,9 @@
 import { getReducerKeyName } from '../../../utils';
 import {
   emitTrixtaReactionResponse,
+  JOIN_TRIXTA_ROLE,
   UPDATE_TRIXTA_ACTION,
+  UPDATE_TRIXTA_ERROR,
   UPDATE_TRIXTA_REACTION,
   UPDATE_TRIXTA_REACTION_RESPONSE,
 } from '../../constants';
@@ -17,6 +19,23 @@ import {
   UpdateTrixtaReactionResponseAction,
 } from '../types/trixtaReactions';
 import { TrixtaActionDetails } from './../../types/actions';
+import { JoinTrixtaRoleAction, UpdateTrixtaErrorAction } from './types';
+
+/**
+ * Any exception caused by trixta
+ *
+ * @param params.error - error from trixta
+ */
+export function updateTrixtaError({
+  error,
+}: {
+  error: any;
+}): UpdateTrixtaErrorAction {
+  return {
+    type: UPDATE_TRIXTA_ERROR,
+    error,
+  };
+}
 
 /**
  *  Updates the TrixtaState reactions[params.roleName:params.reactionName].instances
@@ -132,6 +151,25 @@ export function updateTrixtaAction({
       trixtaAction: {
         ...trixtaAction,
       },
+    },
+  };
+}
+
+/**
+ *  Listened for the in the Trixta saga to add role to agentDetails after successfully joining
+ * the channel
+ *
+ * @param params.roleName - role name
+ */
+export function joinTrixtaRole({
+  roleName,
+}: {
+  roleName: string;
+}): JoinTrixtaRoleAction {
+  return {
+    type: JOIN_TRIXTA_ROLE,
+    payload: {
+      roleName,
     },
   };
 }

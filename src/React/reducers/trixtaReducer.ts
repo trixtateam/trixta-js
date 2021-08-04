@@ -57,7 +57,11 @@ export const trixtaReducer = (
   produce(state, (draft: Draft<TrixtaState>) => {
     switch (action.type) {
       case SIGN_OUT_TRIXTA:
-        draft = initialState;
+        draft.actions = initialState.actions;
+        draft.error = initialState.error;
+        draft.reactions = initialState.reactions;
+        draft.authorizingStatus = initialState.authorizingStatus;
+        draft.agentDetails = initialState.agentDetails;
         break;
       case channelActionTypes.CHANNEL_JOIN_ERROR:
         {

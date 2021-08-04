@@ -41,9 +41,13 @@ describe('trixtaReducer', () => {
   it('signoutTrixta should return the initial state', () => {
     state = trixtaState;
     const expectedResult = produce<TrixtaState>(state, (draft) => {
-      draft = initialState;
+      draft.actions = initialState.actions;
+      draft.error = initialState.error;
+      draft.reactions = initialState.reactions;
+      draft.authorizingStatus = initialState.authorizingStatus;
+      draft.authorizationStarted = initialState.authorizationStarted;
+      draft.agentDetails = initialState.agentDetails;
     });
-
     expect(trixtaReducer(state, signoutTrixta())).toEqual(expectedResult);
   });
 

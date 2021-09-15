@@ -2,10 +2,13 @@
 JS
 <hr />
 
-![GitHub Release Date](https://img.shields.io/github/release-date/trixtateam/trixta-js?style=for-the-badge)
-![GitHub last commit](https://img.shields.io/github/last-commit/trixtateam/trixta-js?style=for-the-badge)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/trixtateam/trixta-js?style=for-the-badge)
-![GitHub commits since latest release](https://img.shields.io/github/commits-since/trixtateam/trixta-js/latest?style=for-the-badge)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+
+
+![GitHub Release Date](https://img.shields.io/github/release-date/trixtateam/trixta-js)
+![GitHub last commit](https://img.shields.io/github/last-commit/trixtateam/trixta-js)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/trixtateam/trixta-js)
+![GitHub commits since latest release](https://img.shields.io/github/commits-since/trixtateam/trixta-js/latest)
 
 ![Coverage statements](badges/badge-statements.svg)
 ![Coverage branches](badges/badge-branches.svg)

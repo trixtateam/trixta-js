@@ -11,14 +11,13 @@ module.exports = {
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',
     '@semantic-release/changelog',
-    ['@semantic-release/npm', { npmPublish: false }],
+    ['@semantic-release/npm', { npmPublish: true }],
     [
       '@semantic-release/git',
       {
         assets: ['package.json', 'CHANGELOG.md', 'badges/**/*'],
-        message: 'chore(release): ${nextRelease.version}\n\n${nextRelease.notes}',
+        message: 'chore(release): @trixtateam/trixta-js@v${nextRelease.version}',
       },
     ],
-    // '@semantic-release/github', // not needed as we are not publishing releases to github
   ],
 };

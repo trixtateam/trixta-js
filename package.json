@@ -1,22 +1,23 @@
 {
-  "name": "@trixta/trixta-js",
+  "name": "@trixtateam/trixta-js",
   "version": "4.1.3",
   "description": "Javascript library to integrate Trixta",
   "source": "src/index.ts",
-  "main": "dist/@trixta/trixta-js.cjs.js",
-  "module": "dist/@trixta/trixta-js.esm.js",
+  "main": "dist/@trixtateam/trixta-js.cjs.js",
+  "module": "dist/@trixtateam/trixta-js.esm.js",
   "types": "types/index.d.ts",
   "files": [
     "dist",
     "types"
   ],
   "publishConfig": {
-    "access": "public"
+    "registry":"https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/trixtateam/trixta-js.git"
   },
+
   "keywords": [
     "trixta",
     "react",
@@ -58,6 +59,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
+    "test:no-coverage": "jest --coverage=false --watchAll=false",
     "test:coveralls": "jest --coverage --coverageReporters=text-lcov | coveralls",
     "test:badges": "yarn test --coverage --watchAll=false --silent && yarn run coverage-badges",
     "coverage-badges": "jest-coverage-badges --output ./badges",
@@ -79,10 +81,17 @@
   },
   "jest": {
     "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
       "!src/**/*/*.d.ts",
+      "!src/**/*/Loadable.{js,jsx,ts,tsx}",
       "!src/**/*/*.stories.{js,jsx,ts,tsx}",
       "!src/**/*/stories/**/*",
+      "!src/**/*/messages.ts",
       "!src/**/*/types.ts",
+      "!src/index.tsx",
+      "!src/serviceWorker.ts",
+      "!src/config/**/*",
+      "!src/constants/**/*",
       "!src/**/types/**/*"
     ],
     "coverageReporters": [

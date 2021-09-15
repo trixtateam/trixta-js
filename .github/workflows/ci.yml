@@ -21,20 +21,29 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Get Yarn cache directory
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - name: Cache node modules 💾
         uses: actions/cache@v2
         id: cache-modules
-        env:
-          cache-name: cache-modules
         with:
           path: |
-            ~/.cache/Cypress
-            **/node_modules
+            ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          # **/node_modules
           key:
-            ${{ runner.os }}-build-${{ env.cache-name }}-${{
+            ${{ runner.os }}-yarn-${{ matrix.node-version }}-${{
             hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+            ${{ runner.os }}-yarn-${{ matrix.node-version }}-
+
+      - name: Configure npm 🔑
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=$GH_TOKEN" > .npmrc
+          echo '@trixtateam:registry=https://npm.pkg.github.com' >> .npmrc
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Increase watchers
         run:
@@ -42,21 +51,19 @@ jobs:
           && sudo sysctl -p
 
       - name: Install 💿
-        # if: steps.cache-modules.outputs.cache-hit != 'true'
-        run: yarn install
+        run: yarn install --prefer-offline --frozen-lockfile
 
-      - name: Yarn Lock Changes
-        # for now, use `main` before the stable release will be published as `v1`
+      - name: Build libraries 🔨
+        run: yarn build
+
+      - name: Lint ✏️
+        run: yarn lint
+
+      - name: Test 🧪
+        run: yarn test:no-coverage
+
+      - name: Yarn Lock Changes 📋
         uses: Simek/yarn-lock-changes@main
         with:
           updateComment: 'true'
           token: ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: Build library 🔨
-        run: yarn build
-
-      - name: Lint ✏️
-        run: yarn lint:fix
-
-      - name: Test 🧪
-        run: yarn test:coverage

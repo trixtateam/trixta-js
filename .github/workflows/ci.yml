@@ -53,7 +53,7 @@ jobs:
       - name: Install 💿
         run: yarn install --prefer-offline --frozen-lockfile
 
-      - name: Build libraries 🔨
+      - name: Build Library 🔨
         run: yarn build
 
       - name: Lint ✏️

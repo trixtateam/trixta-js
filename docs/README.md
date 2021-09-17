@@ -14,9 +14,9 @@
 
 Install the package with npm
 
-`npm i @trixta/trixta-js` or yarn - whichever you prefer
+`npm i @trixtateam/trixta-js` or yarn - whichever you prefer
 
-`yarn add @trixta/trixta-js`
+`yarn add @trixtateam/trixta-js`
 
 ## 1. Setup Reducer
 
@@ -27,7 +27,7 @@ Install the package with npm
 
 import { combineReducers } from '@reduxjs/toolkit';
 import { phoenixReducer } from '@trixta/phoenix-to-redux';
-import { trixtaReducer } from '@trixta/trixta-js';
+import { trixtaReducer } from '@trixtateam/trixta-js';
 export default function createReducer() {
   const rootReducer = combineReducers({
     trixta: trixtaReducer,
@@ -88,7 +88,7 @@ export default function configureStore() {
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { createPhoenixChannelMiddleware } from '@trixta/phoenix-to-redux';
 import createSagaMiddleware from 'redux-saga';
-import { setupTrixtaSaga } from '@trixta/trixta-js';
+import { setupTrixtaSaga } from '@trixtateam/trixta-js';
 import createReducer from './reducers';
 
 export default function configureStore() {
@@ -129,7 +129,7 @@ export default function configureStore() {
 
 ```javascript
 import { put, select, takeLatest, takeEvery, fork } from 'redux-saga/effects';
-import { setupTrixtaSaga } from '@trixta/trixta-js';
+import { setupTrixtaSaga } from '@trixtateam/trixta-js';
 
 export default function* rootSaga() {
   yield fork(setupTrixtaSaga);
@@ -181,7 +181,7 @@ export default function configureStore() {
 
 ```javascript
 import { put, select, takeLatest, takeEvery, fork } from 'redux-saga/effects';
-import { updateTrixtaRoles } from '@trixta/trixta-js';
+import { updateTrixtaRoles } from '@trixtateam/trixta-js';
 import { socketActionTypes,connectPhoenix } from '@trixta/phoenix-to-redux';
 
 /**

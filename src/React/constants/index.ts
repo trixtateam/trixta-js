@@ -15,12 +15,12 @@ import {
 } from './reactions';
 export * from './actions';
 export * from './reactions';
-export const UPDATE_TRIXTA_ROLES = `@trixta/trixta-js/UPDATE_TRIXTA_ROLES`;
-export const UPDATE_TRIXTA_ROLE = `@trixta/trixta-js/UPDATE_TRIXTA_ROLE`;
-export const JOIN_TRIXTA_ROLE = `@trixta/trixta-js/JOIN_TRIXTA_ROLE`;
-export const REMOVE_TRIXTA_ROLE = `@trixta/trixta-js/REMOVE_TRIXTA_ROLE`;
-export const SIGN_OUT_TRIXTA = `@trixta/trixta-js/SIGN_OUT_TRIXTA`;
-export const UPDATE_TRIXTA_ERROR = `@trixta/trixta-js/UPDATE_TRIXTA_ERROR`;
+export const UPDATE_TRIXTA_ROLES = `@trixtateam/trixta-js/UPDATE_TRIXTA_ROLES`;
+export const UPDATE_TRIXTA_ROLE = `@trixtateam/trixta-js/UPDATE_TRIXTA_ROLE`;
+export const JOIN_TRIXTA_ROLE = `@trixtateam/trixta-js/JOIN_TRIXTA_ROLE`;
+export const REMOVE_TRIXTA_ROLE = `@trixtateam/trixta-js/REMOVE_TRIXTA_ROLE`;
+export const SIGN_OUT_TRIXTA = `@trixtateam/trixta-js/SIGN_OUT_TRIXTA`;
+export const UPDATE_TRIXTA_ERROR = `@trixtateam/trixta-js/UPDATE_TRIXTA_ERROR`;
 
 export const trixtaActionTypes = {
   SIGN_OUT_TRIXTA,

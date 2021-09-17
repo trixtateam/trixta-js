@@ -1,15 +1,21 @@
 import { JSONSchema7Object } from 'json-schema';
-import { DefaultUnknownType, RequestStatus, TrixtaBaseRoleProps, TrixtaCommon, TrixtaInstance, TrixtaInstanceMode } from '../common';
-
+import {
+  DefaultUnknownType,
+  RequestStatus,
+  TrixtaBaseRoleProps,
+  TrixtaCommon,
+  TrixtaInstance,
+  TrixtaInstanceMode,
+} from '../common';
 
 export interface TrixtaActionDebugOptions {
   slowdown: number;
-    debugRole?: string;
-    inspect: boolean;
-    debug_broadcast: {
-        role?: string;
-    };
-    effect_only?: boolean;
+  debugRole?: string;
+  inspect: boolean;
+  debug_broadcast: {
+    role?: string;
+  };
+  effect_only?: boolean;
 }
 
 export interface TrixtaActionOptions {
@@ -23,11 +29,11 @@ export interface TrixtaActionHandlerType {
   engine?: string;
 }
 
-export interface TrixtaActionDetails extends TrixtaCommon{
+export type TrixtaActionDetails = TrixtaCommon;
 
-}
-
-export interface TrixtaActionResponseDetails<TInitialData = DefaultUnknownType> {
+export interface TrixtaActionResponseDetails<
+  TInitialData = DefaultUnknownType
+> {
   id: string;
   settings: unknown;
   initial_data: TInitialData;
@@ -70,7 +76,7 @@ export interface SubmitTrixtaActionResponse<TFormData = DefaultUnknownType> {
    * Enables debugging for action in Trixta flow
    */
   debugMode?: boolean;
-   /**
+  /**
    * Trixta flow debugging options
    */
   debugOptions?: TrixtaActionDebugOptions;

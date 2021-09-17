@@ -15,7 +15,7 @@
 ##   Handle line endings automatically for files detected as
 ##   text and leave all files detected as binary untouched.
 ##   This will handle all files NOT defined below.
-*                 text=none
+*                 text=none eol=lf
 
 # Source code
 *.bash            text eol=lf
@@ -23,8 +23,8 @@
 *.cmd             text eol=crlf
 *.coffee          text
 *.css             text eol=lf
-*.htm             text diff=html
-*.html            text diff=html
+*.htm             text diff=html eol=lf
+*.html            text diff=html eol=lf
 *.inc             text
 *.ini             text
 *.js              text eol=lf

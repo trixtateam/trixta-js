@@ -27,7 +27,7 @@ export interface TrixtaReactionResponseDetails<
   dateCreated?: string;
 }
 
-export interface TrixtaReactionDetails extends TrixtaCommon {}
+export type TrixtaReactionDetails = TrixtaCommon;
 
 export interface TrixtaReactionDispatch<TInitialData = DefaultUnknownType> {
   /**

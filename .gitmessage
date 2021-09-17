@@ -24,18 +24,18 @@
 
 # Description: commit description up to 50 chars
 
-# Body: 
-#   Explain what was done or fixed, why this change is being made. 
+# Body:
+#   Explain what was done or fixed, why this change is being made.
 #   Provide links or keys to any relevant issues (#WR-23), tickets, articles or other resources
 
 # Footer:
-#   The footer is optional lines that mention consequences which stems from the change - 
+#   The footer is optional lines that mention consequences which stems from the change -
 #   such as announcing a breaking change, linking closed issues, mentioning contributors and so on.
 
 # Example:
 #   fix(core): removed deprecated apis
 #
-#   These apis have been deprecated in v3, so they should stick around till v5, 
+#   These apis have been deprecated in v3, so they should stick around till v5,
 #   but since they are defunct we are removing them early so that they don't take up payload size.
 #
 #   #WR-53

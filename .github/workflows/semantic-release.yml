@@ -49,14 +49,6 @@ jobs:
           github-token: ${{ secrets.GH_TOKEN }}
           filterOutClosed: true
 
-      - name: File Changes ✏️
-        id: file_changes
-        uses: trilom/file-changes-action@v1.2.4
-        with:
-          prNumber: ${{ steps.pr.outputs.number }}
-          pushBefore: ${{ github.event.pull_request.base.sha }}
-          pushAfter: ''
-
       - name: Configure npm 🔑
         run: |
           echo "//npm.pkg.github.com/:_authToken=$GH_TOKEN" > .npmrc

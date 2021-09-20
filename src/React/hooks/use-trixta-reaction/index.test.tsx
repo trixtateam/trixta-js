@@ -424,6 +424,7 @@ describe('useTrixtaReaction', () => {
       };
 
       let responseData = {};
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const onSuccess = (payload: any) => (responseData = payload);
       const { result } = renderHook(
         () =>
@@ -469,6 +470,7 @@ describe('useTrixtaReaction', () => {
           getReducerKeyName({ name: reactionName, role: roleName })
         ].instances.requestForResponse[0].details.ref;
       let responseData = {};
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const onError = (error: any) => (responseData = error);
       const { result } = renderHook(
         () =>

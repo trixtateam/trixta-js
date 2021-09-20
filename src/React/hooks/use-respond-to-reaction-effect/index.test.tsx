@@ -65,6 +65,7 @@ describe('useRespondToReactionEffect', () => {
     const { wrapper, store } = mockStoreProviderWrapper(trixtaState);
     const roleName = trixtaState.agentDetails[1];
     const reactionName = 'new_waitroom_status';
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const actionToDispatch = (payload: any) => ({
       type: 'TEST_ACTION',
       payload,

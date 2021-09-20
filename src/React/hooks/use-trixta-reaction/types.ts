@@ -1,9 +1,9 @@
 import { TrixtaReactionBaseProps } from '../../../React/types/reactions';
 import {
   DefaultUnknownType,
+  submitTrixtaFunctionParameters,
   TrixtaInstanceResponse,
   TrixtaReactionInstance,
-  submitTrixtaFunctionParameters,
 } from '../../types/common';
 
 export interface UseTrixtaReactionProps extends TrixtaReactionBaseProps {
@@ -11,6 +11,10 @@ export interface UseTrixtaReactionProps extends TrixtaReactionBaseProps {
    * Enables Trixta console debbugging
    */
   debugMode?: boolean;
+  /**
+   * If 'true', will set the timeoutEvent the same as the ErrorEvent
+   */
+  setTimeoutEventAsErrorEvent?: boolean;
   /**
    * This function will fire any time the response from Trixta successfully returns data and will be passed the data.
    */

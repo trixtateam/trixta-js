@@ -22,6 +22,7 @@ import {
   SUBMIT_TRIXTA_ACTION_RESPONSE,
   SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
   SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
+  SUBMIT_TRIXTA_ACTION_TIMEOUT_RESPONSE_FAILURE,
   SUBMIT_TRIXTA_REACTION_RESPONSE,
   SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
   SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
@@ -38,6 +39,7 @@ import {
   TrixtaRoleParameter,
 } from '../types';
 import { SIGN_OUT_TRIXTA } from './../constants/index';
+import { SUBMIT_TRIXTA_REACTION_TIMEOUT_RESPONSE_FAILURE } from './../constants/reactions/index';
 import { TrixtaReducerActions } from './../reduxActions/types';
 import { TrixtaState } from './../types';
 
@@ -137,6 +139,7 @@ export const trixtaReducer = (
         }
         break;
       case SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE:
+      case SUBMIT_TRIXTA_REACTION_TIMEOUT_RESPONSE_FAILURE:
         {
           const reactionName = action.additionalData.reactionName;
           const roleName = action.additionalData.roleName;
@@ -403,6 +406,7 @@ export const trixtaReducer = (
         }
         break;
       case SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE:
+      case SUBMIT_TRIXTA_ACTION_TIMEOUT_RESPONSE_FAILURE:
         {
           const actionName = action.additionalData.actionName;
           const roleName = action.additionalData.roleName;

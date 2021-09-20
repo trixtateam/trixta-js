@@ -29,6 +29,7 @@ export function submitTrixtaReactionResponse<TFormData extends unknown>({
   responseEvent = undefined,
   requestEvent = undefined,
   errorEvent = undefined,
+  ...rest
 }: SubmitTrixtaReactionResponse<TFormData>): SubmitTrixtaReactionResponseAction<
   TFormData
 > {
@@ -42,6 +43,7 @@ export function submitTrixtaReactionResponse<TFormData extends unknown>({
       errorEvent,
       roleName,
       reactionName,
+      ...rest,
     },
   };
 }

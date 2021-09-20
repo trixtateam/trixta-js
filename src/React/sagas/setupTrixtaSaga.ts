@@ -27,6 +27,7 @@ import {
   SUBMIT_TRIXTA_REACTION_RESPONSE,
   SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
   SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
+  SUBMIT_TRIXTA_REACTION_TIMEOUT_RESPONSE_FAILURE,
   trixtaActionLoadingStatus,
   trixtaReactionLoadingStatus,
   TRIXTA_REACTION_RESPONSE,
@@ -39,11 +40,7 @@ import {
   removeTrixtaRole,
   RemoveTrixtaRoleAction,
   SubmitTrixtaActionResponseAction,
-  SubmitTrixtaActionResponsFailureAction,
-  SubmitTrixtaActionResponsSuccesseAction,
   SubmitTrixtaReactionResponseAction,
-  SubmitTrixtaReactionResponseFailureAction,
-  SubmitTrixtaReactionResponseSuccessAction,
   UpdateTrixtaActionDetailsAction,
   updateTrixtaError,
   UpdateTrixtaReactionDetailsAction,
@@ -56,6 +53,14 @@ import {
   updateTrixtaReaction,
   updateTrixtaReactionResponse,
 } from '../reduxActions/internal';
+import {
+  SubmitTrixtaActionResponseFailureAction,
+  SubmitTrixtaActionResponseSuccessAction,
+  SubmitTrixtaActionResponseTimeoutFailureAction,
+  SubmitTrixtaReactionResponseFailureAction,
+  SubmitTrixtaReactionResponseSuccessAction,
+  SubmitTrixtaReactionResponseTimeoutFailureAction,
+} from '../reduxActions/internal/types';
 import { makeSelectTrixtaAgentDetails } from '../selectors/common';
 import {
   TrixtaActionDetails,
@@ -65,6 +70,7 @@ import {
   TrixtaRoleParameter,
   TrixtaState,
 } from '../types';
+import { SUBMIT_TRIXTA_ACTION_TIMEOUT_RESPONSE_FAILURE } from './../constants/actions/index';
 
 /**
  * Removes the trixta role and related actions and reactions from the trixta reducer
@@ -241,6 +247,8 @@ function* submitActionResponseSaga({
     const roleName = payload.roleName;
     const responseEvent = payload.responseEvent;
     const errorEvent = payload.errorEvent;
+    const timeoutEvent = payload.timeoutEvent;
+    const timeout = payload.timeout;
     const requestEvent = payload.requestEvent;
     const clearResponse = payload.clearResponse;
     const actionName = payload.actionName;
@@ -268,10 +276,14 @@ function* submitActionResponseSaga({
           roleName,
           actionName,
           clearResponse,
+          timeout,
+          timeoutEvent,
           responseEvent,
           errorEvent,
         },
         dispatchChannelError: true,
+        channelTimeOutEvent: SUBMIT_TRIXTA_ACTION_TIMEOUT_RESPONSE_FAILURE,
+        channelPushTimeOut: timeout,
         channelErrorResponseEvent: SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
         channelResponseEvent: SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
         loadingStatusKey: trixtaActionLoadingStatus({ roleName, actionName }),
@@ -293,7 +305,7 @@ function* submitActionResponseSaga({
 function* submitActionResponseSuccess({
   additionalData,
   data,
-}: SubmitTrixtaActionResponsSuccesseAction) {
+}: SubmitTrixtaActionResponseSuccessAction) {
   const responseEvent = additionalData.responseEvent;
   if (responseEvent) {
     yield put({ type: responseEvent, payload: data });
@@ -309,13 +321,32 @@ function* submitActionResponseSuccess({
 function* submitActionResponseFailure({
   error,
   additionalData,
-}: SubmitTrixtaActionResponsFailureAction) {
+}: SubmitTrixtaActionResponseFailureAction) {
   const errorEvent =
     additionalData && additionalData.errorEvent
       ? additionalData.errorEvent
       : undefined;
   if (errorEvent) {
     yield put({ type: errorEvent, error });
+  }
+}
+
+/**
+ * Failure response due to timeout after submitting the action for the roleName
+ * @param {Object} params
+ * @param {Object} params.error
+ * @param {Object} params.additionalData - additionalData
+ */
+function* submitActionResponseTimoutFailure({
+  error,
+  additionalData,
+}: SubmitTrixtaActionResponseTimeoutFailureAction) {
+  const timeoutEvent =
+    additionalData && additionalData.timeoutEvent
+      ? additionalData.timeoutEvent
+      : undefined;
+  if (timeoutEvent) {
+    yield put({ type: timeoutEvent, error });
   }
 }
 
@@ -434,6 +465,8 @@ function* submitResponseForReactionSaga({
     const roleName = payload.roleName;
     const responseEvent = payload.responseEvent;
     const errorEvent = payload.errorEvent;
+    const timeoutEvent = payload.timeoutEvent;
+    const timeout = payload.timeout;
     const requestEvent = payload.requestEvent;
     const reactionName = payload.reactionName;
     const formData = payload.formData;
@@ -456,9 +489,12 @@ function* submitResponseForReactionSaga({
           reactionName,
           responseEvent,
           errorEvent,
+          timeoutEvent,
           ref,
         },
         dispatchChannelError: true,
+        channelPushTimeOut: timeout,
+        channelTimeOutEvent: SUBMIT_TRIXTA_REACTION_TIMEOUT_RESPONSE_FAILURE,
         channelErrorResponseEvent: SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
         channelResponseEvent: SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
         loadingStatusKey: trixtaReactionLoadingStatus({
@@ -489,6 +525,25 @@ function* submitReactionResponseFailure({
       : undefined;
   if (errorEvent) {
     yield put({ type: errorEvent, error });
+  }
+}
+
+/**
+ * Failure response due to timeout after responding to reaction for the roleName
+ * @param {Object} params
+ * @param {Object} params.error
+ * @param {Object} params.additionalData - additionalData
+ */
+function* submitReactionResponseTimeoutFailure({
+  error,
+  additionalData,
+}: SubmitTrixtaReactionResponseTimeoutFailureAction) {
+  const timeoutEvent =
+    additionalData && additionalData.timeoutEvent
+      ? additionalData.timeoutEvent
+      : undefined;
+  if (timeoutEvent) {
+    yield put({ type: timeoutEvent, error });
   }
 }
 
@@ -654,12 +709,20 @@ export function* setupTrixtaSaga(): Generator<unknown, void, unknown> {
       submitReactionResponseFailure,
     ),
     takeEvery(
+      SUBMIT_TRIXTA_REACTION_TIMEOUT_RESPONSE_FAILURE,
+      submitReactionResponseTimeoutFailure,
+    ),
+    takeEvery(
       SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
       submitReactionResponseSuccess,
     ),
     takeEvery(
       SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
       submitActionResponseFailure,
+    ),
+    takeEvery(
+      SUBMIT_TRIXTA_ACTION_TIMEOUT_RESPONSE_FAILURE,
+      submitActionResponseTimoutFailure,
     ),
   ]);
 }

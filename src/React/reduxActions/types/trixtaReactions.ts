@@ -1,9 +1,12 @@
 import {
+  SubmitTrixtaReactionResponseFailureAction,
+  SubmitTrixtaReactionResponseSuccessAction,
+  SubmitTrixtaReactionResponseTimeoutFailureAction,
+} from '../internal/reactions/types';
+import {
   CLEAR_TRIXTA_REACTION_REQUEST_STATUS,
   CLEAR_TRIXTA_REACTION_RESPONSE,
   SUBMIT_TRIXTA_REACTION_RESPONSE,
-  SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
-  SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
   TRIXTA_REACTION_RESPONSE,
   UPDATE_TRIXTA_REACTION,
   UPDATE_TRIXTA_REACTION_RESPONSE,
@@ -78,37 +81,16 @@ export type SubmitTrixtaReactionResponseAction<
     responseEvent?: string;
     requestEvent?: string;
     errorEvent?: string;
+    timeoutEvent?: string;
+    timeout?: number;
     roleName: string;
     reactionName: string;
   };
-};
-
-export type SubmitTrixtaReactionResponseFailureAction = {
-  type: typeof SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE;
-  error: any;
-  additionalData: {
-    ref?: string;
-    roleName: string;
-    reactionName: string;
-    responseEvent?: string;
-    errorEvent?: string;
-  };
-};
-
-export type SubmitTrixtaReactionResponseSuccessAction = {
-  type: typeof SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS;
-  additionalData: {
-    ref?: string;
-    roleName: string;
-    reactionName: string;
-    responseEvent?: string;
-    errorEvent?: string;
-  };
-  data: any;
 };
 
 export type TrixtaReactionReducerActions =
   | SubmitTrixtaReactionResponseFailureAction
+  | SubmitTrixtaReactionResponseTimeoutFailureAction
   | ClearTrixtaReactionRequestStatusAction
   | SubmitTrixtaReactionResponseSuccessAction
   | UpdateTrixtaReactionResponseAction

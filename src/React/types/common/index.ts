@@ -52,6 +52,15 @@ export interface submitTrixtaFunctionParameters {
    * Event name / dispatch action type for data to dispatch after Trixta Reaction / Action error response
    */
   errorEvent?: string;
+  /**
+   * Event name / dispatch action type for data to dispatch after Trixta action time out error response
+   * [see Redux `dispatch` documentation for complete info](https://redux.js.org/api/store#dispatchaction)
+   */
+  timeoutEvent?: string;
+  /**
+   * timeout in milliseconds for submitting data to Trixta, default is 15000
+   */
+  timeout?: number;
 }
 
 export interface LastActionSubmit {

@@ -32,6 +32,7 @@ const TrixtaReactionInstanceComponent = ({
 }: ConnectProps &
   DispatchProps &
   TrixtaReactionInstanceComponentProps &
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Record<string, any>) => {
   const response = get<TrixtaInstanceResponse>(instance, 'response', {
     success: false,
@@ -102,6 +103,10 @@ function mapDispatchToProps(
         submitTrixtaReactionResponse({
           formData,
           errorEvent: ownProps.errorEvent,
+          timeoutEvent: ownProps.setTimeoutEventAsErrorEvent
+            ? ownProps.errorEvent
+            : ownProps.timeoutEvent,
+          timeout: ownProps.timeout,
           requestEvent: ownProps.requestEvent,
           responseEvent: ownProps.responseEvent,
           ref: ownProps.instanceRef,

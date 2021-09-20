@@ -27,6 +27,7 @@ export function* respondToTrixtaReactionEffectSaga({
 }): Generator<
   TakeEffect | PutEffect,
   void,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   EmitTrixtaReactionResponseListenerEventAction<any>
 > {
   while (true) {
@@ -34,7 +35,7 @@ export function* respondToTrixtaReactionEffectSaga({
       roleName,
       reactionName,
     });
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response: EmitTrixtaReactionResponseListenerEventAction<any> = yield take(
       actionType,
     );

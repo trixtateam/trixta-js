@@ -24,7 +24,8 @@ function TrixtaReactionComponent({
   debugMode = false,
   instances,
   ...rest
-}: ConnectProps & TrixtaReactionComponentProps & Record<string, any>) {
+}: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+ConnectProps & TrixtaReactionComponentProps & Record<string, any>) {
   trixtaDebugger({
     type: TrixtaDebugType.Reaction,
     debugMode,

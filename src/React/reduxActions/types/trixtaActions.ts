@@ -2,8 +2,6 @@ import {
   CLEAR_TRIXTA_ACTION_REQUEST_STATUS,
   CLEAR_TRIXTA_ACTION_RESPONSE,
   SUBMIT_TRIXTA_ACTION_RESPONSE,
-  SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
-  SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
   UPDATE_TRIXTA_ACTION,
   UPDATE_TRIXTA_ACTION_RESPONSE,
 } from '../../constants/actions/index';
@@ -13,6 +11,11 @@ import {
   TrixtaActionResponseDetails,
 } from '../../types/actions';
 import { DefaultUnknownType } from '../../types/common';
+import {
+  SubmitTrixtaActionResponseFailureAction,
+  SubmitTrixtaActionResponseSuccessAction,
+  SubmitTrixtaActionResponseTimeoutFailureAction,
+} from '../internal/actions/types';
 
 export type UpdateTrixtaActionDetailsAction = {
   type: typeof UPDATE_TRIXTA_ACTION;
@@ -62,38 +65,17 @@ export type SubmitTrixtaActionResponseAction<TFormData = DefaultUnknownType> = {
     requestEvent?: string;
     responseEvent?: string;
     errorEvent?: string;
-  };
-};
-
-export type SubmitTrixtaActionResponsSuccesseAction = {
-  type: typeof SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS;
-  data: any;
-  additionalData: {
-    roleName: string;
-    actionName: string;
-    clearResponse?: boolean;
-    responseEvent?: string;
-    errorEvent?: string;
-  };
-};
-
-export type SubmitTrixtaActionResponsFailureAction = {
-  type: typeof SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE;
-  error: any;
-  additionalData: {
-    roleName: string;
-    actionName: string;
-    clearResponse?: boolean;
-    responseEvent?: string;
-    errorEvent?: string;
+    timeoutEvent?: string;
+    timeout?: number;
   };
 };
 
 export type TrixtaActionReducerActions =
   | UpdateTrixtaActionResponseAction
   | ClearTrixtaActionRequestStatusAction
-  | SubmitTrixtaActionResponsSuccesseAction
-  | SubmitTrixtaActionResponsFailureAction
+  | SubmitTrixtaActionResponseSuccessAction
+  | SubmitTrixtaActionResponseTimeoutFailureAction
+  | SubmitTrixtaActionResponseFailureAction
   | UpdateTrixtaActionDetailsAction
   | ClearTrixtaActionResponseAction
   | SubmitTrixtaActionResponseAction;

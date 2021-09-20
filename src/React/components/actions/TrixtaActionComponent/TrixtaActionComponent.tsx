@@ -30,6 +30,7 @@ function TrixtaActionComponent({
 }: TrixtaActionComponentProps &
   DispatchProps &
   ConnectProps &
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Record<string, any>) {
   trixtaDebugger({
     type: TrixtaDebugType.Action,
@@ -103,6 +104,10 @@ function mapDispatchToProps(
           errorEvent: ownProps.errorEvent,
           responseEvent: ownProps.responseEvent,
           requestEvent: ownProps.requestEvent,
+          timeoutEvent: ownProps.setTimeoutEventAsErrorEvent
+            ? ownProps.errorEvent
+            : ownProps.timeoutEvent,
+          timeout: ownProps.timeout,
           debugMode: ownProps.debugMode,
           formData,
           actionOptions: ownProps.actionOptions,

@@ -9,5 +9,9 @@ export type JoinTrixtaRoleAction = {
 
 export type UpdateTrixtaErrorAction = {
   type: typeof UPDATE_TRIXTA_ERROR;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any;
 };
+
+export * from './actions/types';
+export * from './reactions/types';

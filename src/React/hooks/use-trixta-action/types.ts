@@ -8,6 +8,10 @@ import {
 export interface UseTrixtaActionProps extends TrixtaActionBaseProps {
   options?: {
     /**
+     * If 'true', will set the timeoutEvent the same as the ErrorEvent
+     */
+    setTimeoutEventAsErrorEvent?: boolean;
+    /**
      * Enables Trixta console debbugging
      */
     debugMode?: boolean;

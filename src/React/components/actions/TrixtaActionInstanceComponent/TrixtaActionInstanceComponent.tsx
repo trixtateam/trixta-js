@@ -14,8 +14,10 @@ function TrixtaActionInstanceComponent({
   roleName,
   instance,
   debugMode = false,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ...props
-}: TrixtaActionInstanceComponentProps & ConnectProps & Record<string, any>) {
+}: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+TrixtaActionInstanceComponentProps & ConnectProps & Record<string, any>) {
   trixtaInstanceDebugger({
     type: TrixtaDebugType.Action,
     debugMode,

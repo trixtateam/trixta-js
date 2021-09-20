@@ -1,4 +1,3 @@
-// ! WORK IN PROGRESS
 import deequal from 'deequal';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,7 +40,11 @@ export const useTrixtaAction = <
   roleName,
   actionName,
   actionParameters,
-  options = { debugMode: false, autoSubmit: false },
+  options = {
+    debugMode: false,
+    autoSubmit: false,
+    setTimeoutEventAsErrorEvent: false,
+  },
   onSuccess,
   onError,
 }: UseTrixtaActionProps): UseTrixtaActionHookReturn<
@@ -84,6 +87,7 @@ export const useTrixtaAction = <
     makeSelectTrixtaActionResponseInstancesForRole,
     [],
   );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectTrixtaActionRequestStatus: any = useMemo(
     makeSelectTrixtaActionRequestStatus,
     [],
@@ -127,6 +131,8 @@ export const useTrixtaAction = <
       responseEvent,
       requestEvent,
       errorEvent,
+      timeoutEvent,
+      timeout,
     }: submitTrixtaFunctionParameters) => {
       if (!hasRoleAccess || !isTrixtaActionReady) return;
 
@@ -137,11 +143,22 @@ export const useTrixtaAction = <
           requestEvent,
           responseEvent,
           errorEvent,
+          timeoutEvent: options.setTimeoutEventAsErrorEvent
+            ? errorEvent
+            : timeoutEvent,
+          timeout,
           actionName,
         }),
       );
     },
-    [dispatch, isTrixtaActionReady, roleName, actionName, hasRoleAccess],
+    [
+      hasRoleAccess,
+      isTrixtaActionReady,
+      dispatch,
+      roleName,
+      options.setTimeoutEventAsErrorEvent,
+      actionName,
+    ],
   );
 
   useEffect(() => {

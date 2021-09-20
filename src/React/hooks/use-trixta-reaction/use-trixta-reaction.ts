@@ -47,6 +47,7 @@ export const useTrixtaReaction = <
   debugMode = false,
   onSuccess,
   onError,
+  setTimeoutEventAsErrorEvent = false,
 }: UseTrixtaReactionProps): UseTrixtaReactionHookReturn<
   TInitialData,
   TResponseType,
@@ -77,6 +78,7 @@ export const useTrixtaReaction = <
   } as TrixtaReactionBaseProps;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectIsTrixtaReactionReadyForRole: any = useMemo(
     makesSelectIsTrixtaReactionReadyForRole,
     [],
@@ -84,10 +86,12 @@ export const useTrixtaReaction = <
   const isTrixtaReactionReady = useSelector<{ trixta: TrixtaState }, boolean>(
     (state) => selectIsTrixtaReactionReadyForRole(state, reactionRoleProps),
   );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectReactionResponses: any = useMemo(
     makeSelectTrixtaReactionResponseInstancesForRole,
     [],
   );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectTrixtaReactionRequestStatus: any = useMemo(
     makeSelectTrixtaReactionRequestStatus,
     [],
@@ -130,6 +134,8 @@ export const useTrixtaReaction = <
       data,
       responseEvent,
       errorEvent,
+      timeoutEvent,
+      timeout,
       ref,
       requestEvent,
     }: submitTrixtaFunctionParameters) => {
@@ -140,6 +146,8 @@ export const useTrixtaReaction = <
           formData: data ?? {},
           ref: ref ?? latestInstance?.details.ref,
           roleName,
+          timeoutEvent: setTimeoutEventAsErrorEvent ? errorEvent : timeoutEvent,
+          timeout,
           responseEvent,
           requestEvent,
           errorEvent,
@@ -148,12 +156,13 @@ export const useTrixtaReaction = <
       );
     },
     [
-      dispatch,
-      roleName,
-      reactionName,
-      isTrixtaReactionReady,
       hasRoleAccess,
-      latestInstance,
+      isTrixtaReactionReady,
+      dispatch,
+      latestInstance?.details.ref,
+      roleName,
+      setTimeoutEventAsErrorEvent,
+      reactionName,
     ],
   );
 

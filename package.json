@@ -11,7 +11,8 @@
     "types"
   ],
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "repository": {
     "type": "git",
@@ -42,7 +43,7 @@
     "link:phoenix-to-redux": "npm link @trixta/phoenix-to-redux",
     "build": "kcd-scripts build --bundle 'esm,cjs' --no-clean",
     "prebuild": "rimraf dist types && yarn run lint:fix",
-    "checkTs": "tsc --noEmit",
+    "lint:ts": "tsc --noEmit",
     "lint": "yarn run eslint src",
     "lint:fix": "yarn run lint --fix",
     "prettify": "prettier --write",

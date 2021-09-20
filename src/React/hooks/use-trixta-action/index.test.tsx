@@ -204,6 +204,7 @@ describe('useTrixtaAction', () => {
     };
     const actionName = 'request_user_info_request';
     let responseData = {};
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onSuccess = (payload: any) => (responseData = payload);
     const { result } = renderHook(
       () =>
@@ -248,6 +249,7 @@ describe('useTrixtaAction', () => {
     };
     const actionName = 'request_user_info_request';
     let responseData = {};
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onError = (error: any) => (responseData = error);
     const { result } = renderHook(
       () =>

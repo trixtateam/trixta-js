@@ -35,6 +35,7 @@ export const useTrixtaAuth = ({
     roleAccessSelector(state, { roles: rolesArr }),
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const phoenixDetails = useSelector<any, { token?: string }>((state) =>
     socketPhoenixDetailsSelector(state),
   );

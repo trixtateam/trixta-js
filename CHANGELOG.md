@@ -1,3 +1,10 @@
+# [4.2.0](https://github.com/trixtateam/trixta-js/compare/v4.1.3...v4.2.0) (2021-09-20)
+
+
+### Features
+
+* timeout events for trixta actions and reactions ([82d9dcc](https://github.com/trixtateam/trixta-js/commit/82d9dcc7aa4c4975a58350ba24a76022f9f7de37))
+
 # 1.0.0 (2021-04-28)
 
 

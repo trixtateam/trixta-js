@@ -59,18 +59,9 @@ jobs:
         id: tagger
         uses: digital-ai/query-tag-action@v2
         with:
-          include: '@trixtateam/trixta-js@*'
           exclude: '*-rc*'
           commit-ish: 'HEAD'
           exact-match: 'true'
-
-      - name: Rename tag
-        run: |
-          release_tag="${tag//@trixtateam\/trixta-js@/trixtateam\/trixta-js-}"
-          echo $release_tag
-          echo "release_tag=$release_tag" >> $GITHUB_ENV
-        env:
-          tag: ${{ steps.tagger.outputs.tag }}
 
       # Create Release Branch
       - name: Create Branch
@@ -78,4 +69,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          branch: 'release/${{ env.release_tag }}'
+          branch: 'release/${{ steps.tagger.outputs.tag }}'

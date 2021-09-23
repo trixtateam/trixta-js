@@ -1,0 +1,43 @@
+import { ArgsTable, Title, Description } from '@storybook/addon-docs';
+import { Meta } from '@storybook/addon-docs';
+import DocsGenerator from './docs-generator';
+import { DEFAULT_REDUX_ACTIONS_PATH } from '../../../../../stories/constants/storybook';
+
+<Meta
+  title={`${DEFAULT_REDUX_ACTIONS_PATH}updateTrixtaRole`}
+  parameters={{
+    status: {
+      type: 'beta', // 'beta' | 'stable' | 'deprecated'
+    },
+  }}
+/>
+
+<Title>updateTrixtaRole</Title>
+<Description>
+  This will join a role for a connected Trixta Space. This will add all
+  connected actions and reactions for the role.
+</Description>
+
+# Examples
+
+## Using a saga
+
+```javascript
+import { updateTrixtaRole } from '@trixtateam/trixta-js';
+import { put } from 'redux-saga/effects';
+
+yield put(updateTrixtaRole({name:'name of Trixta role'}))
+
+```
+
+## Using useDispatch hook
+
+```javascript
+import { updateTrixtaRole } from '@trixtateam/trixta-js';
+import { useDispatch } from 'react-redux';
+const dispatch = useDispatch();
+
+dispatch(updateTrixtaRole({ name: 'name of Trixta role' }));
+```
+
+<ArgsTable of={DocsGenerator} />

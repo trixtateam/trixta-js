@@ -10,6 +10,7 @@ import { get, pickBy } from '../../utils/object';
 import { TrixtaAction, TrixtaActionBaseProps } from '../types/actions';
 import {
   RequestStatus,
+  TrixtaBaseRoleProps,
   TrixtaCommon,
   TrixtaInstance,
   TrixtaInstanceResponse,
@@ -295,14 +296,26 @@ export const makesSelectTrixtaLatestActionInstance = (): OutputParametricSelecto
 /**
  * Selects the actions for given props.roleName
  */
-export const makeSelectTrixtaActionsForRole = () =>
+export const makeSelectTrixtaActionsForRole = (): OutputParametricSelector<
+  {
+    trixta: TrixtaState;
+  },
+  TrixtaBaseRoleProps,
+  TrixtaAction[],
+  (res1: Record<string, TrixtaAction>, res2: string) => TrixtaAction[]
+> =>
   createSelector(
     [selectTrixtActionsStateSelector, selectTrixtaRoleNameProp],
-    (trixtaActions, roleName) =>
-      pickBy(
+    (trixtaActions, roleName) => {
+      const trixtaActionsForRole: Record<string, TrixtaAction> = pickBy(
         trixtaActions,
-        (value, key) => key && key.split(':', 1)[0] === roleName,
-      ),
+        (_, key) => key && key.split(':', 1)[0] === roleName,
+      );
+      return Object.entries<TrixtaAction>(trixtaActionsForRole).map(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        ([_, value]) => value,
+      );
+    },
   );
 
 /**

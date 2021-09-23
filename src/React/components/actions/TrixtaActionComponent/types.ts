@@ -10,7 +10,7 @@ export interface TrixtaActionComponentProps extends TrixtaActionBaseProps {
   renderResponse?: boolean;
   debugOptions?: TrixtaActionDebugOptions;
   /**
-   * Enables Trixta console debbugging
+   * Enables Trixta console debbugging. If 'true', open the console and see verbose logging
    */
   debugMode?: boolean;
   /**

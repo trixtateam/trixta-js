@@ -199,8 +199,8 @@ export function* setupTrixtaActionForRole({
     updateTrixtaAction({
       role: roleName,
       trixtaAction: {
-        name: actionName,
         ...actionDetails,
+        name: actionName,
       },
       name: actionName,
     }),
@@ -220,8 +220,8 @@ export function* setupTrixtaReactionForRole({
     updateTrixtaReaction({
       role: roleName,
       trixtaReaction: {
-        name: reactionName,
         ...reactionDetails,
+        name: reactionName,
       },
       name: reactionName,
     }),

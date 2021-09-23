@@ -1,3 +1,10 @@
+export interface UseTrixtaAuthProps {
+  /**
+   * Trixta roles or role name
+   */
+  roles?: string | string[];
+}
+
 export interface UseTrixtaAuthHookReturn {
   /**
    * If 'true' , Trixta socket  is connected with token parameter

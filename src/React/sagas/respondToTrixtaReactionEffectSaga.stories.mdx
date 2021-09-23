@@ -1,0 +1,66 @@
+import { ArgsTable, Title, Description } from '@storybook/addon-docs';
+import { Meta } from '@storybook/addon-docs';
+import { DEFAULT_REACTIONS_SAGAS_PATH } from '../../stories/constants/storybook';
+
+<Meta
+  title={`${DEFAULT_REACTIONS_SAGAS_PATH}respondToTrixtaReactionEffectSaga`}
+  parameters={{
+    status: {
+      type: 'stable', // 'beta' | 'stable' | 'deprecated'
+    },
+  }}
+/>
+
+<Title>respondToTrixtaReactionEffectSaga</Title>
+<Description>
+  Can be used to listen and respond on Trixta reactions in a redux saga.
+</Description>
+
+# Examples
+
+```javascript
+export const EXAMPLE_RESPONSE = 'app/EXAMPLE_RESPONSE';
+
+export const getResponse(response) => ({
+  type: EXAMPLE_RESPONSE,
+  payload: response,
+})
+```
+
+```javascript
+import {getResponse} from './actions'
+import {
+  fork,
+} from 'redux-saga/effects';
+import { respondToTrixtaReactionEffectSaga } from '@trixtateam/trixta-js';
+
+
+export default function* globalSaga() {
+yield fork(respondToTrixtaReactionEffectSaga,{
+  roleName: // name of Trixta role
+  reactionName: // name of Trixta reaction
+  actionToDispatch: getResponse
+});
+}
+
+```
+
+OR
+
+```javascript
+import {EXAMPLE_RESPONSE} from './actions'
+import {
+  fork,
+} from 'redux-saga/effects';
+import { respondToTrixtaReactionEffectSaga } from '@trixtateam/trixta-js';
+
+
+export default function* globalSaga() {
+yield fork(respondToTrixtaReactionEffectSaga,{
+  roleName: // name of Trixta role
+  reactionName: // name of Trixta reaction
+  dispatchResponseTo: EXAMPLE_RESPONSE
+});
+}
+
+```

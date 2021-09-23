@@ -4,7 +4,7 @@ import {
   UPDATE_TRIXTA_ROLE,
   UPDATE_TRIXTA_ROLES,
 } from '../constants';
-import { TrixtaRoleParameter } from './../types/common';
+import { TrixtaRole, TrixtaRoleParameter } from './../types/common';
 import {
   RemoveTrixtaRoleAction,
   SignoutTrixtaAction,
@@ -70,11 +70,7 @@ export function updateTrixtaRole({
  *
  * @param params.name - role name
  */
-export function removeTrixtaRole({
-  name,
-}: {
-  name: string;
-}): RemoveTrixtaRoleAction {
+export function removeTrixtaRole({ name }: TrixtaRole): RemoveTrixtaRoleAction {
   return {
     type: REMOVE_TRIXTA_ROLE,
     payload: {

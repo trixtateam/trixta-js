@@ -107,5 +107,5 @@ lib
 # TernJS port file
 .tern-port
 
-#story book files
+# react story book files
 storybook-static/

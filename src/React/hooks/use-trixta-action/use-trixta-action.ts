@@ -20,7 +20,7 @@ import {
 import {
   DefaultUnknownType,
   RequestStatus,
-  submitTrixtaFunctionParameters,
+  SubmitTrixtaFunctionParameters,
   TrixtaActionBaseProps,
   TrixtaInstance,
   TrixtaState,
@@ -140,7 +140,7 @@ export const useTrixtaAction = <
       errorEvent,
       timeoutEvent,
       timeout,
-    }: submitTrixtaFunctionParameters) => {
+    }: SubmitTrixtaFunctionParameters) => {
       if (!hasRoleAccess || !isTrixtaActionReady) return;
 
       dispatch(

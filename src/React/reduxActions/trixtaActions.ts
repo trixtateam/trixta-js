@@ -3,7 +3,11 @@ import {
   CLEAR_TRIXTA_ACTION_RESPONSE,
   SUBMIT_TRIXTA_ACTION_RESPONSE,
 } from '../constants/actions';
-import { SubmitTrixtaActionResponse } from './../types/actions';
+import {
+  ClearTrixtaActionRequestStatus,
+  ClearTrixtaActionResponse,
+  SubmitTrixtaActionResponse,
+} from './../types/actions';
 import {
   ClearTrixtaActionRequestStatusAction,
   ClearTrixtaActionResponseAction,
@@ -59,20 +63,7 @@ export function clearTrixtaActionResponse({
   roleName,
   actionName,
   loadingStatusRef = undefined,
-}: {
-  /**
-   * Name of Trixta role
-   */
-  roleName: string;
-  /**
-   * Name of Trixta action
-   */
-  actionName: string;
-  /**
-   * Optional value to separate loading status for multiple instances of using the same Trixta action name
-   */
-  loadingStatusRef?: string;
-}): ClearTrixtaActionResponseAction {
+}: ClearTrixtaActionResponse): ClearTrixtaActionResponseAction {
   return {
     type: CLEAR_TRIXTA_ACTION_RESPONSE,
     payload: {
@@ -95,20 +86,7 @@ export function clearTrixtaActionRequestStatus({
   roleName,
   actionName,
   loadingStatusRef = undefined,
-}: {
-  /**
-   * Name of Trixta role
-   */
-  roleName: string;
-  /**
-   * Name of Trixta action
-   */
-  actionName: string;
-  /**
-   * Optional value to separate loading status for multiple instances of using the same Trixta action name
-   */
-  loadingStatusRef?: string;
-}): ClearTrixtaActionRequestStatusAction {
+}: ClearTrixtaActionRequestStatus): ClearTrixtaActionRequestStatusAction {
   return {
     type: CLEAR_TRIXTA_ACTION_REQUEST_STATUS,
     payload: {

@@ -31,7 +31,7 @@ export enum RequestStatus {
   FAILURE = 3,
 }
 
-export interface submitTrixtaFunctionParameters {
+export interface SubmitTrixtaFunctionParameters {
   /**
    * Data to submit for Trixta Reaction / Action
    */
@@ -62,7 +62,8 @@ export interface submitTrixtaFunctionParameters {
    */
   timeout?: number;
   /**
-   * Optional value to separate loading status for multiple instances of using the same Trixta action/reaction name
+   * Optional value to change the default isInProgress behaviour for when submitting actions and reactions.
+   * If you plan to use the same action / reaction name for the same role, on the same screen, this is when you would make use of this * property
    */
   loadingStatusRef?: string;
 }
@@ -94,11 +95,20 @@ export enum TrixtaDataType {
 }
 
 export interface TrixtaRoleParameter {
+  /**
+   * Name of Trixta role
+   */
   name: string;
+  /**
+   * True, if presence should be tracked for the given role
+   */
   logPresence?: boolean;
 }
 
 export interface TrixtaRole {
+  /**
+   * Name of Trixta role
+   */
   name: string;
 }
 
@@ -121,7 +131,7 @@ export interface TrixtaCommon {
   /**
    * Name of Trixta action or reaction
    */
-  name?: string;
+  name: string;
   /**
    * Description of Trixta action or reaction
    */
@@ -144,6 +154,7 @@ export interface TrixtaCommon {
    */
   // eslint-disable-next-line camelcase
   request_settings: UiSchema;
+  form_data?: unknown;
   handler?: TrixtaActionHandlerType;
   tags: Array<string>;
 }
@@ -229,9 +240,3 @@ export interface TrixtaReactionInstance<
 export type TrixtaDispatch<T = never> = [T] extends [never]
   ? () => void
   : (data: T) => void;
-export interface TrixtaAuthProps {
-  /**
-   * Trixta roles or role name
-   */
-  roles?: string | string[];
-}

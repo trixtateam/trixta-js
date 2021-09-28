@@ -1,5 +1,5 @@
-const commonjs = require('rollup-plugin-commonjs');
-const babel = require('rollup-plugin-babel');
+import commonjs from '@rollup/plugin-commonjs';
+import { babel } from '@rollup/plugin-babel';
 const config = require('kcd-scripts/dist/config/rollup.config.js');
 
 const babelPluginIndex = config.plugins.findIndex(
@@ -10,12 +10,11 @@ const cjsPluginIndex = config.plugins.findIndex(
 );
 
 config.plugins[babelPluginIndex] = babel({
-  runtimeHelpers: true,
+  babelHelpers: 'runtime',
   extensions: ['.js', '.jsx', '.ts', '.tsx'],
 });
 config.plugins[cjsPluginIndex] = commonjs({
   include: /node_modules/,
-  namedExports: {},
 });
 
 module.exports = config;

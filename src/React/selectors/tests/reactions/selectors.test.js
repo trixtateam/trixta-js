@@ -1,4 +1,9 @@
-import { get, getReducerKeyName, pickBy } from '../../../../utils';
+import {
+  get,
+  getReducerKeyName,
+  getRequestStatusKeyName,
+  pickBy,
+} from '../../../../utils';
 // eslint-disable-next-line jest/no-mocks-import
 import { mockedState } from '../../../reducers/__mocks__/trixtaState';
 import { RequestStatus } from '../../../types';
@@ -56,6 +61,44 @@ describe('Trixta Selectors', () => {
 
       expect(
         trixtaReactionSelectors.selectTrixtReactionStateSelector(
+          mockedState,
+          props,
+        ),
+      ).toEqual(expectedResult);
+    });
+
+    it('selectTrixtReactionRequestStatusSelector', () => {
+      const roleName = commonSelectors.selectTrixtaRoleNameProp(
+        mockedState,
+        props,
+      );
+      const reactionName = trixtaReactionSelectors.selectTrixtaReactionNameProp(
+        mockedState,
+        props,
+      );
+      const loadingStatusRef = commonSelectors.selectTrixtaLoadingStatusRefProp(
+        mockedState,
+        props,
+      );
+      const trixtaReactions = trixtaReactionSelectors.selectTrixtaReactions(
+        mockedState,
+      );
+
+      const requestStatusKey = getRequestStatusKeyName({
+        name: reactionName,
+        role: roleName,
+        loadingStatusRef,
+      });
+      const keyName = getReducerKeyName({ name: reactionName, role: roleName });
+
+      const expectedResult =
+        trixtaReactions[keyName] &&
+        trixtaReactions[keyName].requestStatus[requestStatusKey]
+          ? trixtaReactions[keyName].requestStatus[requestStatusKey]
+          : undefined;
+
+      expect(
+        trixtaReactionSelectors.selectTrixtReactionRequestStatusSelector(
           mockedState,
           props,
         ),

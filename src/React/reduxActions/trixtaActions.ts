@@ -26,9 +26,6 @@ import {
  * @param params.errorEvent - event for error to dispatch to on trixta action error response
  */
 export function submitTrixtaActionResponse<TFormData extends unknown>({
-  formData,
-  roleName,
-  actionName,
   clearResponse = false,
   debugMode = false,
   actionOptions = {},
@@ -44,13 +41,10 @@ export function submitTrixtaActionResponse<TFormData extends unknown>({
   return {
     type: SUBMIT_TRIXTA_ACTION_RESPONSE,
     payload: {
-      formData,
-      roleName,
       debugMode,
       clearResponse,
       actionOptions,
       debugOptions,
-      actionName,
       ...rest,
     },
   };
@@ -64,6 +58,7 @@ export function submitTrixtaActionResponse<TFormData extends unknown>({
 export function clearTrixtaActionResponse({
   roleName,
   actionName,
+  loadingStatusRef = undefined,
 }: {
   /**
    * Name of Trixta role
@@ -73,12 +68,17 @@ export function clearTrixtaActionResponse({
    * Name of Trixta action
    */
   actionName: string;
+  /**
+   * Optional value to separate loading status for multiple instances of using the same Trixta action name
+   */
+  loadingStatusRef?: string;
 }): ClearTrixtaActionResponseAction {
   return {
     type: CLEAR_TRIXTA_ACTION_RESPONSE,
     payload: {
       roleName,
       actionName,
+      loadingStatusRef,
     },
   };
 }
@@ -89,10 +89,12 @@ export function clearTrixtaActionResponse({
  *
  * @param params.roleName - name of role
  * @param params.actionName - name of action
+ * @param params.loadingStatusRef - loading status ref for action name
  */
 export function clearTrixtaActionRequestStatus({
   roleName,
   actionName,
+  loadingStatusRef = undefined,
 }: {
   /**
    * Name of Trixta role
@@ -102,12 +104,17 @@ export function clearTrixtaActionRequestStatus({
    * Name of Trixta action
    */
   actionName: string;
+  /**
+   * Optional value to separate loading status for multiple instances of using the same Trixta action name
+   */
+  loadingStatusRef?: string;
 }): ClearTrixtaActionRequestStatusAction {
   return {
     type: CLEAR_TRIXTA_ACTION_REQUEST_STATUS,
     payload: {
       roleName,
       actionName,
+      loadingStatusRef,
     },
   };
 }

@@ -22,10 +22,6 @@ import {
  * @param params.errorEvent - event for error to dispatch to on trixta reaction error response
  */
 export function submitTrixtaReactionResponse<TFormData extends unknown>({
-  formData,
-  ref,
-  roleName,
-  reactionName,
   responseEvent = undefined,
   requestEvent = undefined,
   errorEvent = undefined,
@@ -36,13 +32,9 @@ export function submitTrixtaReactionResponse<TFormData extends unknown>({
   return {
     type: SUBMIT_TRIXTA_REACTION_RESPONSE,
     payload: {
-      formData,
-      ref,
       responseEvent,
       requestEvent,
       errorEvent,
-      roleName,
-      reactionName,
       ...rest,
     },
   };
@@ -53,10 +45,12 @@ export function submitTrixtaReactionResponse<TFormData extends unknown>({
  *
  * @param params.roleName - name of role
  * @param params.reactionName - name of reaction
+ * @param params.loadingStatusRef - loading status ref for reaction name
  */
 export function clearTrixtaReactionResponse({
   roleName,
   reactionName,
+  loadingStatusRef = undefined,
 }: {
   /**
    * Name of Trixta role
@@ -66,12 +60,17 @@ export function clearTrixtaReactionResponse({
    * Name of Trixta reaction
    */
   reactionName: string;
+  /**
+   * Optional value to separate loading status for multiple instances of using the same Trixta reaction name
+   */
+  loadingStatusRef?: string;
 }): ClearTrixtaReactionResponseAction {
   return {
     type: CLEAR_TRIXTA_REACTION_RESPONSE,
     payload: {
       roleName,
       reactionName,
+      loadingStatusRef,
     },
   };
 }
@@ -82,10 +81,12 @@ export function clearTrixtaReactionResponse({
  *
  * @param params.roleName - name of role
  * @param params.reactionName - name of reaction
+ * @param params.loadingStatusRef - loading status ref for reaction name
  */
 export function clearTrixtaReactionRequestStatus({
   roleName,
   reactionName,
+  loadingStatusRef = undefined,
 }: {
   /**
    * Name of Trixta role
@@ -95,12 +96,17 @@ export function clearTrixtaReactionRequestStatus({
    * Name of Trixta reaction
    */
   reactionName: string;
+  /**
+   * Optional value to separate loading status for multiple instances of using the same Trixta reaction name
+   */
+  loadingStatusRef?: string;
 }): ClearTrixtaReactionRequestStatusAction {
   return {
     type: CLEAR_TRIXTA_REACTION_REQUEST_STATUS,
     payload: {
       roleName,
       reactionName,
+      loadingStatusRef,
     },
   };
 }

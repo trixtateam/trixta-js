@@ -1,5 +1,6 @@
 import { RequestStatus, TrixtaInstanceMode } from '../React/types/common/index';
 import {
+  getReducerKeyName,
   getTrixtaActionReducerStructure,
   getTrixtaReactionReducerStructure,
 } from '../utils';
@@ -25,7 +26,10 @@ describe('Trixta Utilities', () => {
         request_settings: {},
         tags: ['current'],
       };
-
+      const keyName = getReducerKeyName({
+        name: exampleReaction.name,
+        role: 'test',
+      });
       const mode = get<TrixtaInstanceMode>(
         exampleReaction.request_settings,
         `ui:options.mode`,
@@ -36,12 +40,15 @@ describe('Trixta Utilities', () => {
       const expectedResult = {
         mode,
         loadingStatus: { status: true },
-        requestStatus: RequestStatus.NONE,
+        requestStatus: { [keyName]: RequestStatus.NONE },
         instances: { requestForEffect: [], requestForResponse: [] },
         common: exampleReaction,
       };
       expect(
-        getTrixtaReactionReducerStructure({ details: exampleReaction }),
+        getTrixtaReactionReducerStructure({
+          details: exampleReaction,
+          keyName,
+        }),
       ).toEqual(expectedResult);
     });
 
@@ -68,7 +75,10 @@ describe('Trixta Utilities', () => {
         },
         tags: ['current'],
       };
-
+      const keyName = getReducerKeyName({
+        name: exampleReaction.name,
+        role: 'test',
+      });
       const mode = get<TrixtaInstanceMode>(
         exampleReaction.request_settings,
         `ui:options.mode`,
@@ -79,15 +89,19 @@ describe('Trixta Utilities', () => {
       const expectedResult = {
         mode,
         loadingStatus: { status: true },
-        requestStatus: RequestStatus.NONE,
+        requestStatus: { [keyName]: RequestStatus.NONE },
         instances: { requestForEffect: [], requestForResponse: [] },
         common: exampleReaction,
       };
       expect(
-        getTrixtaReactionReducerStructure({ details: exampleReaction }),
+        getTrixtaReactionReducerStructure({
+          details: exampleReaction,
+          keyName,
+        }),
       ).toEqual(expectedResult);
       expect(
-        getTrixtaReactionReducerStructure({ details: exampleReaction }).mode,
+        getTrixtaReactionReducerStructure({ details: exampleReaction, keyName })
+          .mode,
       ).toEqual({
         type: 'accumulate',
       });
@@ -141,7 +155,10 @@ describe('Trixta Utilities', () => {
         },
         tags: [],
       };
-
+      const keyName = getReducerKeyName({
+        name: exampleAction.name,
+        role: 'test',
+      });
       const mode = get<TrixtaInstanceMode>(
         exampleAction.request_settings,
         `ui:options.mode`,
@@ -151,12 +168,12 @@ describe('Trixta Utilities', () => {
       );
       const expectedResult = {
         mode,
-        requestStatus: RequestStatus.NONE,
+        requestStatus: { [keyName]: RequestStatus.NONE },
         instances: [],
         common: exampleAction,
       };
       expect(
-        getTrixtaActionReducerStructure({ details: exampleAction }),
+        getTrixtaActionReducerStructure({ details: exampleAction, keyName }),
       ).toEqual(expectedResult);
     });
 
@@ -210,7 +227,10 @@ describe('Trixta Utilities', () => {
         },
         tags: [],
       };
-
+      const keyName = getReducerKeyName({
+        name: exampleAction.name,
+        role: 'test',
+      });
       const mode = get<TrixtaInstanceMode>(
         exampleAction.request_settings,
         `ui:options.mode`,
@@ -220,15 +240,16 @@ describe('Trixta Utilities', () => {
       );
       const expectedResult = {
         mode,
-        requestStatus: RequestStatus.NONE,
+        requestStatus: { [keyName]: RequestStatus.NONE },
         instances: [],
         common: exampleAction,
       };
       expect(
-        getTrixtaActionReducerStructure({ details: exampleAction }),
+        getTrixtaActionReducerStructure({ details: exampleAction, keyName }),
       ).toEqual(expectedResult);
       expect(
-        getTrixtaActionReducerStructure({ details: exampleAction }).mode,
+        getTrixtaActionReducerStructure({ details: exampleAction, keyName })
+          .mode,
       ).toEqual({
         type: 'accumulate',
       });

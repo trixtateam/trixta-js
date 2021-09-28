@@ -62,7 +62,7 @@ describe('useTrixtaAction', () => {
     expect(result.current.hasRoleAccess).toBe(true);
   });
 
-  it('should return callbacks clearActionResponses  and submitTrixtaAction', () => {
+  it('should return callbacks clearActionResponses and submitTrixtaAction', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
     const roleName = trixtaState.agentDetails[0];
     const { result } = renderHook(
@@ -231,7 +231,7 @@ describe('useTrixtaAction', () => {
       store.dispatch({
         type: SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
         data: successResponse,
-        additionalData: { actionName, roleName },
+        additionalData: { trixtaMeta: { actionName, roleName } },
       });
     });
     expect(result.current.response).toBeDefined();
@@ -276,7 +276,7 @@ describe('useTrixtaAction', () => {
       store.dispatch({
         type: SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
         error: errorResponse,
-        additionalData: { actionName, roleName },
+        additionalData: { trixtaMeta: { actionName, roleName } },
       });
     });
     expect(result.current.response).toBeDefined();

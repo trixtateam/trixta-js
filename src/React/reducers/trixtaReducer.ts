@@ -6,6 +6,7 @@ import {
   getMessageFromError,
   getReactionDetails,
   getReducerKeyName,
+  getRequestStatusKeyName,
   getTrixtaActionReducerStructure,
   getTrixtaInstanceResult,
   getTrixtaReactionReducerStructure,
@@ -134,22 +135,36 @@ export const trixtaReducer = (
             name: reactionName,
             role: roleName,
           });
+          const requestKeyName = getRequestStatusKeyName({
+            name: reactionName,
+            role: roleName,
+            loadingStatusRef: action.payload.loadingStatusRef,
+          });
           if (!draft.reactions[keyName]) break;
-          draft.reactions[keyName].requestStatus = RequestStatus.REQUEST;
+          draft.reactions[keyName].requestStatus[requestKeyName] =
+            RequestStatus.REQUEST;
         }
         break;
       case SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE:
       case SUBMIT_TRIXTA_REACTION_TIMEOUT_RESPONSE_FAILURE:
         {
-          const reactionName = action.additionalData.reactionName;
-          const roleName = action.additionalData.roleName;
-          const ref = action.additionalData.ref;
+          const reactionName = action.additionalData.trixtaMeta.reactionName;
+          const roleName = action.additionalData.trixtaMeta.roleName;
+          const ref = action.additionalData.trixtaMeta.ref;
+          const loadingStatusRef =
+            action.additionalData.trixtaMeta.loadingStatusRef;
           const keyName = getReducerKeyName({
             name: reactionName,
             role: roleName,
           });
+          const requestKeyName = getRequestStatusKeyName({
+            name: reactionName,
+            role: roleName,
+            loadingStatusRef,
+          });
           if (!draft.reactions[keyName]) break;
-          draft.reactions[keyName].requestStatus = RequestStatus.FAILURE;
+          draft.reactions[keyName].requestStatus[requestKeyName] =
+            RequestStatus.FAILURE;
           if (draft.reactions[keyName].instances.requestForResponse) {
             const index = draft.reactions[
               keyName
@@ -169,15 +184,23 @@ export const trixtaReducer = (
         break;
       case SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS:
         {
-          const reactionName = action.additionalData.reactionName;
-          const roleName = action.additionalData.roleName;
-          const ref = action.additionalData.ref;
+          const reactionName = action.additionalData.trixtaMeta.reactionName;
+          const roleName = action.additionalData.trixtaMeta.roleName;
+          const ref = action.additionalData.trixtaMeta.ref;
+          const loadingStatusRef =
+            action.additionalData.trixtaMeta.loadingStatusRef;
           const keyName = getReducerKeyName({
             name: reactionName,
             role: roleName,
           });
+          const requestKeyName = getRequestStatusKeyName({
+            name: reactionName,
+            role: roleName,
+            loadingStatusRef,
+          });
           if (!draft.reactions[keyName]) break;
-          draft.reactions[keyName].requestStatus = RequestStatus.SUCCESS;
+          draft.reactions[keyName].requestStatus[requestKeyName] =
+            RequestStatus.SUCCESS;
           if (draft.reactions[keyName].instances.requestForResponse) {
             const index = draft.reactions[
               keyName
@@ -209,7 +232,7 @@ export const trixtaReducer = (
             `${keyName}.mode`,
           );
           const isExpired = reaction.status === 'expired';
-          draft.reactions[keyName].requestStatus = RequestStatus.NONE;
+          draft.reactions[keyName].requestStatus[keyName] = RequestStatus.NONE;
           draft.reactions[keyName].loadingStatus = {};
           const isRequestForResponse = reaction.type === 'requestForResponse';
 
@@ -283,23 +306,38 @@ export const trixtaReducer = (
         {
           const reactionName = action.payload.reactionName;
           const roleName = action.payload.roleName;
+          const loadingStatusRef = action.payload.loadingStatusRef;
           const keyName = getReducerKeyName({
             name: reactionName,
             role: roleName,
           });
-          draft.reactions[keyName].requestStatus = RequestStatus.NONE;
+          const requestKeyName = getRequestStatusKeyName({
+            name: reactionName,
+            role: roleName,
+            loadingStatusRef,
+          });
+          if (!draft.reactions[keyName]) break;
+          draft.reactions[keyName].requestStatus[requestKeyName] =
+            RequestStatus.NONE;
         }
         break;
       case CLEAR_TRIXTA_REACTION_RESPONSE:
         {
           const reactionName = action.payload.reactionName;
           const roleName = action.payload.roleName;
+          const loadingStatusRef = action.payload.loadingStatusRef;
           const keyName = getReducerKeyName({
             name: reactionName,
             role: roleName,
           });
+          const requestKeyName = getRequestStatusKeyName({
+            name: reactionName,
+            role: roleName,
+            loadingStatusRef,
+          });
           if (!draft.reactions[keyName]) break;
-          draft.reactions[keyName].requestStatus = RequestStatus.NONE;
+          draft.reactions[keyName].requestStatus[requestKeyName] =
+            RequestStatus.NONE;
           draft.reactions[keyName].loadingStatus = { status: true };
           draft.reactions[keyName].instances.requestForResponse = [];
           draft.reactions[keyName].instances.requestForEffect = [];
@@ -311,6 +349,7 @@ export const trixtaReducer = (
           const keyName = action.payload.keyName;
           draft.actions[keyName] = getTrixtaActionReducerStructure({
             details: actionDetails,
+            keyName,
           });
         }
         break;
@@ -320,29 +359,45 @@ export const trixtaReducer = (
           const keyName = action.payload.keyName;
           draft.reactions[keyName] = getTrixtaReactionReducerStructure({
             details: reactionDetails,
+            keyName,
           });
         }
         break;
       case CLEAR_TRIXTA_ACTION_REQUEST_STATUS:
         const actionName = action.payload.actionName;
         const roleName = action.payload.roleName;
+        const loadingStatusRef = action.payload.loadingStatusRef;
         const keyName = getReducerKeyName({
           name: actionName,
           role: roleName,
         });
-        draft.actions[keyName].requestStatus = RequestStatus.NONE;
+        const requestKeyName = getRequestStatusKeyName({
+          name: actionName,
+          role: roleName,
+          loadingStatusRef,
+        });
+        if (!draft.actions[keyName]) break;
+        draft.actions[keyName].requestStatus[requestKeyName] =
+          RequestStatus.NONE;
         break;
       case CLEAR_TRIXTA_ACTION_RESPONSE:
         {
           const actionName = action.payload.actionName;
           const roleName = action.payload.roleName;
+          const loadingStatusRef = action.payload.loadingStatusRef;
           const keyName = getReducerKeyName({
             name: actionName,
             role: roleName,
           });
+          const requestKeyName = getRequestStatusKeyName({
+            name: actionName,
+            role: roleName,
+            loadingStatusRef,
+          });
           if (!draft.actions[keyName]) break;
           draft.actions[keyName].instances = [];
-          draft.actions[keyName].requestStatus = RequestStatus.NONE;
+          draft.actions[keyName].requestStatus[requestKeyName] =
+            RequestStatus.NONE;
         }
         break;
       case SUBMIT_TRIXTA_ACTION_RESPONSE:
@@ -353,27 +408,41 @@ export const trixtaReducer = (
             name: actionName,
             role: roleName,
           });
+          const requestKeyName = getRequestStatusKeyName({
+            name: actionName,
+            role: roleName,
+            loadingStatusRef: action.payload.loadingStatusRef,
+          });
           if (!draft.actions[keyName]) break;
-          draft.actions[keyName].requestStatus = RequestStatus.REQUEST;
+          draft.actions[keyName].requestStatus[requestKeyName] =
+            RequestStatus.REQUEST;
         }
         break;
       case SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS:
         {
-          const actionName = action.additionalData.actionName;
-          const roleName = action.additionalData.roleName;
+          const actionName = action.additionalData.trixtaMeta.actionName;
+          const roleName = action.additionalData.trixtaMeta.roleName;
+          const loadingStatusRef =
+            action.additionalData.trixtaMeta.loadingStatusRef;
           const keyName = getReducerKeyName({
             name: actionName,
             role: roleName,
+          });
+          const requestKeyName = getRequestStatusKeyName({
+            name: actionName,
+            role: roleName,
+            loadingStatusRef,
           });
           const mode = get<TrixtaInstanceMode>(
             state.actions,
             `${keyName}.mode`,
           );
-          const clearResponse = action.additionalData.clearResponse;
+          const clearResponse = action.additionalData.trixtaMeta.clearResponse;
           if (!draft.actions[keyName]) break;
           if (clearResponse) {
             draft.actions[keyName].instances = [];
-            draft.actions[keyName].requestStatus = RequestStatus.NONE;
+            draft.actions[keyName].requestStatus[requestKeyName] =
+              RequestStatus.NONE;
           }
           if (
             draft.actions[keyName] &&
@@ -402,24 +471,34 @@ export const trixtaReducer = (
                 break;
             }
           }
-          draft.actions[keyName].requestStatus = RequestStatus.SUCCESS;
+          draft.actions[keyName].requestStatus[requestKeyName] =
+            RequestStatus.SUCCESS;
         }
         break;
       case SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE:
       case SUBMIT_TRIXTA_ACTION_TIMEOUT_RESPONSE_FAILURE:
         {
-          const actionName = action.additionalData.actionName;
-          const roleName = action.additionalData.roleName;
-          const clearResponse = action.additionalData.clearResponse;
+          const actionName = action.additionalData.trixtaMeta.actionName;
+          const roleName = action.additionalData.trixtaMeta.roleName;
+          const clearResponse = action.additionalData.trixtaMeta.clearResponse;
+          const loadingStatusRef =
+            action.additionalData.trixtaMeta.loadingStatusRef;
           const keyName = getReducerKeyName({
             name: actionName,
             role: roleName,
           });
+          const requestKeyName = getRequestStatusKeyName({
+            name: actionName,
+            role: roleName,
+            loadingStatusRef,
+          });
           if (!draft.actions[keyName]) break;
-          draft.actions[keyName].requestStatus = RequestStatus.FAILURE;
+          draft.actions[keyName].requestStatus[requestKeyName] =
+            RequestStatus.FAILURE;
           if (clearResponse) {
             draft.actions[keyName].instances = [];
-            draft.actions[keyName].requestStatus = RequestStatus.NONE;
+            draft.actions[keyName].requestStatus[requestKeyName] =
+              RequestStatus.NONE;
           }
           const mode = get<TrixtaInstanceMode>(
             state.actions,

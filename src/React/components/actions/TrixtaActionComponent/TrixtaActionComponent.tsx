@@ -114,6 +114,7 @@ function mapDispatchToProps(
           debugOptions: ownProps.debugOptions,
           roleName: ownProps.roleName,
           actionName: ownProps.actionName,
+          loadingStatusRef: ownProps.loadingStatusRef,
         }),
       ),
   };

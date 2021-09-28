@@ -60,6 +60,7 @@ export type ClearTrixtaReactionResponseAction = {
   payload: {
     roleName: string;
     reactionName: string;
+    loadingStatusRef?: string;
   };
 };
 
@@ -68,6 +69,7 @@ export type ClearTrixtaReactionRequestStatusAction = {
   payload: {
     roleName: string;
     reactionName: string;
+    loadingStatusRef?: string;
   };
 };
 
@@ -76,8 +78,9 @@ export type SubmitTrixtaReactionResponseAction<
 > = {
   type: typeof SUBMIT_TRIXTA_REACTION_RESPONSE;
   payload: {
-    formData: TFormData;
+    formData?: TFormData;
     ref: string;
+    loadingStatusRef?: string;
     responseEvent?: string;
     requestEvent?: string;
     errorEvent?: string;

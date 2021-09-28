@@ -1,5 +1,14 @@
 import { JOIN_TRIXTA_ROLE, UPDATE_TRIXTA_ERROR } from '../../constants';
 
+export type AdditionalTrixtaData = {
+  roleName: string;
+  clearResponse?: boolean;
+  responseEvent?: string;
+  errorEvent?: string;
+  timeoutEvent?: string;
+  loadingStatusRef?: string;
+};
+
 export type JoinTrixtaRoleAction = {
   type: typeof JOIN_TRIXTA_ROLE;
   payload: {

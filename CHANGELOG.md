@@ -1,3 +1,10 @@
+# [4.3.0](https://github.com/trixtateam/trixta-js/compare/v4.2.0...v4.3.0) (2021-09-28)
+
+
+### Features
+
+* loading status ref ([0e51829](https://github.com/trixtateam/trixta-js/commit/0e51829e0df23704cb68275045474091ec2afb99))
+
 # [4.2.0](https://github.com/trixtateam/trixta-js/compare/v4.1.3...v4.2.0) (2021-09-20)
 
 

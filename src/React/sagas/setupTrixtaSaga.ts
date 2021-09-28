@@ -255,6 +255,17 @@ function* submitActionResponseSaga({
     const formData = payload.formData;
     const debugMode = payload.debugMode;
     const debugOptions = payload.debugOptions;
+    const loadingStatusRef = payload.loadingStatusRef;
+    const trixtaMeta = {
+      roleName,
+      actionName,
+      clearResponse,
+      timeout,
+      timeoutEvent,
+      responseEvent,
+      errorEvent,
+      loadingStatusRef,
+    };
     const actionOptions = get<
       SubmitTrixtaActionResponseAction['payload']['actionOptions']
     >(payload, 'actionOptions', {});
@@ -273,13 +284,7 @@ function* submitActionResponseSaga({
         eventName: actionName,
         requestData: { action_payload: formData, ...options },
         additionalData: {
-          roleName,
-          actionName,
-          clearResponse,
-          timeout,
-          timeoutEvent,
-          responseEvent,
-          errorEvent,
+          trixtaMeta,
         },
         dispatchChannelError: true,
         channelTimeOutEvent: SUBMIT_TRIXTA_ACTION_TIMEOUT_RESPONSE_FAILURE,
@@ -306,7 +311,7 @@ function* submitActionResponseSuccess({
   additionalData,
   data,
 }: SubmitTrixtaActionResponseSuccessAction) {
-  const responseEvent = additionalData.responseEvent;
+  const responseEvent = additionalData.trixtaMeta.responseEvent;
   if (responseEvent) {
     yield put({ type: responseEvent, payload: data });
   }
@@ -323,8 +328,8 @@ function* submitActionResponseFailure({
   additionalData,
 }: SubmitTrixtaActionResponseFailureAction) {
   const errorEvent =
-    additionalData && additionalData.errorEvent
-      ? additionalData.errorEvent
+    additionalData && additionalData.trixtaMeta.errorEvent
+      ? additionalData.trixtaMeta.errorEvent
       : undefined;
   if (errorEvent) {
     yield put({ type: errorEvent, error });
@@ -342,8 +347,8 @@ function* submitActionResponseTimoutFailure({
   additionalData,
 }: SubmitTrixtaActionResponseTimeoutFailureAction) {
   const timeoutEvent =
-    additionalData && additionalData.timeoutEvent
-      ? additionalData.timeoutEvent
+    additionalData && additionalData.trixtaMeta.timeoutEvent
+      ? additionalData.trixtaMeta.timeoutEvent
       : undefined;
   if (timeoutEvent) {
     yield put({ type: timeoutEvent, error });
@@ -469,8 +474,19 @@ function* submitResponseForReactionSaga({
     const timeout = payload.timeout;
     const requestEvent = payload.requestEvent;
     const reactionName = payload.reactionName;
+    const loadingStatusRef = payload.loadingStatusRef;
     const formData = payload.formData;
     const ref = payload.ref;
+    const trixtaMeta = {
+      roleName,
+      ref,
+      reactionName,
+      timeout,
+      timeoutEvent,
+      responseEvent,
+      errorEvent,
+      loadingStatusRef,
+    };
     const channelTopic = getChannelName({ role: roleName });
     yield put(getPhoenixChannel({ channelTopic }));
     if (requestEvent) {
@@ -485,12 +501,7 @@ function* submitResponseForReactionSaga({
           value: formData,
         },
         additionalData: {
-          roleName,
-          reactionName,
-          responseEvent,
-          errorEvent,
-          timeoutEvent,
-          ref,
+          trixtaMeta,
         },
         dispatchChannelError: true,
         channelPushTimeOut: timeout,
@@ -520,8 +531,8 @@ function* submitReactionResponseFailure({
   additionalData,
 }: SubmitTrixtaReactionResponseFailureAction) {
   const errorEvent =
-    additionalData && additionalData.errorEvent
-      ? additionalData.errorEvent
+    additionalData && additionalData.trixtaMeta.errorEvent
+      ? additionalData.trixtaMeta.errorEvent
       : undefined;
   if (errorEvent) {
     yield put({ type: errorEvent, error });
@@ -539,8 +550,8 @@ function* submitReactionResponseTimeoutFailure({
   additionalData,
 }: SubmitTrixtaReactionResponseTimeoutFailureAction) {
   const timeoutEvent =
-    additionalData && additionalData.timeoutEvent
-      ? additionalData.timeoutEvent
+    additionalData && additionalData.trixtaMeta.timeoutEvent
+      ? additionalData.trixtaMeta.timeoutEvent
       : undefined;
   if (timeoutEvent) {
     yield put({ type: timeoutEvent, error });
@@ -558,8 +569,8 @@ function* submitReactionResponseSuccess({
   additionalData,
 }: SubmitTrixtaReactionResponseSuccessAction) {
   const responseEvent =
-    additionalData && additionalData.responseEvent
-      ? additionalData.responseEvent
+    additionalData && additionalData.trixtaMeta.responseEvent
+      ? additionalData.trixtaMeta.responseEvent
       : undefined;
   if (responseEvent) {
     yield put({ type: responseEvent, payload: data });

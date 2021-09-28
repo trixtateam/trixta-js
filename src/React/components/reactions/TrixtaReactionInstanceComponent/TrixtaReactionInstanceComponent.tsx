@@ -112,6 +112,7 @@ function mapDispatchToProps(
           ref: ownProps.instanceRef,
           roleName: ownProps.roleName,
           reactionName: ownProps.reactionName,
+          loadingStatusRef: ownProps.loadingStatusRef,
         }),
       ),
   };

@@ -1,4 +1,4 @@
-import deequal from 'deequal';
+import deequal from 'fast-deep-equal';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { isNullOrEmpty } from '../../../utils';
@@ -40,6 +40,7 @@ export const useTrixtaAction = <
   roleName,
   actionName,
   actionParameters,
+  loadingStatusRef,
   options = {
     debugMode: false,
     autoSubmit: false,
@@ -66,8 +67,10 @@ export const useTrixtaAction = <
   >(undefined);
 
   const clearActionResponses = useCallback(() => {
-    dispatch(clearTrixtaActionResponse({ roleName, actionName }));
-  }, [actionName, roleName, dispatch]);
+    dispatch(
+      clearTrixtaActionResponse({ roleName, actionName, loadingStatusRef }),
+    );
+  }, [dispatch, roleName, actionName, loadingStatusRef]);
 
   const selectHasRoleAccess = useMemo(makeSelectHasTrixtaRoleAccess, []);
   const hasRoleAccess = useSelector<{ trixta: TrixtaState }, boolean>((state) =>
@@ -139,6 +142,7 @@ export const useTrixtaAction = <
       dispatch(
         submitTrixtaActionResponse({
           formData: data ?? {},
+          loadingStatusRef,
           roleName,
           requestEvent,
           responseEvent,
@@ -155,6 +159,7 @@ export const useTrixtaAction = <
       hasRoleAccess,
       isTrixtaActionReady,
       dispatch,
+      loadingStatusRef,
       roleName,
       options.setTimeoutEventAsErrorEvent,
       actionName,

@@ -45,6 +45,7 @@ export const useTrixtaReaction = <
   reactionName,
   requestForEffect = false,
   debugMode = false,
+  loadingStatusRef,
   onSuccess,
   onError,
   setTimeoutEventAsErrorEvent = false,
@@ -64,8 +65,10 @@ export const useTrixtaReaction = <
   }
 
   const clearReactionResponses = useCallback(() => {
-    dispatch(clearTrixtaReactionResponse({ roleName, reactionName }));
-  }, [reactionName, roleName, dispatch]);
+    dispatch(
+      clearTrixtaReactionResponse({ roleName, reactionName, loadingStatusRef }),
+    );
+  }, [dispatch, roleName, reactionName, loadingStatusRef]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectHasRoleAccess: any = useMemo(makeSelectHasTrixtaRoleAccess, []);
   const hasRoleAccess = useSelector<{ trixta: TrixtaState }, boolean>((state) =>
@@ -145,6 +148,7 @@ export const useTrixtaReaction = <
         submitTrixtaReactionResponse({
           formData: data ?? {},
           ref: ref ?? latestInstance?.details.ref,
+          loadingStatusRef,
           roleName,
           timeoutEvent: setTimeoutEventAsErrorEvent ? errorEvent : timeoutEvent,
           timeout,
@@ -156,6 +160,7 @@ export const useTrixtaReaction = <
       );
     },
     [
+      loadingStatusRef,
       hasRoleAccess,
       isTrixtaReactionReady,
       dispatch,

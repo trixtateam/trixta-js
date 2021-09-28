@@ -4,6 +4,7 @@ import {
   TrixtaInstanceMode,
   TrixtaState,
 } from '../../../React/types/common';
+import { getReducerKeyName } from '../../../utils';
 import { TrixtaReaction } from '../../types';
 import { TrixtaAction } from './../../types/actions/index';
 const { initialState } = reducers;
@@ -11,14 +12,18 @@ const { initialState } = reducers;
 export const mockTrixtaAction = ({
   mode = { type: 'replace' },
   actionName,
+  role,
   common,
 }: {
   mode: TrixtaInstanceMode;
   actionName: string;
+  role: string;
   common?: TrixtaCommon;
 }): TrixtaAction => ({
   mode,
-  requestStatus: 0,
+  requestStatus: {
+    [getReducerKeyName({ role, name: actionName })]: 0,
+  },
   instances: [],
   common: common ?? mockTrixtaCommon({ name: actionName }),
 });
@@ -26,14 +31,18 @@ export const mockTrixtaAction = ({
 export const mockTrixtaReaction = ({
   mode = { type: 'replace' },
   reactionName,
+  role,
   common,
 }: {
   mode?: TrixtaInstanceMode;
+  role: string;
   reactionName: string;
   common?: TrixtaCommon;
 }): TrixtaReaction => ({
   mode: mode,
-  requestStatus: 0,
+  requestStatus: {
+    [getReducerKeyName({ role, name: reactionName })]: 0,
+  },
   loadingStatus: { status: true },
   instances: {
     requestForEffect: [],
@@ -76,7 +85,9 @@ export const mockTrixtaReactions: TrixtaState['reactions'] = {
     mode: {
       type: 'accumulate',
     },
-    requestStatus: 0,
+    requestStatus: {
+      'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]:new_waitroom_status': 0,
+    },
     loadingStatus: {},
     instances: {
       requestForEffect: [
@@ -119,7 +130,9 @@ export const mockTrixtaReactions: TrixtaState['reactions'] = {
     mode: {
       type: 'replace',
     },
-    requestStatus: 0,
+    requestStatus: {
+      'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]:request_guest_stream': 0,
+    },
     loadingStatus: { status: true },
     instances: {
       requestForEffect: [],
@@ -139,7 +152,9 @@ export const mockTrixtaReactions: TrixtaState['reactions'] = {
     mode: {
       type: 'replace',
     },
-    requestStatus: 0,
+    requestStatus: {
+      'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]:set_queue': 0,
+    },
     loadingStatus: {},
     instances: {
       requestForEffect: [
@@ -181,7 +196,9 @@ export const mockTrixtaReactions: TrixtaState['reactions'] = {
     mode: {
       type: 'replace',
     },
-    requestStatus: 0,
+    requestStatus: {
+      'guest[d1be63be-c0e4-4468-982c-5c04714a2987]:up_next': 0,
+    },
     loadingStatus: { status: true },
     instances: {
       requestForEffect: [],
@@ -201,7 +218,9 @@ export const mockTrixtaReactions: TrixtaState['reactions'] = {
     mode: {
       type: 'replace',
     },
-    requestStatus: 0,
+    requestStatus: {
+      'host[d1be63be-c0e4-4468-982c-5c04714a2987]:pause_queue': 0,
+    },
     loadingStatus: {},
     instances: {
       requestForEffect: [],
@@ -240,7 +259,9 @@ export const mockTrixtaReactions: TrixtaState['reactions'] = {
     mode: {
       type: 'replace',
     },
-    requestStatus: 0,
+    requestStatus: {
+      'host[d1be63be-c0e4-4468-982c-5c04714a2987]:request_guest_stream': 0,
+    },
     loadingStatus: {},
     instances: {
       requestForEffect: [],
@@ -277,7 +298,9 @@ export const mockTrixtaActions: TrixtaState['actions'] = {
     mode: {
       type: 'replace',
     },
-    requestStatus: 0,
+    requestStatus: {
+      'everyone_authed:request_user_info': 0,
+    },
     instances: [
       {
         response: {
@@ -331,7 +354,9 @@ export const mockTrixtaActions: TrixtaState['actions'] = {
     mode: {
       type: 'replace',
     },
-    requestStatus: 0,
+    requestStatus: {
+      'everyone_authed:request_user_info_request': 0,
+    },
     instances: [],
     common: {
       name: 'request_user_info_request',
@@ -370,7 +395,9 @@ export const mockTrixtaActions: TrixtaState['actions'] = {
     mode: {
       type: 'accumulate',
     },
-    requestStatus: 0,
+    requestStatus: {
+      'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]:get_session_by_id': 0,
+    },
     instances: [],
     common: {
       name: 'get_session_by_id',
@@ -422,7 +449,9 @@ export const mockTrixtaActions: TrixtaState['actions'] = {
     mode: {
       type: 'replace',
     },
-    requestStatus: 0,
+    requestStatus: {
+      'guest[d1be63be-c0e4-4468-982c-5c04714a2987]:add_to_queue': 0,
+    },
     instances: [],
     common: {
       name: 'add_to_queue',
@@ -462,7 +491,9 @@ export const mockTrixtaActions: TrixtaState['actions'] = {
     mode: {
       type: 'replace',
     },
-    requestStatus: 1,
+    requestStatus: {
+      'guest[d1be63be-c0e4-4468-982c-5c04714a2987]:get_profile': 1,
+    },
     instances: [],
     common: {
       name: 'get_profile',
@@ -506,7 +537,9 @@ export const mockTrixtaActions: TrixtaState['actions'] = {
     mode: {
       type: 'replace',
     },
-    requestStatus: 0,
+    requestStatus: {
+      'host[d1be63be-c0e4-4468-982c-5c04714a2987]:set_user': 0,
+    },
     instances: [],
     common: {
       name: 'set_user',
@@ -568,7 +601,9 @@ export const mockTrixtaActions: TrixtaState['actions'] = {
     mode: {
       type: 'replace',
     },
-    requestStatus: 0,
+    requestStatus: {
+      'host[d1be63be-c0e4-4468-982c-5c04714a2987]:start_queue': 0,
+    },
     instances: [],
     common: {
       notes: '',

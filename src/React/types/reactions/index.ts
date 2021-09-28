@@ -94,13 +94,17 @@ export interface SubmitTrixtaReactionResponse<TFormData = DefaultUnknownType> {
    * timeout in milliseconds for submitting data to Trixta, default is 15000
    */
   timeout?: number;
+  /**
+   * Optional value to separate loading status for multiple instances of using the same Trixta reaction name
+   */
+  loadingStatusRef?: string;
 }
 
 export interface TrixtaReaction {
   common: TrixtaCommon;
   mode: TrixtaInstanceMode;
   loadingStatus: LoadingStatus;
-  requestStatus: RequestStatus;
+  requestStatus: Record<string, RequestStatus>;
   instances: {
     requestForEffect: TrixtaReactionInstance[];
     requestForResponse: TrixtaReactionInstance[];
@@ -116,4 +120,8 @@ export interface TrixtaReactionBaseProps extends TrixtaBaseRoleProps {
    * If 'true', Trixta reaction is not waiting for response
    */
   requestForEffect?: boolean;
+  /**
+   * Optional value to separate loading status for multiple instances of using the same Trixta reaction name
+   */
+  loadingStatusRef?: string;
 }

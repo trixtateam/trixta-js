@@ -260,6 +260,38 @@ describe('useTrixtaActionReaction', () => {
     expect(result.current.isInProgress).toBe(true);
   });
 
+  it('should return isInProgress true, when submitTrixtaActionResponse for actionName: request_user_info_request and roleName: everyone_authed and loadingStatusRef: info', () => {
+    const { wrapper } = storeProviderWrapper(trixtaState);
+    const roleName = trixtaState.agentDetails[0];
+    const actionName = 'request_user_info_request';
+    const { result } = renderHook(
+      () =>
+        useTrixtaActionReaction({
+          actionProps: {
+            roleName,
+            actionName,
+          },
+          reactionProps: { reactionName: 'test' },
+        }),
+      {
+        wrapper,
+      },
+    );
+
+    expect(result.current.actionResponse).toBeUndefined();
+    expect(result.current.hasResponse).toBe(false);
+    expect(result.current.loading).toBe(true);
+
+    act(() => {
+      result.current.submitTrixtaActionResponse({
+        data: {},
+        loadingStatusRef: 'info',
+      });
+    });
+
+    expect(result.current.isInProgress).toBe(true);
+  });
+
   it('should autosubmit trixta action on mount, when autosubmit true for actionName: request_user_info_request and roleName: everyone_authed', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
     const roleName = trixtaState.agentDetails[0];

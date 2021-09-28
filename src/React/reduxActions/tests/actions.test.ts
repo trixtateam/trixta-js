@@ -136,9 +136,11 @@ describe('Trixta redux Actions', () => {
         const roleName = 'trixta_app_user';
         const actionName = 'configure_logger';
         const requestEvent = 'test';
+        const loadingStatusRef = 'loading';
         const formData = {};
         parameters = {
           roleName,
+          loadingStatusRef,
           requestEvent,
           actionName,
           formData,
@@ -159,6 +161,7 @@ describe('Trixta redux Actions', () => {
                 role: 'trixta_app_user',
               },
             },
+            loadingStatusRef,
             errorEvent: undefined,
             responseEvent: undefined,
             requestEvent,
@@ -270,10 +273,12 @@ describe('Trixta redux Actions', () => {
         const roleName = 'trixta_app_user';
         const reactionName = 'select_logger_backends';
         const ref = '5bda4f4e-925d-4881-85cd-4bef6414ccd1';
+        const loadingStatusRef = 'loading';
         const requestEvent = 'test';
         const formData = ['loki'];
         parameters = {
           roleName,
+          loadingStatusRef,
           reactionName,
           formData,
           requestEvent,
@@ -286,6 +291,7 @@ describe('Trixta redux Actions', () => {
             ref,
             roleName,
             reactionName,
+            loadingStatusRef,
             errorEvent: undefined,
             responseEvent: undefined,
             requestEvent,

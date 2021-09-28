@@ -41,6 +41,7 @@ export type ClearTrixtaActionResponseAction = {
   payload: {
     roleName: string;
     actionName: string;
+    loadingStatusRef?: string;
   };
 };
 
@@ -49,24 +50,26 @@ export type ClearTrixtaActionRequestStatusAction = {
   payload: {
     roleName: string;
     actionName: string;
+    loadingStatusRef?: string;
   };
 };
 
 export type SubmitTrixtaActionResponseAction<TFormData = DefaultUnknownType> = {
   type: typeof SUBMIT_TRIXTA_ACTION_RESPONSE;
   payload: {
-    formData: TFormData;
+    formData?: TFormData;
     roleName: string;
-    debugMode: boolean;
-    clearResponse: boolean;
-    actionOptions: Record<string, unknown>;
-    debugOptions: TrixtaActionDebugOptions;
+    debugMode?: boolean;
+    clearResponse?: boolean;
+    actionOptions?: Record<string, unknown>;
+    debugOptions?: TrixtaActionDebugOptions;
     actionName: string;
     requestEvent?: string;
     responseEvent?: string;
     errorEvent?: string;
     timeoutEvent?: string;
     timeout?: number;
+    loadingStatusRef?: string;
   };
 };
 

@@ -4,7 +4,7 @@ import {
   OutputParametricSelector,
   ParametricSelector,
 } from 'reselect';
-import { getReducerKeyName } from '../../utils';
+import { getReducerKeyName, getRequestStatusKeyName } from '../../utils';
 import { get, pickBy } from '../../utils/object';
 import {
   RequestStatus,
@@ -13,7 +13,10 @@ import {
   TrixtaState,
 } from '../types/common';
 import { TrixtaReaction, TrixtaReactionBaseProps } from '../types/reactions';
-import { selectTrixtaRoleNameProp } from './common';
+import {
+  selectTrixtaLoadingStatusRefProp,
+  selectTrixtaRoleNameProp,
+} from './common';
 
 type DefaultSelectorProps = TrixtaReactionBaseProps;
 export const selectTrixtaReactionNameProp = (
@@ -60,17 +63,19 @@ export const selectTrixtReactionRequestStatusSelector: ParametricSelector<
   [
     selectTrixtaRoleNameProp,
     selectTrixtaReactionNameProp,
+    selectTrixtaLoadingStatusRefProp,
     (state) => state.trixta.reactions,
   ],
-  (roleName, reactionName, trixtaReactions) => {
-    return trixtaReactions[
-      getReducerKeyName({ name: reactionName, role: roleName })
-    ] &&
-      trixtaReactions[getReducerKeyName({ name: reactionName, role: roleName })]
-        .requestStatus
-      ? trixtaReactions[
-          getReducerKeyName({ name: reactionName, role: roleName })
-        ].requestStatus
+  (roleName, reactionName, loadingStatusRef, trixtaReactions) => {
+    const requestStatusKey = getRequestStatusKeyName({
+      name: reactionName,
+      role: roleName,
+      loadingStatusRef,
+    });
+    const keyName = getReducerKeyName({ name: reactionName, role: roleName });
+    return trixtaReactions[keyName] &&
+      trixtaReactions[requestStatusKey].requestStatus[requestStatusKey]
+      ? trixtaReactions[requestStatusKey].requestStatus[requestStatusKey]
       : undefined;
   },
 );

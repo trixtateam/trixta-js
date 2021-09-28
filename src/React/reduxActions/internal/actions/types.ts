@@ -3,17 +3,16 @@ import {
   SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
   SUBMIT_TRIXTA_ACTION_TIMEOUT_RESPONSE_FAILURE,
 } from '../../../constants';
+import { AdditionalTrixtaData } from '../types';
 
 export type SubmitTrixtaActionResponseSuccessAction = {
   type: typeof SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any;
   additionalData: {
-    roleName: string;
-    actionName: string;
-    clearResponse?: boolean;
-    responseEvent?: string;
-    errorEvent?: string;
+    trixtaMeta: AdditionalTrixtaData & {
+      actionName: string;
+    };
   };
 };
 
@@ -22,11 +21,9 @@ export type SubmitTrixtaActionResponseFailureAction = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any;
   additionalData: {
-    roleName: string;
-    actionName: string;
-    clearResponse?: boolean;
-    responseEvent?: string;
-    errorEvent?: string;
+    trixtaMeta: AdditionalTrixtaData & {
+      actionName: string;
+    };
   };
 };
 
@@ -35,10 +32,8 @@ export type SubmitTrixtaActionResponseTimeoutFailureAction = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any;
   additionalData: {
-    roleName: string;
-    actionName: string;
-    clearResponse?: boolean;
-    responseEvent?: string;
-    timeoutEvent?: string;
+    trixtaMeta: AdditionalTrixtaData & {
+      actionName: string;
+    };
   };
 };

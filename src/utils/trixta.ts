@@ -41,12 +41,13 @@ export function getReactionDetails({
  *   store in the reducer
  * @param {Object} params
  * @param {Object} params.details - reaction details
- * @param {String} params.type - action or reaction
  */
 export function getTrixtaReactionReducerStructure({
   details,
+  keyName,
 }: {
   details: TrixtaCommon;
+  keyName: string;
 }): TrixtaReaction {
   const mode = get<TrixtaInstanceMode>(
     details,
@@ -59,7 +60,7 @@ export function getTrixtaReactionReducerStructure({
   return {
     mode,
     loadingStatus: { status: true },
-    requestStatus: RequestStatus.NONE,
+    requestStatus: { [keyName]: RequestStatus.NONE },
     instances: { requestForEffect: [], requestForResponse: [] },
     common: details,
   };
@@ -96,12 +97,13 @@ export function getTrixtaInstanceResult<
  *   store in the reducer
  * @param {Object} params
  * @param {Object} params.details - action  details
- * @param {String} params.type - action
  */
 export function getTrixtaActionReducerStructure({
   details,
+  keyName,
 }: {
   details: TrixtaCommon;
+  keyName: string;
 }): TrixtaAction {
   const mode = get<TrixtaInstanceMode>(
     details,
@@ -113,7 +115,7 @@ export function getTrixtaActionReducerStructure({
 
   return {
     mode,
-    requestStatus: RequestStatus.NONE,
+    requestStatus: { [keyName]: RequestStatus.NONE },
     instances: [],
     common: details,
   };
@@ -134,6 +136,29 @@ export function getReducerKeyName({
   role: string;
 }): string {
   return `${role}:${name}`;
+}
+
+/**
+ * Returns the key string request status, for a given action or reaction on a role
+ *  and optional loading status ref
+ * @param {*} params
+ * @param {string} params.name - name of action or reaction
+ * @param {string} params.role - name of role
+ * @param {string} params.loadingStatusRef - loading status ref string
+ * @returns
+ */
+export function getRequestStatusKeyName({
+  name,
+  role,
+  loadingStatusRef,
+}: {
+  name: string;
+  role: string;
+  loadingStatusRef?: string;
+}): string {
+  return loadingStatusRef
+    ? `${role}:${name}:${loadingStatusRef}`
+    : `${role}:${name}`;
 }
 
 /**

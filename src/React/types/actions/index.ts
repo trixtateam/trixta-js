@@ -47,7 +47,7 @@ export interface TrixtaActionResponseDetails<
 export interface TrixtaAction {
   common: TrixtaCommon;
   mode: TrixtaInstanceMode;
-  requestStatus: RequestStatus;
+  requestStatus: Record<string, RequestStatus>;
   instances: TrixtaInstance[];
 }
 
@@ -104,6 +104,10 @@ export interface SubmitTrixtaActionResponse<TFormData = DefaultUnknownType> {
    * timeout in milliseconds for submitting data to Trixta, default is 15000
    */
   timeout?: number;
+  /**
+   * Optional value to separate loading status for multiple instances of using the same Trixta action name
+   */
+  loadingStatusRef?: string;
 }
 
 export interface TrixtaActionBaseProps extends TrixtaBaseRoleProps {
@@ -111,4 +115,8 @@ export interface TrixtaActionBaseProps extends TrixtaBaseRoleProps {
    * Name of Trixta action
    */
   actionName: string;
+  /**
+   * Optional value to separate loading status for multiple instances of using the same Trixta action name
+   */
+  loadingStatusRef?: string;
 }

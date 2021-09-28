@@ -61,6 +61,10 @@ export interface submitTrixtaFunctionParameters {
    * timeout in milliseconds for submitting data to Trixta, default is 15000
    */
   timeout?: number;
+  /**
+   * Optional value to separate loading status for multiple instances of using the same Trixta action/reaction name
+   */
+  loadingStatusRef?: string;
 }
 
 export interface LastActionSubmit {

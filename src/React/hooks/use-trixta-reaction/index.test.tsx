@@ -408,6 +408,37 @@ describe('useTrixtaReaction', () => {
       expect(result.current.isInProgress).toBe(true);
     });
 
+    it('should return isInProgress true, when submitTrixtaReaction for reactionName: request_guest_stream and roleName: host[d1be63be-c0e4-4468-982c-5c04714a2987] and loadingStatusRef: streams', () => {
+      const { wrapper } = storeProviderWrapper(trixtaState);
+      const roleName = trixtaState.agentDetails[2];
+      const reactionName = 'request_guest_stream';
+      const { result } = renderHook(
+        () =>
+          useTrixtaReaction({
+            roleName,
+            reactionName,
+          }),
+        {
+          wrapper,
+        },
+      );
+
+      expect(result.current.latestResponse).toBeDefined();
+      expect(result.current.latestInstance).toBeDefined();
+      expect(result.current.hasResponse).toBe(true);
+      expect(result.current.isInProgress).toBe(false);
+
+      act(() => {
+        result.current.submitTrixtaReaction({
+          loadingStatusRef: 'streams',
+          data: {},
+          ref: '4a32ed8d-f47d-4e78-921c-6a4aeb996bd3',
+        });
+      });
+
+      expect(result.current.isInProgress).toBe(true);
+    });
+
     it('should pass success response, when calling onSuccess for actionName: request_guest_stream and roleName: host[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
       const { wrapper, store } = storeProviderWrapper(trixtaState);
       const roleName = trixtaState.agentDetails[2];
@@ -451,7 +482,7 @@ describe('useTrixtaReaction', () => {
         store.dispatch({
           type: SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
           data: successResponse,
-          additionalData: { reactionName, roleName, ref },
+          additionalData: { trixtaMeta: { reactionName, roleName, ref } },
         });
       });
       expect(result.current.isInProgress).toBe(false);
@@ -497,7 +528,7 @@ describe('useTrixtaReaction', () => {
         store.dispatch({
           type: SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
           error: errorResponse,
-          additionalData: { reactionName, roleName, ref },
+          additionalData: { trixtaMeta: { reactionName, roleName, ref } },
         });
       });
       expect(result.current.isInProgress).toBe(false);

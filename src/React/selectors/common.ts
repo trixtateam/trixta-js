@@ -18,6 +18,12 @@ type DefaultSelectorProps =
   | TrixtaReactionBaseProps
   | TrixtaActionBaseProps;
 type RolesProps = { roles: Array<string> };
+
+export const selectTrixtaLoadingStatusRefProp = (
+  _: { trixta: TrixtaState },
+  props: TrixtaReactionBaseProps | TrixtaActionBaseProps,
+): string | undefined => props.loadingStatusRef;
+
 export const selectTrixtaRoleNameProp = (
   _: { trixta: TrixtaState },
   props: DefaultSelectorProps,

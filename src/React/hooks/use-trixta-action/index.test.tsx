@@ -190,6 +190,34 @@ describe('useTrixtaAction', () => {
     expect(result.current.isInProgress).toBe(true);
   });
 
+  it('should return isInProgress true, when submitTrixtaAction for actionName: request_user_info_request and roleName: everyone_authed and loadingStatusRef: info', () => {
+    const { wrapper } = storeProviderWrapper(trixtaState);
+    const roleName = trixtaState.agentDetails[0];
+    const actionName = 'request_user_info_request';
+    const { result } = renderHook(
+      () =>
+        useTrixtaAction({
+          roleName,
+          loadingStatusRef: 'info',
+          actionName,
+        }),
+      {
+        wrapper,
+      },
+    );
+
+    expect(result.current.response).toBeUndefined();
+    expect(result.current.latestInstance).toBeUndefined();
+    expect(result.current.hasResponse).toBe(false);
+    expect(result.current.isInProgress).toBe(false);
+
+    act(() => {
+      result.current.submitTrixtaAction({ data: {} });
+    });
+
+    expect(result.current.isInProgress).toBe(true);
+  });
+
   it('should pass success response, when calling onSuccess for actionName: request_user_info_request and roleName: everyone_authed', () => {
     const { wrapper, store } = storeProviderWrapper(trixtaState);
     const roleName = trixtaState.agentDetails[0];

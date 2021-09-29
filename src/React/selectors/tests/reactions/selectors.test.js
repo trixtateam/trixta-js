@@ -20,11 +20,21 @@ describe('Trixta Selectors', () => {
       };
     });
 
-    it('selectTrixtaReactions', () => {
+    it('getTrixtaReactionsState', () => {
       const expectedResult = mockedState.trixta.reactions;
 
       expect(
-        trixtaReactionSelectors.selectTrixtaReactions(mockedState),
+        trixtaReactionSelectors.getTrixtaReactionsState(mockedState),
+      ).toEqual(expectedResult);
+    });
+
+    it('selectTrixtReactionsStateSelector', () => {
+      const expectedResult = trixtaReactionSelectors.getTrixtaReactionsState(
+        mockedState,
+      );
+
+      expect(
+        trixtaReactionSelectors.selectTrixtReactionsStateSelector(mockedState),
       ).toEqual(expectedResult);
     });
 
@@ -48,7 +58,7 @@ describe('Trixta Selectors', () => {
         mockedState,
         props,
       );
-      const trixtaReactions = trixtaReactionSelectors.selectTrixtaReactions(
+      const trixtaReactions = trixtaReactionSelectors.getTrixtaReactionsState(
         mockedState,
       );
       const expectedResult = trixtaReactions[
@@ -80,7 +90,7 @@ describe('Trixta Selectors', () => {
         mockedState,
         props,
       );
-      const trixtaReactions = trixtaReactionSelectors.selectTrixtaReactions(
+      const trixtaReactions = trixtaReactionSelectors.getTrixtaReactionsState(
         mockedState,
       );
 
@@ -191,7 +201,7 @@ describe('Trixta Selectors', () => {
         mockedState,
         props,
       );
-      const trixtaReactions = trixtaReactionSelectors.selectTrixtaReactions(
+      const trixtaReactions = trixtaReactionSelectors.getTrixtaReactionsState(
         mockedState,
       );
 

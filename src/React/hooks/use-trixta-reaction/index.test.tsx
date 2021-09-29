@@ -417,6 +417,7 @@ describe('useTrixtaReaction', () => {
           useTrixtaReaction({
             roleName,
             reactionName,
+            loadingStatusRef: 'streams',
           }),
         {
           wrapper,
@@ -430,7 +431,6 @@ describe('useTrixtaReaction', () => {
 
       act(() => {
         result.current.submitTrixtaReaction({
-          loadingStatusRef: 'streams',
           data: {},
           ref: '4a32ed8d-f47d-4e78-921c-6a4aeb996bd3',
         });

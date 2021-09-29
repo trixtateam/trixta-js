@@ -1,3 +1,10 @@
+## [4.3.1](https://github.com/trixtateam/trixta-js/compare/v4.3.0...v4.3.1) (2021-09-29)
+
+
+### Bug Fixes
+
+* loadingStatusRef for hooks ([c360efd](https://github.com/trixtateam/trixta-js/commit/c360efdbb05ad2ddbb2cb3588ef2475c1b12bf8d))
+
 # [4.3.0](https://github.com/trixtateam/trixta-js/compare/v4.2.0...v4.3.0) (2021-09-28)
 
 

@@ -20,12 +20,22 @@ describe('Trixta Selectors', () => {
       };
     });
 
-    it('selectTrixtaActions', () => {
+    it('getTrixtaActionsState', () => {
       const expectedResult = mockedState.trixta.actions;
 
-      expect(trixtaActionSelectors.selectTrixtaActions(mockedState)).toEqual(
+      expect(trixtaActionSelectors.getTrixtaActionsState(mockedState)).toEqual(
         expectedResult,
       );
+    });
+
+    it('selectTrixtActionsStateSelector', () => {
+      const expectedResult = trixtaActionSelectors.getTrixtaActionsState(
+        mockedState,
+      );
+
+      expect(
+        trixtaActionSelectors.selectTrixtActionsStateSelector(mockedState),
+      ).toEqual(expectedResult);
     });
 
     it('selectTrixtaActionNameProp', () => {
@@ -45,7 +55,7 @@ describe('Trixta Selectors', () => {
         mockedState,
         props,
       );
-      const trixtaActions = trixtaActionSelectors.selectTrixtaActions(
+      const trixtaActions = trixtaActionSelectors.selectTrixtActionsStateSelector(
         mockedState,
       );
       const expectedResult = trixtaActions[
@@ -75,7 +85,7 @@ describe('Trixta Selectors', () => {
         mockedState,
         props,
       );
-      const trixtaActions = trixtaActionSelectors.selectTrixtaActions(
+      const trixtaActions = trixtaActionSelectors.selectTrixtActionsStateSelector(
         mockedState,
       );
 
@@ -179,7 +189,7 @@ describe('Trixta Selectors', () => {
         mockedState,
         props,
       );
-      const trixtaActions = trixtaActionSelectors.selectTrixtaActions(
+      const trixtaActions = trixtaActionSelectors.selectTrixtActionsStateSelector(
         mockedState,
       );
       const expectedResult = pickBy(

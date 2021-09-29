@@ -76,14 +76,18 @@ export const useTrixtaAction = <
   const hasRoleAccess = useSelector<{ trixta: TrixtaState }, boolean>((state) =>
     selectHasRoleAccess(state, { roleName }),
   );
-  const roleActionProps = { roleName, actionName } as TrixtaActionBaseProps;
+  const actionRoleProps = {
+    roleName,
+    actionName,
+    loadingStatusRef,
+  } as TrixtaActionBaseProps;
 
   const selectIsTrixtaActionReady = useMemo(
     makeSelectIsTrixtaActionReadyForRole,
     [],
   );
   const isTrixtaActionReady = useSelector<{ trixta: TrixtaState }, boolean>(
-    (state) => selectIsTrixtaActionReady(state, roleActionProps),
+    (state) => selectIsTrixtaActionReady(state, actionRoleProps),
   );
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectActionResponses: any = useMemo(
@@ -96,7 +100,7 @@ export const useTrixtaAction = <
     [],
   );
   const requestStatus = useSelector<{ trixta: TrixtaState }, RequestStatus>(
-    (state) => selectTrixtaActionRequestStatus(state, roleActionProps),
+    (state) => selectTrixtaActionRequestStatus(state, actionRoleProps),
   );
   const isInProgress = requestStatus
     ? requestStatus === RequestStatus.REQUEST
@@ -105,7 +109,7 @@ export const useTrixtaAction = <
   const instances = useSelector<
     { trixta: TrixtaState },
     TrixtaInstance<TResponseType, TErrorType>[]
-  >((state) => selectActionResponses(state, roleActionProps));
+  >((state) => selectActionResponses(state, actionRoleProps));
   trixtaDebugger({
     type: TrixtaDebugType.Action,
     name: actionName,

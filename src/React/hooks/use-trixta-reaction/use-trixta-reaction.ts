@@ -77,6 +77,7 @@ export const useTrixtaReaction = <
   const reactionRoleProps = {
     roleName,
     requestForEffect,
+    loadingStatusRef,
     reactionName,
   } as TrixtaReactionBaseProps;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

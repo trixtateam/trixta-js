@@ -204,10 +204,13 @@ describe('Trixta Selectors', () => {
       const trixtaReactions = trixtaReactionSelectors.getTrixtaReactionsState(
         mockedState,
       );
-
-      const expectedResult = pickBy(
+      const trixtaReactionsForRole = pickBy(
         trixtaReactions,
-        (value, key) => key && key.split(':', 1)[0] === roleName,
+        (_, key) => key && key.split(':', 1)[0] === roleName,
+      );
+      const expectedResult = Object.entries(trixtaReactionsForRole).map(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        ([_, value]) => value,
       );
 
       expect(selector(mockedState, props)).toEqual(expectedResult);

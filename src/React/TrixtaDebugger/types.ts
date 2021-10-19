@@ -7,7 +7,7 @@ import {
 
 export interface TrixtaDebuggerParameters {
   /**
-   * Enables Trixta console debbugging
+   * Enables Trixta console debbugging. If 'true', open the console and see verbose logging
    */
   debugMode?: boolean;
   roleName: string;

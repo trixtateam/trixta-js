@@ -51,6 +51,38 @@ export interface TrixtaAction {
   instances: TrixtaInstance[];
 }
 
+export interface ClearTrixtaActionResponse {
+  /**
+   * Name of Trixta role
+   */
+  roleName: string;
+  /**
+   * Name of Trixta action
+   */
+  actionName: string;
+  /**
+   * Optional value to change the default isInProgress behaviour for when submitting actions and reactions.
+   * If you plan to use the same action / reaction name for the same role, on the same screen, this is when you would make use of this * property
+   */
+  loadingStatusRef?: string;
+}
+
+export interface ClearTrixtaActionRequestStatus {
+  /**
+   * Name of Trixta role
+   */
+  roleName: string;
+  /**
+   * Name of Trixta action
+   */
+  actionName: string;
+  /**
+   * Optional value to change the default isInProgress behaviour for when submitting actions and reactions.
+   * If you plan to use the same action / reaction name for the same role, on the same screen, this is when you would make use of this * property
+   */
+  loadingStatusRef?: string;
+}
+
 export interface SubmitTrixtaActionResponse<TFormData = DefaultUnknownType> {
   /**
    * Name of Trixta role
@@ -105,7 +137,8 @@ export interface SubmitTrixtaActionResponse<TFormData = DefaultUnknownType> {
    */
   timeout?: number;
   /**
-   * Optional value to separate loading status for multiple instances of using the same Trixta action name
+   * Optional value to change the default isInProgress behaviour for when submitting actions and reactions.
+   * If you plan to use the same action / reaction name for the same role, on the same screen, this is when you would make use of this * property
    */
   loadingStatusRef?: string;
 }
@@ -116,7 +149,8 @@ export interface TrixtaActionBaseProps extends TrixtaBaseRoleProps {
    */
   actionName: string;
   /**
-   * Optional value to separate loading status for multiple instances of using the same Trixta action name
+   * Optional value to change the default isInProgress behaviour for when submitting actions and reactions.
+   * If you plan to use the same action / reaction name for the same role, on the same screen, this is when you would make use of this * property
    */
   loadingStatusRef?: string;
 }

@@ -39,5 +39,6 @@
     ],
   },
   "include": ["src", "types"],
-  "exclude": ["**/__tests__", "node_modules", "dist"]
+  "exclude": ["**/__tests__", "node_modules", "dist","**/*.stories.mdx",
+    "*.stories.@(js|jsx|ts|tsx)"]
 }

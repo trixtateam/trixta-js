@@ -1,7 +1,7 @@
 import { TrixtaActionBaseProps } from '../../../React/types/actions';
 import {
   DefaultUnknownType,
-  submitTrixtaFunctionParameters,
+  SubmitTrixtaFunctionParameters,
   TrixtaInstanceResponse,
 } from '../../types/common';
 
@@ -22,7 +22,7 @@ export interface UseTrixtaActionReactionProps {
     requestForEffect?: boolean;
   };
   autoSubmit?: boolean;
-  actionParameters?: submitTrixtaFunctionParameters;
+  actionParameters?: SubmitTrixtaFunctionParameters;
 }
 
 export interface UseTrixtaActionReactionHookReturn<
@@ -36,13 +36,13 @@ export interface UseTrixtaActionReactionHookReturn<
    * Function to dispatch data response to Trixta Action
    */
   submitTrixtaActionResponse: (
-    parameters: submitTrixtaFunctionParameters,
+    parameters: SubmitTrixtaFunctionParameters,
   ) => void;
   /**
    * Function to dispatch data response to Trixta Reaction
    */
   submitTrixtaReactionResponse: (
-    parameters: submitTrixtaFunctionParameters,
+    parameters: SubmitTrixtaFunctionParameters,
   ) => void;
   /**
    * If 'true', Trixta roles or role name passed does have acccess for this user

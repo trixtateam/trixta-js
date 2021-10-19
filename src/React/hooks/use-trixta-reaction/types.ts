@@ -1,14 +1,14 @@
 import { TrixtaReactionBaseProps } from '../../../React/types/reactions';
 import {
   DefaultUnknownType,
-  submitTrixtaFunctionParameters,
+  SubmitTrixtaFunctionParameters,
   TrixtaInstanceResponse,
   TrixtaReactionInstance,
 } from '../../types/common';
 
 export interface UseTrixtaReactionProps extends TrixtaReactionBaseProps {
   /**
-   * Enables Trixta console debbugging
+   * Enables Trixta console debbugging. If 'true', open the console and see verbose logging
    */
   debugMode?: boolean;
   /**
@@ -59,7 +59,7 @@ export interface UseTrixtaReactionHookReturn<
   /**
    * Function to dispatch data response to Trixta Reaction
    */
-  submitTrixtaReaction: (parameters: submitTrixtaFunctionParameters) => void;
+  submitTrixtaReaction: (parameters: SubmitTrixtaFunctionParameters) => void;
   /**
    * Function to dispatch to clear and reset responses to Trixta Reaction
    */

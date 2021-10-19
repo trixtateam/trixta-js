@@ -51,7 +51,6 @@ const TrixtaReactionInstanceComponent = ({
 
   if (!hasResponse) {
     const reactionProps: TrixtaReactionComponentArgs = {
-      dispatchSubmitReactionResponse,
       submit: dispatchSubmitReactionResponse,
       isInProgress: isReady ? isInProgress : true,
       loading: isReady ? loading : true,

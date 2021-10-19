@@ -1,4 +1,4 @@
-<img src="./docs/images/trixta-logo.png" alt="trixta logo"  />
+<img src="https://raw.githubusercontent.com/trixtateam/trixta-js/master/docs/images/trixta-logo.png" alt="trixta logo"  />
 JS
 <hr />
 
@@ -31,8 +31,6 @@ Any orgranization using Trixta for their javascript application.
 
 # Quick Start Guide
 
-## Install
-
 Install the package with npm
 
 `npm i @trixtateam/trixta-js` or yarn - whichever you prefer
@@ -60,6 +58,7 @@ export default function createReducer() {
 
 ## 2. Setup Middleware
 [See example to setup middleware](https://redux-toolkit.js.org/api/configureStore)
+
 ```javascript
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { createPhoenixChannelMiddleware } from '@trixta/phoenix-to-redux';
@@ -71,10 +70,8 @@ export default function configureStore() {
   // Makes redux connected to phoenix channels
   const phoenixChannelMiddleWare = createPhoenixChannelMiddleware();
   const sagaMiddleware = createSagaMiddleware(reduxSagaMonitorOptions);
-  const middlewares = [sagaMiddleware,phoenixChannelMiddleWare];
-
   // Create the store with saga middleware
-  const middlewares = [phoenixChannelMiddleWare];
+  const middlewares = [sagaMiddleware,phoenixChannelMiddleWare];
 
    const enhancers = [];
 
@@ -103,6 +100,7 @@ export default function configureStore() {
 
 ## 3. Setup Trixta Saga
 [See redux-saga](https://redux-saga.js.org/docs/introduction/GettingStarted)
+
 ### Option 1
 
 ```javascript
@@ -232,14 +230,6 @@ export default function* rootSaga() {
   yield takeEvery(socketActionTypes.SOCKET_OPEN, socketConnectedSaga);
 }
 ```
-
-## Change Log
-
-- [Changes](CHANGELOG.md)
-
-## Documentation
-
-- [**The detailed Guide to `trixta-js`**](docs/README.md)
 
 ## License
 

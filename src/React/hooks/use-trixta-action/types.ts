@@ -1,7 +1,7 @@
 import { TrixtaActionBaseProps } from '../../../React/types/actions';
 import {
   DefaultUnknownType,
-  submitTrixtaFunctionParameters,
+  SubmitTrixtaFunctionParameters,
   TrixtaInstance,
   TrixtaInstanceResponse,
 } from '../../types/common';
@@ -23,7 +23,7 @@ export interface UseTrixtaActionProps extends TrixtaActionBaseProps {
   /**
    * Parameters to submit to Trixta for autoSubmit
    */
-  actionParameters?: submitTrixtaFunctionParameters;
+  actionParameters?: SubmitTrixtaFunctionParameters;
   /**
    * This function will fire any time the response from Trixta successfully returns data and will be passed the data.
    */
@@ -54,7 +54,7 @@ export interface UseTrixtaActionHookReturn<
   /**
    * Function to dispatch data response to Trixta Action
    */
-  submitTrixtaAction: (parameters: submitTrixtaFunctionParameters) => void;
+  submitTrixtaAction: (parameters: SubmitTrixtaFunctionParameters) => void;
   /**
    * Function to dispatch to clear and reset responses to Trixta Action
    */

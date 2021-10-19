@@ -1,0 +1,20 @@
+import { ArgsTable, Title, Description } from '@storybook/addon-docs';
+import { Meta } from '@storybook/addon-docs';
+import DocsGenerator from './docs-generator';
+import { DEFAULT_REDUX_ACTIONS_ACTIONS_PATH } from '../../../../../stories/constants/storybook';
+
+<Meta
+  title={`${DEFAULT_REDUX_ACTIONS_ACTIONS_PATH}clearTrixtaActionRequestStatus`}
+  parameters={{
+    status: {
+      type: 'released', // 'beta' | 'stable' | 'deprecated'
+    },
+  }}
+/>
+
+<Title>clearTrixtaActionRequestStatus</Title>
+<Description>
+  This will clear the request status for the ```actionName``` and ```roleName```. The
+  request status determines isInProgress for the action components and hooks.
+</Description>
+<ArgsTable of={DocsGenerator} />

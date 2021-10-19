@@ -9,6 +9,7 @@ import { getReducerKeyName, getRequestStatusKeyName } from '../../utils';
 import { get, pickBy } from '../../utils/object';
 import {
   RequestStatus,
+  TrixtaBaseRoleProps,
   TrixtaCommon,
   TrixtaReactionInstance,
   TrixtaState,
@@ -302,14 +303,26 @@ export const makeSelectTrixtaReactionCommonForRole = (): OutputParametricSelecto
 /**
  * Selects the reactions for given props.roleName
  */
-export const makeSelectTrixtaReactionsForRole = () =>
+export const makeSelectTrixtaReactionsForRole = (): OutputParametricSelector<
+  {
+    trixta: TrixtaState;
+  },
+  TrixtaBaseRoleProps,
+  TrixtaReaction[],
+  (res1: Record<string, TrixtaReaction>, res2: string) => TrixtaReaction[]
+> =>
   createSelector(
     [selectTrixtReactionsStateSelector, selectTrixtaRoleNameProp],
-    (trixtaReactions, roleName) =>
-      pickBy(
+    (trixtaReactions, roleName) => {
+      const trixtaReactionsForRole: Record<string, TrixtaReaction> = pickBy(
         trixtaReactions,
-        (value, key) => key && key.split(':', 1)[0] === roleName,
-      ),
+        (_, key) => key && key.split(':', 1)[0] === roleName,
+      );
+      return Object.entries<TrixtaReaction>(trixtaReactionsForRole).map(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        ([_, value]) => value,
+      );
+    },
   );
 
 /**

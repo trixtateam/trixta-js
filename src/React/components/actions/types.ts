@@ -13,7 +13,6 @@ export interface TrixtaActionComponentArgs<
    * Name of Trixta role
    */
   roleName: string;
-  dispatchSubmitActionResponse: TrixtaDispatch<TFormData>;
   submit: TrixtaDispatch<TFormData>;
   common: TrixtaCommon;
   isInProgress: boolean;

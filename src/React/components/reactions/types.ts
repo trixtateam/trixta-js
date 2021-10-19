@@ -14,7 +14,6 @@ export interface TrixtaReactionComponentArgs<
   TSuccessType = DefaultUnknownType,
   TErrorType = DefaultUnknownType
 > extends TrixtaReactionBaseProps {
-  dispatchSubmitReactionResponse: TrixtaDispatch<TFormData>;
   submit: TrixtaDispatch<TFormData>;
   common: TrixtaCommon;
   data: TInitialData;

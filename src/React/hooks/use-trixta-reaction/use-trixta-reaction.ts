@@ -20,7 +20,7 @@ import {
 import {
   DefaultUnknownType,
   RequestStatus,
-  submitTrixtaFunctionParameters,
+  SubmitTrixtaFunctionParameters,
   TrixtaReactionInstance,
   TrixtaState,
 } from './../../types/common';
@@ -142,7 +142,7 @@ export const useTrixtaReaction = <
       timeout,
       ref,
       requestEvent,
-    }: submitTrixtaFunctionParameters) => {
+    }: SubmitTrixtaFunctionParameters) => {
       if (!hasRoleAccess || !isTrixtaReactionReady) return;
 
       dispatch(

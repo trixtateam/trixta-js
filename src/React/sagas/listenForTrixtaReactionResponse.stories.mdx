@@ -1,0 +1,41 @@
+import { ArgsTable, Title, Description } from '@storybook/addon-docs';
+import { Meta } from '@storybook/addon-docs';
+import { DEFAULT_REACTIONS_SAGAS_PATH } from '../../stories/constants/storybook';
+
+<Meta
+  title={`${DEFAULT_REACTIONS_SAGAS_PATH}listenForTrixtaReactionResponse`}
+  parameters={{
+    status: {
+      type: 'released', // 'beta' | 'stable' | 'deprecated'
+    },
+  }}
+/>
+
+<Title>listenForTrixtaReactionResponse</Title>
+<Description>
+  Can be used as a listener for Trixta reactions and respond to them in your own
+  redux Saga.
+</Description>
+
+# Example
+
+```javascript
+import { put } from 'redux-saga/effects';
+import { listenForTrixtaReactionResponse } from '@trixtateam/trixta-js';
+
+export default function* checkReactionSaga({ meta, reactionDetails }) {
+  const { reactionDetails } = payload;
+  const { reactionName, roleName } = meta;
+
+  if(reactionName === 'name of Trixta reaction'){
+    yield put({type:'EXAMPLE',payload: reactionDetails.initial_data });
+  }
+}
+
+export default function* globalSaga() {
+yield takeEvery(listenForTrixtaReactionResponse({
+  roleName: // name of Trixta role
+  reactionName: // name of Trixta reaction
+}),checkReactionSaga);
+}
+```

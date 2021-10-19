@@ -15,6 +15,11 @@ import { TrixtaActionInstanceComponent } from '../TrixtaActionInstanceComponent'
 import { TrixtaActionComponentArgs } from '../types';
 import { TrixtaActionComponentProps } from './types';
 
+/**
+ * React component used to either pass Trixta Action Props to your
+ * child component or function
+ *
+ */
 function TrixtaActionComponent({
   dispatchSubmitActionResponse,
   common,
@@ -43,7 +48,6 @@ function TrixtaActionComponent({
   });
   if (!hasRoleAccess) return null;
   const actionProps: TrixtaActionComponentArgs = {
-    dispatchSubmitActionResponse,
     submit: dispatchSubmitActionResponse,
     common,
     roleName,

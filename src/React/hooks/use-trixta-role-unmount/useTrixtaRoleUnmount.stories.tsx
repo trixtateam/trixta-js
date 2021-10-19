@@ -3,8 +3,10 @@ import React from 'react';
 import { useTrixtaRoleUnmount } from '..';
 import {
   DEFAULT_HOOKS_PATH,
-  DEFAULT_TRIXTA_ROLE_ARG_TYPE,
+  DEFAULT_TRIXTA_ROLE_ARG_TYPE
 } from '../../../stories/constants/storybook';
+import { DEFAULT_TRIXTA_ROLE } from '../../../stories/constants/trixta';
+import { getGlobalsRoleName } from '../../../stories/utils/globalsHelper';
 import HookWrapper from '../../../stories/utils/HookWrapper';
 import DocsGenerator from './docs-generator';
 import { UseTrixtaRoleUnmountProps } from './types';
@@ -19,13 +21,18 @@ export default {
   },
 } as Meta;
 
-const ComponentTemplate: Story<UseTrixtaRoleUnmountProps> = (args) => (
-  <HookWrapper<typeof useTrixtaRoleUnmount>
-    hook={useTrixtaRoleUnmount}
-    props={[args]}
-  />
-);
-
+const ComponentTemplate: Story<UseTrixtaRoleUnmountProps> = (args, globals) => {
+  const props = {
+    ...args,
+    roleName: getGlobalsRoleName(globals, DEFAULT_TRIXTA_ROLE),
+  };
+  return (
+    <HookWrapper<typeof useTrixtaRoleUnmount>
+      hook={useTrixtaRoleUnmount}
+      props={[props]}
+    />
+  );
+};
 export const Default = ComponentTemplate.bind({});
 Default.args = {
   roleName: 'everyone-anon',

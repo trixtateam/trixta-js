@@ -3,9 +3,10 @@ import React from 'react';
 import { useTrixtaAuth } from '..';
 import {
   DEFAULT_HOOKS_PATH,
-  DEFAULT_TRIXTA_ROLE_ARG_TYPE,
+  DEFAULT_TRIXTA_ROLE_ARG_TYPE
 } from '../../../stories/constants/storybook';
 import { DEFAULT_TRIXTA_ROLE } from '../../../stories/constants/trixta';
+import { getGlobalsRoleName } from '../../../stories/utils/globalsHelper';
 import HookWrapper from '../../../stories/utils/HookWrapper';
 import DocsGenerator from './docs-generator';
 import { UseTrixtaAuthProps } from './types';
@@ -20,10 +21,15 @@ export default {
   },
 } as Meta;
 
-const ComponentTemplate: Story<UseTrixtaAuthProps> = (args) => (
-  <HookWrapper<typeof useTrixtaAuth> hook={useTrixtaAuth} props={[args]} />
-);
-
+const ComponentTemplate: Story<UseTrixtaAuthProps> = (args, globals) => {
+  const props = {
+    ...args,
+    roles: getGlobalsRoleName(globals, DEFAULT_TRIXTA_ROLE),
+  };
+  return (
+    <HookWrapper<typeof useTrixtaAuth> hook={useTrixtaAuth} props={[props]} />
+  );
+};
 export const Default = ComponentTemplate.bind({});
 Default.args = {
   roles: DEFAULT_TRIXTA_ROLE,

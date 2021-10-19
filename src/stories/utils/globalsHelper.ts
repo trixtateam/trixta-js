@@ -16,14 +16,14 @@ export const getGlobalValue = (
   return defaultValue;
 };
 
-export const getGlobalsRoleName = (args: Args) => {
-  return getGlobalValue(args, TRIXTA_ROLE_KEY);
+export const getGlobalsRoleName = (args: Args, defaultValue?: string) => {
+  return getGlobalValue(args, TRIXTA_ROLE_KEY, defaultValue);
 };
 
-export const getGlobalsActionName = (args: Args) => {
-  return getGlobalValue(args, TRIXTA_ACTION_KEY, undefined);
+export const getGlobalsActionName = (args: Args, defaultValue?: string) => {
+  return getGlobalValue(args, TRIXTA_ACTION_KEY, defaultValue);
 };
 
-export const getGlobalsReactionName = (args: Args) => {
-  return getGlobalValue(args, TRIXTA_REACTION_KEY, undefined);
+export const getGlobalsReactionName = (args: Args, defaultValue?: string) => {
+  return getGlobalValue(args, TRIXTA_REACTION_KEY, defaultValue);
 };

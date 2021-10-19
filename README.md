@@ -30,6 +30,7 @@ react components.
 Any orgranization using Trixta for their javascript application.
 
 # Quick Start Guide
+[Explore the documentation =>](https://trixtateam.github.io/trixta-js/)
 
 Install the package with npm
 

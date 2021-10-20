@@ -3,7 +3,7 @@ import React from 'react';
 import { useTrixtaData } from '..';
 import {
   DEFAULT_HOOKS_PATH,
-  DEFAULT_TRIXTA_ROLE_ARG_TYPE
+  DEFAULT_TRIXTA_ROLE_ARG_TYPE,
 } from '../../../stories/constants/storybook';
 import { DEFAULT_TRIXTA_ROLE } from '../../../stories/constants/trixta';
 import { getGlobalsRoleName } from '../../../stories/utils/globalsHelper';

@@ -3,12 +3,12 @@ import React from 'react';
 import { useTrixtaAction } from '..';
 import {
   DEFAULT_ACTIONS_HOOKS_PATH,
-  DEFAULT_ACTION_HOOK_ARG_TYPE
+  DEFAULT_ACTION_HOOK_ARG_TYPE,
 } from '../../../stories/constants/storybook';
 import { DEFAULT_TRIXTA_ROLE } from '../../../stories/constants/trixta';
 import {
   getGlobalsActionName,
-  getGlobalsRoleName
+  getGlobalsRoleName,
 } from '../../../stories/utils/globalsHelper';
 import HookWrapper from '../../../stories/utils/HookWrapper';
 import DocsGenerator from './docs-generator';

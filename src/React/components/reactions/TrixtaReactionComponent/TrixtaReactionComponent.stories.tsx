@@ -3,13 +3,13 @@ import React from 'react';
 import { TrixtaReactionComponent } from '.';
 import {
   DEFAULT_REACTIONS_COMPONENTS_PATH,
-  DEFAULT_REACTION_ARG_TYPE
+  DEFAULT_REACTION_ARG_TYPE,
 } from '../../../../stories/constants/storybook';
 import { DemoChildReactionComponent } from '../../../../stories/utils/DemoChildren';
 import TrixtaReactJsonSchemaForm from '../../../../stories/utils/FormComponent';
 import {
   getGlobalsReactionName,
-  getGlobalsRoleName
+  getGlobalsRoleName,
 } from '../../../../stories/utils/globalsHelper';
 import { JsonViewer } from '../../../../stories/utils/JsonViewer';
 import { TrixtaReactionComponentArgs } from '../types';

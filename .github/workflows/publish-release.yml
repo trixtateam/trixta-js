@@ -54,9 +54,6 @@ jobs:
       - name: Build library 🔨
         run: yarn build
 
-      - name: Build storybook 📖
-        run: yarn build-storybook-docs
-        
       - name: Deploy storybook 🚀
         run: npm run deploy-storybook -- --ci
 

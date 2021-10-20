@@ -2,13 +2,13 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
 import {
   DEFAULT_ACTIONS_COMPONENTS_PATH,
-  DEFAULT_ACTION_ARG_TYPE
+  DEFAULT_ACTION_ARG_TYPE,
 } from '../../../../stories/constants/storybook';
 import { DemoChildActionComponent } from '../../../../stories/utils/DemoChildren';
 import TrixtaReactJsonSchemaForm from '../../../../stories/utils/FormComponent';
 import {
   getGlobalsActionName,
-  getGlobalsRoleName
+  getGlobalsRoleName,
 } from '../../../../stories/utils/globalsHelper';
 import { JsonViewer } from '../../../../stories/utils/JsonViewer';
 import { TrixtaActionComponentArgs } from '../types';

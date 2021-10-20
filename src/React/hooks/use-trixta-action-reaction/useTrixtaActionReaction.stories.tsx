@@ -6,7 +6,7 @@ import { DEFAULT_TRIXTA_ROLE } from '../../../stories/constants/trixta';
 import {
   getGlobalsActionName,
   getGlobalsReactionName,
-  getGlobalsRoleName
+  getGlobalsRoleName,
 } from '../../../stories/utils/globalsHelper';
 import HookWrapper from '../../../stories/utils/HookWrapper';
 import DocsGenerator from './docs-generator';

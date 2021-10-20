@@ -2,20 +2,17 @@ name: publish-storybook
 
 on:
   workflow_dispatch:
-  
+
 jobs:
   publish:
     name: Publishing latest story
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Install 💿
       run: yarn install --prefer-offline --frozen-lockfile
-
-    - name: Build library 🔨
-      run: yarn build
-
+      
     - name: Build storybook 📖
       run: yarn build-storybook-docs
 

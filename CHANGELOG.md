@@ -1,3 +1,10 @@
+# [4.4.0](https://github.com/trixtateam/trixta-js/compare/v4.3.1...v4.4.0) (2021-10-20)
+
+
+### Features
+
+* useTrixtaData hook ([ae5a0d4](https://github.com/trixtateam/trixta-js/commit/ae5a0d47926840bb6582beca0efd3d997b19a779))
+
 ## [4.3.1](https://github.com/trixtateam/trixta-js/compare/v4.3.0...v4.3.1) (2021-09-29)
 
 

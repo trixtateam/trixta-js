@@ -65,9 +65,9 @@
     "coverage-badges": "jest-coverage-badges --output ./badges",
     "test:staged": "jest --findRelatedTests",
     "storybook": "start-storybook -p 6006",
-    "storybook-docs": "start-storybook -p 6006 -s public,badges --docs",
+    "storybook-docs": "start-storybook -p 6006,badges --docs",
     "build-storybook": "build-storybook",
-    "build-storybook-docs": "build-storybook -s public,badges --docs --quiet",
+    "build-storybook-docs": "build-storybook,badges --docs --quiet",
     "deploy-storybook": "storybook-to-ghpages"
   },
   "lint-staged": {

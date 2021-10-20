@@ -54,8 +54,16 @@ jobs:
       - name: Build library 🔨
         run: yarn build
 
+      - name: Build storybook 📖
+        run: yarn build-storybook-docs
+        
       - name: Deploy storybook 🚀
-        run: npm run deploy-storybook -- --ci
+        uses: JamesIves/github-pages-deploy-action@3.6.2
+        with:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: storybook-static
+          CLEAN: true
 
       # Get the tag of the release just created
       - name: Find Tag

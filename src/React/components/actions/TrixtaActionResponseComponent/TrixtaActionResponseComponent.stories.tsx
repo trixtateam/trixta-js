@@ -1,6 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
-import { TrixtaActionResponseComponentArgs } from '../../../../../types/React/components/actions/types';
 import {
   DEFAULT_ACTIONS_COMPONENTS_PATH,
   DEFAULT_ACTION_ARG_TYPE,
@@ -10,6 +9,7 @@ import {
   getGlobalsRoleName,
 } from '../../../../stories/utils/globalsHelper';
 import { JsonViewer } from '../../../../stories/utils/JsonViewer';
+import { TrixtaActionResponseComponentArgs } from '../types';
 import TrixtaActionResponseComponent from './TrixtaActionResponseComponent';
 
 export default {

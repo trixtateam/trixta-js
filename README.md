@@ -12,10 +12,10 @@ JS
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/trixtateam/trixta-js)
 ![GitHub commits since latest release](https://img.shields.io/github/commits-since/trixtateam/trixta-js/latest)
 
-![Coverage statements](badges/badge-statements.svg)
-![Coverage branches](badges/badge-branches.svg)
-![Coverage functions](badges/badge-functions.svg)
-![Coverage lines](badges/badge-lines.svg)
+![Coverage statements](https://github.com/trixtateam/trixta-js/blob/master/badges/badge-statements.svg)
+![Coverage branches](https://github.com/trixtateam/trixta-js/blob/master/badges/badge-branches.svg)
+![Coverage functions](https://github.com/trixtateam/trixta-js/blob/master/badges/badge-functions.svg)
+![Coverage lines](https://github.com/trixtateam/trixta-js/blob/master/badges/badge-lines.svg)
 
 <br />
 

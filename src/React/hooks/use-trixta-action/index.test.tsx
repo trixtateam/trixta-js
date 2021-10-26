@@ -2,7 +2,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { storeProviderWrapper } from '../../../tests/helpers';
 import {
   SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
-  SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS
+  SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
 } from '../../constants/actions';
 // eslint-disable-next-line jest/no-mocks-import
 import { trixtaState } from '../../reducers/__mocks__/trixtaState';

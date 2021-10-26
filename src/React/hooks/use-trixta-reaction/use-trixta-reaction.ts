@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { isNullOrEmpty } from '../../../utils';
 import {
@@ -55,7 +55,7 @@ export const useTrixtaReaction = <
   TErrorType
 > => {
   const dispatch = useDispatch();
-
+  const hasCallbackInvoked = useRef<boolean>(false);
   if (isNullOrEmpty(roleName)) {
     throw Error('Please provide roleName parameter.');
   }
@@ -175,11 +175,26 @@ export const useTrixtaReaction = <
   const success = latestInstance ? latestInstance.response.success : false;
   const error = latestInstance ? latestInstance.response.error : false;
   useEffect(() => {
-    if (requestStatus === RequestStatus.SUCCESS && onSuccess) {
+    if (requestStatus === RequestStatus.REQUEST)
+      hasCallbackInvoked.current = false;
+  }, [requestStatus]);
+
+  useEffect(() => {
+    if (
+      requestStatus === RequestStatus.SUCCESS &&
+      onSuccess &&
+      !hasCallbackInvoked.current
+    ) {
+      hasCallbackInvoked.current = true;
       onSuccess(success);
     }
 
-    if (requestStatus === RequestStatus.FAILURE && onError) {
+    if (
+      requestStatus === RequestStatus.FAILURE &&
+      onError &&
+      !hasCallbackInvoked.current
+    ) {
+      hasCallbackInvoked.current = true;
       onError(error);
     }
   }, [

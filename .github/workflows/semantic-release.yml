@@ -49,13 +49,6 @@ jobs:
           github-token: ${{ secrets.GH_TOKEN }}
           filterOutClosed: true
 
-      - name: Configure npm 🔑
-        run: |
-          echo "//npm.pkg.github.com/:_authToken=$GH_TOKEN" > .npmrc
-          echo '@trixtateam:registry=https://npm.pkg.github.com' >> .npmrc
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-
       - name: Install 💿
         run: yarn install --prefer-offline --frozen-lockfile
 
@@ -64,6 +57,13 @@ jobs:
 
       - name: Coverage badges 📊
         run: yarn test:coverage && yarn coverage-badges
+        
+      - name: Configure npm 🔑
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=$GH_TOKEN" > .npmrc
+          echo '@trixtateam:registry=https://npm.pkg.github.com' >> .npmrc
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Release package 📦
         run: yarn release --ignore-packages=packages/docs/**
@@ -75,3 +75,7 @@ jobs:
         uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
+          registry: "https://registry.npmjs.org/"
+          access: "public"
+          
+     

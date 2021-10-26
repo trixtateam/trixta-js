@@ -221,6 +221,7 @@ describe('useTrixtaAction', () => {
   it('should pass success response, when calling onSuccess for actionName: request_user_info_request and roleName: everyone_authed', () => {
     const { wrapper, store } = storeProviderWrapper(trixtaState);
     const roleName = trixtaState.agentDetails[0];
+    let successCallbackCount = 0;
     const successResponse = {
       email: 'jacques+guest@trixta.com',
       firstName: 'Jacques',
@@ -233,18 +234,18 @@ describe('useTrixtaAction', () => {
     const actionName = 'request_user_info_request';
     let responseData = {};
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const onSuccess = (payload: any) => (responseData = payload);
-    const { result } = renderHook(
-      () =>
-        useTrixtaAction({
-          roleName,
-          actionName,
-          onSuccess: onSuccess,
-        }),
-      {
-        wrapper,
-      },
-    );
+    const onSuccess = (payload: any) => {
+      responseData = payload;
+      successCallbackCount++;
+    };
+    const props = {
+      roleName,
+      actionName,
+      onSuccess: onSuccess,
+    };
+    const { result, rerender } = renderHook(() => useTrixtaAction(props), {
+      wrapper,
+    });
 
     expect(result.current.response).toBeUndefined();
     expect(result.current.latestInstance).toBeUndefined();
@@ -262,11 +263,14 @@ describe('useTrixtaAction', () => {
         additionalData: { trixtaMeta: { actionName, roleName } },
       });
     });
+    rerender();
+    expect(successCallbackCount).toEqual(1);
     expect(result.current.response).toBeDefined();
     expect(result.current.latestInstance).toBeDefined();
     expect(result.current.hasResponse).toBe(true);
     expect(result.current.isInProgress).toBe(false);
     expect(responseData).toEqual(successResponse);
+    expect(successCallbackCount).toEqual(1);
   });
 
   it('should pass error response, when calling onError for actionName: request_user_info_request and roleName: everyone_authed', () => {

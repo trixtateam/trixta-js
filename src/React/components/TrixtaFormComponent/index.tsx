@@ -19,14 +19,16 @@ function TrixtaFormComponent<TFormData = DefaultUnknownType>({
   formContext,
 }: TrixtaReactJsonSchemaFormProps<TFormData>): JSX.Element {
   if (ThemedForm) {
+    const { formContext: formContextThemeProp, ...formProps } = config.props;
+
     return (
       <ThemedForm
         idPrefix={idPrefix}
         onSubmit={onSubmit}
         schema={schema}
-        formContext={formContext}
+        formContext={{ ...formContextThemeProp, ...formContext }}
         formData={formData}
-        {...config.props}
+        {...formProps}
         uiSchema={uiSchema}
       >
         {submittable ? (

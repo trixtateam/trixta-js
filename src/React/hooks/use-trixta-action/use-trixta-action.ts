@@ -53,7 +53,7 @@ export const useTrixtaAction = <
   TErrorType
 > => {
   const dispatch = useDispatch();
-  const hasCallbackInvoked = useRef<boolean>(false);
+  const hasCallbackInvoked = useRef<boolean | undefined>(undefined);
   if (isNullOrEmpty(roleName)) {
     throw Error('Please provide roleName parameter.');
   }
@@ -142,7 +142,7 @@ export const useTrixtaAction = <
       timeout,
     }: SubmitTrixtaFunctionParameters) => {
       if (!hasRoleAccess || !isTrixtaActionReady) return;
-
+      hasCallbackInvoked.current = false;
       dispatch(
         submitTrixtaActionResponse({
           formData: data ?? {},
@@ -190,15 +190,14 @@ export const useTrixtaAction = <
   const success = latestInstance ? latestInstance.response.success : false;
   const error = latestInstance ? latestInstance.response.error : false;
   useEffect(() => {
-    if (requestStatus === RequestStatus.REQUEST)
-      hasCallbackInvoked.current = false;
-  }, [requestStatus]);
+    hasCallbackInvoked.current = undefined;
+  }, []);
 
   useEffect(() => {
     if (
       requestStatus === RequestStatus.SUCCESS &&
       onSuccess &&
-      !hasCallbackInvoked.current
+      hasCallbackInvoked.current === false
     ) {
       hasCallbackInvoked.current = true;
       onSuccess(success);
@@ -207,7 +206,7 @@ export const useTrixtaAction = <
     if (
       requestStatus === RequestStatus.FAILURE &&
       onError &&
-      !hasCallbackInvoked.current
+      hasCallbackInvoked.current === false
     ) {
       hasCallbackInvoked.current = true;
       onError(error);

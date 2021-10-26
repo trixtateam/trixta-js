@@ -26,7 +26,6 @@ describe('useTrixtaData', () => {
     const { result } = renderHook(() => useTrixtaData({ roleName }), {
       wrapper,
     });
-    console.info(result.current);
     expect(result.current.actionNameList.length).toBeGreaterThan(0);
     expect(result.current.reactionNameList.length).toBeGreaterThan(0);
     expect(result.current.actions.length).toBeGreaterThan(0);

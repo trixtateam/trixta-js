@@ -1,3 +1,10 @@
+## [4.4.1](https://github.com/trixtateam/trixta-js/compare/v4.4.0...v4.4.1) (2021-10-26)
+
+
+### Bug Fixes
+
+* hook callbacks submit only once ([94d963f](https://github.com/trixtateam/trixta-js/commit/94d963fe588823e52ecff29f6b6d6996e46d40d8))
+
 # [4.4.0](https://github.com/trixtateam/trixta-js/compare/v4.3.1...v4.4.0) (2021-10-20)
 
 

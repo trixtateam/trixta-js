@@ -57,14 +57,7 @@ jobs:
 
       - name: Coverage badges 📊
         run: yarn test:coverage && yarn coverage-badges
-
-      - name: NPM Release package 📦
-        uses: JS-DevTools/npm-publish@v1
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
-          registry: "https://registry.npmjs.org/"
-          access: "public"
-          
+        
       - name: Configure npm 🔑
         run: |
           echo "//npm.pkg.github.com/:_authToken=$GH_TOKEN" > .npmrc
@@ -77,3 +70,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: NPM Release package 📦
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          registry: "https://registry.npmjs.org/"
+          access: "public"
+          
+     

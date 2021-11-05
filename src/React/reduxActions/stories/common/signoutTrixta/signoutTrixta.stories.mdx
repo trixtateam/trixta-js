@@ -34,8 +34,9 @@ yield put(signoutTrixta())
 ```javascript
 import { signoutTrixta } from '@trixtateam/trixta-js';
 import { useDispatch } from 'react-redux';
+
 const dispatch = useDispatch();
-yield put(signoutTrixta())
+dispatch(signoutTrixta())
 
 ```
 

@@ -45,12 +45,12 @@ import { TrixtaReducerActions } from './../reduxActions/types';
 import { TrixtaState } from './../types';
 
 export const initialState: TrixtaState = {
-  reactions: {},
-  actions: {},
-  error: false,
   authorizationStarted: false,
   authorizingStatus: {},
   agentDetails: [],
+  reactions: {},
+  actions: {},
+  error: false,
 };
 /* eslint-disable default-case, no-param-reassign, consistent-return */
 export const trixtaReducer = (

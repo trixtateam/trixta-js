@@ -34,8 +34,9 @@ yield put(removeTrixtaRole({name:'name of Trixta role'}))
 ```javascript
 import { removeTrixtaRole } from '@trixtateam/trixta-js';
 import { useDispatch } from 'react-redux';
+
 const dispatch = useDispatch();
-yield put(removeTrixtaRole({name:'name of Trixta role'}))
+dispatch(removeTrixtaRole({name:'name of Trixta role'}))
 
 ```
 

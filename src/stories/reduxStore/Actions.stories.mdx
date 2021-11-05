@@ -1,0 +1,56 @@
+import { Meta, Story } from '@storybook/addon-docs';
+import { TrixtaReduxPreview } from '../utils/TrixtaReduxPreview.tsx';
+export const Template = (args) => <TrixtaReduxPreview {...args} />;
+
+<Meta title="Trixta Redux Store/Actions" parameters={{
+    viewMode: 'docs',
+    previewTabs: {
+      canvas: { hidden: true }
+     },
+  }} />
+
+# Actions
+
+Each role will have a list of actions assigned to them. Each `action name `,
+will be keyed with a `role name`. `action name` : `role name` .
+
+<Story name="Actions" title="Actions" args={{ section: 'actions' }}>
+  {Template.bind({})}
+</Story>
+
+---
+
+# Action Properties
+
+<Story name="Action Properties" title="Action Properties" args={{ type:'actions', section: 'everyone_anon:login' }}>
+  {Template.bind({})}
+</Story>
+
+- `mode : { type : string, limit : number }`
+  - `type` can either be `replace` or `accumulate`.
+  - Default is `replace`.
+  - Determines the behaviour of how actions will be kept.
+  - If set to `replace`, will always keep the latest action instance in the `instances` array.
+  - If set to `accumulate`, will keep all incoming actions and keep the default `limit` of `10`.
+
+- `requestStatus : { [action_key]: statusCode }`
+  - Indicates the current request status of the action.
+  - When a Trixta action is requested the `action_key` will be `role name : action name` and `statusCode` will be `1`, meaning `REQUEST`.
+  - When a response for the given `action name` the `statusCode` will be `2` if `SUCCESS` or `3` if `FAILURE`.
+  - By default the `statusCode` will be `0` which is 'NONE'
+
+- `instances : action_instance[]`
+  - All incoming actions will be here.
+  - `action_instance : { response: { success:TSuccessType, error: TErrorType}` will contain the response to a trixta action.
+      - `response` - contains either `success` or `error` data.
+
+- `common : { name:string , description: string , request_schema : JsonSchema,
+response_schema: JsonSchema,
+request_settings: UiSchema, tags: string[] }`
+  - Contains all info related to the action.
+  - `name` - is the name of the action.
+  - `description` - is the description of the action.
+  - `request_schema` - is the [JSON schema](http://json-schema.org/) for the action to be used for [react-jsonschema-form](https://react-jsonschema-form.readthedocs.io/en/latest/)
+   - `response_schema` - is the [JSON schema](http://json-schema.org/) for the action response to be used for [react-jsonschema-form](https://react-jsonschema-form.readthedocs.io/en/latest/)
+    - `request_settings` - is the [uiSchema](https://react-jsonschema-form.readthedocs.io/en/latest/api-reference/uiSchema/) for the action to be used for [react-jsonschema-form](https://react-jsonschema-form.readthedocs.io/en/latest/)
+    - `tags` - is an array of strings describing the action

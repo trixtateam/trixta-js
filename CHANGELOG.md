@@ -1,3 +1,10 @@
+# [4.5.0](https://github.com/trixtateam/trixta-js/compare/v4.4.2...v4.5.0) (2021-11-10)
+
+
+### Features
+
+* document redux store ([39e0751](https://github.com/trixtateam/trixta-js/commit/39e0751492f417d6088a7a0377dc4278280884f2))
+
 ## [4.4.2](https://github.com/trixtateam/trixta-js/compare/v4.4.1...v4.4.2) (2021-10-26)
 
 

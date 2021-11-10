@@ -1,0 +1,49 @@
+import { Meta, Story } from '@storybook/addon-docs';
+import { TrixtaReduxPreview } from '../utils/TrixtaReduxPreview.tsx';
+export const Template = (args) => <TrixtaReduxPreview {...args} />;
+
+<Meta title="Trixta Redux Store/Preview" parameters={{
+    viewMode: 'docs',
+    previewTabs: {
+      canvas: { hidden: true }
+     },
+  }} />
+
+# Trixta Redux Store
+
+Below is a preview of the Trixta redux reducer and an explanation of each key
+
+<Story name="Trixta State">{Template.bind({})}</Story>
+
+---
+
+## authorizingStarted
+
+- This is true as soon as the first role is being joined.
+
+## authorizingStatus
+
+- When a role for a given is being joined, each role will be keyed with ```role name : { status: true }```
+- If a role for a given space is not found here , it has been joined and added to `agentDetails`
+
+<Story name="Authorizing Status" args={{ section: 'authorizingStatus' }}>
+  {Template.bind({})}
+</Story>
+
+## agentDetails
+
+When a role for a given space is joined , each role will be in this array
+
+<Story name="Agent Details" args={{ section: 'agentDetails' }}>
+  {Template.bind({})}
+</Story>
+
+## actions
+After a role is joined all related actions for `role name` will be [here](?path=/docs/trixta-redux-store-actions--actions).
+
+## reactions
+After a role is joined all related reactions for `role name` will be [here](?path=/docs/trixta-redux-store-reactions--reactions).
+
+## error
+
+This will contain any errors encountered in Trixta

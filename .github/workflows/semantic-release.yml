@@ -3,9 +3,7 @@ name: semantic-release
 on:
   push:
     branches:
-      - master
-       - alpha
-       - beta
+       - master
   workflow_dispatch:
 
 jobs:
@@ -57,7 +55,7 @@ jobs:
 
       - name: Coverage badges 📊
         run: yarn test:coverage && yarn coverage-badges
-        
+
       - name: Configure npm 🔑
         run: |
           echo "//npm.pkg.github.com/:_authToken=$GH_TOKEN" > .npmrc
@@ -77,5 +75,5 @@ jobs:
           token: ${{ secrets.NPM_TOKEN }}
           registry: "https://registry.npmjs.org/"
           access: "public"
-          
-     
+
+

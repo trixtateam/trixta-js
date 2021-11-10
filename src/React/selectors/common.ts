@@ -34,6 +34,10 @@ export const selectTrixtaRolesProp = (
   props: RolesProps,
 ): Array<string> => props.roles;
 
+export const selectTrixtaState = (state: {
+  trixta: TrixtaState;
+}): TrixtaState => state.trixta;
+
 /**
  * Selects all the roles for the logged in agent
  */
@@ -91,6 +95,14 @@ export const selectIsTrixtaAuhorizedForRole = (
 ): boolean =>
   state.trixta.authorizingStatus[props.roleName] &&
   get<boolean>(state.trixta.authorizingStatus[props.roleName], 'status', false);
+
+export const makeSelectTrixtaState = (): OutputSelector<
+  {
+    trixta: TrixtaState;
+  },
+  TrixtaState,
+  (res: TrixtaState) => TrixtaState
+> => createSelector([selectTrixtaState], (trixta) => trixta);
 
 export const makeSelectTrixtaAgentDetails = (): OutputSelector<
   {

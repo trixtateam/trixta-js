@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - master
-      - alpha
-      - beta
 
   workflow_dispatch:
 
@@ -56,7 +54,7 @@ jobs:
 
       - name: Build storybook 📖
         run: yarn build-storybook-docs
-        
+
       - name: Deploy storybook 🚀
         uses: JamesIves/github-pages-deploy-action@3.6.2
         with:

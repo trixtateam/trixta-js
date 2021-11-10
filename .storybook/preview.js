@@ -38,6 +38,7 @@ export const parameters = {
     storySort: {
       order: [
         'Introduction',
+        'Trixta Redux Store/Preview',
         'Getting Started',
         'Changelog',
         'Common',

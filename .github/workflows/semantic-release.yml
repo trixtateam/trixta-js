@@ -68,12 +68,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - if: always()
+        run: rm .npmrc
 
       - name: NPM Release package 📦
-        uses: JS-DevTools/npm-publish@v1
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
-          registry: "https://registry.npmjs.org/"
-          access: "public"
+        - uses: actions/checkout@v2
+        - name: Use Node.js 14.x
+          uses: actions/setup-node@v2.4.1
+          with:
+            node-version: 14.x
+        - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
+          env:
+            NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        - run: npm publish --access public
+        - if: always()
+          run: rm .npmrc
 
 

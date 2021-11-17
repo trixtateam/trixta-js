@@ -1,3 +1,10 @@
+# [4.6.0](https://github.com/trixtateam/trixta-js/compare/v4.5.0...v4.6.0) (2021-11-17)
+
+
+### Features
+
+* extraData parameter to pass onto response ([626c092](https://github.com/trixtateam/trixta-js/commit/626c092738c0b619ca7c14b3ef54779ceb96e9ed))
+
 # [4.5.0](https://github.com/trixtateam/trixta-js/compare/v4.4.2...v4.5.0) (2021-11-10)
 
 

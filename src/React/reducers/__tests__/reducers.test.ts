@@ -531,7 +531,10 @@ describe('trixtaReducer', () => {
               mode
             ) {
               const instance = getTrixtaInstanceResult({
-                error: action.error,
+                error: {
+                  ...(action.error && action.error),
+                  ...(action.additionalData && action.additionalData),
+                },
                 success: false,
               }) as TrixtaInstance;
               switch (mode.type) {
@@ -640,7 +643,10 @@ describe('trixtaReducer', () => {
               mode
             ) {
               const instance = getTrixtaInstanceResult({
-                success: action.data,
+                success: {
+                  ...(action.data && action.data),
+                  ...(action.additionalData && action.additionalData),
+                },
                 error: false,
               }) as TrixtaInstance;
               switch (mode.type) {
@@ -1277,13 +1283,15 @@ describe('trixtaReducer', () => {
               ].instances.requestForResponse.findIndex(
                 (reaction) => reaction.details.ref === ref,
               );
-              const response = action.data;
               if (index !== -1)
                 draft.reactions[keyName].instances.requestForResponse[
                   index
                 ].response = {
                   error: false,
-                  success: response,
+                  success: {
+                    ...(action.data && action.data),
+                    ...(action.additionalData && action.additionalData),
+                  },
                 };
             }
           });
@@ -1370,7 +1378,10 @@ describe('trixtaReducer', () => {
                 draft.reactions[keyName].instances.requestForResponse[
                   index
                 ].response = {
-                  error: action.error,
+                  error: {
+                    ...(action.error && action.error),
+                    ...(action.additionalData && action.additionalData),
+                  },
                   success: false,
                 };
             }
@@ -1383,6 +1394,7 @@ describe('trixtaReducer', () => {
           const action = {
             error: 'error',
             additionalData: {
+              extraData: {},
               trixtaMeta: {
                 roleName: nameOfRole,
                 ref: 'f3ed1875-1841-4572-81b1-2966e28254a0',

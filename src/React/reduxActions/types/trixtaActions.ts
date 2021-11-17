@@ -58,6 +58,7 @@ export type SubmitTrixtaActionResponseAction<TFormData = DefaultUnknownType> = {
   type: typeof SUBMIT_TRIXTA_ACTION_RESPONSE;
   payload: {
     formData?: TFormData;
+    extraData?: Record<string, unknown>;
     roleName: string;
     debugMode?: boolean;
     clearResponse?: boolean;

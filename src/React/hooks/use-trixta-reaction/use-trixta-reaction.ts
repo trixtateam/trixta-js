@@ -142,11 +142,13 @@ export const useTrixtaReaction = <
       timeout,
       ref,
       requestEvent,
+      extraData,
     }: SubmitTrixtaFunctionParameters) => {
       if (!hasRoleAccess || !isTrixtaReactionReady) return;
       hasCallbackInvoked.current = false;
       dispatch(
         submitTrixtaReactionResponse({
+          extraData: extraData ?? {},
           formData: data ?? {},
           ref: ref ?? latestInstance?.details.ref,
           loadingStatusRef,

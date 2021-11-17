@@ -8,6 +8,11 @@ export interface TrixtaActionComponentProps extends TrixtaActionBaseProps {
    * If 'true', will render the Trixta action response instances
    */
   renderResponse?: boolean;
+  /**
+   * Extra data to pass on and receive in response with key extraData. This can be used
+   * as needed.
+   */
+  extraData?: Record<string, unknown>;
   debugOptions?: TrixtaActionDebugOptions;
   /**
    * Enables Trixta console debbugging. If 'true', open the console and see verbose logging

@@ -105,6 +105,7 @@ function mapDispatchToProps(
     dispatchSubmitActionResponse: (formData?: Record<string, unknown>) =>
       dispatch(
         submitTrixtaActionResponse({
+          extraData: ownProps.extraData,
           errorEvent: ownProps.errorEvent,
           responseEvent: ownProps.responseEvent,
           requestEvent: ownProps.requestEvent,

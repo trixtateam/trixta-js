@@ -37,6 +37,11 @@ export interface SubmitTrixtaFunctionParameters {
    */
   data: DefaultUnknownType;
   /**
+   * Extra data to pass on and receive in response with the key extraData. This can be used
+   * as needed.
+   */
+  extraData?: Record<string, unknown>;
+  /**
    * Unique reference no for Trixta to respond for Reaction
    */
   ref?: string;

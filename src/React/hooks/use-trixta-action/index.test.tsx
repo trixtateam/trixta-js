@@ -255,13 +255,14 @@ describe('useTrixtaAction', () => {
       result.current.submitTrixtaAction({ data: {} });
     });
 
+    const actionToSubmit = {
+      type: SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
+      data: successResponse,
+      additionalData: { trixtaMeta: { actionName, roleName } },
+    };
     expect(result.current.isInProgress).toBe(true);
     act(() => {
-      store.dispatch({
-        type: SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
-        data: successResponse,
-        additionalData: { trixtaMeta: { actionName, roleName } },
-      });
+      store.dispatch(actionToSubmit);
     });
     rerender();
     expect(successCallbackCount).toEqual(1);
@@ -269,7 +270,10 @@ describe('useTrixtaAction', () => {
     expect(result.current.latestInstance).toBeDefined();
     expect(result.current.hasResponse).toBe(true);
     expect(result.current.isInProgress).toBe(false);
-    expect(responseData).toEqual(successResponse);
+    expect(responseData).toEqual({
+      ...successResponse,
+      ...actionToSubmit.additionalData,
+    });
     expect(successCallbackCount).toEqual(1);
   });
 
@@ -303,19 +307,23 @@ describe('useTrixtaAction', () => {
       result.current.submitTrixtaAction({ data: {} });
     });
 
+    const actionToSubmit = {
+      type: SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
+      error: errorResponse,
+      additionalData: { trixtaMeta: { actionName, roleName } },
+    };
     expect(result.current.isInProgress).toBe(true);
     act(() => {
-      store.dispatch({
-        type: SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
-        error: errorResponse,
-        additionalData: { trixtaMeta: { actionName, roleName } },
-      });
+      store.dispatch(actionToSubmit);
     });
     expect(result.current.response).toBeDefined();
     expect(result.current.latestInstance).toBeDefined();
     expect(result.current.hasResponse).toBe(true);
     expect(result.current.isInProgress).toBe(false);
-    expect(responseData).toEqual(errorResponse);
+    expect(responseData).toEqual({
+      ...errorResponse,
+      ...actionToSubmit.additionalData,
+    });
   });
   it('should autosubmit trixta action on mount, when autosubmit true for actionName: request_user_info_request and roleName: everyone_authed', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);

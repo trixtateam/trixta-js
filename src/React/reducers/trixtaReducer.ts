@@ -176,7 +176,10 @@ export const trixtaReducer = (
               draft.reactions[keyName].instances.requestForResponse[
                 index
               ].response = {
-                error: action.error,
+                error: {
+                  ...(action.error && action.error),
+                  ...(action.additionalData && action.additionalData),
+                },
                 success: false,
               };
           }
@@ -207,13 +210,15 @@ export const trixtaReducer = (
             ].instances.requestForResponse.findIndex(
               (reaction) => reaction.details.ref === ref,
             );
-            const response = action.data;
             if (index !== -1)
               draft.reactions[keyName].instances.requestForResponse[
                 index
               ].response = {
                 error: false,
-                success: response,
+                success: {
+                  ...(action.data && action.data),
+                  ...(action.additionalData && action.additionalData),
+                },
               };
           }
         }
@@ -450,7 +455,10 @@ export const trixtaReducer = (
             mode
           ) {
             const instance = getTrixtaInstanceResult({
-              success: action.data,
+              success: {
+                ...(action.data && action.data),
+                ...(action.additionalData && action.additionalData),
+              },
               error: false,
             });
             switch (mode.type) {
@@ -510,7 +518,10 @@ export const trixtaReducer = (
             mode
           ) {
             const instance = getTrixtaInstanceResult({
-              error: action.error,
+              error: {
+                ...(action.error && action.error),
+                ...(action.additionalData && action.additionalData),
+              },
               success: false,
             });
             switch (mode.type) {

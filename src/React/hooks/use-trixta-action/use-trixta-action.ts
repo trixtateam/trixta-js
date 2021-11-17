@@ -140,11 +140,13 @@ export const useTrixtaAction = <
       errorEvent,
       timeoutEvent,
       timeout,
+      extraData,
     }: SubmitTrixtaFunctionParameters) => {
       if (!hasRoleAccess || !isTrixtaActionReady) return;
       hasCallbackInvoked.current = false;
       dispatch(
         submitTrixtaActionResponse({
+          extraData: extraData ?? {},
           formData: data ?? {},
           loadingStatusRef,
           roleName,

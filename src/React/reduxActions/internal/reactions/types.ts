@@ -10,6 +10,7 @@ export type SubmitTrixtaReactionResponseFailureAction = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any;
   additionalData: {
+    extraData?: Record<string, unknown>;
     trixtaMeta: AdditionalTrixtaData & {
       ref?: string;
       reactionName: string;
@@ -22,6 +23,7 @@ export type SubmitTrixtaReactionResponseTimeoutFailureAction = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any;
   additionalData: {
+    extraData?: Record<string, unknown>;
     trixtaMeta: AdditionalTrixtaData & {
       ref?: string;
       reactionName: string;
@@ -32,6 +34,7 @@ export type SubmitTrixtaReactionResponseTimeoutFailureAction = {
 export type SubmitTrixtaReactionResponseSuccessAction = {
   type: typeof SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS;
   additionalData: {
+    extraData?: Record<string, unknown>;
     trixtaMeta: AdditionalTrixtaData & {
       ref?: string;
       reactionName: string;

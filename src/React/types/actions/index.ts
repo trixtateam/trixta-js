@@ -97,6 +97,11 @@ export interface SubmitTrixtaActionResponse<TFormData = DefaultUnknownType> {
    */
   formData: TFormData;
   /**
+   * Extra data to pass on and receive in response with the key extraData. This can be used
+   * as needed.
+   */
+  extraData?: Record<string, unknown>;
+  /**
    * True, If the responses for Trixta action should be cleared before submitting
    */
   clearResponse?: boolean;

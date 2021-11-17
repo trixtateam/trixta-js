@@ -102,6 +102,7 @@ function mapDispatchToProps(
         submitTrixtaReactionResponse({
           formData,
           errorEvent: ownProps.errorEvent,
+          extraData: ownProps.extraData,
           timeoutEvent: ownProps.setTimeoutEventAsErrorEvent
             ? ownProps.errorEvent
             : ownProps.timeoutEvent,

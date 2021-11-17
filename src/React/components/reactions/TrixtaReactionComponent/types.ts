@@ -2,6 +2,11 @@ import { TrixtaReactionBaseProps } from '../../../types';
 
 export interface TrixtaReactionComponentProps extends TrixtaReactionBaseProps {
   /**
+   * Extra data to pass on and receive in response with key extraData. This can be used
+   * as needed.
+   */
+  extraData?: Record<string, unknown>;
+  /**
    * Event name / dispatch action type for data to dispatch before submitting to Trixta Reaction response
    * [see Redux `dispatch` documentation for complete info](https://redux.js.org/api/store#dispatchaction)
    */

@@ -476,17 +476,20 @@ describe('useTrixtaReaction', () => {
       act(() => {
         result.current.submitTrixtaReaction({ data: {}, ref });
       });
-
+      const actionToSubmit = {
+        type: SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
+        data: successResponse,
+        additionalData: { trixtaMeta: { reactionName, roleName, ref } },
+      };
       expect(result.current.isInProgress).toBe(true);
       act(() => {
-        store.dispatch({
-          type: SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
-          data: successResponse,
-          additionalData: { trixtaMeta: { reactionName, roleName, ref } },
-        });
+        store.dispatch(actionToSubmit);
       });
       expect(result.current.isInProgress).toBe(false);
-      expect(responseData).toEqual(successResponse);
+      expect(responseData).toEqual({
+        ...successResponse,
+        ...actionToSubmit.additionalData,
+      });
     });
 
     it('should pass error response, when calling onError for reactionName: request_guest_stream and roleName: host[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
@@ -522,17 +525,20 @@ describe('useTrixtaReaction', () => {
       act(() => {
         result.current.submitTrixtaReaction({ data: {}, ref });
       });
-
+      const actionToSubmit = {
+        type: SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
+        error: errorResponse,
+        additionalData: { trixtaMeta: { reactionName, roleName, ref } },
+      };
       expect(result.current.isInProgress).toBe(true);
       act(() => {
-        store.dispatch({
-          type: SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
-          error: errorResponse,
-          additionalData: { trixtaMeta: { reactionName, roleName, ref } },
-        });
+        store.dispatch(actionToSubmit);
       });
       expect(result.current.isInProgress).toBe(false);
-      expect(responseData).toEqual(errorResponse);
+      expect(responseData).toEqual({
+        ...errorResponse,
+        ...actionToSubmit.additionalData,
+      });
     });
   });
 });

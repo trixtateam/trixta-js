@@ -79,6 +79,7 @@ export type SubmitTrixtaReactionResponseAction<
   type: typeof SUBMIT_TRIXTA_REACTION_RESPONSE;
   payload: {
     formData?: TFormData;
+    extraData?: Record<string, unknown>;
     ref: string;
     loadingStatusRef?: string;
     responseEvent?: string;

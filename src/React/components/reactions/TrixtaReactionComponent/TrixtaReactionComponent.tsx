@@ -50,7 +50,7 @@ ConnectProps & TrixtaReactionComponentProps & Record<string, any>) {
     <>
       {instances.map((value, index) => (
         <TrixtaReactionInstanceComponent
-          key={`${reactionName}-${value.details.ref}-instance`}
+          key={`${reactionName}-${value.instanceKey}-instance`}
           reactionName={reactionName}
           requestForEffect={requestForEffect}
           common={common}
@@ -59,7 +59,7 @@ ConnectProps & TrixtaReactionComponentProps & Record<string, any>) {
           requestEvent={requestEvent}
           roleName={roleName}
           instanceIndex={index}
-          instanceRef={value.details.ref}
+          instanceRef={value.instanceKey}
           debugMode={debugMode}
           {...rest}
         />

@@ -80,7 +80,7 @@ export type SubmitTrixtaReactionResponseAction<
   payload: {
     formData?: TFormData;
     extraData?: Record<string, unknown>;
-    ref: string;
+    ref?: string;
     loadingStatusRef?: string;
     responseEvent?: string;
     requestEvent?: string;

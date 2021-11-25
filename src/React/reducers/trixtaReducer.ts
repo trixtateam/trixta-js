@@ -7,9 +7,11 @@ import {
   getReactionDetails,
   getReducerKeyName,
   getRequestStatusKeyName,
+  getTrixtaActionResponseInstanceResult,
   getTrixtaActionReducerStructure,
-  getTrixtaInstanceResult,
+  getTrixtaReactionInstanceResult,
   getTrixtaReactionReducerStructure,
+  getTrixtaReactionResponseInstanceResult,
   isObject,
   pickBy,
 } from '../../utils';
@@ -34,11 +36,7 @@ import {
   UPDATE_TRIXTA_ROLE,
   UPDATE_TRIXTA_ROLES,
 } from '../constants';
-import {
-  RequestStatus,
-  TrixtaReactionInstance,
-  TrixtaRoleParameter,
-} from '../types';
+import { RequestStatus, TrixtaRoleParameter } from '../types';
 import { SIGN_OUT_TRIXTA } from './../constants/index';
 import { SUBMIT_TRIXTA_REACTION_TIMEOUT_RESPONSE_FAILURE } from './../constants/reactions/index';
 import { TrixtaReducerActions } from './../reduxActions/types';
@@ -175,13 +173,7 @@ export const trixtaReducer = (
             if (index !== -1)
               draft.reactions[keyName].instances.requestForResponse[
                 index
-              ].response = {
-                error: {
-                  ...(action.error && action.error),
-                  ...(action.additionalData && action.additionalData),
-                },
-                success: false,
-              };
+              ].response = getTrixtaReactionResponseInstanceResult(action);
           }
         }
         break;
@@ -213,13 +205,7 @@ export const trixtaReducer = (
             if (index !== -1)
               draft.reactions[keyName].instances.requestForResponse[
                 index
-              ].response = {
-                error: false,
-                success: {
-                  ...(action.data && action.data),
-                  ...(action.additionalData && action.additionalData),
-                },
-              };
+              ].response = getTrixtaReactionResponseInstanceResult(action);
           }
         }
         break;
@@ -227,7 +213,7 @@ export const trixtaReducer = (
         {
           const keyName = action.payload.keyName;
           const reactionDetails = action.payload.reactionResponse;
-          const reaction = getReactionDetails({
+          const { reaction, instanceKey } = getReactionDetails({
             reaction: reactionDetails,
           });
           const ref = reaction.ref;
@@ -254,13 +240,10 @@ export const trixtaReducer = (
               );
             }
           } else if (draft.reactions[keyName] && mode) {
-            const instance = getTrixtaInstanceResult({
-              details: !isRequestForResponse
-                ? { ...reaction }
-                : { ref, ...reaction },
-              success: false,
-              error: false,
-            }) as TrixtaReactionInstance;
+            const instance = getTrixtaReactionInstanceResult({
+              instanceKey,
+              reaction,
+            });
             switch (mode.type) {
               case 'replace':
                 if (isRequestForResponse) {
@@ -454,13 +437,7 @@ export const trixtaReducer = (
             draft.actions[keyName].instances &&
             mode
           ) {
-            const instance = getTrixtaInstanceResult({
-              success: {
-                ...(action.data && action.data),
-                ...(action.additionalData && action.additionalData),
-              },
-              error: false,
-            });
+            const instance = getTrixtaActionResponseInstanceResult(action);
             switch (mode.type) {
               case 'replace':
                 draft.actions[keyName].instances[0] = instance;
@@ -517,13 +494,7 @@ export const trixtaReducer = (
             draft.actions[keyName].instances &&
             mode
           ) {
-            const instance = getTrixtaInstanceResult({
-              error: {
-                ...(action.error && action.error),
-                ...(action.additionalData && action.additionalData),
-              },
-              success: false,
-            });
+            const instance = getTrixtaActionResponseInstanceResult(action);
             switch (mode.type) {
               case 'replace':
                 draft.actions[keyName].instances[0] = instance;

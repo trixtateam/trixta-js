@@ -92,12 +92,13 @@ export const mockTrixtaReactions: TrixtaState['reactions'] = {
     instances: {
       requestForEffect: [
         {
+          instanceKey: 'GBlDywXfoN',
           details: {
             status: 'ok',
             ref: '',
             type: 'requestForEffect',
             initial_data: { data: 'test_data' },
-            dateCreated: '3/16/2021, 11:37:36 AM',
+            dateCreated: new Date().toLocaleString(),
           },
           response: {
             success: false,
@@ -159,11 +160,12 @@ export const mockTrixtaReactions: TrixtaState['reactions'] = {
     instances: {
       requestForEffect: [
         {
+          instanceKey: 'GBlDywXfoN',
           details: {
             ref: 'GBlDywXfoN',
             type: 'requestForEffect',
             initial_data: [],
-            dateCreated: '3/16/2021, 10:55:32 AM',
+            dateCreated: new Date().toLocaleString(),
           },
           response: {
             success: false,
@@ -226,12 +228,13 @@ export const mockTrixtaReactions: TrixtaState['reactions'] = {
       requestForEffect: [],
       requestForResponse: [
         {
+          instanceKey: 'f3ed1875-1841-4572-81b1-2966e28254a0',
           details: {
             ref: 'f3ed1875-1841-4572-81b1-2966e28254a0',
             status: 'ok',
             type: 'requestForResponse',
             initial_data: null,
-            dateCreated: '3/16/2021, 11:25:20 AM',
+            dateCreated: new Date().toLocaleString(),
           },
           response: {
             success: false,
@@ -267,12 +270,13 @@ export const mockTrixtaReactions: TrixtaState['reactions'] = {
       requestForEffect: [],
       requestForResponse: [
         {
+          instanceKey: '4a32ed8d-f47d-4e78-921c-6a4aeb996bd3',
           details: {
             ref: '4a32ed8d-f47d-4e78-921c-6a4aeb996bd3',
             status: 'ok',
             type: 'requestForResponse',
             initial_data: null,
-            dateCreated: '3/16/2021, 11:37:36 AM',
+            dateCreated: new Date().toLocaleString(),
           },
           response: {
             success: false,

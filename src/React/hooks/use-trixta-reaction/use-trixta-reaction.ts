@@ -55,7 +55,7 @@ export const useTrixtaReaction = <
   TErrorType
 > => {
   const dispatch = useDispatch();
-  const hasCallbackInvoked = useRef<boolean | undefined>(undefined);
+  const latestTimeStamp = useRef<number | undefined>(undefined);
   if (isNullOrEmpty(roleName)) {
     throw Error('Please provide roleName parameter.');
   }
@@ -145,7 +145,6 @@ export const useTrixtaReaction = <
       extraData,
     }: SubmitTrixtaFunctionParameters) => {
       if (!hasRoleAccess || !isTrixtaReactionReady) return;
-      hasCallbackInvoked.current = false;
       dispatch(
         submitTrixtaReactionResponse({
           extraData: extraData ?? {},
@@ -176,26 +175,28 @@ export const useTrixtaReaction = <
 
   const success = latestInstance ? latestInstance.response.success : false;
   const error = latestInstance ? latestInstance.response.error : false;
-  useEffect(() => {
-    hasCallbackInvoked.current = undefined;
-  }, []);
+  const instanceTimeStamp = latestInstance
+    ? latestInstance.response.timeStamp
+    : undefined;
 
   useEffect(() => {
     if (
       requestStatus === RequestStatus.SUCCESS &&
       onSuccess &&
-      hasCallbackInvoked.current === false
+      instanceTimeStamp &&
+      instanceTimeStamp !== latestTimeStamp.current
     ) {
-      hasCallbackInvoked.current = true;
+      latestTimeStamp.current = instanceTimeStamp;
       onSuccess(success);
     }
 
     if (
       requestStatus === RequestStatus.FAILURE &&
       onError &&
-      hasCallbackInvoked.current === false
+      instanceTimeStamp &&
+      instanceTimeStamp !== latestTimeStamp.current
     ) {
-      hasCallbackInvoked.current = true;
+      latestTimeStamp.current = instanceTimeStamp;
       onError(error);
     }
   }, [
@@ -205,6 +206,7 @@ export const useTrixtaReaction = <
     requestStatus,
     success,
     error,
+    instanceTimeStamp,
   ]);
 
   trixtaDebugger({

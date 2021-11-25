@@ -1,9 +1,18 @@
 import { nanoid } from 'nanoid';
+import { SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS } from '../React/constants/actions/index';
+import { SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS } from '../React/constants/reactions/index';
 import {
-  DefaultUnknownType,
+  SubmitTrixtaActionResponseFailureAction,
+  SubmitTrixtaActionResponseSuccessAction,
+  SubmitTrixtaActionResponseTimeoutFailureAction,
+  SubmitTrixtaReactionResponseFailureAction,
+  SubmitTrixtaReactionResponseSuccessAction,
+  SubmitTrixtaReactionResponseTimeoutFailureAction,
+} from '../React/reduxActions/internal/types';
+import {
   RequestStatus,
   TrixtaAction,
-  TrixtaInstance,
+  TrixtaInstanceResponse,
   TrixtaReaction,
   TrixtaReactionInstance,
 } from '../React/types';
@@ -14,25 +23,22 @@ import {
 } from './../React/types';
 import { get } from './object';
 
-/**
- * Returns only the necessary fields needed from reaction
- * @param {Object} params
- * @param {Object} params.reaction - reaction response details
- * @param {Date=} params.dateCreated - date created for timestamp
- */
 export function getReactionDetails({
   reaction,
 }: {
   reaction: TrixtaReactionResponseDetails;
-}): TrixtaReactionResponseDetails {
+}): { reaction: TrixtaReactionResponseDetails; instanceKey: string } {
   return {
-    ref: get<string>(reaction, 'ref', nanoid()),
-    status: reaction.status,
-    type: get<boolean>(reaction, 'ref', false)
-      ? 'requestForResponse'
-      : 'requestForEffect',
-    initial_data: reaction.initial_data,
-    dateCreated: new Date().toLocaleString(),
+    instanceKey: get<string>(reaction, 'ref', nanoid()),
+    reaction: {
+      ref: reaction.ref,
+      status: reaction.status,
+      type: get<boolean>(reaction, 'ref', false)
+        ? 'requestForResponse'
+        : 'requestForEffect',
+      initial_data: reaction.initial_data,
+      dateCreated: new Date().toLocaleString(),
+    },
   };
 }
 
@@ -67,29 +73,76 @@ export function getTrixtaReactionReducerStructure({
 }
 
 /**
- * Returns a trixtaInstance based on params.details and params.error or params.success
- * @param {Object} params
- * @param {TrixtaInstanceDetails} params.details - TrixtaInstanceDetails
- * @param {unknown} params.error - error response for Trixta Instance
- * @param {unknown} params.success - success response for Trixta Instance
- * @returns
+ * Returns a TrixtaReactionInstance based on params.reaction and params.instanceKey
  */
-export function getTrixtaInstanceResult<
-  TInitialData = DefaultUnknownType,
-  TSuccessType = DefaultUnknownType,
-  TErrorType = DefaultUnknownType
->({
-  details,
-  error,
-  success,
+export function getTrixtaReactionInstanceResult({
+  reaction,
+  instanceKey,
 }: {
-  details?: TrixtaReactionResponseDetails<TInitialData>;
-  success?: TSuccessType;
-  error?: TErrorType;
-}):
-  | TrixtaInstance<TSuccessType, TErrorType>
-  | TrixtaReactionInstance<TInitialData, TSuccessType, TErrorType> {
-  return { details, response: { success, error } };
+  instanceKey: string;
+  reaction: TrixtaReactionResponseDetails;
+}): TrixtaReactionInstance {
+  return {
+    instanceKey,
+    details: { ...reaction },
+    response: { success: false, error: false },
+  };
+}
+
+export function getTrixtaReactionResponseInstanceResult(
+  action:
+    | SubmitTrixtaReactionResponseSuccessAction
+    | SubmitTrixtaReactionResponseTimeoutFailureAction
+    | SubmitTrixtaReactionResponseFailureAction,
+): TrixtaInstanceResponse {
+  if (action.type === SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS) {
+    return {
+      success: {
+        ...(action.data && action.data),
+        ...(action.additionalData && action.additionalData),
+      },
+      error: false,
+      timeStamp: Date.now(),
+    };
+  }
+  return {
+    success: false,
+    error: {
+      ...(action.error && action.error),
+      ...(action.additionalData && action.additionalData),
+    },
+    timeStamp: Date.now(),
+  };
+}
+
+export function getTrixtaActionResponseInstanceResult(
+  action:
+    | SubmitTrixtaActionResponseSuccessAction
+    | SubmitTrixtaActionResponseTimeoutFailureAction
+    | SubmitTrixtaActionResponseFailureAction,
+): { response: TrixtaInstanceResponse } {
+  if (action.type === SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS) {
+    return {
+      response: {
+        success: {
+          ...(action.data && action.data),
+          ...(action.additionalData && action.additionalData),
+        },
+        error: false,
+        timeStamp: Date.now(),
+      },
+    };
+  }
+  return {
+    response: {
+      success: false,
+      error: {
+        ...(action.error && action.error),
+        ...(action.additionalData && action.additionalData),
+      },
+      timeStamp: Date.now(),
+    },
+  };
 }
 
 /**

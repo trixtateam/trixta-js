@@ -6,11 +6,13 @@ import {
   getReactionDetails,
   getReducerKeyName,
   getRequestStatusKeyName,
+  getTrixtaActionResponseInstanceResult,
   getTrixtaActionReducerStructure,
-  getTrixtaInstanceResult,
+  getTrixtaReactionInstanceResult,
   getTrixtaReactionReducerStructure,
   isObject,
   pickBy,
+  getTrixtaReactionResponseInstanceResult,
 } from '../../../utils';
 import {
   SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
@@ -23,9 +25,7 @@ import { signoutTrixta } from '../../reduxActions';
 import * as internalActions from '../../reduxActions/internal';
 import {
   RequestStatus,
-  TrixtaInstance,
   TrixtaInstanceMode,
-  TrixtaReactionInstance,
   TrixtaRoleParameter,
   TrixtaState,
 } from '../../types/common';
@@ -530,13 +530,7 @@ describe('trixtaReducer', () => {
               draft.actions[keyName].instances &&
               mode
             ) {
-              const instance = getTrixtaInstanceResult({
-                error: {
-                  ...(action.error && action.error),
-                  ...(action.additionalData && action.additionalData),
-                },
-                success: false,
-              }) as TrixtaInstance;
+              const instance = getTrixtaActionResponseInstanceResult(action);
               switch (mode.type) {
                 case 'replace':
                   draft.actions[keyName].instances[0] = instance;
@@ -564,6 +558,7 @@ describe('trixtaReducer', () => {
           const nameOfRole = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]';
           const nameOfAction = 'add_to_queue';
           const action = {
+            type: SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
             error: 'error',
             additionalData: {
               trixtaMeta: {
@@ -642,13 +637,7 @@ describe('trixtaReducer', () => {
               draft.actions[keyName].instances &&
               mode
             ) {
-              const instance = getTrixtaInstanceResult({
-                success: {
-                  ...(action.data && action.data),
-                  ...(action.additionalData && action.additionalData),
-                },
-                error: false,
-              }) as TrixtaInstance;
+              const instance = getTrixtaActionResponseInstanceResult(action);
               switch (mode.type) {
                 case 'replace':
                   draft.actions[keyName].instances[0] = instance;
@@ -678,6 +667,7 @@ describe('trixtaReducer', () => {
           const nameOfRole = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]';
           const nameOfAction = 'add_to_queue';
           const action = {
+            type: SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
             data: {},
             additionalData: {
               trixtaMeta: {
@@ -727,6 +717,7 @@ describe('trixtaReducer', () => {
           const nameOfRole = 'everyone_authed';
           const nameOfAction = 'request_user_info';
           const action = {
+            type: SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
             additionalData: {
               trixtaMeta: {
                 clearResponse: false,
@@ -773,6 +764,7 @@ describe('trixtaReducer', () => {
           const nameOfRole = 'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]';
           const nameOfAction = 'get_session_by_id';
           const action = {
+            type: SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
             additionalData: {
               trixtaMeta: {
                 clearResponse: false,
@@ -811,6 +803,7 @@ describe('trixtaReducer', () => {
           const nameOfRole = 'everyone_authed';
           const nameOfAction = 'request_user_info';
           const action = {
+            type: SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
             additionalData: {
               trixtaMeta: {
                 clearResponse: true,
@@ -1286,13 +1279,7 @@ describe('trixtaReducer', () => {
               if (index !== -1)
                 draft.reactions[keyName].instances.requestForResponse[
                   index
-                ].response = {
-                  error: false,
-                  success: {
-                    ...(action.data && action.data),
-                    ...(action.additionalData && action.additionalData),
-                  },
-                };
+                ].response = getTrixtaReactionResponseInstanceResult(action);
             }
           });
           return expectedResult;
@@ -1301,6 +1288,7 @@ describe('trixtaReducer', () => {
           const nameOfRole = 'host[d1be63be-c0e4-4468-982c-5c04714a2987]';
           const nameOfReaction = 'pause_queue';
           const action = {
+            type: SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
             data: {},
             additionalData: {
               trixtaMeta: {
@@ -1377,13 +1365,7 @@ describe('trixtaReducer', () => {
               if (index !== -1)
                 draft.reactions[keyName].instances.requestForResponse[
                   index
-                ].response = {
-                  error: {
-                    ...(action.error && action.error),
-                    ...(action.additionalData && action.additionalData),
-                  },
-                  success: false,
-                };
+                ].response = getTrixtaReactionResponseInstanceResult(action);
             }
           });
           return expectedResult;
@@ -1392,6 +1374,7 @@ describe('trixtaReducer', () => {
           const nameOfRole = 'host[d1be63be-c0e4-4468-982c-5c04714a2987]';
           const nameOfReaction = 'pause_queue';
           const action = {
+            type: SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
             error: 'error',
             additionalData: {
               extraData: {},
@@ -1559,7 +1542,7 @@ describe('trixtaReducer', () => {
         const expectedResult = produce<TrixtaState>(state, (draft) => {
           const keyName = action.payload.keyName;
           const reactionDetails = action.payload.reactionResponse;
-          const reaction = getReactionDetails({
+          const { reaction, instanceKey } = getReactionDetails({
             reaction: reactionDetails,
           });
 
@@ -1586,13 +1569,10 @@ describe('trixtaReducer', () => {
               );
             }
           } else if (draft.reactions[keyName] && mode) {
-            const instance = getTrixtaInstanceResult({
-              details: !isRequestForResponse
-                ? { ...reaction }
-                : { ref, ...reaction },
-              success: false,
-              error: false,
-            }) as TrixtaReactionInstance;
+            const instance = getTrixtaReactionInstanceResult({
+              instanceKey,
+              reaction,
+            });
             switch (mode.type) {
               case 'replace':
                 if (isRequestForResponse) {

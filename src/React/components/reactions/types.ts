@@ -5,7 +5,7 @@ import {
 } from '../../types';
 import {
   DefaultUnknownType,
-  TrixtaInstanceDetails,
+  TrixtaReactionInstanceDetails,
   TrixtaInstanceResponse,
 } from './../../types';
 export interface TrixtaReactionComponentArgs<
@@ -20,5 +20,5 @@ export interface TrixtaReactionComponentArgs<
   isInProgress: boolean;
   loading?: boolean;
   response?: TrixtaInstanceResponse<TSuccessType, TErrorType>;
-  details?: TrixtaInstanceDetails<TInitialData>;
+  details?: TrixtaReactionInstanceDetails<TInitialData>;
 }

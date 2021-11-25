@@ -501,8 +501,10 @@ function* submitResponseForReactionSaga({
       errorEvent,
       loadingStatusRef,
     };
+
     const channelTopic = getChannelName({ role: roleName });
     yield put(getPhoenixChannel({ channelTopic }));
+    if (!ref) return;
     if (requestEvent) {
       yield put({ type: requestEvent, payload });
     }

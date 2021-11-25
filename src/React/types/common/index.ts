@@ -185,10 +185,15 @@ export interface TrixtaInstanceResponse<
    * If, no error from Trixta, the response for Reaction / Action
    */
   success?: TSuccessType;
+  /**
+   * Timestamp for response
+   */
+  timeStamp?: number;
 }
 
-export interface TrixtaInstanceDetails<TInitialData = DefaultUnknownType>
-  extends Record<string, unknown> {
+export interface TrixtaReactionInstanceDetails<
+  TInitialData = DefaultUnknownType
+> extends Record<string, unknown> {
   // eslint-disable-next-line camelcase
   /**
    * Initial Data returned from Trixta for Reaction / Action
@@ -205,9 +210,9 @@ export interface TrixtaInstanceDetails<TInitialData = DefaultUnknownType>
   /**
    * Unique reference no for Trixta to respond for Reaction
    */
-  ref: string;
+  ref?: string;
   /**
-   * Timestamp of when instance created
+   * Date of when instance created
    */
   dateCreated?: string;
 }
@@ -239,7 +244,11 @@ export interface TrixtaReactionInstance<
    */
   TErrorType = DefaultUnknownType
 > extends TrixtaInstance<TSuccessType, TErrorType> {
-  details: TrixtaInstanceDetails<TInitialData>;
+  details: TrixtaReactionInstanceDetails<TInitialData>;
+  /**
+   * Unique key for each reaction instance component
+   */
+  instanceKey: string;
 }
 
 export type TrixtaDispatch<T = never> = [T] extends [never]

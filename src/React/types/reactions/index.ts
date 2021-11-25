@@ -104,9 +104,9 @@ export interface SubmitTrixtaReactionResponse<TFormData = DefaultUnknownType> {
    */
   extraData?: Record<string, unknown>;
   /**
-   * Unique ref no for Trixta reaction
+   * Unique ref no for Trixta reaction that is waiting for a response
    */
-  ref: string;
+  ref?: string;
   /**
    * Event name / dispatch action type for data to dispatch before submitting to Trixta Reaction response
    *  [see Redux `dispatch` documentation for complete info](https://redux.js.org/api/store#dispatchaction)

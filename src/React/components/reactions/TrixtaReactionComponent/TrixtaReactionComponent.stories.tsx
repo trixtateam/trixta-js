@@ -70,7 +70,7 @@ const FormAsProps: ComponentStory<typeof TrixtaReactionComponent> = (
             schema={schema}
             formData={formData}
             uiSchema={uiSchema}
-            onSubmit={({ formData }: { formData: any }) => {
+            onSubmit={({ formData }: { formData: unknown }) => {
               props.submit(formData);
             }}
           />

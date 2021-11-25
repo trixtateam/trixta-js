@@ -1,3 +1,10 @@
+# [4.7.0](https://github.com/trixtateam/trixta-js/compare/v4.6.0...v4.7.0) (2021-11-25)
+
+
+### Features
+
+* response instances with timeStamp ([e9536d7](https://github.com/trixtateam/trixta-js/commit/e9536d7d96155d14f3086e27dc67ffb2693adfc3))
+
 # [4.6.0](https://github.com/trixtateam/trixta-js/compare/v4.5.0...v4.6.0) (2021-11-17)
 
 

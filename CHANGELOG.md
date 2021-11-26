@@ -1,3 +1,10 @@
+# [4.8.0](https://github.com/trixtateam/trixta-js/compare/v4.7.0...v4.8.0) (2021-11-26)
+
+
+### Features
+
+* callback function for use-respond-to-reaction-effect ([4ffa280](https://github.com/trixtateam/trixta-js/commit/4ffa280856655ba545ccc1fdc600511871c3ead0))
+
 # [4.7.0](https://github.com/trixtateam/trixta-js/compare/v4.6.0...v4.7.0) (2021-11-25)
 
 

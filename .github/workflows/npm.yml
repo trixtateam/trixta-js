@@ -4,9 +4,9 @@ name: publish-npm
 
 # Controls when the workflow will run
 on:
-  push:
-    branches:
-      - release/**
+  create:
+    tags:
+      - v** 
 
   workflow_dispatch:
 

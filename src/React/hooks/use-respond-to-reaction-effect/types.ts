@@ -5,6 +5,10 @@ export interface UseRespondToReactionEffectProps<
   TInitialData = DefaultUnknownType
 > extends TrixtaReactionDispatch<TInitialData> {
   /**
+   * This function will fire when a reaction is received will be passed the data.
+   */
+  callBack?: (payload?: TInitialData) => void;
+  /**
    * Trixta role name
    */
   roleName: string;

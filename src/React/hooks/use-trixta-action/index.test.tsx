@@ -264,7 +264,7 @@ describe('useTrixtaAction', () => {
     act(() => {
       store.dispatch(actionToSubmit);
     });
-    rerender();
+
     expect(successCallbackCount).toEqual(1);
     expect(result.current.response).toBeDefined();
     expect(result.current.latestInstance).toBeDefined();
@@ -274,6 +274,7 @@ describe('useTrixtaAction', () => {
       ...successResponse,
       ...actionToSubmit.additionalData,
     });
+    rerender();
     expect(successCallbackCount).toEqual(1);
   });
 

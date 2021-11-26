@@ -29,10 +29,13 @@ export const useRespondToReactionEffect = <
     actionToDispatch,
     dispatchResponseTo,
     roleName,
+    callBack,
     debugMode = false,
     reactionName,
   } = props;
   const actionRef = useRef(actionToDispatch);
+  const callBackRef = useRef(callBack);
+  const lastInstanceKey = useRef<string | undefined>(undefined);
   const dispatch = useDispatch();
 
   if (isNullOrEmpty(roleName)) {
@@ -85,6 +88,10 @@ export const useRespondToReactionEffect = <
   }, [actionToDispatch]);
 
   useEffect(() => {
+    callBackRef.current = callBack;
+  }, [callBack]);
+
+  useEffect(() => {
     if (!hasRoleAccess) return;
     if (Array.isArray(instances) && instances.length) {
       const latestInstance = instances[0];
@@ -98,6 +105,15 @@ export const useRespondToReactionEffect = <
 
       if (actionRef.current) {
         dispatch(actionRef.current(latestInstance?.details?.initial_data));
+      }
+
+      if (
+        latestInstance &&
+        lastInstanceKey.current !== latestInstance.instanceKey &&
+        callBackRef.current
+      ) {
+        lastInstanceKey.current = latestInstance.instanceKey;
+        callBackRef.current(latestInstance?.details?.initial_data);
       }
     }
   }, [dispatch, hasRoleAccess, instances, dispatchResponseTo]);

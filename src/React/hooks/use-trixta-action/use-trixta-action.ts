@@ -48,10 +48,10 @@ export const useTrixtaAction = <
   },
   onSuccess,
   onError,
-}: UseTrixtaActionProps): UseTrixtaActionHookReturn<
-  TResponseType,
-  TErrorType
-> => {
+}: UseTrixtaActionProps<
+  TResponseType | unknown,
+  TErrorType | unknown
+>): UseTrixtaActionHookReturn<TResponseType, TErrorType> => {
   const dispatch = useDispatch();
   const latestTimeStamp = useRef<number | undefined>(undefined);
   if (isNullOrEmpty(roleName)) {

@@ -49,11 +49,10 @@ export const useTrixtaReaction = <
   onSuccess,
   onError,
   setTimeoutEventAsErrorEvent = false,
-}: UseTrixtaReactionProps): UseTrixtaReactionHookReturn<
-  TInitialData,
+}: UseTrixtaReactionProps<
   TResponseType,
   TErrorType
-> => {
+>): UseTrixtaReactionHookReturn<TInitialData, TResponseType, TErrorType> => {
   const dispatch = useDispatch();
   const latestTimeStamp = useRef<number | undefined>(undefined);
   if (isNullOrEmpty(roleName)) {

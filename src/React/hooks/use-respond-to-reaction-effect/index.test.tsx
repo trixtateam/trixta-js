@@ -117,4 +117,39 @@ describe('useRespondToReactionEffect', () => {
 
     expect(store.getActions()).toEqual([expectedActionPayload]);
   });
+
+  it('callback for roleName: viewer[d1be63be-c0e4-4468-982c-5c04714a2987] and reactionName: new_waitroom_status should be called with data', () => {
+    const { wrapper } = mockStoreProviderWrapper(trixtaState);
+    const roleName = trixtaState.agentDetails[1];
+    const reactionName = 'new_waitroom_status';
+
+    const initialReactionData =
+      trixtaState.reactions[
+        'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]:new_waitroom_status'
+      ].instances.requestForEffect[0].details.initial_data;
+
+    let callbackCount = 0;
+    let responseData = {};
+    const callBack = (payload: any) => {
+      responseData = payload;
+      callbackCount++;
+    };
+
+    const { rerender } = renderHook(
+      () =>
+        useRespondToReactionEffect<{ data: string }>({
+          callBack: callBack,
+          roleName,
+          reactionName,
+        }),
+      {
+        wrapper,
+      },
+    );
+
+    expect(responseData).toEqual(initialReactionData);
+    expect(callbackCount).toEqual(1);
+    rerender();
+    expect(callbackCount).toEqual(1);
+  });
 });

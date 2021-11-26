@@ -6,7 +6,10 @@ import {
   TrixtaReactionInstance,
 } from '../../types/common';
 
-export interface UseTrixtaReactionProps extends TrixtaReactionBaseProps {
+export interface UseTrixtaReactionProps<
+  TSuccessType = DefaultUnknownType,
+  TErrorType = DefaultUnknownType
+> extends TrixtaReactionBaseProps {
   /**
    * Enables Trixta console debbugging. If 'true', open the console and see verbose logging
    */
@@ -15,14 +18,11 @@ export interface UseTrixtaReactionProps extends TrixtaReactionBaseProps {
    * If 'true', will set the timeoutEvent the same as the ErrorEvent
    */
   setTimeoutEventAsErrorEvent?: boolean;
-  /**
-   * This function will fire any time the response from Trixta successfully returns data and will be passed the data.
-   */
-  onSuccess?: (success?: unknown) => void;
+  onSuccess?: (success?: TSuccessType) => void;
   /**
    * This function will fire if the response from Trixta encounters an error and will be passed the error.
    */
-  onError?: (error?: unknown) => void;
+  onError?: (error?: TErrorType) => void;
 }
 
 export interface UseTrixtaReactionHookReturn<

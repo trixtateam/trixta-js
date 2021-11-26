@@ -5,7 +5,10 @@ import {
   TrixtaInstance,
   TrixtaInstanceResponse,
 } from '../../types/common';
-export interface UseTrixtaActionProps extends TrixtaActionBaseProps {
+export interface UseTrixtaActionProps<
+  TSuccessType = DefaultUnknownType,
+  TErrorType = DefaultUnknownType
+> extends TrixtaActionBaseProps {
   options?: {
     /**
      * If 'true', will set the timeoutEvent the same as the ErrorEvent
@@ -27,11 +30,11 @@ export interface UseTrixtaActionProps extends TrixtaActionBaseProps {
   /**
    * This function will fire any time the response from Trixta successfully returns data and will be passed the data.
    */
-  onSuccess?: (success?: unknown) => void;
+  onSuccess?: (success?: TSuccessType) => void;
   /**
    * This function will fire if the response from Trixta encounters an error and will be passed the error.
    */
-  onError?: (error?: unknown) => void;
+  onError?: (error?: TErrorType) => void;
 }
 
 export interface UseTrixtaActionHookReturn<

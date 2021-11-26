@@ -4,6 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import ReduxDecorator from '../src/stories/utils/ReduxDecorator';
 export const parameters = {
   controls: { expanded: true },
+  showPanel: true,
+  isToolshown: true,
   status: {
     statuses: {
       released: {

@@ -5,20 +5,15 @@ import {
   getMessageFromError,
   getReactionDetails,
   getReducerKeyName,
-  getRequestStatusKeyName,
-  getTrixtaActionResponseInstanceResult,
-  getTrixtaActionReducerStructure,
-  getTrixtaReactionInstanceResult,
-  getTrixtaReactionReducerStructure,
-  isObject,
-  pickBy,
-  getTrixtaReactionResponseInstanceResult,
+  getRequestStatusKeyName, getTrixtaActionReducerStructure, getTrixtaActionResponseInstanceResult, getTrixtaReactionInstanceResult,
+  getTrixtaReactionReducerStructure, getTrixtaReactionResponseInstanceResult, isObject,
+  pickBy
 } from '../../../utils';
 import {
   SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
   SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
   SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
-  SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
+  SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS
 } from '../../constants';
 import * as actions from '../../reduxActions';
 import { signoutTrixta } from '../../reduxActions';
@@ -27,7 +22,7 @@ import {
   RequestStatus,
   TrixtaInstanceMode,
   TrixtaRoleParameter,
-  TrixtaState,
+  TrixtaState
 } from '../../types/common';
 import { initialState, trixtaReducer } from '../trixtaReducer';
 // eslint-disable-next-line jest/no-mocks-import
@@ -842,16 +837,18 @@ describe('trixtaReducer', () => {
         const expectedResult = produce<TrixtaState>(state, (draft) => {
           const actionDetails = action.payload.trixtaAction;
           const keyName = action.payload.keyName;
-          draft.actions[keyName] = getTrixtaActionReducerStructure({
-            details: actionDetails,
-            keyName,
-          });
+          if (!state.actions[keyName]) {
+            draft.actions[keyName] = getTrixtaActionReducerStructure({
+              details: actionDetails,
+              keyName,
+            });
+          }
         });
         return expectedResult;
       };
       it('should handle the updateTrixtaAction action with ui mode replace correctly', () => {
         const nameOfRole = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]';
-        const nameOfAction = 'add_to_queue';
+        const nameOfAction = 'add_to_queue_new';
         const action = {
           payload: {
             role: nameOfRole,
@@ -890,7 +887,7 @@ describe('trixtaReducer', () => {
       });
       it('should handle the updateTrixtaAction action with ui mode accumulate correctly', () => {
         const nameOfRole = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]';
-        const nameOfAction = 'add_to_queue';
+        const nameOfAction = 'add_to_queue_new';
         const action = {
           payload: {
             role: nameOfRole,
@@ -929,7 +926,7 @@ describe('trixtaReducer', () => {
       });
       it('should handle the updateTrixtaAction action with no mode correctly', () => {
         const nameOfRole = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]';
-        const nameOfAction = 'add_to_queue';
+        const nameOfAction = 'add_to_queue_new';
         const action = {
           payload: {
             role: nameOfRole,
@@ -1427,17 +1424,19 @@ describe('trixtaReducer', () => {
         const expectedResult = produce<TrixtaState>(state, (draft) => {
           const reactionDetails = action.payload.trixtaReaction;
           const keyName = action.payload.keyName;
-          draft.reactions[keyName] = getTrixtaReactionReducerStructure({
-            details: reactionDetails,
-            keyName,
-          });
+          if (!state.reactions[keyName]) {
+            draft.reactions[keyName] = getTrixtaReactionReducerStructure({
+              details: reactionDetails,
+              keyName,
+            });
+          }
         });
         return expectedResult;
       };
 
       it('should handle the updateTrixtaReaction action with ui mode replace correctly', () => {
         const nameOfRole = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987';
-        const nameOfReaction = 'up_next';
+        const nameOfReaction = 'up_next_new';
         const action = {
           payload: {
             role: nameOfRole,
@@ -1469,7 +1468,7 @@ describe('trixtaReducer', () => {
       });
       it('should handle the updateTrixtaReaction action no mode correctly', () => {
         const nameOfRole = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987';
-        const nameOfReaction = 'up_next';
+        const nameOfReaction = 'up_next_new';
         const action = {
           payload: {
             role: nameOfRole,
@@ -1496,7 +1495,7 @@ describe('trixtaReducer', () => {
       });
       it('should handle the updateTrixtaReaction action with ui mode accumulate correctly', () => {
         const nameOfRole = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987';
-        const nameOfReaction = 'up_next';
+        const nameOfReaction = 'up_next_new';
         const action = {
           payload: {
             role: nameOfRole,

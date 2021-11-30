@@ -1,3 +1,10 @@
+# [4.9.0](https://github.com/trixtateam/trixta-js/compare/v4.8.0...v4.9.0) (2021-11-30)
+
+
+### Features
+
+* check for existing role data and not replace on reconnect of socket ([5d6a480](https://github.com/trixtateam/trixta-js/commit/5d6a480df6b45a3b921dc1d38171f6b7e90cc75d))
+
 # [4.8.0](https://github.com/trixtateam/trixta-js/compare/v4.7.0...v4.8.0) (2021-11-26)
 
 

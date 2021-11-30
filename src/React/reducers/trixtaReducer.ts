@@ -7,8 +7,8 @@ import {
   getReactionDetails,
   getReducerKeyName,
   getRequestStatusKeyName,
-  getTrixtaActionResponseInstanceResult,
   getTrixtaActionReducerStructure,
+  getTrixtaActionResponseInstanceResult,
   getTrixtaReactionInstanceResult,
   getTrixtaReactionReducerStructure,
   getTrixtaReactionResponseInstanceResult,
@@ -335,20 +335,24 @@ export const trixtaReducer = (
         {
           const actionDetails = action.payload.trixtaAction;
           const keyName = action.payload.keyName;
-          draft.actions[keyName] = getTrixtaActionReducerStructure({
-            details: actionDetails,
-            keyName,
-          });
+          if (!state.actions[keyName]) {
+            draft.actions[keyName] = getTrixtaActionReducerStructure({
+              details: actionDetails,
+              keyName,
+            });
+          }
         }
         break;
       case UPDATE_TRIXTA_REACTION:
         {
           const reactionDetails = action.payload.trixtaReaction;
           const keyName = action.payload.keyName;
-          draft.reactions[keyName] = getTrixtaReactionReducerStructure({
-            details: reactionDetails,
-            keyName,
-          });
+          if (!state.reactions[keyName]) {
+            draft.reactions[keyName] = getTrixtaReactionReducerStructure({
+              details: reactionDetails,
+              keyName,
+            });
+          }
         }
         break;
       case CLEAR_TRIXTA_ACTION_REQUEST_STATUS:

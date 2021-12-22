@@ -163,6 +163,47 @@ describe('useTrixtaAction', () => {
     expect(result.current.hasResponse).toBe(false);
   });
 
+  it('should clear responses, with option clearResponsesOnCallback prop for actionName: request_user_info and roleName: everyone_authed', () => {
+    const { wrapper, store } = storeProviderWrapper(trixtaState);
+    const roleName = trixtaState.agentDetails[0];
+    const actionName = 'request_user_info';
+    const trixtaMeta = { roleName, actionName };
+    const onSuccess = jest.fn();
+    const { result } = renderHook(
+      () =>
+        useTrixtaAction({
+          roleName,
+          options: { clearResponsesOnCallback: true },
+          actionName,
+          onSuccess,
+        }),
+      {
+        wrapper,
+      },
+    );
+
+    expect(result.current.response).toBeDefined();
+    expect(result.current.latestInstance).toBeDefined();
+
+    act(() => {
+      result.current.submitTrixtaAction({ data: {} });
+    });
+
+    const actionToSubmit = {
+      type: SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
+      data: {},
+      additionalData: { trixtaMeta },
+    };
+    expect(result.current.isInProgress).toBe(true);
+    act(() => {
+      store.dispatch(actionToSubmit);
+    });
+
+    expect(result.current.response).toBeUndefined();
+    expect(result.current.latestInstance).toBeUndefined();
+    expect(result.current.hasResponse).toBe(false);
+  });
+
   it('should return isInProgress true, when submitTrixtaAction for actionName: request_user_info_request and roleName: everyone_authed', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
     const roleName = trixtaState.agentDetails[0];
@@ -221,7 +262,6 @@ describe('useTrixtaAction', () => {
   it('should pass success response, when calling onSuccess for actionName: request_user_info_request and roleName: everyone_authed', () => {
     const { wrapper, store } = storeProviderWrapper(trixtaState);
     const roleName = trixtaState.agentDetails[0];
-    let successCallbackCount = 0;
     const successResponse = {
       email: 'jacques+guest@trixta.com',
       firstName: 'Jacques',
@@ -232,16 +272,17 @@ describe('useTrixtaAction', () => {
       actionName: 'request_user_info_request',
     };
     const actionName = 'request_user_info_request';
-    let responseData = {};
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const onSuccess = (payload: any) => {
-      responseData = payload;
-      successCallbackCount++;
-    };
+    const trixtaMeta = { actionName, roleName };
+    const onSuccess = jest.fn(() => ({
+      ...successResponse,
+      trixtaMeta,
+    }));
+    const onError = jest.fn();
     const props = {
       roleName,
       actionName,
-      onSuccess: onSuccess,
+      onSuccess,
+      onError,
     };
     const { result, rerender } = renderHook(() => useTrixtaAction(props), {
       wrapper,
@@ -258,24 +299,102 @@ describe('useTrixtaAction', () => {
     const actionToSubmit = {
       type: SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
       data: successResponse,
-      additionalData: { trixtaMeta: { actionName, roleName } },
+      additionalData: { trixtaMeta },
     };
     expect(result.current.isInProgress).toBe(true);
     act(() => {
       store.dispatch(actionToSubmit);
     });
 
-    expect(successCallbackCount).toEqual(1);
+    expect(onSuccess).toHaveBeenCalled();
+    expect(onSuccess).toHaveBeenLastCalledWith({
+      ...successResponse,
+      trixtaMeta,
+    });
     expect(result.current.response).toBeDefined();
     expect(result.current.latestInstance).toBeDefined();
     expect(result.current.hasResponse).toBe(true);
     expect(result.current.isInProgress).toBe(false);
-    expect(responseData).toEqual({
-      ...successResponse,
-      ...actionToSubmit.additionalData,
-    });
     rerender();
-    expect(successCallbackCount).toEqual(1);
+    expect(onSuccess).not.toHaveBeenCalledTimes(2);
+  });
+
+  it('should call onSuccess once for actionName: request_user_info_request and roleName: everyone_authed', () => {
+    const { wrapper, store } = storeProviderWrapper(trixtaState);
+    const roleName = trixtaState.agentDetails[0];
+    const successResponse = {
+      email: 'jacques+guest@trixta.com',
+      firstName: 'Jacques',
+      id: '776f7d0a-8ffb-42c3-ad4b-3c3a87e29baf',
+      lastName: 'Nel',
+      signUpTimestamp: 1605011883,
+      roleName: 'everyone_authed',
+      actionName: 'request_user_info_request',
+    };
+
+    const onSuccess = jest.fn(() => ({
+      ...successResponse,
+      trixtaMeta,
+    }));
+    const onError = jest.fn();
+    const actionName = 'request_user_info_request';
+    const trixtaMeta = { actionName, roleName, loadingStatusRef: '1' };
+    const props = {
+      roleName,
+      actionName,
+      onSuccess,
+      onError,
+    };
+    const { result, rerender } = renderHook(
+      () =>
+        useTrixtaAction({
+          ...props,
+          loadingStatusRef: trixtaMeta.loadingStatusRef,
+        }),
+      {
+        wrapper,
+      },
+    );
+
+    const { result: result_2, rerender: rerender_2 } = renderHook(
+      () => useTrixtaAction({ ...props }),
+      {
+        wrapper,
+      },
+    );
+
+    expect(result.current.response).toBeUndefined();
+    expect(result.current.latestInstance).toBeUndefined();
+    expect(result.current.hasResponse).toBe(false);
+
+    act(() => {
+      result.current.submitTrixtaAction({ data: {} });
+    });
+
+    const actionToSubmit = {
+      type: SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
+      data: successResponse,
+      additionalData: { trixtaMeta },
+    };
+    expect(result.current.isInProgress).toBe(true);
+    expect(result_2.current.isInProgress).toBe(false);
+    act(() => {
+      store.dispatch(actionToSubmit);
+    });
+
+    expect(onSuccess).toHaveBeenCalled();
+    expect(onSuccess).toHaveBeenLastCalledWith({
+      ...successResponse,
+      trixtaMeta,
+    });
+    expect(onError).not.toHaveBeenCalled();
+    expect(result.current.response).toBeDefined();
+    expect(result.current.latestInstance).toBeDefined();
+    expect(result.current.hasResponse).toBe(true);
+    expect(result.current.isInProgress).toBe(false);
+    rerender();
+    rerender_2();
+    expect(onSuccess).not.toHaveBeenCalledTimes(2);
   });
 
   it('should pass error response, when calling onError for actionName: request_user_info_request and roleName: everyone_authed', () => {
@@ -285,15 +404,19 @@ describe('useTrixtaAction', () => {
       message: 'this is an error',
     };
     const actionName = 'request_user_info_request';
-    let responseData = {};
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const onError = (error: any) => (responseData = error);
+    const trixtaMeta = { actionName, roleName };
+    const onSuccess = jest.fn();
+    const onError = jest.fn(() => ({
+      ...errorResponse,
+      trixtaMeta,
+    }));
     const { result } = renderHook(
       () =>
         useTrixtaAction({
           roleName,
           actionName,
-          onError: onError,
+          onError,
+          onSuccess,
         }),
       {
         wrapper,
@@ -311,7 +434,7 @@ describe('useTrixtaAction', () => {
     const actionToSubmit = {
       type: SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
       error: errorResponse,
-      additionalData: { trixtaMeta: { actionName, roleName } },
+      additionalData: { trixtaMeta },
     };
     expect(result.current.isInProgress).toBe(true);
     act(() => {
@@ -321,10 +444,12 @@ describe('useTrixtaAction', () => {
     expect(result.current.latestInstance).toBeDefined();
     expect(result.current.hasResponse).toBe(true);
     expect(result.current.isInProgress).toBe(false);
-    expect(responseData).toEqual({
+    expect(onError).toHaveBeenCalled();
+    expect(onError).toHaveBeenLastCalledWith({
       ...errorResponse,
-      ...actionToSubmit.additionalData,
+      trixtaMeta,
     });
+    expect(onSuccess).not.toHaveBeenCalled();
   });
   it('should autosubmit trixta action on mount, when autosubmit true for actionName: request_user_info_request and roleName: everyone_authed', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);

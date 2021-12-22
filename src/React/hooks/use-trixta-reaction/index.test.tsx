@@ -378,6 +378,52 @@ describe('useTrixtaReaction', () => {
       expect(result.current.hasResponse).toBe(false);
     });
 
+    it('should clear responses, with clearResponsesOnCallback prop for reactionName: request_guest_stream and roleName: host[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
+      const { wrapper, store } = storeProviderWrapper(trixtaState);
+      const roleName = trixtaState.agentDetails[2];
+      const reactionName = 'request_guest_stream';
+      const onSuccess = jest.fn();
+      const { result } = renderHook(
+        () =>
+          useTrixtaReaction({
+            roleName,
+            clearResponsesOnCallback: true,
+            reactionName,
+            onSuccess,
+          }),
+        {
+          wrapper,
+        },
+      );
+
+      expect(result.current.latestResponse).toBeDefined();
+      expect(result.current.latestInstance).toBeDefined();
+
+      act(() => {
+        result.current.submitTrixtaReaction({ data: {} });
+      });
+
+      const actionToSubmit = {
+        type: SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
+        data: {},
+        additionalData: {
+          trixtaMeta: {
+            reactionName,
+            roleName,
+            ref: '4a32ed8d-f47d-4e78-921c-6a4aeb996bd3',
+          },
+        },
+      };
+      expect(result.current.isInProgress).toBe(true);
+      act(() => {
+        store.dispatch(actionToSubmit);
+      });
+
+      expect(result.current.latestResponse).toBeUndefined();
+      expect(result.current.latestInstance).toBeUndefined();
+      expect(result.current.hasResponse).toBe(false);
+    });
+
     it('should return isInProgress true, when submitTrixtaReaction for reactionName: request_guest_stream and roleName: host[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
       const { wrapper } = storeProviderWrapper(trixtaState);
       const roleName = trixtaState.agentDetails[2];
@@ -447,6 +493,7 @@ describe('useTrixtaReaction', () => {
         trixtaState.reactions[
           getReducerKeyName({ name: reactionName, role: roleName })
         ].instances.requestForResponse[0].details.ref;
+      const trixtaMeta = { reactionName, roleName, ref };
       const successResponse = {
         email: 'jacques+guest@trixta.com',
         firstName: 'Jacques',
@@ -454,15 +501,15 @@ describe('useTrixtaReaction', () => {
         lastName: 'Nel',
       };
 
-      let responseData = {};
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const onSuccess = (payload: any) => (responseData = payload);
+      const onSuccess = jest.fn(() => ({ ...successResponse, trixtaMeta }));
+      const onError = jest.fn();
       const { result } = renderHook(
         () =>
           useTrixtaReaction({
             roleName,
             reactionName,
-            onSuccess: onSuccess,
+            onSuccess,
+            onError,
           }),
         {
           wrapper,
@@ -479,16 +526,18 @@ describe('useTrixtaReaction', () => {
       const actionToSubmit = {
         type: SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
         data: successResponse,
-        additionalData: { trixtaMeta: { reactionName, roleName, ref } },
+        additionalData: { trixtaMeta },
       };
       expect(result.current.isInProgress).toBe(true);
       act(() => {
         store.dispatch(actionToSubmit);
       });
       expect(result.current.isInProgress).toBe(false);
-      expect(responseData).toEqual({
+      expect(onError).not.toHaveBeenCalled();
+      expect(onSuccess).toHaveBeenCalled();
+      expect(onSuccess).toHaveBeenLastCalledWith({
         ...successResponse,
-        ...actionToSubmit.additionalData,
+        trixtaMeta,
       });
     });
 
@@ -503,15 +552,16 @@ describe('useTrixtaReaction', () => {
         trixtaState.reactions[
           getReducerKeyName({ name: reactionName, role: roleName })
         ].instances.requestForResponse[0].details.ref;
-      let responseData = {};
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const onError = (error: any) => (responseData = error);
+      const trixtaMeta = { reactionName, roleName, ref };
+      const onSuccess = jest.fn();
+      const onError = jest.fn(() => ({ ...errorResponse, trixtaMeta }));
       const { result } = renderHook(
         () =>
           useTrixtaReaction({
             roleName,
             reactionName,
-            onError: onError,
+            onError,
+            onSuccess,
           }),
         {
           wrapper,
@@ -528,16 +578,18 @@ describe('useTrixtaReaction', () => {
       const actionToSubmit = {
         type: SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
         error: errorResponse,
-        additionalData: { trixtaMeta: { reactionName, roleName, ref } },
+        additionalData: { trixtaMeta },
       };
       expect(result.current.isInProgress).toBe(true);
       act(() => {
         store.dispatch(actionToSubmit);
       });
       expect(result.current.isInProgress).toBe(false);
-      expect(responseData).toEqual({
+      expect(onSuccess).not.toHaveBeenCalled();
+      expect(onError).toHaveBeenCalled();
+      expect(onError).toHaveBeenLastCalledWith({
         ...errorResponse,
-        ...actionToSubmit.additionalData,
+        trixtaMeta,
       });
     });
   });

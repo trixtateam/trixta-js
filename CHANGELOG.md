@@ -1,3 +1,10 @@
+## [4.9.1](https://github.com/trixtateam/trixta-js/compare/v4.9.0...v4.9.1) (2021-12-22)
+
+
+### Bug Fixes
+
+* multiple on success and error callbacks when using loadingStatusRef prop ([78c6b68](https://github.com/trixtateam/trixta-js/commit/78c6b68e5b2fe02f16210839ef7205c75842272b))
+
 # [4.9.0](https://github.com/trixtateam/trixta-js/compare/v4.8.0...v4.9.0) (2021-11-30)
 
 

@@ -45,6 +45,7 @@ export const useTrixtaAction = <
     debugMode: false,
     autoSubmit: false,
     setTimeoutEventAsErrorEvent: false,
+    clearResponsesOnCallback: false,
   },
   onSuccess,
   onError,
@@ -54,6 +55,7 @@ export const useTrixtaAction = <
 >): UseTrixtaActionHookReturn<TResponseType, TErrorType> => {
   const dispatch = useDispatch();
   const latestTimeStamp = useRef<number | undefined>(undefined);
+  const currentLoadingStatusRef = useRef<string | undefined>(undefined);
   if (isNullOrEmpty(roleName)) {
     throw Error('Please provide roleName parameter.');
   }
@@ -143,7 +145,7 @@ export const useTrixtaAction = <
       extraData,
     }: SubmitTrixtaFunctionParameters) => {
       if (!hasRoleAccess || !isTrixtaActionReady) return;
-
+      currentLoadingStatusRef.current = loadingStatusRef;
       dispatch(
         submitTrixtaActionResponse({
           extraData: extraData ?? {},
@@ -189,31 +191,41 @@ export const useTrixtaAction = <
     actionParameters,
   ]);
 
-  const success = latestInstance ? latestInstance.response.success : false;
-  const error = latestInstance ? latestInstance.response.error : false;
+  const success = latestInstance ? latestInstance.response.success : undefined;
+  const error = latestInstance ? latestInstance.response.error : undefined;
   const instanceTimeStamp = latestInstance
     ? latestInstance.response.timeStamp
     : undefined;
 
   useEffect(() => {
-    if (
-      requestStatus === RequestStatus.SUCCESS &&
-      onSuccess &&
-      instanceTimeStamp &&
-      instanceTimeStamp !== latestTimeStamp.current
-    ) {
-      latestTimeStamp.current = instanceTimeStamp;
-      onSuccess(success);
+    if (requestStatus === RequestStatus.SUCCESS) {
+      if (
+        currentLoadingStatusRef.current === loadingStatusRef &&
+        instanceTimeStamp &&
+        instanceTimeStamp !== latestTimeStamp.current
+      ) {
+        latestTimeStamp.current = instanceTimeStamp;
+        currentLoadingStatusRef.current = undefined;
+        if (onSuccess) {
+          onSuccess(success);
+          if (options.clearResponsesOnCallback) clearActionResponses();
+        }
+      }
     }
 
-    if (
-      requestStatus === RequestStatus.FAILURE &&
-      onError &&
-      instanceTimeStamp &&
-      instanceTimeStamp !== latestTimeStamp.current
-    ) {
-      latestTimeStamp.current = instanceTimeStamp;
-      onError(error);
+    if (requestStatus === RequestStatus.FAILURE) {
+      if (
+        currentLoadingStatusRef.current === loadingStatusRef &&
+        instanceTimeStamp &&
+        instanceTimeStamp !== latestTimeStamp.current
+      ) {
+        latestTimeStamp.current = instanceTimeStamp;
+        currentLoadingStatusRef.current = undefined;
+        if (onError) {
+          onError(error);
+          if (options.clearResponsesOnCallback) clearActionResponses();
+        }
+      }
     }
   }, [
     success,
@@ -223,6 +235,8 @@ export const useTrixtaAction = <
     clearActionResponses,
     requestStatus,
     instanceTimeStamp,
+    loadingStatusRef,
+    options.clearResponsesOnCallback,
   ]);
 
   return {

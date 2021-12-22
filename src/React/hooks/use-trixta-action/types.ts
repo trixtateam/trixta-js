@@ -22,6 +22,10 @@ export interface UseTrixtaActionProps<
      * Submit to trixta action when component mounts
      */
     autoSubmit?: boolean;
+    /**
+     * If 'true', will clear all responses when onSuccess or onError callbacks are called
+     */
+    clearResponsesOnCallback?: boolean;
   };
   /**
    * Parameters to submit to Trixta for autoSubmit

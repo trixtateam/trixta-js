@@ -5,15 +5,20 @@ import {
   getMessageFromError,
   getReactionDetails,
   getReducerKeyName,
-  getRequestStatusKeyName, getTrixtaActionReducerStructure, getTrixtaActionResponseInstanceResult, getTrixtaReactionInstanceResult,
-  getTrixtaReactionReducerStructure, getTrixtaReactionResponseInstanceResult, isObject,
-  pickBy
+  getRequestStatusKeyName,
+  getTrixtaActionReducerStructure,
+  getTrixtaActionResponseInstanceResult,
+  getTrixtaReactionInstanceResult,
+  getTrixtaReactionReducerStructure,
+  getTrixtaReactionResponseInstanceResult,
+  isObject,
+  pickBy,
 } from '../../../utils';
 import {
   SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
   SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
   SUBMIT_TRIXTA_REACTION_RESPONSE_FAILURE,
-  SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS
+  SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS,
 } from '../../constants';
 import * as actions from '../../reduxActions';
 import { signoutTrixta } from '../../reduxActions';
@@ -22,7 +27,7 @@ import {
   RequestStatus,
   TrixtaInstanceMode,
   TrixtaRoleParameter,
-  TrixtaState
+  TrixtaState,
 } from '../../types/common';
 import { initialState, trixtaReducer } from '../trixtaReducer';
 // eslint-disable-next-line jest/no-mocks-import

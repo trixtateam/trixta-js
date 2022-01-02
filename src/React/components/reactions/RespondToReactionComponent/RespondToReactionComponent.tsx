@@ -6,7 +6,7 @@ import {
   makeSelectHasTrixtaRoleAccess,
   makeSelectTrixtaReactionResponseInstancesForRole,
 } from '../../../selectors';
-import { DefaultUnknownType, TrixtaState } from '../../../types';
+import { DefaultUnknownType, TrixtaState } from './../../../types/common';
 import { RespondToReactionComponentProps } from './types';
 
 function RespondToReactionComponent<TInitialData = DefaultUnknownType>({

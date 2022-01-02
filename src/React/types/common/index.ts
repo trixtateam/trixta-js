@@ -134,6 +134,10 @@ export interface TrixtaInstanceMode {
 
 export interface TrixtaCommon {
   /**
+   * Form data to pass to Trixta Json Schema Form
+   */
+  form_data?: DefaultUnknownType;
+  /**
    * Name of Trixta action or reaction
    */
   name: string;
@@ -159,7 +163,6 @@ export interface TrixtaCommon {
    */
   // eslint-disable-next-line camelcase
   request_settings: UiSchema;
-  form_data?: unknown;
   handler?: TrixtaActionHandlerType;
   tags: Array<string>;
 }

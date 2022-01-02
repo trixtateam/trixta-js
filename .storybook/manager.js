@@ -7,6 +7,7 @@ import {
 } from '../src/stories/toolbars/trixta-role/constants';
 import  TrixtaRoleToolbar  from '../src/stories/toolbars/trixta-role/trixta-toolbar';
 import theme from './theme';
+
 // Register the addon
 addons.register(ADDON_ID, () => {
   // Register the tool

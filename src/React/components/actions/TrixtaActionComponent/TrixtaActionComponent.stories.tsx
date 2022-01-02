@@ -1,11 +1,11 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
+import { setJsonSchemaFormProps } from '../../../../config';
 import {
   DEFAULT_ACTIONS_COMPONENTS_PATH,
   DEFAULT_ACTION_ARG_TYPE,
 } from '../../../../stories/constants/storybook';
 import { DemoChildActionComponent } from '../../../../stories/utils/DemoChildren';
-import TrixtaReactJsonSchemaForm from '../../../../stories/utils/FormComponent';
 import {
   getGlobalsActionName,
   getGlobalsRoleName,
@@ -14,6 +14,7 @@ import { JsonViewer } from '../../../../stories/utils/JsonViewer';
 import { TrixtaActionComponentArgs } from '../types';
 import TrixtaActionComponent from './TrixtaActionComponent';
 
+setJsonSchemaFormProps({ liveValidate: false, noHtml5Validate: true });
 export default {
   title: `${DEFAULT_ACTIONS_COMPONENTS_PATH}TrixtaActionComponent`,
   argTypes: { ...DEFAULT_ACTION_ARG_TYPE },
@@ -48,7 +49,7 @@ Default.args = {};
 Default.parameters = {
   docs: { disable: true },
 };
-const FormAsProps: ComponentStory<typeof TrixtaActionComponent> = (
+const UsingDefaultForm: ComponentStory<typeof TrixtaActionComponent> = (
   args,
   globals,
 ) => {
@@ -57,29 +58,11 @@ const FormAsProps: ComponentStory<typeof TrixtaActionComponent> = (
       {...args}
       roleName={getGlobalsRoleName(globals)}
       actionName={getGlobalsActionName(globals)}
-    >
-      {(props: TrixtaActionComponentArgs) => {
-        if (!props.common) return <></>;
-        const formData = props.common.form_data ?? {};
-        const schema = props.common.request_schema ?? {};
-        const uiSchema = props.common.request_settings ?? {};
-        return (
-          <TrixtaReactJsonSchemaForm
-            idPrefix={`${props.roleName}-${props.common.name}`}
-            schema={schema}
-            formData={formData}
-            uiSchema={uiSchema}
-            onSubmit={({ formData }: { formData: unknown }) => {
-              props.submit(formData);
-            }}
-          />
-        );
-      }}
-    </TrixtaActionComponent>
+    />
   );
 };
-export const FormAsChildProp = FormAsProps.bind({});
-FormAsChildProp.args = {};
+export const UsingDefaultFormProp = UsingDefaultForm.bind({});
+UsingDefaultForm.args = {};
 
 const ChildrenAsProps: ComponentStory<typeof TrixtaActionComponent> = (
   args,

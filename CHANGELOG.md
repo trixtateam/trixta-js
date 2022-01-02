@@ -1,3 +1,10 @@
+# [4.10.0](https://github.com/trixtateam/trixta-js/compare/v4.9.1...v4.10.0) (2022-01-02)
+
+
+### Features
+
+* implement react json schema form ([6fa4954](https://github.com/trixtateam/trixta-js/commit/6fa4954f2d72589164f78558e83d81f27095b397)), closes [#24](https://github.com/trixtateam/trixta-js/issues/24)
+
 ## [4.9.1](https://github.com/trixtateam/trixta-js/compare/v4.9.0...v4.9.1) (2021-12-22)
 
 

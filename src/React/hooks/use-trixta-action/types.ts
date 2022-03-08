@@ -34,11 +34,11 @@ export interface UseTrixtaActionProps<
   /**
    * This function will fire any time the response from Trixta successfully returns data and will be passed the data.
    */
-  onSuccess?: (success?: TSuccessType) => void;
+  onSuccess?: (success: TSuccessType) => void;
   /**
    * This function will fire if the response from Trixta encounters an error and will be passed the error.
    */
-  onError?: (error?: TErrorType) => void;
+  onError?: (error: TErrorType) => void;
 }
 
 export interface UseTrixtaActionHookReturn<

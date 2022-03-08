@@ -18,11 +18,11 @@ export interface UseTrixtaReactionProps<
    * If 'true', will set the timeoutEvent the same as the ErrorEvent
    */
   setTimeoutEventAsErrorEvent?: boolean;
-  onSuccess?: (success?: TSuccessType) => void;
+  onSuccess?: (success: TSuccessType) => void;
   /**
    * This function will fire if the response from Trixta encounters an error and will be passed the error.
    */
-  onError?: (error?: TErrorType) => void;
+  onError?: (error: TErrorType) => void;
   /**
    * If 'true', will clear all responses when onSuccess or onError callbacks are called
    */

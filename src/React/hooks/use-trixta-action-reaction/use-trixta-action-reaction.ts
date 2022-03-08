@@ -15,19 +15,19 @@ export const useTrixtaActionReaction = <
   /**
    * Type for response from Trixta action
    */
-  TActionResponseType = DefaultUnknownType,
+  TActionResponseType,
   /**
    * Type for error response from Trixta action
    */
-  TActionErrorType = DefaultUnknownType,
+  TActionErrorType,
   /**
    * Type for response from Trixta reaction
    */
-  TReactionResponseType = DefaultUnknownType,
+  TReactionResponseType,
   /**
    * Type for error response from Trixta reaction
    */
-  TReactionErrorType = DefaultUnknownType
+  TReactionErrorType
 >({
   actionProps,
   reactionProps,

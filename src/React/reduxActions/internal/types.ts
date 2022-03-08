@@ -1,5 +1,19 @@
 import { JOIN_TRIXTA_ROLE, UPDATE_TRIXTA_ERROR } from '../../constants';
 
+export interface TrixtaReactionMetaDataType extends AdditionalTrixtaData {
+  ref?: string;
+  reactionName: string;
+}
+
+export interface TrixtaActionMetaDataType extends AdditionalTrixtaData {
+  actionName: string;
+}
+
+export type AdditionalTrixtaDataType = {
+  extraData?: Record<string, unknown>;
+  trixtaMeta: TrixtaReactionMetaDataType | TrixtaActionMetaDataType;
+};
+
 export type AdditionalTrixtaData = {
   roleName: string;
   clearResponse?: boolean;

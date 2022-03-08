@@ -18,7 +18,6 @@ import {
   trixtaInstanceDebugger,
 } from '../../TrixtaDebugger';
 import {
-  DefaultUnknownType,
   RequestStatus,
   SubmitTrixtaFunctionParameters,
   TrixtaActionBaseProps,
@@ -31,11 +30,11 @@ export const useTrixtaAction = <
   /**
    * Type for response from Trixta
    */
-  TResponseType = DefaultUnknownType,
+  TResponseType,
   /**
    * Type for error response from Trixta
    */
-  TErrorType = DefaultUnknownType
+  TErrorType
 >({
   roleName,
   actionName,
@@ -49,10 +48,10 @@ export const useTrixtaAction = <
   },
   onSuccess,
   onError,
-}: UseTrixtaActionProps<
-  TResponseType | unknown,
-  TErrorType | unknown
->): UseTrixtaActionHookReturn<TResponseType, TErrorType> => {
+}: UseTrixtaActionProps<TResponseType, TErrorType>): UseTrixtaActionHookReturn<
+  TResponseType,
+  TErrorType
+> => {
   const dispatch = useDispatch();
   const latestTimeStamp = useRef<number | undefined>(undefined);
   const currentLoadingStatusRef = useRef<string | undefined>(undefined);
@@ -206,7 +205,7 @@ export const useTrixtaAction = <
       ) {
         latestTimeStamp.current = instanceTimeStamp;
         currentLoadingStatusRef.current = undefined;
-        if (onSuccess) {
+        if (onSuccess && success) {
           onSuccess(success);
           if (options.clearResponsesOnCallback) clearActionResponses();
         }
@@ -221,7 +220,7 @@ export const useTrixtaAction = <
       ) {
         latestTimeStamp.current = instanceTimeStamp;
         currentLoadingStatusRef.current = undefined;
-        if (onError) {
+        if (onError && error) {
           onError(error);
           if (options.clearResponsesOnCallback) clearActionResponses();
         }

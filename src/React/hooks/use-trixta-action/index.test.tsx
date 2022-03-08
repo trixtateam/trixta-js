@@ -2,7 +2,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { storeProviderWrapper } from '../../../tests/helpers';
 import {
   SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
-  SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
+  SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS
 } from '../../constants/actions';
 // eslint-disable-next-line jest/no-mocks-import
 import { trixtaState } from '../../reducers/__mocks__/trixtaState';
@@ -494,5 +494,111 @@ describe('useTrixtaAction', () => {
     expect(result.current.latestInstance).toBeUndefined();
     expect(result.current.hasResponse).toBe(false);
     expect(result.current.isInProgress).toBe(true);
+  });
+
+  it('success type should match props type', () => {
+    const { wrapper, store } = storeProviderWrapper(trixtaState);
+    const roleName = trixtaState.agentDetails[0];
+    const actionName = 'request_user_info_request';
+    const trixtaMeta = { actionName, roleName };
+    type successResponseType = {
+      email: string;
+      firstName: string;
+    };
+    const successResponse = {
+      email: 'jacques+guest@trixta.com',
+      firstName: 'Jacques',
+    };
+
+    const onSuccess = jest.fn((response) => response);
+    const { result } = renderHook(
+      () =>
+        useTrixtaAction<successResponseType>({
+          roleName,
+          actionName,
+          onSuccess,
+        }),
+      {
+        wrapper,
+      },
+    );
+
+    expect(result.current.response).toBeUndefined();
+    expect(result.current.latestInstance).toBeUndefined();
+    expect(result.current.hasResponse).toBe(false);
+
+    act(() => {
+      result.current.submitTrixtaAction({ data: {} });
+    });
+
+    const successActionToSubmit = {
+      type: SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
+      data: successResponse,
+      additionalData: { trixtaMeta },
+    };
+    expect(result.current.isInProgress).toBe(true);
+    act(() => {
+      store.dispatch(successActionToSubmit);
+    });
+
+    expect(onSuccess).toHaveBeenCalled();
+    expect(onSuccess).toHaveBeenLastCalledWith({
+      ...successResponse,
+      trixtaMeta,
+    });
+  });
+
+  it('error type should match props type', () => {
+    const { wrapper, store } = storeProviderWrapper(trixtaState);
+    const roleName = trixtaState.agentDetails[0];
+    const actionName = 'request_user_info_request';
+    const trixtaMeta = { actionName, roleName };
+    type errorResponseType = {
+      message: string;
+      code: string;
+    };
+    const errorResponse = {
+      message: 'Error',
+      code: '400',
+    };
+
+    const onError = jest.fn((response) => response);
+    const { result } = renderHook(
+      () =>
+        useTrixtaAction<any, errorResponseType>({
+          roleName,
+          actionName,
+          onError,
+        }),
+      {
+        wrapper,
+      },
+    );
+
+    expect(result.current.response).toBeUndefined();
+    expect(result.current.latestInstance).toBeUndefined();
+    expect(result.current.hasResponse).toBe(false);
+
+    act(() => {
+      result.current.submitTrixtaAction({ data: {} });
+    });
+
+    const errorActionToSubmit = {
+      type: SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
+      error: errorResponse,
+      additionalData: { trixtaMeta },
+    };
+    act(() => {
+      store.dispatch(errorActionToSubmit);
+    });
+    expect(onError).toHaveBeenCalled();
+    expect(onError).toHaveBeenLastCalledWith({
+      ...errorResponse,
+      trixtaMeta,
+    });
+    expect(onError).toHaveReturnedWith({
+      ...errorResponse,
+      trixtaMeta,
+    });
   });
 });

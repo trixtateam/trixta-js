@@ -31,15 +31,15 @@ export const useTrixtaReaction = <
   /**
    * Type for initial data from Trixta Reaction
    */
-  TInitialData = DefaultUnknownType,
+  TInitialData,
   /**
    * Type for response from Trixta
    */
-  TResponseType = DefaultUnknownType,
+  TResponseType,
   /**
    * Type for error response from Trixta
    */
-  TErrorType = DefaultUnknownType
+  TErrorType
 >({
   roleName,
   reactionName,
@@ -190,7 +190,7 @@ export const useTrixtaReaction = <
       ) {
         latestTimeStamp.current = instanceTimeStamp;
         currentLoadingStatusRef.current = undefined;
-        if (onSuccess) {
+        if (onSuccess && success) {
           onSuccess(success);
           if (clearResponsesOnCallback) clearReactionResponses();
         }
@@ -205,7 +205,7 @@ export const useTrixtaReaction = <
       ) {
         latestTimeStamp.current = instanceTimeStamp;
         currentLoadingStatusRef.current = undefined;
-        if (onError) {
+        if (onError && error) {
           onError(error);
           if (clearResponsesOnCallback) clearReactionResponses();
         }

@@ -1,3 +1,10 @@
+## [4.10.1](https://github.com/trixtateam/trixta-js/compare/v4.10.0...v4.10.1) (2022-03-08)
+
+
+### Bug Fixes
+
+* use correct types for onError and onSuccess callbacks for hooks ([c3e3a64](https://github.com/trixtateam/trixta-js/commit/c3e3a64de28c0c0b2dbed2738ecc36d959d08d5d))
+
 # [4.10.0](https://github.com/trixtateam/trixta-js/compare/v4.9.1...v4.10.0) (2022-01-02)
 
 

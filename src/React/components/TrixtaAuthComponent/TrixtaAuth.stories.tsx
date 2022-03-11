@@ -1,16 +1,16 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
-import TrixtaAuth from '.';
 import {
   DEFAULT_COMPONENTS_PATH,
   DEFAULT_TRIXTA_CHILDREN_ARG_TYPE,
   DEFAULT_TRIXTA_ROLES_ARG_TYPE,
 } from '../../../stories/constants/storybook';
 import { getGlobalsRoleName } from '../../../stories/utils/globalsHelper';
+import TrixtaAuthComponent from './TrixtaAuthComponent';
 
 export default {
   title: `${DEFAULT_COMPONENTS_PATH}TrixtaAuth`,
-  component: TrixtaAuth,
+  component: TrixtaAuthComponent,
   parameters: {
     status: {
       type: 'released', // 'beta' | 'stable' | 'deprecated'
@@ -20,12 +20,15 @@ export default {
     ...DEFAULT_TRIXTA_ROLES_ARG_TYPE,
     ...DEFAULT_TRIXTA_CHILDREN_ARG_TYPE,
   },
-} as ComponentMeta<typeof TrixtaAuth>;
+} as ComponentMeta<typeof TrixtaAuthComponent>;
 
-const Template: ComponentStory<typeof TrixtaAuth> = (args, globals) => (
-  <TrixtaAuth {...args} roles={getGlobalsRoleName(globals)}>
+const Template: ComponentStory<typeof TrixtaAuthComponent> = (
+  args,
+  globals,
+) => (
+  <TrixtaAuthComponent {...args} roles={getGlobalsRoleName(globals)}>
     {<div>You can only see me if you have access</div>}
-  </TrixtaAuth>
+  </TrixtaAuthComponent>
 );
 
 export const Default = Template.bind({});

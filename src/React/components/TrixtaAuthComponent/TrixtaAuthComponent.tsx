@@ -2,19 +2,9 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { makeSelectHasTrixtaRoleAccessForRoles } from '../../selectors';
 import { TrixtaState } from '../../types';
+import { TrixtaAuthProps } from './types';
 
-export interface TrixtaAuthProps {
-  /**
-   * Trixta roles or role name
-   */
-  roles?: string | string[];
-  /**
-   * Children can be a render props function or a react component
-   */
-  children?: React.ReactNode;
-}
-
-const TrixtaAuth = ({
+const TrixtaAuthComponent = ({
   children,
   roles,
   ...rest
@@ -39,4 +29,4 @@ const TrixtaAuth = ({
   }
   return null;
 };
-export default TrixtaAuth;
+export default TrixtaAuthComponent;

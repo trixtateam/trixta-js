@@ -1,5 +1,4 @@
 // ! WORK IN PROGRESS
-import { DefaultUnknownType } from '../../types';
 import { useTrixtaAction } from '../use-trixta-action/use-trixta-action';
 import { useTrixtaReaction } from '../use-trixta-reaction/use-trixta-reaction';
 import {

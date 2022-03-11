@@ -18,7 +18,6 @@ import {
   trixtaInstanceDebugger,
 } from '../../TrixtaDebugger';
 import {
-  DefaultUnknownType,
   RequestStatus,
   SubmitTrixtaFunctionParameters,
   TrixtaReactionInstance,

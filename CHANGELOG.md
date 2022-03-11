@@ -1,3 +1,10 @@
+# [4.11.0](https://github.com/trixtateam/trixta-js/compare/v4.10.1...v4.11.0) (2022-03-11)
+
+
+### Features
+
+* added trixta auth component ([e9e8e68](https://github.com/trixtateam/trixta-js/commit/e9e8e68e0440118401d47a6e28b7ac8bf9d981d2))
+
 ## [4.10.1](https://github.com/trixtateam/trixta-js/compare/v4.10.0...v4.10.1) (2022-03-08)
 
 

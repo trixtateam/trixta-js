@@ -1,4 +1,8 @@
-import { JOIN_TRIXTA_ROLE, UPDATE_TRIXTA_ERROR } from '../../constants';
+import {
+  JOIN_TRIXTA_ROLE,
+  LEAVE_TRIXTA_ROLE,
+  UPDATE_TRIXTA_ERROR,
+} from '../../constants';
 
 export interface TrixtaReactionMetaDataType extends AdditionalTrixtaData {
   ref?: string;
@@ -25,6 +29,13 @@ export type AdditionalTrixtaData = {
 
 export type JoinTrixtaRoleAction = {
   type: typeof JOIN_TRIXTA_ROLE;
+  payload: {
+    roleName: string;
+  };
+};
+
+export type LeaveTrixtaRoleAction = {
+  type: typeof LEAVE_TRIXTA_ROLE;
   payload: {
     roleName: string;
   };

@@ -21,6 +21,7 @@ import {
   CLEAR_TRIXTA_REACTION_REQUEST_STATUS,
   CLEAR_TRIXTA_REACTION_RESPONSE,
   JOIN_TRIXTA_ROLE,
+  LEAVE_TRIXTA_ROLE,
   REMOVE_TRIXTA_ROLE,
   SUBMIT_TRIXTA_ACTION_RESPONSE,
   SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
@@ -94,6 +95,13 @@ export const trixtaReducer = (
           );
         }
         break;
+      case LEAVE_TRIXTA_ROLE: {
+        const roleName = action.payload.roleName;
+        const index = draft.agentDetails.findIndex((role) => role === roleName);
+        delete draft.authorizingStatus[roleName];
+        if (index !== -1) draft.agentDetails.splice(index, 1);
+        break;
+      }
       case JOIN_TRIXTA_ROLE: {
         draft.authorizationStarted = true;
         const roleName = action.payload.roleName;

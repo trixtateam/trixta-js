@@ -148,7 +148,7 @@ export const useTrixtaAction = <
       dispatch(
         submitTrixtaActionResponse({
           extraData: extraData ?? {},
-          formData: data ?? {},
+          formData: data ?? actionParamatersRef.current?.data,
           loadingStatusRef,
           roleName,
           requestEvent,
@@ -174,7 +174,11 @@ export const useTrixtaAction = <
   );
 
   useEffect(() => {
-    if (options.autoSubmit && isTrixtaActionReady) {
+    if (!hasRoleAccess) actionParamatersRef.current = undefined;
+  }, [hasRoleAccess]);
+
+  useEffect(() => {
+    if (hasRoleAccess && options.autoSubmit && isTrixtaActionReady) {
       if (
         !deequal(actionParamatersRef.current, actionParameters) ||
         actionParamatersRef.current === undefined
@@ -188,6 +192,7 @@ export const useTrixtaAction = <
     submitTrixtaAction,
     isTrixtaActionReady,
     actionParameters,
+    hasRoleAccess,
   ]);
 
   const success = latestInstance ? latestInstance.response.success : undefined;

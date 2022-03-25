@@ -6,6 +6,7 @@ import {
 } from '../../constants/actions';
 // eslint-disable-next-line jest/no-mocks-import
 import { trixtaState } from '../../reducers/__mocks__/trixtaState';
+import { joinTrixtaRole, leaveTrixtaRole } from '../../reduxActions/internal';
 import { useTrixtaAction } from './use-trixta-action';
 
 describe('useTrixtaAction', () => {
@@ -471,6 +472,43 @@ describe('useTrixtaAction', () => {
     expect(result.current.latestInstance).toBeUndefined();
     expect(result.current.hasResponse).toBe(false);
     expect(result.current.isInProgress).toBe(true);
+  });
+
+  it('should autosubmit trixta action on mount with actionParameters, when autosubmit true for actionName: request_user_info_request and roleName: everyone_authed and when role access changes', () => {
+    const { store, wrapper } = storeProviderWrapper(trixtaState);
+    const roleName = trixtaState.agentDetails[0];
+    act(() => {
+      store.dispatch(leaveTrixtaRole({ roleName }));
+    });
+    const actionName = 'request_user_info_request';
+    const { result, rerender } = renderHook(
+      () =>
+        useTrixtaAction({
+          roleName,
+          actionName,
+          actionParameters: { data: 'test' },
+          options: { autoSubmit: true },
+        }),
+      {
+        wrapper,
+      },
+    );
+    act(() => {
+      store.dispatch(joinTrixtaRole({ roleName }));
+    });
+    rerender();
+    expect(result.current.response).toBeUndefined();
+    expect(result.current.latestInstance).toBeUndefined();
+    expect(result.current.hasResponse).toBe(false);
+    expect(result.current.isInProgress).toBe(true);
+    act(() => {
+      store.dispatch(leaveTrixtaRole({ roleName }));
+    });
+
+    rerender();
+    act(() => {
+      store.dispatch(joinTrixtaRole({ roleName }));
+    });
   });
 
   it('should autosubmit trixta action on mount with actionParameters, when autosubmit true for actionName: request_user_info_request and roleName: everyone_authed', () => {

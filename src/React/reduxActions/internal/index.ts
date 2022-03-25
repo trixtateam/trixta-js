@@ -2,6 +2,7 @@ import { getReducerKeyName } from '../../../utils';
 import {
   emitTrixtaReactionResponse,
   JOIN_TRIXTA_ROLE,
+  LEAVE_TRIXTA_ROLE,
   UPDATE_TRIXTA_ACTION,
   UPDATE_TRIXTA_ERROR,
   UPDATE_TRIXTA_REACTION,
@@ -19,7 +20,11 @@ import {
   UpdateTrixtaReactionResponseAction,
 } from '../types/trixtaReactions';
 import { TrixtaActionDetails } from './../../types/actions';
-import { JoinTrixtaRoleAction, UpdateTrixtaErrorAction } from './types';
+import {
+  JoinTrixtaRoleAction,
+  LeaveTrixtaRoleAction,
+  UpdateTrixtaErrorAction,
+} from './types';
 
 /**
  * Any exception caused by trixta
@@ -169,6 +174,25 @@ export function joinTrixtaRole({
 }): JoinTrixtaRoleAction {
   return {
     type: JOIN_TRIXTA_ROLE,
+    payload: {
+      roleName,
+    },
+  };
+}
+
+/**
+ *  Listened for the in the Trixta saga to remove role from agentDetails after successfully leaving
+ * the channel
+ *
+ * @param params.roleName - role name
+ */
+export function leaveTrixtaRole({
+  roleName,
+}: {
+  roleName: string;
+}): LeaveTrixtaRoleAction {
+  return {
+    type: LEAVE_TRIXTA_ROLE,
     payload: {
       roleName,
     },

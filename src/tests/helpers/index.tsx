@@ -5,7 +5,7 @@ import {
 import React from 'react';
 import { Provider } from 'react-redux';
 import { combineReducers, createStore, Store } from 'redux';
-import configureStore, { MockStoreEnhanced } from 'redux-mock-store';
+import configureMockStore, { MockStoreEnhanced } from 'redux-mock-store';
 import {
   initialState as defaultTrixtaState,
   trixtaReducer,
@@ -56,7 +56,7 @@ export const mockStoreProviderWrapper = (
   }>;
   wrapper: React.FC;
 } => {
-  const mockstore = configureStore<{
+  const mockstore = configureMockStore<{
     trixta: TrixtaState;
     phoenix: ReturnType<typeof phoenixReducer>;
   }>([]);

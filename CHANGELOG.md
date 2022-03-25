@@ -1,3 +1,10 @@
+# [4.12.0](https://github.com/trixtateam/trixta-js/compare/v4.11.0...v4.12.0) (2022-03-25)
+
+
+### Features
+
+* should role access change, autosubmit for useTrixtaAction will resubmit ([7ae3d59](https://github.com/trixtateam/trixta-js/commit/7ae3d59dbab169842c46723af44d69f5b2260b88))
+
 # [4.11.0](https://github.com/trixtateam/trixta-js/compare/v4.10.1...v4.11.0) (2022-03-11)
 
 

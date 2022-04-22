@@ -3,6 +3,8 @@
 
 ### Features
 
+* breaking change, selectors have been renamed.
+
 * implemented phoenix-to-redux package service update ([8b44e00](https://github.com/trixtateam/trixta-js/commit/8b44e009a8dea79af0758e6ad4752dc860d62c15))
 
 # [4.12.0](https://github.com/trixtateam/trixta-js/compare/v4.11.0...v4.12.0) (2022-03-25)

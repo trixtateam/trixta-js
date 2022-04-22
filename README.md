@@ -6,7 +6,6 @@ JS
 
 [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://trixtateam.github.io/trixta-js/)
 
-
 ![GitHub Release Date](https://img.shields.io/github/release-date/trixtateam/trixta-js)
 ![GitHub last commit](https://img.shields.io/github/last-commit/trixtateam/trixta-js)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/trixtateam/trixta-js)

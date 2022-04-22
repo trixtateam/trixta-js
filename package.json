@@ -1,6 +1,6 @@
 {
   "name": "@trixtateam/trixta-js",
-  "version": "4.12.0",
+  "version": "5.0.0",
   "description": "Javascript library to integrate Trixta",
   "source": "src/index.ts",
   "main": "dist/@trixtateam/trixta-js.cjs.js",
@@ -40,7 +40,7 @@
   "homepage": "https://github.com/trixtateam/trixta-js#readme",
   "scripts": {
     "dev": "rollup -c --watch",
-    "link:phoenix-to-redux": "npm link @trixta/phoenix-to-redux",
+    "link:phoenix-to-redux": "npm link @trixtateam/phoenix-to-redux",
     "build": "kcd-scripts build --bundle 'esm,cjs' --no-clean",
     "prebuild": "rimraf dist types && yarn run lint:fix",
     "lint:ts": "tsc --noEmit",
@@ -120,6 +120,7 @@
   "peerDependencies": {
     "@redux-saga/core": "1.0.3",
     "@rjsf/core": "3.2.1",
+    "@trixtateam/phoenix-to-redux": ">=4.0.6-beta.0",
     "debug": "4.3.1",
     "immer": ">=9.0.6",
     "phoenix": "~1.5.9",
@@ -137,7 +138,6 @@
     }
   },
   "dependencies": {
-    "@trixta/phoenix-to-redux": "3.5.1-beta.0",
     "depcheck": "^1.4.2",
     "fast-deep-equal": "3.1.3",
     "nanoid": "3.1.31",
@@ -183,6 +183,7 @@
     "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/react-hooks": "^7.0.0",
+    "@trixtateam/phoenix-to-redux": ">=4.0.6-beta.0",
     "@types/debug": "4.1.5",
     "@types/jest": "^26.0.20",
     "@types/json-schema": "^7.0.4",

@@ -1,4 +1,4 @@
-import { makeSelectPhoenixSocketDetails } from '@trixta/phoenix-to-redux';
+import { selectPhoenixSocketDetails } from '@trixtateam/phoenix-to-redux';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import {
@@ -17,8 +17,8 @@ export const useTrixtaAuth = ({
     [roles],
   );
   const socketPhoenixDetailsSelector = useMemo<
-    ReturnType<typeof makeSelectPhoenixSocketDetails>
-  >(makeSelectPhoenixSocketDetails, []);
+    ReturnType<typeof selectPhoenixSocketDetails>
+  >(selectPhoenixSocketDetails, []);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const authorizedStatusSelector: any = useMemo(
     makeSelectIsTrixtaAuhorized,

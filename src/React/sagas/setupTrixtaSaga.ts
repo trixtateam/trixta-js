@@ -15,7 +15,7 @@ import {
   leavePhoenixChannel,
   phoenixChannelJoin,
   pushToPhoenixChannel,
-} from '@trixta/phoenix-to-redux';
+} from '@trixtateam/phoenix-to-redux';
 import { Channel } from 'phoenix';
 import { getChannelName, isNullOrEmpty } from '../../utils';
 import { get } from '../../utils/object';

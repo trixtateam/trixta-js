@@ -1,8 +1,8 @@
 import {
-  connectPhoenix,
-  getPhoenixChannel,
-  socketActionTypes,
-} from '@trixta/phoenix-to-redux';
+    connectPhoenix,
+    getPhoenixChannel,
+    socketActionTypes
+} from '@trixtateam/phoenix-to-redux';
 import { call, fork, put, takeEvery } from 'redux-saga/effects';
 import { setupTrixtaSaga } from '../../..';
 import { getChannelName } from '../../../utils/trixta';

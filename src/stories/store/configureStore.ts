@@ -3,7 +3,7 @@ import {
   EnhancedStore,
   getDefaultMiddleware,
 } from '@reduxjs/toolkit';
-import { createPhoenixChannelMiddleware } from '@trixta/phoenix-to-redux';
+import { createPhoenixChannelMiddleware } from '@trixtateam/phoenix-to-redux';
 import createSagaMiddleware from 'redux-saga';
 import { createReducer } from './reducers';
 import { rootSaga } from './sagas/rootSaga';

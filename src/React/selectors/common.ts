@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { makeSelectPhoenixChannelByName } from '@trixtateam/phoenix-to-redux';
+import { Channel } from 'phoenix';
 import {
   createSelector,
   OutputParametricSelector,
   OutputSelector,
+  Selector,
 } from 'reselect';
-import { get, isNullOrEmpty } from '../../utils';
+import { get, getChannelName, isNullOrEmpty } from '../../utils';
 import { TrixtaActionBaseProps } from './../types/actions/index';
 import {
   LoadingStatus,
@@ -12,7 +15,6 @@ import {
   TrixtaState,
 } from './../types/common';
 import { TrixtaReactionBaseProps } from './../types/reactions/index';
-
 type DefaultSelectorProps =
   | TrixtaBaseRoleProps
   | TrixtaReactionBaseProps
@@ -213,3 +215,13 @@ export const makeSelectHasTrixtaRoleAccessForRoles = (): OutputParametricSelecto
       return roles.every((role) => agentDetails.includes(role));
     },
   );
+
+/**
+ * Returns the phoenix channel for the given role
+ * @param role
+ * @returns
+ */
+export const makeSelectPhoenixChannelForRole = (
+  role: string,
+): Selector<unknown, Channel | undefined> =>
+  makeSelectPhoenixChannelByName(getChannelName({ role }));

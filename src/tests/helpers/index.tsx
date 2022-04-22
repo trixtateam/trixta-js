@@ -1,7 +1,7 @@
 import {
   initialState as phoenixState,
   phoenixReducer,
-} from '@trixta/phoenix-to-redux';
+} from '@trixtateam/phoenix-to-redux';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { combineReducers, createStore, Store } from 'redux';
@@ -11,7 +11,6 @@ import {
   trixtaReducer,
 } from '../../React/reducers';
 import { TrixtaState } from '../../React/types/common';
-
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function createReducer() {
   return combineReducers({

@@ -3596,12 +3596,12 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
-"@trixta/phoenix-to-redux@3.5.1-beta.0":
-  version "3.5.1-beta.0"
-  resolved "https://registry.yarnpkg.com/@trixta/phoenix-to-redux/-/phoenix-to-redux-3.5.1-beta.0.tgz#09e6f135be4803252729977227c0e3372b6f2014"
-  integrity sha512-GVi43H0Mn69TBUTIxfE0uj0cLZCwdhQ6iaxc0OhLEk9hUkgzS5Wvj6srP13WVzbdqiu8w1evVPrfulWIcyqZdQ==
+"@trixtateam/phoenix-to-redux@>=4.0.6-beta.0":
+  version "4.0.6-beta.0"
+  resolved "https://registry.yarnpkg.com/@trixtateam/phoenix-to-redux/-/phoenix-to-redux-4.0.6-beta.0.tgz#2e78734aecda6be02bf9b2cc0546b42033170431"
+  integrity sha512-rIjPMRoCKi1fRZnbUksUS+SR2f5XUOjRASSxBOqtFv7rE2Q1UZ7Sqg+UZKNfYHudCRRcJqqBk+vooqBOg4Ghbw==
   dependencies:
-    immer "~8.0.1"
+    immer "~9.0.6"
     phoenix "~1.5.9"
 
 "@types/aria-query@^4.2.0":
@@ -9557,10 +9557,10 @@ immer@^9.0.1:
   resolved "https://registry.yarnpkg.com/immer/-/immer-9.0.6.tgz#7a96bf2674d06c8143e327cbf73539388ddf1a73"
   integrity sha512-G95ivKpy+EvVAnAab4fVa4YGYn24J1SpEktnJX7JJ45Bd7xqME/SCplFzYFmTbrkwZbQ4xJK1xMTUYBkN6pWsQ==
 
-immer@~8.0.1:
-  version "8.0.4"
-  resolved "https://registry.yarnpkg.com/immer/-/immer-8.0.4.tgz#3a21605a4e2dded852fb2afd208ad50969737b7a"
-  integrity sha512-jMfL18P+/6P6epANRvRk6q8t+3gGhqsJ9EuJ25AXE+9bNTYtssvzeYbEd0mXRYWCmmXSIbnlpz6vd6iJlmGGGQ==
+immer@~9.0.6:
+  version "9.0.12"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-9.0.12.tgz#2d33ddf3ee1d247deab9d707ca472c8c942a0f20"
+  integrity sha512-lk7UNmSbAukB5B6dh9fnh5D0bJTOFKxVg2cyJWTYrWRfhLrLMBquONcUs3aFq507hNoIZEDDh8lb8UtOizSMhA==
 
 import-fresh@^3.0.0, import-fresh@^3.1.0, import-fresh@^3.2.1:
   version "3.3.0"

@@ -26,7 +26,7 @@ Install the package with npm
  */
 
 import { combineReducers } from '@reduxjs/toolkit';
-import { phoenixReducer } from '@trixta/phoenix-to-redux';
+import { phoenixReducer } from '@trixtateam/phoenix-to-redux';
 import { trixtaReducer } from '@trixtateam/trixta-js';
 export default function createReducer() {
   const rootReducer = combineReducers({
@@ -41,7 +41,7 @@ export default function createReducer() {
 [See example to setup middleware](https://redux-toolkit.js.org/api/configureStore)
 ```javascript
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { createPhoenixChannelMiddleware } from '@trixta/phoenix-to-redux';
+import { createPhoenixChannelMiddleware } from '@trixtateam/phoenix-to-redux';
 import createSagaMiddleware from 'redux-saga';
 import { createReducer } from './reducers';
 
@@ -86,7 +86,7 @@ export default function configureStore() {
 
 ```javascript
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { createPhoenixChannelMiddleware } from '@trixta/phoenix-to-redux';
+import { createPhoenixChannelMiddleware } from '@trixtateam/phoenix-to-redux';
 import createSagaMiddleware from 'redux-saga';
 import { setupTrixtaSaga } from '@trixtateam/trixta-js';
 import createReducer from './reducers';
@@ -138,7 +138,7 @@ export default function* rootSaga() {
 
 ```javascript
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { createPhoenixChannelMiddleware } from '@trixta/phoenix-to-redux';
+import { createPhoenixChannelMiddleware } from '@trixtateam/phoenix-to-redux';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './rootSaga';
 import createReducer from './reducers';
@@ -182,7 +182,7 @@ export default function configureStore() {
 ```javascript
 import { put, select, takeLatest, takeEvery, fork } from 'redux-saga/effects';
 import { updateTrixtaRoles } from '@trixtateam/trixta-js';
-import { socketActionTypes,connectPhoenix } from '@trixta/phoenix-to-redux';
+import { socketActionTypes,connectPhoenix } from '@trixtateam/phoenix-to-redux';
 
 /**
  * After the socket is connected,

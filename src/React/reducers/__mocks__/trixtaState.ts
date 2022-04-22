@@ -1,4 +1,4 @@
-import { reducers } from '@trixta/phoenix-to-redux';
+import { reducers } from '@trixtateam/phoenix-to-redux';
 import {
   TrixtaCommon,
   TrixtaInstanceMode,

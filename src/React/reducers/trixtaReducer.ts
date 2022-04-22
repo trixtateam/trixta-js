@@ -1,4 +1,4 @@
-import { channelActionTypes } from '@trixta/phoenix-to-redux';
+import { channelActionTypes } from '@trixtateam/phoenix-to-redux';
 import produce, { Draft } from 'immer';
 import { TrixtaInstanceMode } from '../../React/types';
 import {

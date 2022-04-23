@@ -118,19 +118,15 @@
     }
   },
   "peerDependencies": {
-    "@redux-saga/core": "1.0.3",
-    "@rjsf/core": "3.2.1",
+    "@rjsf/core": ">=3.2.1",
     "@trixtateam/phoenix-to-redux": ">=4.0.6-beta.0",
-    "debug": "4.3.1",
     "immer": ">=9.0.6",
     "phoenix": "~1.5.9",
-    "prop-types": "^15.7.2",
     "react": ">=16.8.6",
-    "react-dom": ">=16.8.0",
     "react-redux": ">=7.2.1",
     "redux": "~4.1.2",
     "redux-saga": ">=1.1.0",
-    "reselect": "~4.0.0"
+    "reselect": ">=4.0.0"
   },
   "peerDependenciesMeta": {
     "@rjsf/core": {
@@ -158,7 +154,6 @@
     "@emotion/react": "11.1.5",
     "@emotion/styled": "11.3.0",
     "@etchteam/storybook-addon-status": "^4.0.0",
-    "@redux-saga/core": "1.0.3",
     "@redux-saga/types": "1.1.0",
     "@reduxjs/toolkit": "^1.6.1",
     "@rjsf/core": "3.2.1",
@@ -209,6 +204,7 @@
     "babel-preset-react-app": "^10.0.0",
     "bootstrap": "^4.5.3",
     "coveralls": "^3.1.0",
+    "debug": "4.3.4",
     "eslint": "^7.20.0",
     "eslint-config-airbnb": "18.2.0",
     "eslint-config-airbnb-base": "14.2.0",

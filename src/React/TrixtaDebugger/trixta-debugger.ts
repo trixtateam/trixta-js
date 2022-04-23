@@ -1,21 +1,26 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-import debug, { Debugger } from 'debug';
 import {
   TrixtaDebugType,
   TrixtaInstanceDebuggerParameters,
   TrixtaInstancesDebuggerParameters,
 } from './types';
-debug.log = console.debug.bind(console);
 
-const trixtalogger = debug('TRIXTA');
-const logReaction = trixtalogger.extend('REACTION');
-const logAction = trixtalogger.extend('ACTION');
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+let getTrixtaDebug = (_?: TrixtaDebugType): typeof console.debug =>
+  console.debug;
 
-debug.enable('TRIXTA:*');
+if (process.env.NODE_ENV === 'development') {
+  import('debug').then(({ debug }) => {
+    debug.log = console.debug.bind(console);
+    const trixtalogger = debug('TRIXTA');
+    const logReaction = trixtalogger.extend('REACTION');
+    const logAction = trixtalogger.extend('ACTION');
+    debug.enable('TRIXTA:*');
+    getTrixtaDebug = (debugType: TrixtaDebugType): debug.Debugger =>
+      debugType === TrixtaDebugType.Reaction ? logReaction : logAction;
+  });
+}
 
-export const getTrixtaDebug = (debugType: TrixtaDebugType): Debugger =>
-  debugType === TrixtaDebugType.Reaction ? logReaction : logAction;
+export { getTrixtaDebug };
 
 /**
  *

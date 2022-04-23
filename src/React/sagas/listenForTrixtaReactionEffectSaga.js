@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { fork, race, take } from '@redux-saga/core/effects';
+import { fork, race, take } from '@redux-saga/effects';
 import { respondToTrixtaReactionEffectSaga } from './respondToTrixtaReactionEffectSaga';
 
 /**

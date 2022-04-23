@@ -1,4 +1,12 @@
 import {
+  channelActionTypes,
+  getPhoenixChannel,
+  leavePhoenixChannel,
+  phoenixChannelJoin,
+  pushToPhoenixChannel,
+} from '@trixtateam/phoenix-to-redux';
+import { Channel } from 'phoenix';
+import {
   all,
   fork,
   ForkEffect,
@@ -8,15 +16,7 @@ import {
   take,
   TakeEffect,
   takeEvery,
-} from '@redux-saga/core/effects';
-import {
-  channelActionTypes,
-  getPhoenixChannel,
-  leavePhoenixChannel,
-  phoenixChannelJoin,
-  pushToPhoenixChannel,
-} from '@trixtateam/phoenix-to-redux';
-import { Channel } from 'phoenix';
+} from 'redux-saga/effects';
 import { getChannelName, isNullOrEmpty } from '../../utils';
 import { get } from '../../utils/object';
 import {

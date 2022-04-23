@@ -21,6 +21,7 @@ import {
   TrixtaState,
 } from './../../../types/common';
 import { TrixtaReactionInstanceComponentProps } from './types';
+
 function TrixtaReactionInstanceComponent({
   dispatchSubmitReactionResponse,
   roleName,
@@ -38,6 +39,7 @@ function TrixtaReactionInstanceComponent({
 }: ConnectProps &
   DispatchProps &
   TrixtaReactionInstanceComponentProps &
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Record<string, any>) {
   const response = get<TrixtaInstanceResponse>(instance, 'response', {
     success: false,

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { act, renderHook } from '@testing-library/react-hooks';
 import { storeProviderWrapper } from '../../../tests/helpers';
 import {

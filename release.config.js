@@ -22,6 +22,9 @@ module.exports = {
           { type: 'style', release: 'patch' },
           { scope: 'no-release', release: false },
         ],
+        "parserOpts": {
+          "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES"]
+        }
       },
     ],
     '@semantic-release/release-notes-generator',

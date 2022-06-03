@@ -19,5 +19,6 @@ addons.register(ADDON_ID, () => {
   });
 });
 addons.setConfig({
+  showToolbar: true,
   theme,
 });

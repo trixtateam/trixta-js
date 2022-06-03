@@ -1,3 +1,10 @@
+# [4.14.0](https://github.com/trixtateam/trixta-js/compare/v4.13.0...v4.14.0) (2022-06-03)
+
+
+### Features
+
+* useTrixtaAccess hook ([11578bd](https://github.com/trixtateam/trixta-js/commit/11578bda81f012124749c34d110d4e921dee2faf))
+
 # [4.13.0](https://github.com/trixtateam/trixta-js/compare/v4.12.0...v4.13.0) (2022-04-22)
 
 

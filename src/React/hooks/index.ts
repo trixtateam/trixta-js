@@ -7,3 +7,4 @@ export * from './use-trixta-reaction/use-trixta-reaction';
 export * from './use-trixta-auth/use-trixta-auth';
 export * from './use-trixta-role-unmount/use-trixta-role-unmount';
 export * from './use-trixta-data/use-trixta-data';
+export * from './use-trixta-access/use-trixta-access';

@@ -210,8 +210,7 @@ export const makeSelectHasTrixtaRoleAccessForRoles = (): OutputParametricSelecto
   createSelector(
     [selectTrixtaAgentDetails, selectTrixtaRolesProp],
     (agentDetails, roles) => {
-      if (isNullOrEmpty(roles)) return false;
-      if (!Array.isArray(roles)) return false;
+      if (isNullOrEmpty(roles)) return true;
       return roles.every((role) => agentDetails.includes(role));
     },
   );

@@ -1,40 +1,26 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { selectPhoenixSocketDetails } from '@trixtateam/phoenix-to-redux';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import {
   makeSelectHasTrixtaAuthorizationStarted,
-  makeSelectHasTrixtaRoleAccessForRoles,
   makeSelectIsTrixtaAuhorized,
 } from '../../selectors';
+import { useTrixtaAccess } from '../use-trixta-access/use-trixta-access';
 import { TrixtaState } from './../../types/common';
 import { UseTrixtaAuthHookReturn, UseTrixtaAuthProps } from './types';
 
+const authorizedStatusSelector = makeSelectIsTrixtaAuhorized();
+const authorizationStartedSelector = makeSelectHasTrixtaAuthorizationStarted();
+
 export const useTrixtaAuth = ({
-  roles = [],
+  roles,
 }: UseTrixtaAuthProps | undefined = {}): UseTrixtaAuthHookReturn => {
-  const rolesArr = useMemo(
-    () => (Array.isArray(roles) ? roles : roles ? [roles] : []),
-    [roles],
-  );
+  const hasRoles = useTrixtaAccess(roles);
   const socketPhoenixDetailsSelector = useMemo<
     ReturnType<typeof selectPhoenixSocketDetails>
   >(selectPhoenixSocketDetails, []);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const authorizedStatusSelector: any = useMemo(
-    makeSelectIsTrixtaAuhorized,
-    [],
-  );
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const authorizationStartedSelector: any = useMemo(
-    makeSelectHasTrixtaAuthorizationStarted,
-    [],
-  );
-  const roleAccessSelector = useMemo(makeSelectHasTrixtaRoleAccessForRoles, []);
-  const hasRoles = useSelector<{ trixta: TrixtaState }, boolean>((state) =>
-    roleAccessSelector(state, { roles: rolesArr }),
-  );
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const phoenixDetails = useSelector<any, { token?: string }>((state) =>
     socketPhoenixDetailsSelector(state),
   );
@@ -47,26 +33,15 @@ export const useTrixtaAuth = ({
   const hasAuthorized = useSelector<{ trixta: TrixtaState }, boolean>((state) =>
     authorizedStatusSelector(state),
   );
-  let isAuthorizing = true;
-  if (hasAuthorizationStarted) {
-    isAuthorizing = !hasAuthorized;
-  }
+  const isAuthorizing = hasAuthorizationStarted ? !hasAuthorized : true;
 
   const values = useMemo(
-    () =>
-      isAuthorizing
-        ? {
-            isAuthenticated,
-            hasRoles,
-            hasAccess: false,
-            isAuthorizing,
-          }
-        : {
-            isAuthenticated,
-            hasRoles,
-            hasAccess: isAuthenticated === true && hasRoles,
-            isAuthorizing,
-          },
+    () => ({
+      isAuthenticated,
+      hasRoles,
+      hasAccess: isAuthorizing ? false : hasRoles,
+      isAuthorizing,
+    }),
     [hasRoles, isAuthenticated, isAuthorizing],
   );
 

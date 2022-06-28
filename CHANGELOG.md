@@ -1,3 +1,10 @@
+## [4.14.1](https://github.com/trixtateam/trixta-js/compare/v4.14.0...v4.14.1) (2022-06-28)
+
+
+### Bug Fixes
+
+* null check before destructuring data ([c623aac](https://github.com/trixtateam/trixta-js/commit/c623aac91b3337ea2211f71273e572268a8f49eb))
+
 # [4.14.0](https://github.com/trixtateam/trixta-js/compare/v4.13.0...v4.14.0) (2022-06-03)
 
 

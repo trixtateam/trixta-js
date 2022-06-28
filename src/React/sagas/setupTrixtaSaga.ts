@@ -199,7 +199,7 @@ export function* setupTrixtaActionForRole({
     updateTrixtaAction({
       role: roleName,
       trixtaAction: {
-        ...actionDetails,
+        ...(actionDetails || {}),
         name: actionName,
       },
       name: actionName,
@@ -220,7 +220,7 @@ export function* setupTrixtaReactionForRole({
     updateTrixtaReaction({
       role: roleName,
       trixtaReaction: {
-        ...reactionDetails,
+        ...(reactionDetails || {}),
         name: reactionName,
       },
       name: reactionName,
@@ -271,8 +271,8 @@ function* submitActionResponseSaga({
       SubmitTrixtaActionResponseAction['payload']['actionOptions']
     >(payload, 'actionOptions', {});
     const options = debugMode
-      ? { debug: true, ...debugOptions, ...actionOptions }
-      : { ...actionOptions };
+      ? { debug: true, ...(debugOptions || {}), ...(actionOptions || {}) }
+      : { ...(actionOptions || {}) };
 
     const channelTopic = getChannelName({ role: roleName });
     if (requestEvent) {
@@ -283,7 +283,7 @@ function* submitActionResponseSaga({
       pushToPhoenixChannel({
         channelTopic,
         eventName: actionName,
-        requestData: { action_payload: formData, ...options },
+        requestData: { action_payload: formData, ...(options || {}) },
         additionalData: {
           trixtaMeta,
           extraData,
@@ -317,7 +317,7 @@ function* submitActionResponseSuccess({
   if (responseEvent) {
     yield put({
       type: responseEvent,
-      payload: { ...data, ...(additionalData && additionalData) },
+      payload: { ...(data || {}), ...(additionalData || {}) },
     });
   }
 }
@@ -340,7 +340,7 @@ function* submitActionResponseFailure({
     yield put({
       type: errorEvent,
       error,
-      ...(additionalData && additionalData),
+      ...(additionalData || {}),
     });
   }
 }
@@ -363,7 +363,7 @@ function* submitActionResponseTimoutFailure({
     yield put({
       type: timeoutEvent,
       error,
-      ...(additionalData && additionalData),
+      ...(additionalData || {}),
     });
   }
 }
@@ -382,7 +382,7 @@ function* checkReactionResponseSaga({
   channelTopic,
 }: IncomingTrixtaReactionAction) {
   try {
-    const reactionResponse = { eventName, ...data };
+    const reactionResponse = { eventName, ...(data || {}) };
     const roleName = channelTopic.split(':')[1];
     yield put(
       emitTrixtaReactionResponseListenerEvent({
@@ -555,7 +555,7 @@ function* submitReactionResponseFailure({
     yield put({
       type: errorEvent,
       error,
-      ...(additionalData && additionalData),
+      ...(additionalData || {}),
     });
   }
 }
@@ -578,7 +578,7 @@ function* submitReactionResponseTimeoutFailure({
     yield put({
       type: timeoutEvent,
       error,
-      ...(additionalData && additionalData),
+      ...(additionalData || {}),
     });
   }
 }
@@ -600,7 +600,7 @@ function* submitReactionResponseSuccess({
   if (responseEvent) {
     yield put({
       type: responseEvent,
-      payload: { ...data, ...(additionalData && additionalData) },
+      payload: { ...(data || {}), ...(additionalData || {}) },
     });
   }
 }

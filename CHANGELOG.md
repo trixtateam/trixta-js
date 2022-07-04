@@ -1,3 +1,15 @@
+# [5.0.0](https://github.com/trixtateam/trixta-js/compare/v4.14.1...v5.0.0) (2022-07-04)
+
+
+### Features
+
+* trixta auth refactored ([1f24138](https://github.com/trixtateam/trixta-js/commit/1f2413829d91d130e140b66389284487990723d7))
+
+
+### BREAKING CHANGES
+
+* useTrixtaAccess and useTrixtaAuth no longer use roles prop but roleName
+
 ## [4.14.1](https://github.com/trixtateam/trixta-js/compare/v4.14.0...v4.14.1) (2022-06-28)
 
 

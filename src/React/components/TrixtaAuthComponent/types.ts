@@ -1,8 +1,8 @@
 export interface TrixtaAuthProps {
   /**
-   * Trixta roles or role name
+   * Trixta role name
    */
-  roles?: string | string[];
+  roleName: string;
   /**
    * Children can be a render props function or a react component
    */

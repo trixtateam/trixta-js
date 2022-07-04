@@ -75,17 +75,14 @@ describe('trixtaReducer', () => {
     const expectedResult = produce<TrixtaState>(state, (draft) => {
       draft.authorizationStarted = true;
       const roleName = action.payload.roleName;
-      const index = draft.agentDetails.findIndex((role) => role === roleName);
-      if (index === -1) {
-        draft.agentDetails.push(roleName);
-      }
+      if (!state.agentDetails[roleName]) draft.agentDetails[roleName] = true;
       delete draft.authorizingStatus[roleName];
     });
     expect(
       trixtaReducer(state, actions.joinTrixtaRole(action.payload)),
     ).toEqual(expectedResult);
     expect(expectedResult.authorizingStatus[nameOfRole]).toEqual(undefined);
-    expect(expectedResult.agentDetails).toContain(nameOfRole);
+    expect(expectedResult.agentDetails).toHaveProperty(nameOfRole);
   });
 
   it('should handle the updateTrixtaRole action correctly', () => {
@@ -95,8 +92,7 @@ describe('trixtaReducer', () => {
     const expectedResult = produce<TrixtaState>(state, (draft) => {
       const roleName = action.payload.role.name;
       if (roleName) {
-        const index = draft.agentDetails.findIndex((role) => role === roleName);
-        if (index === -1) {
+        if (!draft.agentDetails[roleName]) {
           draft.authorizingStatus[roleName] = { status: true };
         }
       }
@@ -122,8 +118,7 @@ describe('trixtaReducer', () => {
     state = trixtaState;
     const expectedResult = produce<TrixtaState>(state, (draft) => {
       action.payload.roles.forEach(({ name }: TrixtaRoleParameter) => {
-        const index = draft.agentDetails.findIndex((role) => role === name);
-        if (index === -1) {
+        if (!draft.agentDetails[name]) {
           draft.authorizingStatus[name] = { status: true };
         }
       });
@@ -151,12 +146,11 @@ describe('trixtaReducer', () => {
     state = trixtaState;
     const expectedResult = produce<TrixtaState>(state, (draft) => {
       const roleName = action.payload.role.name;
-      const index = draft.agentDetails.findIndex((role) => role === roleName);
       delete draft.authorizingStatus[roleName];
-      if (index !== -1) draft.agentDetails.splice(index, 1);
+      delete draft.agentDetails[roleName];
       draft.reactions = pickBy(
         state.reactions,
-        (value, key) => key && key.split(':', 1)[0] !== roleName,
+        (_, key) => key && key.split(':', 1)[0] !== roleName,
       );
       draft.actions = pickBy(
         state.actions,

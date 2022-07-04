@@ -46,7 +46,7 @@ describe('useRespondToReactionEffect', () => {
 
   it('should return hasRoleAccess true, for roleName: everyone_authed', () => {
     const { wrapper } = mockStoreProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[0];
+    const roleName = 'everyone_authed';
     const { result } = renderHook(
       () =>
         useRespondToReactionEffect({
@@ -63,7 +63,7 @@ describe('useRespondToReactionEffect', () => {
 
   it('Redux store should contain actionToDispatch, for roleName: viewer[d1be63be-c0e4-4468-982c-5c04714a2987] and reactionName: new_waitroom_status', () => {
     const { wrapper, store } = mockStoreProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[1];
+    const roleName = 'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]';
     const reactionName = 'new_waitroom_status';
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const actionToDispatch = (payload: any) => ({
@@ -92,7 +92,7 @@ describe('useRespondToReactionEffect', () => {
 
   it('Redux store should contain dispatchResponseTo, for roleName: viewer[d1be63be-c0e4-4468-982c-5c04714a2987] and reactionName: new_waitroom_status', () => {
     const { wrapper, store } = mockStoreProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[1];
+    const roleName = 'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]';
     const reactionName = 'new_waitroom_status';
     const dispatchResponseTo = 'TEST_ACTION';
     const initialReactionData =
@@ -120,7 +120,7 @@ describe('useRespondToReactionEffect', () => {
 
   it('callback for roleName: viewer[d1be63be-c0e4-4468-982c-5c04714a2987] and reactionName: new_waitroom_status should be called with data', () => {
     const { wrapper } = mockStoreProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[1];
+    const roleName = 'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]';
     const reactionName = 'new_waitroom_status';
 
     const initialReactionData =

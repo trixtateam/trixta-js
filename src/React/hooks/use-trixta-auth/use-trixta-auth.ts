@@ -3,25 +3,22 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import {
   makeSelectHasTrixtaAuthorizationStarted,
-  makeSelectHasTrixtaRoleAccessForRoles,
-  makeSelectIsTrixtaAuhorized,
+  makeSelectTrixtaAuthorizingStatusForRole,
 } from '../../selectors';
-import { TrixtaState } from './../../types/common';
+import { useTrixtaAccess } from '../use-trixta-access/use-trixta-access';
+import { LoadingStatus, TrixtaState } from './../../types/common';
 import { UseTrixtaAuthHookReturn, UseTrixtaAuthProps } from './types';
 
 export const useTrixtaAuth = ({
-  roles = [],
+  roleName,
 }: UseTrixtaAuthProps | undefined = {}): UseTrixtaAuthHookReturn => {
-  const rolesArr = useMemo(
-    () => (Array.isArray(roles) ? roles : roles ? [roles] : []),
-    [roles],
-  );
+  const hasRole = useTrixtaAccess({ roleName: roleName || '' });
   const socketPhoenixDetailsSelector = useMemo<
     ReturnType<typeof selectPhoenixSocketDetails>
   >(selectPhoenixSocketDetails, []);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const authorizedStatusSelector: any = useMemo(
-    makeSelectIsTrixtaAuhorized,
+    makeSelectTrixtaAuthorizingStatusForRole,
     [],
   );
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -29,11 +26,6 @@ export const useTrixtaAuth = ({
     makeSelectHasTrixtaAuthorizationStarted,
     [],
   );
-  const roleAccessSelector = useMemo(makeSelectHasTrixtaRoleAccessForRoles, []);
-  const hasRoles = useSelector<{ trixta: TrixtaState }, boolean>((state) =>
-    roleAccessSelector(state, { roles: rolesArr }),
-  );
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const phoenixDetails = useSelector<any, { token?: string }>((state) =>
     socketPhoenixDetailsSelector(state),
@@ -44,12 +36,14 @@ export const useTrixtaAuth = ({
   const hasAuthorizationStarted = useSelector<{ trixta: TrixtaState }, boolean>(
     (state) => authorizationStartedSelector(state),
   );
-  const hasAuthorized = useSelector<{ trixta: TrixtaState }, boolean>((state) =>
-    authorizedStatusSelector(state),
+  const authorizedStatus = useSelector<{ trixta: TrixtaState }, LoadingStatus>(
+    (state) => authorizedStatusSelector(state, { roleName }),
   );
+
+  const hasAuthorized = authorizedStatus.status || false;
   let isAuthorizing = true;
   if (hasAuthorizationStarted) {
-    isAuthorizing = !hasAuthorized;
+    isAuthorizing = hasAuthorized;
   }
 
   const values = useMemo(
@@ -57,17 +51,17 @@ export const useTrixtaAuth = ({
       isAuthorizing
         ? {
             isAuthenticated,
-            hasRoles,
+            hasRole,
             hasAccess: false,
             isAuthorizing,
           }
         : {
             isAuthenticated,
-            hasRoles,
-            hasAccess: isAuthenticated === true && hasRoles,
-            isAuthorizing,
+            hasRole,
+            hasAccess: isAuthenticated === true && hasRole,
+            isAuthorizing: false,
           },
-    [hasRoles, isAuthenticated, isAuthorizing],
+    [hasRole, isAuthenticated, isAuthorizing],
   );
 
   return values;

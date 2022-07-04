@@ -46,7 +46,7 @@ import { TrixtaState } from './../types';
 export const initialState: TrixtaState = {
   authorizationStarted: false,
   authorizingStatus: {},
-  agentDetails: [],
+  agentDetails: {},
   reactions: {},
   actions: {},
   error: false,
@@ -80,11 +80,8 @@ export const trixtaReducer = (
       case REMOVE_TRIXTA_ROLE:
         {
           const roleName = action.payload.role.name;
-          const index = draft.agentDetails.findIndex(
-            (role) => role === roleName,
-          );
           delete draft.authorizingStatus[roleName];
-          if (index !== -1) draft.agentDetails.splice(index, 1);
+          delete draft.agentDetails[roleName];
           draft.reactions = pickBy(
             state.reactions,
             (_, key) => key && key.split(':', 1)[0] !== roleName,
@@ -97,18 +94,14 @@ export const trixtaReducer = (
         break;
       case LEAVE_TRIXTA_ROLE: {
         const roleName = action.payload.roleName;
-        const index = draft.agentDetails.findIndex((role) => role === roleName);
         delete draft.authorizingStatus[roleName];
-        if (index !== -1) draft.agentDetails.splice(index, 1);
+        delete draft.agentDetails[roleName];
         break;
       }
       case JOIN_TRIXTA_ROLE: {
         draft.authorizationStarted = true;
         const roleName = action.payload.roleName;
-        const index = draft.agentDetails.findIndex((role) => role === roleName);
-        if (index === -1) {
-          draft.agentDetails.push(roleName);
-        }
+        if (!state.agentDetails[roleName]) draft.agentDetails[roleName] = true;
         delete draft.authorizingStatus[roleName];
         break;
       }
@@ -116,10 +109,7 @@ export const trixtaReducer = (
         {
           const roleName = action.payload.role.name;
           if (roleName) {
-            const index = draft.agentDetails.findIndex(
-              (role) => role === roleName,
-            );
-            if (index === -1) {
+            if (!draft.agentDetails[roleName]) {
               draft.authorizingStatus[roleName] = { status: true };
             }
           }
@@ -127,8 +117,7 @@ export const trixtaReducer = (
         break;
       case UPDATE_TRIXTA_ROLES:
         action.payload.roles.forEach(({ name }: TrixtaRoleParameter) => {
-          const index = draft.agentDetails.findIndex((role) => role === name);
-          if (index === -1) {
+          if (!draft.agentDetails[name]) {
             draft.authorizingStatus[name] = { status: true };
           }
         });

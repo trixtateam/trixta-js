@@ -634,7 +634,7 @@ function* handleChannelLeaveSaga({ channel }: { channel: Channel }) {
   const agentDetails: TrixtaState['agentDetails'] = yield select(
     makeSelectTrixtaAgentDetails(),
   );
-  if (agentDetails && agentDetails.includes(roleName)) {
+  if (agentDetails && agentDetails[roleName]) {
     yield put(removeTrixtaRole({ name: roleName }));
   }
 }

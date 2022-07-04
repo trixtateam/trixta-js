@@ -5,9 +5,10 @@ import {
   createSelector,
   OutputParametricSelector,
   OutputSelector,
+  ParametricSelector,
   Selector,
 } from 'reselect';
-import { get, getChannelName, isNullOrEmpty } from '../../utils';
+import { get, getChannelName } from '../../utils';
 import { TrixtaActionBaseProps } from './../types/actions/index';
 import {
   LoadingStatus,
@@ -45,7 +46,7 @@ export const selectTrixtaState = (state: {
  */
 export const selectTrixtaAgentDetails = (state: {
   trixta: TrixtaState;
-}): Array<string> => state.trixta.agentDetails;
+}): Record<string, boolean> => state.trixta.agentDetails;
 
 /**
  * Selects the authorizingStatus for joining Trixta roles
@@ -78,8 +79,8 @@ export const selectHasTrixtaRoleAccess = (
   state: { trixta: TrixtaState },
   props: TrixtaBaseRoleProps,
 ): boolean =>
-  state.trixta.agentDetails &&
-  state.trixta.agentDetails.includes(props.roleName);
+  (state.trixta.agentDetails && state.trixta.agentDetails[props.roleName]) ||
+  false;
 
 /**
  * Checks if the authorizingStatus has no joining statuses for channels
@@ -111,11 +112,11 @@ export const makeSelectTrixtaAgentDetails = (): OutputSelector<
     trixta: TrixtaState;
   },
   TrixtaState['agentDetails'],
-  (res: string[]) => TrixtaState['agentDetails']
+  (res: Record<string, boolean>) => TrixtaState['agentDetails']
 > =>
   createSelector(
     [selectTrixtaAgentDetails],
-    (agentDetails: Array<string>) => agentDetails,
+    (agentDetails: Record<string, boolean>) => agentDetails,
   );
 
 /**
@@ -146,6 +147,17 @@ export const makeSelectHasTrixtaAuthorizationStarted = (): OutputSelector<
     (authorizationStarted) => authorizationStarted,
   );
 
+export const selectTrixtaRoleAccessSelector: ParametricSelector<
+  { trixta: TrixtaState },
+  DefaultSelectorProps,
+  boolean
+> = createSelector(
+  [selectTrixtaRoleNameProp, selectTrixtaAgentDetails],
+  (roleName, agentDetails) => {
+    return agentDetails && agentDetails[roleName];
+  },
+);
+
 /**
  *  Selects the roles for the given props.roleName and checks if included
  */
@@ -155,11 +167,11 @@ export const makeSelectHasTrixtaRoleAccess = (): OutputParametricSelector<
   },
   DefaultSelectorProps,
   boolean,
-  (res1: string[], res2: string) => boolean
+  (res1: boolean) => boolean
 > =>
   createSelector(
-    [selectTrixtaAgentDetails, selectTrixtaRoleNameProp],
-    (agentDetails, roleName) => agentDetails.includes(roleName),
+    [selectTrixtaRoleAccessSelector],
+    (hasAccess) => hasAccess || false,
   );
 
 /**
@@ -192,29 +204,25 @@ export const makeSelectTrixtaAuthorizingStatusForRole = (): OutputParametricSele
 > =>
   createSelector(
     [selectTrixtaAuthorizingStatus, selectTrixtaRoleNameProp],
-    (authorizingStatus, roleName) => authorizingStatus[roleName],
+    (authorizingStatus, roleName) =>
+      (authorizingStatus && authorizingStatus[roleName]) || { status: false },
   );
 
 /**
- * Determines if the roles are present for the agent details
+ * Determines if the role is present for the agent details
  * @param {Array<string>} roles
  */
-export const makeSelectHasTrixtaRoleAccessForRoles = (): OutputParametricSelector<
+export const makeSelectHasTrixtaRoleAccessForRole = (): OutputParametricSelector<
   {
     trixta: TrixtaState;
   },
-  RolesProps,
+  TrixtaBaseRoleProps,
   boolean,
-  (res1: string[], res2: string[]) => boolean
+  (res1: boolean) => boolean
 > =>
-  createSelector(
-    [selectTrixtaAgentDetails, selectTrixtaRolesProp],
-    (agentDetails, roles) => {
-      if (isNullOrEmpty(roles)) return false;
-      if (!Array.isArray(roles)) return false;
-      return roles.every((role) => agentDetails.includes(role));
-    },
-  );
+  createSelector([selectHasTrixtaRoleAccess], (hasAccess) => {
+    return hasAccess;
+  });
 
 /**
  * Returns the phoenix channel for the given role

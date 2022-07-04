@@ -173,7 +173,7 @@ export type TrixtaState = {
   error: DefaultUnknownType;
   authorizationStarted: boolean;
   authorizingStatus: Record<string, LoadingStatus>;
-  agentDetails: string[];
+  agentDetails: Record<string, boolean>;
 };
 
 export interface TrixtaInstanceResponse<

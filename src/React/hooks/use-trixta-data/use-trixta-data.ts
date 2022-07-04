@@ -20,9 +20,10 @@ export const useTrixtaData = ({
   >();
 
   const selectTrixtaRoles = useMemo(makeSelectTrixtaAgentDetails, []);
-  const roles = useSelector<{ trixta: TrixtaState }, string[]>((state) =>
-    selectTrixtaRoles(state),
+  const roleMap = useSelector<{ trixta: TrixtaState }, Record<string, boolean>>(
+    (state) => selectTrixtaRoles(state),
   );
+  const roles = Object.keys(roleMap);
   const selectTrixtaActions = useMemo(makeSelectTrixtaActionsForRole, []);
   const actions = useSelector<
     { trixta: TrixtaState },

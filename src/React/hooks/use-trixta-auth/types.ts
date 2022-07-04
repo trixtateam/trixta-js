@@ -1,8 +1,8 @@
 export interface UseTrixtaAuthProps {
   /**
-   * Trixta roles or role name
+   * Trixta role name
    */
-  roles?: string | string[];
+  roleName?: string;
 }
 
 export interface UseTrixtaAuthHookReturn {
@@ -11,9 +11,9 @@ export interface UseTrixtaAuthHookReturn {
    */
   isAuthenticated?: boolean;
   /**
-   * If 'true', Trixta roles or role name passed does have acccess for this user
+   * If 'true', Trixta role name passed does have acccess for this user
    */
-  hasRoles: boolean;
+  hasRole: boolean;
   /**
    * If 'true', Trixta roles or role name passed does have acccess for this user and isAuthenticated
    */

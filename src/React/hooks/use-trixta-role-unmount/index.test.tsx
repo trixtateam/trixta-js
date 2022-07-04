@@ -17,7 +17,7 @@ describe('useTrixtaRoleUnmount', () => {
       },
     );
 
-    expect(store.getState().trixta.agentDetails).toContain(
+    expect(store.getState().trixta.agentDetails).toHaveProperty(
       'guest[d1be63be-c0e4-4468-982c-5c04714a2987]',
     );
   });
@@ -38,7 +38,7 @@ describe('useTrixtaRoleUnmount', () => {
       unmount();
     });
 
-    expect(store.getState().trixta.agentDetails).not.toContain(
+    expect(store.getState().trixta.agentDetails).not.toHaveProperty(
       'guest[d1be63be-c0e4-4468-982c-5c04714a2987]',
     );
   });

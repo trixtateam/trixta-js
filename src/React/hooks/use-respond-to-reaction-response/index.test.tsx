@@ -53,7 +53,7 @@ describe('useRespondToReactionResponse', () => {
 
   it('should return hasRoleAccess true, for roleName: everyone_authed', () => {
     const { wrapper } = mockStoreProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[0];
+    const roleName = 'everyone_authed';
     const { result } = renderHook(
       () =>
         useRespondToReactionResponse({
@@ -70,7 +70,7 @@ describe('useRespondToReactionResponse', () => {
 
   it('Redux store should contain SubmitTrixtaReactionResponseAction, for roleName: host[d1be63be-c0e4-4468-982c-5c04714a2987] and reactionName: request_guest_stream', () => {
     const { wrapper, store } = mockStoreProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[2];
+    const roleName = 'host[d1be63be-c0e4-4468-982c-5c04714a2987]';
     const reactionName = 'request_guest_stream';
     const ref =
       trixtaState.reactions[

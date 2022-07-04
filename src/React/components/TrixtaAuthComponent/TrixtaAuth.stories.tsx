@@ -26,7 +26,7 @@ const Template: ComponentStory<typeof TrixtaAuthComponent> = (
   args,
   globals,
 ) => (
-  <TrixtaAuthComponent {...args} roles={getGlobalsRoleName(globals)}>
+  <TrixtaAuthComponent {...args} roleName={getGlobalsRoleName(globals)}>
     {<div>You can only see me if you have access</div>}
   </TrixtaAuthComponent>
 );

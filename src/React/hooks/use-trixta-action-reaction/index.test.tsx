@@ -7,7 +7,7 @@ import { useTrixtaActionReaction } from './use-trixta-action-reaction';
 describe('useTrixtaActionReaction', () => {
   it('should throw error if no actionName parameter', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[0];
+    const roleName = 'everyone_authed';
     const { result } = renderHook(
       () =>
         useTrixtaActionReaction({
@@ -26,7 +26,7 @@ describe('useTrixtaActionReaction', () => {
 
   it('should throw error if no reactionName parameter', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[0];
+    const roleName = 'everyone_authed';
     const { result } = renderHook(
       () =>
         useTrixtaActionReaction({
@@ -78,7 +78,7 @@ describe('useTrixtaActionReaction', () => {
 
   it('should return hasRoleAccess true, for roleName: everyone_authed', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[0];
+    const roleName = 'everyone_authed';
     const { result } = renderHook(
       () =>
         useTrixtaActionReaction({
@@ -98,7 +98,7 @@ describe('useTrixtaActionReaction', () => {
 
   it('should return hasRoleAccess true,even if not specifying reactionProps roleName for roleName: everyone_authed', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[0];
+    const roleName = 'everyone_authed';
     const { result } = renderHook(
       () =>
         useTrixtaActionReaction({
@@ -118,7 +118,7 @@ describe('useTrixtaActionReaction', () => {
 
   it('should return callbacks clearActionResponses,clearReactionResponses,submitTrixtaReactionResponse,submitTrixtaActionResponse', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[0];
+    const roleName = 'everyone_authed';
     const { result } = renderHook(
       () =>
         useTrixtaActionReaction({
@@ -141,7 +141,7 @@ describe('useTrixtaActionReaction', () => {
 
   it('should return actionResponse undefined for non existent actionName: test and roleName: everyone_authed', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[0];
+    const roleName = 'everyone_authed';
     const { result } = renderHook(
       () =>
         useTrixtaActionReaction({
@@ -161,7 +161,7 @@ describe('useTrixtaActionReaction', () => {
 
   it('should return actionResponse existent actionName: request_user_info_request and roleName: everyone_authed', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[0];
+    const roleName = 'everyone_authed';
     const actionName = 'request_user_info';
     const { result } = renderHook(
       () =>
@@ -182,7 +182,7 @@ describe('useTrixtaActionReaction', () => {
 
   it('should return hasResponse, hasActionResponse true for existent actionName: request_user_info_request and roleName: everyone_authed', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[0];
+    const roleName = 'everyone_authed';
     const actionName = 'request_user_info';
     const { result } = renderHook(
       () =>
@@ -204,7 +204,7 @@ describe('useTrixtaActionReaction', () => {
 
   it('should clear responses, when calling clearActionResponses for actionName: request_user_info and roleName: everyone_authed', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[0];
+    const roleName = 'everyone_authed';
     const actionName = 'request_user_info';
     const { result } = renderHook(
       () =>
@@ -233,7 +233,7 @@ describe('useTrixtaActionReaction', () => {
 
   it('should return isInProgress true, when submitTrixtaActionResponse for actionName: request_user_info_request and roleName: everyone_authed', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[0];
+    const roleName = 'everyone_authed';
     const actionName = 'request_user_info_request';
     const { result } = renderHook(
       () =>
@@ -262,7 +262,7 @@ describe('useTrixtaActionReaction', () => {
 
   it('should return isInProgress true, when submitTrixtaActionResponse for actionName: request_user_info_request and roleName: everyone_authed and loadingStatusRef: info', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[0];
+    const roleName = 'everyone_authed';
     const actionName = 'request_user_info_request';
     const { result } = renderHook(
       () =>
@@ -294,7 +294,7 @@ describe('useTrixtaActionReaction', () => {
 
   it('should autosubmit trixta action on mount, when autosubmit true for actionName: request_user_info_request and roleName: everyone_authed', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[0];
+    const roleName = 'everyone_authed';
     const actionName = 'request_user_info_request';
     const { result } = renderHook(
       () =>
@@ -318,7 +318,7 @@ describe('useTrixtaActionReaction', () => {
 
   it('should autosubmit trixta action on mount with actionParameters, when autosubmit true for actionName: request_user_info_request and roleName: everyone_authed', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[0];
+    const roleName = 'everyone_authed';
     const actionName = 'request_user_info_request';
     const { result } = renderHook(
       () =>

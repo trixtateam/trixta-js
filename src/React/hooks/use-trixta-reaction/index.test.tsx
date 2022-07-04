@@ -58,7 +58,7 @@ describe('useTrixtaReaction', () => {
 
   it('should return hasRoleAccess true, for roleName: everyone_authed', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[0];
+    const roleName = 'everyone_authed';
     const { result } = renderHook(
       () =>
         useTrixtaReaction({
@@ -75,7 +75,7 @@ describe('useTrixtaReaction', () => {
 
   it('should return callbacks clearReactionResponses  and submitTrixtaReaction', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[1];
+    const roleName = 'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]';
     const { result } = renderHook(
       () =>
         useTrixtaReaction({
@@ -93,7 +93,7 @@ describe('useTrixtaReaction', () => {
 
   it('should return latestResponse,latestInstance undefined for non existent reactionName: test', () => {
     const { wrapper } = storeProviderWrapper(trixtaState);
-    const roleName = trixtaState.agentDetails[1];
+    const roleName = 'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]';
     const { result } = renderHook(
       () =>
         useTrixtaReaction({
@@ -113,7 +113,7 @@ describe('useTrixtaReaction', () => {
   describe('useTrixtaReaction with requestForEffect true', () => {
     it('should return response, latestInstance existent reactionName: set_queue', () => {
       const { wrapper } = storeProviderWrapper(trixtaState);
-      const roleName = trixtaState.agentDetails[1];
+      const roleName = 'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]';
       const reactionName = 'set_queue';
       const { result } = renderHook(
         () =>
@@ -133,7 +133,7 @@ describe('useTrixtaReaction', () => {
 
     it('should return hasResponse true for existent for reactionName: set_queue and roleName: viewer[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
       const { wrapper } = storeProviderWrapper(trixtaState);
-      const roleName = trixtaState.agentDetails[1];
+      const roleName = 'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]';
       const reactionName = 'set_queue';
       const { result } = renderHook(
         () =>
@@ -152,7 +152,7 @@ describe('useTrixtaReaction', () => {
 
     it('should clear responses, when calling clearReactionResponses for reactionName: set_queue and roleName: viewer[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
       const { wrapper } = storeProviderWrapper(trixtaState);
-      const roleName = trixtaState.agentDetails[1];
+      const roleName = 'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]';
       const reactionName = 'set_queue';
       const { result } = renderHook(
         () =>
@@ -179,7 +179,7 @@ describe('useTrixtaReaction', () => {
     });
     it('should return loading true, for reactionName: test_reaction and roleName: viewer[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
       const { wrapper, store } = storeProviderWrapper(trixtaState);
-      const roleName = trixtaState.agentDetails[1];
+      const roleName = 'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]';
       const reactionName = trixtaReactionCommon.name as string;
       const { result } = renderHook(
         () =>
@@ -213,7 +213,7 @@ describe('useTrixtaReaction', () => {
 
     it('should return loading false, for reactionName: test_reaction and roleName: viewer[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
       const { wrapper, store } = storeProviderWrapper(trixtaState);
-      const roleName = trixtaState.agentDetails[1];
+      const roleName = 'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]';
       const reactionName = trixtaReactionCommon.name as string;
       const { result } = renderHook(
         () =>
@@ -264,7 +264,7 @@ describe('useTrixtaReaction', () => {
 
     it('should return initial_data, for reactionName: test_reaction and roleName: viewer[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
       const { wrapper, store } = storeProviderWrapper(trixtaState);
-      const roleName = trixtaState.agentDetails[1];
+      const roleName = 'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]';
       const reactionName = trixtaReactionCommon.name as string;
       const { result } = renderHook(
         () =>
@@ -316,7 +316,7 @@ describe('useTrixtaReaction', () => {
   describe('useTrixtaReaction with requestForEffect false', () => {
     it('should return response, latestInstance existent for reactionName: request_guest_stream and roleName: host[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
       const { wrapper } = storeProviderWrapper(trixtaState);
-      const roleName = trixtaState.agentDetails[2];
+      const roleName = 'host[d1be63be-c0e4-4468-982c-5c04714a2987]';
       const reactionName = 'request_guest_stream';
       const { result } = renderHook(
         () =>
@@ -335,7 +335,7 @@ describe('useTrixtaReaction', () => {
 
     it('should return hasResponse true for existent for reactionName: request_guest_stream and roleName: host[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
       const { wrapper } = storeProviderWrapper(trixtaState);
-      const roleName = trixtaState.agentDetails[2];
+      const roleName = 'host[d1be63be-c0e4-4468-982c-5c04714a2987]';
       const reactionName = 'request_guest_stream';
       const { result } = renderHook(
         () =>
@@ -353,7 +353,7 @@ describe('useTrixtaReaction', () => {
 
     it('should clear responses, when calling clearReactionResponses for reactionName: request_guest_stream and roleName: host[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
       const { wrapper } = storeProviderWrapper(trixtaState);
-      const roleName = trixtaState.agentDetails[2];
+      const roleName = 'host[d1be63be-c0e4-4468-982c-5c04714a2987]';
       const reactionName = 'request_guest_stream';
       const { result } = renderHook(
         () =>
@@ -380,7 +380,7 @@ describe('useTrixtaReaction', () => {
 
     it('should clear responses, with clearResponsesOnCallback prop for reactionName: request_guest_stream and roleName: host[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
       const { wrapper, store } = storeProviderWrapper(trixtaState);
-      const roleName = trixtaState.agentDetails[2];
+      const roleName = 'host[d1be63be-c0e4-4468-982c-5c04714a2987]';
       const reactionName = 'request_guest_stream';
       const onSuccess = jest.fn();
       const { result } = renderHook(
@@ -426,7 +426,7 @@ describe('useTrixtaReaction', () => {
 
     it('should return isInProgress true, when submitTrixtaReaction for reactionName: request_guest_stream and roleName: host[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
       const { wrapper } = storeProviderWrapper(trixtaState);
-      const roleName = trixtaState.agentDetails[2];
+      const roleName = 'host[d1be63be-c0e4-4468-982c-5c04714a2987]';
       const reactionName = 'request_guest_stream';
       const { result } = renderHook(
         () =>
@@ -456,7 +456,7 @@ describe('useTrixtaReaction', () => {
 
     it('should return isInProgress true, when submitTrixtaReaction for reactionName: request_guest_stream and roleName: host[d1be63be-c0e4-4468-982c-5c04714a2987] and loadingStatusRef: streams', () => {
       const { wrapper } = storeProviderWrapper(trixtaState);
-      const roleName = trixtaState.agentDetails[2];
+      const roleName = 'host[d1be63be-c0e4-4468-982c-5c04714a2987]';
       const reactionName = 'request_guest_stream';
       const { result } = renderHook(
         () =>
@@ -487,7 +487,7 @@ describe('useTrixtaReaction', () => {
 
     it('should pass success response, when calling onSuccess for actionName: request_guest_stream and roleName: host[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
       const { wrapper, store } = storeProviderWrapper(trixtaState);
-      const roleName = trixtaState.agentDetails[2];
+      const roleName = 'host[d1be63be-c0e4-4468-982c-5c04714a2987]';
       const reactionName = 'request_guest_stream';
       const ref =
         trixtaState.reactions[
@@ -543,7 +543,7 @@ describe('useTrixtaReaction', () => {
 
     it('should pass error response, when calling onError for reactionName: request_guest_stream and roleName: host[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
       const { wrapper, store } = storeProviderWrapper(trixtaState);
-      const roleName = trixtaState.agentDetails[2];
+      const roleName = 'host[d1be63be-c0e4-4468-982c-5c04714a2987]';
       const errorResponse = {
         message: 'this is an error',
       };

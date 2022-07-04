@@ -7,7 +7,7 @@ import { useTrixtaAccess } from './use-trixta-access';
 describe('useTrixtaAccess', () => {
   it('should return the correct default values', () => {
     const { wrapper } = storeProviderWrapper();
-    const { result } = renderHook(() => useTrixtaAccess({}), {
+    const { result } = renderHook(() => useTrixtaAccess({ roleName: '' }), {
       wrapper,
     });
 
@@ -19,13 +19,13 @@ describe('useTrixtaAccess', () => {
     const { wrapper } = storeProviderWrapper(
       mockDefaultTrixtaState({
         authorizationStarted: true,
-        agentDetails: [role],
+        agentDetails: { 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]': true },
       }),
     );
     const { result } = renderHook(
       () =>
         useTrixtaAccess({
-          roles: [role],
+          roleName: role,
         }),
       {
         wrapper,
@@ -39,13 +39,13 @@ describe('useTrixtaAccess', () => {
     const { wrapper } = storeProviderWrapper(
       mockDefaultTrixtaState({
         authorizationStarted: true,
-        agentDetails: [role],
+        agentDetails: { 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]': true },
       }),
     );
     const { result } = renderHook(
       () =>
         useTrixtaAccess({
-          roles: role,
+          roleName: role,
         }),
       {
         wrapper,
@@ -60,13 +60,13 @@ describe('useTrixtaAccess', () => {
     const { wrapper } = storeProviderWrapper(
       mockDefaultTrixtaState({
         authorizationStarted: true,
-        agentDetails: ['guest[d1be63be-c0e4-4468-982c-5c04714a2987]'],
+        agentDetails: { 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]': true },
       }),
       {
         details: { token: 'dummyToken' },
       },
     );
-    const { result } = renderHook(() => useTrixtaAccess({ roles: role }), {
+    const { result } = renderHook(() => useTrixtaAccess({ roleName: role }), {
       wrapper,
     });
 

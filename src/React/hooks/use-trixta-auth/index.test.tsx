@@ -1,10 +1,11 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react-hooks';
 import { storeProviderWrapper } from '../../../tests/helpers';
 // eslint-disable-next-line jest/no-mocks-import
 import {
   mockAuthorizingStatus,
   mockDefaultTrixtaState,
 } from '../../reducers/__mocks__/trixtaState';
+import { joinTrixtaRole } from '../../reduxActions';
 import { useTrixtaAuth } from './use-trixta-auth';
 
 describe('useTrixtaAuth', () => {
@@ -16,7 +17,7 @@ describe('useTrixtaAuth', () => {
 
     expect(result.current.hasAccess).toBe(false);
     expect(result.current.isAuthenticated).toBeUndefined();
-    expect(result.current.hasRoles).toBe(false);
+    expect(result.current.hasRole).toBe(false);
     expect(result.current.isAuthorizing).toBe(true);
   });
 
@@ -30,7 +31,7 @@ describe('useTrixtaAuth', () => {
 
     expect(result.current.hasAccess).toBe(false);
     expect(result.current.isAuthenticated).toBeUndefined();
-    expect(result.current.hasRoles).toBe(false);
+    expect(result.current.hasRole).toBe(false);
     expect(result.current.isAuthorizing).toBe(false);
   });
 
@@ -44,7 +45,7 @@ describe('useTrixtaAuth', () => {
     const { result } = renderHook(
       () =>
         useTrixtaAuth({
-          roles: ['guest[d1be63be-c0e4-4468-982c-5c04714a2987]'],
+          roleName: 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]',
         }),
       {
         wrapper,
@@ -53,22 +54,23 @@ describe('useTrixtaAuth', () => {
 
     expect(result.current.hasAccess).toBe(false);
     expect(result.current.isAuthenticated).toBeUndefined();
-    expect(result.current.hasRoles).toBe(false);
+    expect(result.current.hasRole).toBe(false);
     expect(result.current.isAuthorizing).toBe(true);
   });
 
-  it('should return hasAccess true for  roleName: guest[d1be63be-c0e4-4468-982c-5c04714a2987] passed as array', () => {
+  it('should return hasAccess true for  roleName: guest[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
     const role = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]';
     const { wrapper } = storeProviderWrapper(
       mockDefaultTrixtaState({
         authorizationStarted: true,
-        agentDetails: [role],
+        authorizingStatus: {},
+        agentDetails: { 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]': true },
       }),
     );
     const { result } = renderHook(
       () =>
         useTrixtaAuth({
-          roles: [role],
+          roleName: role,
         }),
       {
         wrapper,
@@ -77,7 +79,7 @@ describe('useTrixtaAuth', () => {
 
     expect(result.current.hasAccess).toBe(false);
     expect(result.current.isAuthenticated).toBeUndefined();
-    expect(result.current.hasRoles).toBe(true);
+    expect(result.current.hasRole).toBe(true);
     expect(result.current.isAuthorizing).toBe(false);
   });
   it('should return hasAccess true for  roleName: guest[d1be63be-c0e4-4468-982c-5c04714a2987] passed as string', () => {
@@ -85,13 +87,13 @@ describe('useTrixtaAuth', () => {
     const { wrapper } = storeProviderWrapper(
       mockDefaultTrixtaState({
         authorizationStarted: true,
-        agentDetails: [role],
+        agentDetails: { 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]': true },
       }),
     );
     const { result } = renderHook(
       () =>
         useTrixtaAuth({
-          roles: role,
+          roleName: role,
         }),
       {
         wrapper,
@@ -100,7 +102,7 @@ describe('useTrixtaAuth', () => {
 
     expect(result.current.hasAccess).toBe(false);
     expect(result.current.isAuthenticated).toBeUndefined();
-    expect(result.current.hasRoles).toBe(true);
+    expect(result.current.hasRole).toBe(true);
     expect(result.current.isAuthorizing).toBe(false);
   });
 
@@ -114,7 +116,7 @@ describe('useTrixtaAuth', () => {
 
     expect(result.current.hasAccess).toBe(false);
     expect(result.current.isAuthenticated).toBe(true);
-    expect(result.current.hasRoles).toBe(false);
+    expect(result.current.hasRole).toBe(false);
     expect(result.current.isAuthorizing).toBe(true);
   });
 
@@ -128,28 +130,61 @@ describe('useTrixtaAuth', () => {
 
     expect(result.current.hasAccess).toBe(false);
     expect(result.current.isAuthenticated).toBe(false);
-    expect(result.current.hasRoles).toBe(false);
+    expect(result.current.hasRole).toBe(false);
     expect(result.current.isAuthorizing).toBe(true);
   });
 
-  it('should return hasAccess true for  roleName: guest[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
+  it('should return hasAccess true and isAuthenticated true for  roleName: guest[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
     const role = 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]';
     const { wrapper } = storeProviderWrapper(
       mockDefaultTrixtaState({
         authorizationStarted: true,
-        agentDetails: [role],
+        agentDetails: { 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]': true },
       }),
       {
         details: { token: 'dummyToken' },
       },
     );
-    const { result } = renderHook(() => useTrixtaAuth({ roles: role }), {
+    const { result } = renderHook(() => useTrixtaAuth({ roleName: role }), {
       wrapper,
     });
 
     expect(result.current.hasAccess).toBe(true);
     expect(result.current.isAuthenticated).toBe(true);
-    expect(result.current.hasRoles).toBe(true);
+    expect(result.current.hasRole).toBe(true);
+    expect(result.current.isAuthorizing).toBe(false);
+  });
+
+  it('should return hasAccess true and isAuthenticated true for  roleName: host[d1be63be-c0e4-4468-982c-5c04714a2987]', () => {
+    const role = 'host[d1be63be-c0e4-4468-982c-5c04714a2987]';
+    const { wrapper, store } = storeProviderWrapper(
+      mockDefaultTrixtaState({
+        authorizationStarted: true,
+        authorizingStatus: {
+          'host[d1be63be-c0e4-4468-982c-5c04714a2987]': { status: true },
+        },
+        agentDetails: { 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]': true },
+      }),
+      {
+        details: { token: 'dummyToken' },
+      },
+    );
+    const { result } = renderHook(() => useTrixtaAuth({ roleName: role }), {
+      wrapper,
+    });
+
+    expect(result.current.hasAccess).toBe(false);
+    expect(result.current.isAuthenticated).toBe(true);
+    expect(result.current.hasRole).toBe(false);
+    expect(result.current.isAuthorizing).toBe(true);
+
+    act(() => {
+      store.dispatch(joinTrixtaRole({ roleName: role }));
+    });
+
+    expect(result.current.hasAccess).toBe(true);
+    expect(result.current.isAuthenticated).toBe(true);
+    expect(result.current.hasRole).toBe(true);
     expect(result.current.isAuthorizing).toBe(false);
   });
 });

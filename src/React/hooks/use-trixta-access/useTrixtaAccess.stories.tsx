@@ -35,5 +35,5 @@ const ComponentTemplate: Story<UseTrixtaAccessProps> = (args, globals) => {
 };
 export const Default = ComponentTemplate.bind({});
 Default.args = {
-  roles: DEFAULT_TRIXTA_ROLE,
+  roleName: DEFAULT_TRIXTA_ROLE,
 };

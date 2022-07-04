@@ -653,12 +653,12 @@ export const mockTrixtaActions: TrixtaState['actions'] = {
   },
 };
 
-export const mockTrixtaAgentDetails = [
-  'everyone_authed',
-  'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]',
-  'host[d1be63be-c0e4-4468-982c-5c04714a2987]',
-  'guest[d1be63be-c0e4-4468-982c-5c04714a2987]',
-];
+export const mockTrixtaAgentDetails = {
+  everyone_authed: true,
+  'viewer[d1be63be-c0e4-4468-982c-5c04714a2987]': true,
+  'host[d1be63be-c0e4-4468-982c-5c04714a2987]': true,
+  'guest[d1be63be-c0e4-4468-982c-5c04714a2987]': true,
+};
 
 export const mockAuthorizingStatus = {
   'guest[d1be63be-c0e4-4468-982c-5c04714a2987]': {
@@ -678,7 +678,7 @@ export const trixtaState: TrixtaState = {
 export const mockDefaultTrixtaState = ({
   authorizationStarted = false,
   authorizingStatus = {},
-  agentDetails = [],
+  agentDetails = {},
 }: {
   authorizationStarted?: TrixtaState['authorizationStarted'];
   authorizingStatus?: TrixtaState['authorizingStatus'];

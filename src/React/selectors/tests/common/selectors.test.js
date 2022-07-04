@@ -1,4 +1,4 @@
-import { get, isNullOrEmpty } from '../../../../utils';
+import { get } from '../../../../utils';
 // eslint-disable-next-line jest/no-mocks-import
 import {
   mockedState,
@@ -145,39 +145,30 @@ describe('Trixta Selectors', () => {
     it('makeSelectHasTrixtaRoleAccess', () => {
       const selector = trixtaCommonSelectors.makeSelectHasTrixtaRoleAccess();
       const props = { roleName: 'guest[d1be63be-c0e4-4468-982c-5c04714a2987]' };
-      const agentDetails = trixtaCommonSelectors.selectTrixtaAgentDetails(
-        mockedState,
-      );
-      const roleName = trixtaCommonSelectors.selectTrixtaRoleNameProp(
+      const hasAccess = trixtaCommonSelectors.selectTrixtaRoleAccessSelector(
         mockedState,
         props,
       );
-
-      const expectedResult = agentDetails.includes(roleName);
+      const expectedResult = hasAccess;
 
       expect(selector(mockedState, props)).toEqual(expectedResult);
       expect(expectedResult).toEqual(true);
     });
 
-    it('makeSelectHasTrixtaRoleAccessForRoles', () => {
+    it('makeSelectHasTrixtaRoleAccessForRole', () => {
       const trixtaRoles = [
         'guest[d1be63be-c0e4-4468-982c-5c04714a2987]',
         'host[d1be63be-c0e4-4468-982c-5c04714a2987]',
       ];
-      const props = { roles: trixtaRoles };
-      const selector = trixtaCommonSelectors.makeSelectHasTrixtaRoleAccessForRoles();
-      const agentRoles = trixtaCommonSelectors.selectTrixtaAgentDetails(
+      const props = { roleName: trixtaRoles[0] };
+      const selector = trixtaCommonSelectors.makeSelectHasTrixtaRoleAccessForRole();
+      const hasAccess = trixtaCommonSelectors.selectHasTrixtaRoleAccess(
         mockedState,
         props,
       );
-      const roles = trixtaCommonSelectors.selectTrixtaRolesProp(
-        mockedState,
-        props,
-      );
+
       let expectedResult = false;
-      if (isNullOrEmpty(roles)) expectedResult = false;
-      if (!Array.isArray(roles)) expectedResult = false;
-      expectedResult = roles.every((role) => agentRoles.includes(role));
+      expectedResult = hasAccess;
 
       expect(selector(mockedState, props)).toEqual(expectedResult);
       expect(expectedResult).toEqual(true);

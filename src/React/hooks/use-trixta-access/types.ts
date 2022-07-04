@@ -1,6 +1,6 @@
 export interface UseTrixtaAccessProps {
   /**
-   * Trixta roles or role name
+   * Trixta role name
    */
-  roles?: string | string[];
+  roleName: string;
 }

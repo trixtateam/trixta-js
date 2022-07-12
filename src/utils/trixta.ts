@@ -1,3 +1,4 @@
+import { FormProps } from '@rjsf/core';
 import { nanoid } from 'nanoid';
 import { SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS } from '../React/constants/actions/index';
 import { SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS } from '../React/constants/reactions/index';
@@ -223,4 +224,29 @@ export function getRequestStatusKeyName({
 export function getChannelName({ role }: { role: string }): string {
   if (role.includes('space')) return role;
   return `space:${role}`;
+}
+
+/**
+ * Returns a default or updated schema with submitButtonOptions
+ */
+export function getDefaultUISchema(
+  uiSchema: FormProps<unknown>['uiSchema'],
+  requestForEffect: boolean,
+): unknown {
+  const updatedSchema = uiSchema ? { ...uiSchema } : {};
+  const submitButtonOptions =
+    updatedSchema && updatedSchema['ui:submitButtonOptions']
+      ? {
+          ...updatedSchema['ui:submitButtonOptions'],
+        }
+      : {
+          'ui:submitButtonOptions': {
+            norender: false,
+          },
+        };
+  submitButtonOptions['norender'] = requestForEffect;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  updatedSchema['ui:submitButtonOptions'] = submitButtonOptions;
+  return updatedSchema;
 }

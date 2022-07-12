@@ -1,6 +1,7 @@
 import type { FormProps } from '@rjsf/core';
 import * as React from 'react';
 import { config, TrixtaFormProps } from '../../../config';
+import { getDefaultUISchema } from '../../../utils/trixta';
 import { DefaultUnknownType } from '../../types/common';
 
 const withTheme = (props: TrixtaFormProps) => {
@@ -36,7 +37,6 @@ function TrixtaFormComponent<TFormData = DefaultUnknownType>({
 }: TrixtaReactJsonSchemaFormProps<TFormData>): JSX.Element {
   if (ThemedForm) {
     const { formContext: formContextThemeProp, ...formProps } = config.props;
-
     return (
       <ThemedForm
         idPrefix={idPrefix}
@@ -45,18 +45,8 @@ function TrixtaFormComponent<TFormData = DefaultUnknownType>({
         formContext={{ ...formContextThemeProp, ...formContext }}
         formData={formData}
         {...formProps}
-        uiSchema={uiSchema}
-      >
-        {submittable ? (
-          <>
-            <button type="submit" className="btn btn-info">
-              Submit
-            </button>
-          </>
-        ) : (
-          <></>
-        )}
-      </ThemedForm>
+        uiSchema={getDefaultUISchema(uiSchema, !submittable)}
+      />
     );
   }
   return <>To make use of rsjf, npm install @rsjf/core dependency</>;

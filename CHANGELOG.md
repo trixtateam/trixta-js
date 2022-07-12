@@ -1,3 +1,10 @@
+# [5.1.0](https://github.com/trixtateam/trixta-js/compare/v5.0.0...v5.1.0) (2022-07-12)
+
+
+### Features
+
+* update RSJF and make use of submitButtonOptions ([15d6682](https://github.com/trixtateam/trixta-js/commit/15d6682c77acbacdfffae494c3c0f790a3b765e1))
+
 # [5.0.0](https://github.com/trixtateam/trixta-js/compare/v4.14.1...v5.0.0) (2022-07-04)
 
 

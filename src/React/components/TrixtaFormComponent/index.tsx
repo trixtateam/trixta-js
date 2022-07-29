@@ -23,11 +23,11 @@ const withTheme = (props: TrixtaFormProps) => {
 const ThemedForm = withTheme(config.props);
 export interface TrixtaReactJsonSchemaFormProps<TFormData>
   extends FormProps<TFormData> {
-  submittable?: boolean;
+  isRequestForEffect?: boolean;
 }
 
 function TrixtaFormComponent<TFormData = DefaultUnknownType>({
-  submittable = true,
+  isRequestForEffect,
   onSubmit,
   idPrefix,
   schema,
@@ -45,7 +45,7 @@ function TrixtaFormComponent<TFormData = DefaultUnknownType>({
         formContext={{ ...formContextThemeProp, ...formContext }}
         formData={formData}
         {...formProps}
-        uiSchema={getDefaultUISchema(uiSchema, !submittable)}
+        uiSchema={getDefaultUISchema(uiSchema, isRequestForEffect)}
       />
     );
   }

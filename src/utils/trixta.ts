@@ -231,8 +231,9 @@ export function getChannelName({ role }: { role: string }): string {
  */
 export function getDefaultUISchema(
   uiSchema: FormProps<unknown>['uiSchema'],
-  requestForEffect: boolean,
+  requestForEffect?: boolean,
 ): unknown {
+  if (!requestForEffect) return uiSchema;
   const updatedSchema = uiSchema ? { ...uiSchema } : {};
   const submitButtonOptions =
     updatedSchema && updatedSchema['ui:submitButtonOptions']
@@ -241,10 +242,10 @@ export function getDefaultUISchema(
         }
       : {
           'ui:submitButtonOptions': {
-            norender: false,
+            norender: true,
           },
         };
-  submitButtonOptions['norender'] = requestForEffect;
+  submitButtonOptions['norender'] = true;
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   updatedSchema['ui:submitButtonOptions'] = submitButtonOptions;

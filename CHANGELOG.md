@@ -1,3 +1,10 @@
+# [5.2.0](https://github.com/trixtateam/trixta-js/compare/v5.1.0...v5.2.0) (2022-07-29)
+
+
+### Features
+
+* allow no_render option for trixta actions ([2b733a1](https://github.com/trixtateam/trixta-js/commit/2b733a1d750d3ed45c638b9f9a14b2f1c005fbf9))
+
 # [5.1.0](https://github.com/trixtateam/trixta-js/compare/v5.0.0...v5.1.0) (2022-07-12)
 
 

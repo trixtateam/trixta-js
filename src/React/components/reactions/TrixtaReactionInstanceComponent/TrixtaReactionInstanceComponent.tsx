@@ -86,7 +86,7 @@ function TrixtaReactionInstanceComponent({
         schema={schema}
         formContext={{ ...rest }}
         idPrefix={`${roleName}-${reactionName}-${instanceRef}`}
-        submittable={!requestForEffect}
+        isRequestForEffect={requestForEffect}
         onSubmit={({ formData }: { formData: DefaultUnknownType }) => {
           dispatchSubmitReactionResponse(formData);
         }}

@@ -13,6 +13,7 @@ import { TrixtaActionBaseProps } from './../types/actions/index';
 import {
   LoadingStatus,
   TrixtaBaseRoleProps,
+  TrixtaConnectionStatus,
   TrixtaState,
 } from './../types/common';
 import { TrixtaReactionBaseProps } from './../types/reactions/index';
@@ -46,7 +47,29 @@ export const selectTrixtaState = (state: {
  */
 export const selectTrixtaAgentDetails = (state: {
   trixta: TrixtaState;
-}): Record<string, boolean> => state.trixta.agentDetails;
+}): Record<string, boolean> => {
+  return state.trixta.agentDetails;
+};
+
+export const selectTrixtaAgentRoles = (state: {
+  trixta: TrixtaState;
+}): Array<string> => {
+  return Object.keys(state.trixta.agentDetails);
+};
+
+/**
+ * Selects connected trixta space
+ */
+export const selectTrixtaSpace = (state: {
+  trixta: TrixtaState;
+}): string | undefined => state.trixta.space;
+
+/**
+ * Selects connected trixta space status
+ */
+export const selectTrixtaSpaceStatus = (state: {
+  trixta: TrixtaState;
+}): TrixtaConnectionStatus => state.trixta.status;
 
 /**
  * Selects the authorizingStatus for joining Trixta roles
@@ -107,6 +130,10 @@ export const makeSelectTrixtaState = (): OutputSelector<
   (res: TrixtaState) => TrixtaState
 > => createSelector([selectTrixtaState], (trixta) => trixta);
 
+/**
+ * Selects the roles for the logged in agent
+ * @returns Record<string, boolean>
+ */
 export const makeSelectTrixtaAgentDetails = (): OutputSelector<
   {
     trixta: TrixtaState;
@@ -116,8 +143,40 @@ export const makeSelectTrixtaAgentDetails = (): OutputSelector<
 > =>
   createSelector(
     [selectTrixtaAgentDetails],
-    (agentDetails: Record<string, boolean>) => agentDetails,
+    (agentDetails: Record<string, boolean>) => {
+      return agentDetails;
+    },
   );
+
+/**
+ * Selects the roles for the logged in agent as an array
+ * @returns Array<string
+ */
+export const makeSelectTrixtaAgentRoles = (): OutputSelector<
+  {
+    trixta: TrixtaState;
+  },
+  Array<string>,
+  (res: Array<string>) => Array<string>
+> =>
+  createSelector([selectTrixtaAgentRoles], (roles: Array<string>) => {
+    return roles;
+  });
+
+/**
+ * Selects the current trixta space connection status
+ * @returns TrixtaConnectionStatus
+ */
+export const makeSelectTrixtaConnectionStatus = (): OutputSelector<
+  {
+    trixta: TrixtaState;
+  },
+  TrixtaConnectionStatus,
+  (res: TrixtaConnectionStatus) => TrixtaConnectionStatus
+> =>
+  createSelector([selectTrixtaSpaceStatus], (status) => {
+    return status;
+  });
 
 /**
  * Checks if the authorizingStatus has no joining statuses for channels

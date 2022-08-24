@@ -30,6 +30,22 @@ Below is a preview of the Trixta redux reducer and an explanation of each key
   {Template.bind({})}
 </Story>
 
+## status
+
+- The connection status for the current space ```connected``` or ```disconnected```
+
+<Story name="Space Status" args={{ section: 'status' }}>
+  {Template.bind({})}
+</Story>
+
+## space
+
+- The name of the connected space
+
+<Story name="Space" args={{ section: 'space' }}>
+  {Template.bind({})}
+</Story>
+
 ## agentDetails
 
 When a role for a given space is joined , each role will be keyed with 'roleName':true

@@ -5,22 +5,29 @@ import {
   put,
   PutEffect,
   select,
+  SelectEffect,
   take,
   TakeEffect,
   takeEvery,
+  takeLatest,
 } from '@redux-saga/core/effects';
 import {
   channelActionTypes,
+  connectPhoenix,
   getPhoenixChannel,
   leavePhoenixChannel,
   phoenixChannelJoin,
   pushToPhoenixChannel,
+  socketActionTypes,
 } from '@trixtateam/phoenix-to-redux';
 import { Channel } from 'phoenix';
 import { getChannelName, isNullOrEmpty } from '../../utils';
 import { get } from '../../utils/object';
 import {
+  CONNECT_TRIXTA,
+  LOGIN_TRIXTA_SUCCESS,
   REMOVE_TRIXTA_ROLE,
+  ReservedTrixtaRoles,
   SUBMIT_TRIXTA_ACTION_RESPONSE,
   SUBMIT_TRIXTA_ACTION_RESPONSE_FAILURE,
   SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS,
@@ -35,6 +42,8 @@ import {
   UPDATE_TRIXTA_ROLES,
 } from '../constants';
 import {
+  connectTrixta,
+  ConnectTrixtaAction,
   IncomingTrixtaReactionAction,
   joinTrixtaRole,
   removeTrixtaRole,
@@ -45,6 +54,7 @@ import {
   updateTrixtaError,
   UpdateTrixtaReactionDetailsAction,
   UpdateTrixtaRoleAction,
+  updateTrixtaRoles,
   UpdateTrixtaRolesAction,
 } from '../reduxActions';
 import {
@@ -54,6 +64,7 @@ import {
   updateTrixtaReactionResponse,
 } from '../reduxActions/internal';
 import {
+  LoginTrixtaSuccessAction,
   SubmitTrixtaActionResponseFailureAction,
   SubmitTrixtaActionResponseSuccessAction,
   SubmitTrixtaActionResponseTimeoutFailureAction,
@@ -61,7 +72,10 @@ import {
   SubmitTrixtaReactionResponseSuccessAction,
   SubmitTrixtaReactionResponseTimeoutFailureAction,
 } from '../reduxActions/internal/types';
-import { makeSelectTrixtaAgentDetails } from '../selectors/common';
+import {
+  makeSelectTrixtaAgentDetails,
+  selectTrixtaSpace,
+} from '../selectors/common';
 import {
   TrixtaActionDetails,
   TrixtaChannelJoinResponse,
@@ -729,6 +743,52 @@ function* watchForTrixtaReactionSubmit(): Generator<
     yield fork(submitResponseForReactionSaga, action);
   }
 }
+
+/**
+ * Connects to trixta space with connectPhoenix method from phoenix-to-redux
+ */
+function* connectTrixtaSpace({
+  payload,
+}: ConnectTrixtaAction): Generator<PutEffect<any>, void, unknown> {
+  const { space, params } = payload;
+  yield put(connectPhoenix({ domainUrl: space, params }));
+}
+
+/**
+ * After the socket is connected,
+ */
+function* socketConnected({
+  params,
+}: {
+  params: { token: string; agentId: string };
+}): Generator<PutEffect<UpdateTrixtaRolesAction>, void, any> {
+  const roles = [{ name: ReservedTrixtaRoles.EVERYONE_ANON }];
+  if (params.agentId && params.token) {
+    roles.push({ name: ReservedTrixtaRoles.EVERYONE_AUTHED });
+  }
+  yield put(
+    updateTrixtaRoles({
+      roles,
+    }),
+  );
+}
+
+function* loginToTrixtaSpace({
+  payload,
+}: LoginTrixtaSuccessAction): Generator<
+  SelectEffect | PutEffect<ConnectTrixtaAction>,
+  void,
+  string | undefined
+> {
+  const { jwt, agent_id } = payload;
+  const space = yield select(selectTrixtaSpace);
+  if (space && jwt && agent_id) {
+    yield put(
+      connectTrixta({ space, params: { agentId: agent_id, token: jwt } }),
+    );
+  }
+}
+
 export function* setupTrixtaSaga(): Generator<unknown, void, unknown> {
   yield all([
     fork(watchForUpdateTrixtaRoles),
@@ -763,5 +823,8 @@ export function* setupTrixtaSaga(): Generator<unknown, void, unknown> {
       SUBMIT_TRIXTA_ACTION_TIMEOUT_RESPONSE_FAILURE,
       submitActionResponseTimoutFailure,
     ),
+    takeLatest(CONNECT_TRIXTA, connectTrixtaSpace),
+    takeEvery(socketActionTypes.SOCKET_OPEN, socketConnected),
+    takeLatest(LOGIN_TRIXTA_SUCCESS, loginToTrixtaSpace),
   ]);
 }

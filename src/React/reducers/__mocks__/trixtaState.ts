@@ -669,6 +669,8 @@ export const mockAuthorizingStatus = {
 export const trixtaState: TrixtaState = {
   reactions: mockTrixtaReactions,
   actions: mockTrixtaActions,
+  status: 'connected',
+  space: 'trixta-demo.space.trixta.io',
   error: false,
   authorizationStarted: false,
   authorizingStatus: mockAuthorizingStatus,
@@ -687,6 +689,8 @@ export const mockDefaultTrixtaState = ({
   reactions: {},
   actions: {},
   error: false,
+  status: 'connected',
+  space: 'trixta-demo.space.trixta.io',
   authorizationStarted: authorizationStarted,
   authorizingStatus: authorizingStatus,
   agentDetails: agentDetails,

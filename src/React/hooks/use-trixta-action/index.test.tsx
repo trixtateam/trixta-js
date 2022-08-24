@@ -603,6 +603,7 @@ describe('useTrixtaAction', () => {
     const onError = jest.fn((response) => response);
     const { result } = renderHook(
       () =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         useTrixtaAction<any, errorResponseType>({
           roleName,
           actionName,

@@ -1,4 +1,5 @@
 import {
+  CONNECT_TRIXTA,
   REMOVE_TRIXTA_ROLE,
   SIGN_OUT_TRIXTA,
   UPDATE_TRIXTA_ROLE,
@@ -6,11 +7,29 @@ import {
 } from '../constants';
 import { TrixtaRole, TrixtaRoleParameter } from './../types/common';
 import {
+  ConnectTrixtaAction,
   RemoveTrixtaRoleAction,
   SignoutTrixtaAction,
   UpdateTrixtaRoleAction,
   UpdateTrixtaRolesAction,
 } from './types/common';
+
+/**
+ * Will connect to the specified trixta space, with the optional passed params
+ * @param parameters
+ * @param parameters.space - name of trixta space
+ * @param parameters.params - optional parameters
+ * @returns
+ */
+export function connectTrixta({
+  space,
+  params,
+}: ConnectTrixtaAction['payload']): ConnectTrixtaAction {
+  return {
+    type: CONNECT_TRIXTA,
+    payload: { space, params },
+  };
+}
 
 /**
  * Initializes all Trixta state
@@ -31,9 +50,7 @@ export function signoutTrixta(): SignoutTrixtaAction {
  */
 export function updateTrixtaRoles({
   roles,
-}: {
-  roles: Array<TrixtaRoleParameter>;
-}): UpdateTrixtaRolesAction {
+}: UpdateTrixtaRolesAction['payload']): UpdateTrixtaRolesAction {
   return {
     type: UPDATE_TRIXTA_ROLES,
     payload: {

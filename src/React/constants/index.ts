@@ -15,13 +15,21 @@ import {
 } from './reactions';
 export * from './actions';
 export * from './reactions';
-export const UPDATE_TRIXTA_ROLES = `@trixtateam/trixta-js/UPDATE_TRIXTA_ROLES`;
-export const UPDATE_TRIXTA_ROLE = `@trixtateam/trixta-js/UPDATE_TRIXTA_ROLE`;
-export const JOIN_TRIXTA_ROLE = `@trixtateam/trixta-js/JOIN_TRIXTA_ROLE`;
-export const LEAVE_TRIXTA_ROLE = `@trixtateam/trixta-js/LEAVE_TRIXTA_ROLE`;
-export const REMOVE_TRIXTA_ROLE = `@trixtateam/trixta-js/REMOVE_TRIXTA_ROLE`;
-export const SIGN_OUT_TRIXTA = `@trixtateam/trixta-js/SIGN_OUT_TRIXTA`;
-export const UPDATE_TRIXTA_ERROR = `@trixtateam/trixta-js/UPDATE_TRIXTA_ERROR`;
+export const base = '@trixta/trixta-js-redux-event';
+export const UPDATE_TRIXTA_ROLES = `${base}/UPDATE_TRIXTA_ROLES`;
+export const UPDATE_TRIXTA_ROLE = `${base}/UPDATE_TRIXTA_ROLE`;
+export const JOIN_TRIXTA_ROLE = `${base}/JOIN_TRIXTA_ROLE`;
+export const LEAVE_TRIXTA_ROLE = `${base}/LEAVE_TRIXTA_ROLE`;
+export const REMOVE_TRIXTA_ROLE = `${base}/REMOVE_TRIXTA_ROLE`;
+export const SIGN_OUT_TRIXTA = `${base}/SIGN_OUT_TRIXTA`;
+export const CONNECT_TRIXTA = `${base}/CONNECT_TRIXTA`;
+export const UPDATE_TRIXTA_ERROR = `${base}/UPDATE_TRIXTA_ERROR`;
+export const LOGIN_TRIXTA_SUCCESS = `${base}/LOGIN_TRIXTA_SUCCESS`;
+
+export enum ReservedTrixtaRoles {
+  EVERYONE_ANON = 'everyone_anon',
+  EVERYONE_AUTHED = 'everyone_authed',
+}
 
 export const emitTrixtaJoinRole = ({
   roleName,
@@ -57,6 +65,7 @@ export const trixtaActionTypes = {
   UPDATE_TRIXTA_ROLES,
   UPDATE_TRIXTA_ROLE,
   REMOVE_TRIXTA_ROLE,
+  CONNECT_TRIXTA,
   ...trixtaReactionResponseTypes,
   ...trixtaActionResponseTypes,
   UPDATE_TRIXTA_ERROR,

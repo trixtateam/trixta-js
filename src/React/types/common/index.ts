@@ -126,7 +126,7 @@ export type DefaultUnknownType =
   | boolean;
 
 export type TrixtaInstanceModeType = 'replace' | 'accumulate';
-
+export type TrixtaConnectionStatus = 'connected' | 'disconnected';
 export interface TrixtaInstanceMode {
   type: TrixtaInstanceModeType;
   limit?: number;
@@ -170,6 +170,8 @@ export interface TrixtaCommon {
 export type TrixtaState = {
   reactions: Record<string, TrixtaReaction>;
   actions: Record<string, TrixtaAction>;
+  space?: string;
+  status: TrixtaConnectionStatus;
   error: DefaultUnknownType;
   authorizationStarted: boolean;
   authorizingStatus: Record<string, LoadingStatus>;

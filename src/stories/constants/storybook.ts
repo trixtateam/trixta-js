@@ -2,6 +2,7 @@ export const DEFAULT_HOOKS_PATH = 'Common/Hooks/';
 export const DEFAULT_REACTIONS_HOOKS_PATH = 'Trixta Reactions/Hooks/';
 export const DEFAULT_ACTIONS_HOOKS_PATH = 'Trixta Actions/Hooks/';
 export const DEFAULT_COMPONENTS_PATH = 'Common/Components/';
+export const DEFAULT_WIDGETS_PATH = 'Common/Widgets/';
 export const DEFAULT_ACTIONS_COMPONENTS_PATH = 'Trixta Actions/Components/';
 export const DEFAULT_REACTIONS_COMPONENTS_PATH = 'Trixta Reactions/Components/';
 export const DEFAULT_REACTIONS_SAGAS_PATH = 'Trixta Reactions/Sagas/';

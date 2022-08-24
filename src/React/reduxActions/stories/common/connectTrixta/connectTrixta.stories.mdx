@@ -4,7 +4,7 @@ import DocsGenerator from './docs-generator';
 import { DEFAULT_REDUX_ACTIONS_PATH } from '../../../../../stories/constants/storybook';
 
 <Meta
-  title={`${DEFAULT_REDUX_ACTIONS_PATH}signoutTrixta`}
+  title={`${DEFAULT_REDUX_ACTIONS_PATH}connectTrixta`}
   parameters={{
     status: {
       type: 'released', // 'beta' | 'stable' | 'deprecated'
@@ -12,10 +12,10 @@ import { DEFAULT_REDUX_ACTIONS_PATH } from '../../../../../stories/constants/sto
   }}
 />
 
-<Title>signoutTrixta</Title>
+<Title>connectTrixta</Title>
 <Description>
-  This will initialize all Trixta data and remove all roles, actions and
-  reactions.
+  This will connect Trixta to the specified space with the optional params. The reserved **everyone_anon** role will be joined.
+  If a valid **token** and **agentId** is specified for the optional params, the reserved **everyone_authed** role will be joined.
 </Description>
 
 # Examples
@@ -23,20 +23,20 @@ import { DEFAULT_REDUX_ACTIONS_PATH } from '../../../../../stories/constants/sto
 ## Using a saga
 
 ```javascript
-import { signoutTrixta } from '@trixtateam/trixta-js';
+import { connectTrixta } from '@trixtateam/trixta-js';
 import { put } from 'redux-saga/effects';
-yield put(signoutTrixta())
+yield put(connectTrixta({space:'trixta-demo.space.trixta.io', params:{} }));
 
 ```
 
 ## Using useDispatch hook
 
 ```javascript
-import { signoutTrixta } from '@trixtateam/trixta-js';
+import { connectTrixta } from '@trixtateam/trixta-js';
 import { useDispatch } from 'react-redux';
 
 const dispatch = useDispatch();
-dispatch(signoutTrixta())
+dispatch(connectTrixta({space:'trixta-demo.space.trixta.io', params:{} }))
 
 ```
 

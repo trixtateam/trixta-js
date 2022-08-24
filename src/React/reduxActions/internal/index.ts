@@ -3,6 +3,7 @@ import {
   emitTrixtaReactionResponse,
   JOIN_TRIXTA_ROLE,
   LEAVE_TRIXTA_ROLE,
+  LOGIN_TRIXTA_SUCCESS,
   UPDATE_TRIXTA_ACTION,
   UPDATE_TRIXTA_ERROR,
   UPDATE_TRIXTA_REACTION,
@@ -23,6 +24,7 @@ import { TrixtaActionDetails } from './../../types/actions';
 import {
   JoinTrixtaRoleAction,
   LeaveTrixtaRoleAction,
+  LoginTrixtaSuccessAction,
   UpdateTrixtaErrorAction,
 } from './types';
 
@@ -195,6 +197,25 @@ export function leaveTrixtaRole({
     type: LEAVE_TRIXTA_ROLE,
     payload: {
       roleName,
+    },
+  };
+}
+
+/**
+ *  Listened for the in the Trixta saga to connect to trixta space as authenticated user
+ *
+ * @param params.agent_id - userId for logged in user
+ * @param params.jwt - jwt token for user
+ */
+export function loginTrixtaSuccess({
+  agent_id,
+  jwt,
+}: LoginTrixtaSuccessAction['payload']): LoginTrixtaSuccessAction {
+  return {
+    type: LOGIN_TRIXTA_SUCCESS,
+    payload: {
+      agent_id,
+      jwt,
     },
   };
 }

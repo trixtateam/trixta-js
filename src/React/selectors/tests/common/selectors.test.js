@@ -16,6 +16,14 @@ describe('Trixta Selectors', () => {
       ).toEqual(expectedResult);
     });
 
+    it('selectTrixtaSpace', () => {
+      const expectedResult = trixtaState.space;
+
+      expect(trixtaCommonSelectors.selectTrixtaSpace(mockedState)).toEqual(
+        expectedResult,
+      );
+    });
+
     it('makeSelectTrixtaAgentDetails', () => {
       const selector = trixtaCommonSelectors.makeSelectTrixtaAgentDetails();
       const expectedResult = trixtaState.agentDetails;

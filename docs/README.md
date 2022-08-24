@@ -177,37 +177,34 @@ export default function configureStore() {
 }
 ```
 
-## 4. Setup Trixta Roles
+## 4. Connect Trixta
 
+- Not logged In
 ```javascript
 import { put, select, takeLatest, takeEvery, fork } from 'redux-saga/effects';
-import { updateTrixtaRoles } from '@trixtateam/trixta-js';
-import { socketActionTypes,connectPhoenix } from '@trixtateam/phoenix-to-redux';
+import { connectTrixta } from '@trixtateam/trixta-js';
 
-/**
- * After the socket is connected,
- * @param {*} params
- */
-export function* socketConnectedSaga() {
-  // handle connection response
-  const currentSession = yield select(makeSelectCurrentSession());
-  // save roles in reducer or somewhere to passs to trixta-js action
-  const roles = currentSession.roles.map((role) => ({
-    name: role,
-    logPresence: false,
-  }));
-  if (roles) {
-    yield put(updateTrixtaRoles({ roles }));
-  }
-}
-
-export function* connectPhoenixSaga() {
-  yield put(connectPhoenix({ domainUrl: 'localhost:4000', params : {  }));
+export function* connectTrixtaSaga() {
+  yield put(connectTrixta({ space: 'localhost:4000'}));
 }
 
 export default function* rootSaga() {
-  yield call(connectPhoenixSaga);
   yield fork(setupTrixtaSaga);
-  yield takeEvery(socketActionTypes.SOCKET_OPEN, socketConnectedSaga);
+  yield call(connectTrixtaSaga);
+}
+```
+
+- Logged In
+```javascript
+import { put, select, takeLatest, takeEvery, fork } from 'redux-saga/effects';
+import { connectTrixta } from '@trixtateam/trixta-js';
+
+export function* connectTrixtaSaga() {
+  yield put(connectTrixta({ space: 'localhost:4000', params : { agentId: 'john@doe.com', token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'  }}));
+}
+
+export default function* rootSaga() {
+  yield fork(setupTrixtaSaga);
+  yield call(connectTrixtaSaga);
 }
 ```

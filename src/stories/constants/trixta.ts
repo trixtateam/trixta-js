@@ -1,5 +1,5 @@
 export const DEFAULT_TRIXTA_ROLE = 'everyone_anon';
-export const DEFAULT_TRIXTA_SPACE = 'trixta-dev.waitroom.com';
+export const DEFAULT_TRIXTA_SPACE = 'trixta-demo.space.trixta.io';
 
 export const DEFAULT_TRIXTA_ROLES = ['everyone_anon', 'everyone_authed'];
 export const DEFAULT_TRIXTA_ACTIONS = {

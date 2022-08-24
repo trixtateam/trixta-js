@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { TrixtaState } from '../..';
 import {
   makeSelectTrixtaActionsForRole,
-  makeSelectTrixtaAgentDetails,
+  makeSelectTrixtaAgentRoles,
   makeSelectTrixtaReactionsForRole,
 } from '../../selectors';
 import { UseTrixtaDataHookReturn, UseTrixtaDataProps } from './types';
@@ -19,11 +19,10 @@ export const useTrixtaData = ({
     string | undefined
   >();
 
-  const selectTrixtaRoles = useMemo(makeSelectTrixtaAgentDetails, []);
-  const roleMap = useSelector<{ trixta: TrixtaState }, Record<string, boolean>>(
-    (state) => selectTrixtaRoles(state),
+  const selectTrixtaRoles = useMemo(makeSelectTrixtaAgentRoles, []);
+  const roles = useSelector<{ trixta: TrixtaState }, Array<string>>((state) =>
+    selectTrixtaRoles(state),
   );
-  const roles = Object.keys(roleMap);
   const selectTrixtaActions = useMemo(makeSelectTrixtaActionsForRole, []);
   const actions = useSelector<
     { trixta: TrixtaState },

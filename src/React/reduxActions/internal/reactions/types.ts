@@ -18,6 +18,8 @@ export type SubmitTrixtaReactionResponseFailureAction = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any;
   additionalData: AdditionalReactionTrixtaDataType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data?: any;
 };
 
 export type SubmitTrixtaReactionResponseTimeoutFailureAction = {
@@ -25,6 +27,8 @@ export type SubmitTrixtaReactionResponseTimeoutFailureAction = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any;
   additionalData: AdditionalReactionTrixtaDataType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data?: any;
 };
 
 export type SubmitTrixtaReactionResponseSuccessAction = {
@@ -32,4 +36,6 @@ export type SubmitTrixtaReactionResponseSuccessAction = {
   additionalData: AdditionalReactionTrixtaDataType;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  error?: any;
 };

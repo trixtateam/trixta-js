@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { makeSelectTrixtaState, TrixtaState } from "../..";
 
 export type TrixtaReduxPreviewProps = {
-  section?:string;
+  section:string;
   type?: 'reactions'|'actions';
 }
 
@@ -14,14 +14,15 @@ export const TrixtaReduxPreview = ({section, type}:TrixtaReduxPreviewProps) => {
   const trixtaState = useSelector<{ trixta: TrixtaState }, TrixtaState>((state) =>
   trixtaStateSelector(state),
   );
-  let state: any = section && !type ? trixtaState[section] : trixtaState;
+  const data: unknown = section && !type ? trixtaState[section] : trixtaState;
+  let state = typeof data !== 'object' ? {[section]:data} : data
   if(type && section){
     state = trixtaState[type][section] ? trixtaState[type][section] : trixtaState;
   }
 
 
   return (<ReactJson
-    src={state}
+    src={state || {}}
     enableClipboard={false}
     name={null}
     displayDataTypes={true}

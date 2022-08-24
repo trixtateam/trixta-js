@@ -1,4 +1,7 @@
-import { channelActionTypes } from '@trixtateam/phoenix-to-redux';
+import {
+  channelActionTypes,
+  socketActionTypes,
+} from '@trixtateam/phoenix-to-redux';
 import produce, { Draft } from 'immer';
 import { TrixtaInstanceMode } from '../../React/types';
 import {
@@ -46,6 +49,7 @@ import { TrixtaState } from './../types';
 export const initialState: TrixtaState = {
   authorizationStarted: false,
   authorizingStatus: {},
+  status: 'disconnected',
   agentDetails: {},
   reactions: {},
   actions: {},
@@ -54,7 +58,8 @@ export const initialState: TrixtaState = {
 /* eslint-disable default-case, no-param-reassign, consistent-return */
 export const trixtaReducer = (
   state: TrixtaState = initialState,
-  action: TrixtaReducerActions,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  action: TrixtaReducerActions | any,
 ): TrixtaState =>
   produce(state, (draft: Draft<TrixtaState>) => {
     switch (action.type) {
@@ -512,6 +517,14 @@ export const trixtaReducer = (
             }
           }
         }
+        break;
+      case socketActionTypes.SOCKET_OPEN:
+        draft.space = get<string>(action, 'domainKey');
+        draft.status = 'connected';
+        break;
+      case socketActionTypes.SOCKET_DISCONNECT:
+      case socketActionTypes.SOCKET_CLOSE:
+        draft.status = initialState.status;
         break;
       default:
       // no changes

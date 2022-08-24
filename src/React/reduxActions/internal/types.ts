@@ -1,6 +1,7 @@
 import {
   JOIN_TRIXTA_ROLE,
   LEAVE_TRIXTA_ROLE,
+  LOGIN_TRIXTA_SUCCESS,
   UPDATE_TRIXTA_ERROR,
 } from '../../constants';
 
@@ -38,6 +39,14 @@ export type LeaveTrixtaRoleAction = {
   type: typeof LEAVE_TRIXTA_ROLE;
   payload: {
     roleName: string;
+  };
+};
+
+export type LoginTrixtaSuccessAction = {
+  type: typeof LOGIN_TRIXTA_SUCCESS;
+  payload: {
+    agent_id: string;
+    jwt: string;
   };
 };
 

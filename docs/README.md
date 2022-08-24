@@ -3,7 +3,7 @@
 - [REACT](react)
   - [Actions](react/trixta/actions.md)
   - [Components](react/trixta/components.md)
-  - [Redux](react/trixta/redux.md)
+  - [Redux](https://trixtateam.github.io/trixta-js/?path=/docs/trixta-redux-store-preview--trixta-state)
   - [Selectors](react/trixta/selectors.md)
   - [Sagas](react/trixta/sagas.md)
 

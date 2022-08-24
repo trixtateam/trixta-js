@@ -1,3 +1,10 @@
+# [5.3.0](https://github.com/trixtateam/trixta-js/compare/v5.2.0...v5.3.0) (2022-08-24)
+
+
+### Features
+
+* added space, space connection status to reducer, added connectTrixta method, added TrixtaLoginWidget ([3e28a7c](https://github.com/trixtateam/trixta-js/commit/3e28a7c7299f3e7a6b7a6f7f77f2686eba83743e))
+
 # [5.2.0](https://github.com/trixtateam/trixta-js/compare/v5.1.0...v5.2.0) (2022-07-29)
 
 

@@ -1,3 +1,10 @@
+# [5.4.0](https://github.com/trixtateam/trixta-js/compare/v5.3.0...v5.4.0) (2022-08-25)
+
+
+### Features
+
+* loadingText prop for TrixtaActionComponent and TrixtaReactionComponent to show progress ([73981ad](https://github.com/trixtateam/trixta-js/commit/73981ad055c462b84589b5326add978aea2cbe77))
+
 # [5.3.0](https://github.com/trixtateam/trixta-js/compare/v5.2.0...v5.3.0) (2022-08-24)
 
 

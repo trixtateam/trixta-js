@@ -43,4 +43,8 @@ export interface TrixtaReactionInstanceComponentProps
    */
   children?: React.ReactNode;
   instanceRef: string;
+  /**
+   * Text for submit button if Trixta reaction response is in progress
+   */
+  loadingText?: string;
 }

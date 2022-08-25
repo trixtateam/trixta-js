@@ -61,4 +61,8 @@ export interface TrixtaActionComponentProps extends TrixtaActionBaseProps {
    * Children can be a render props function or a react component
    */
   children?: React.ReactNode;
+  /**
+   * Text for submit button if Trixta action is in progress
+   */
+  loadingText?: string;
 }

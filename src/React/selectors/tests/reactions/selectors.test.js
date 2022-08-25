@@ -34,7 +34,7 @@ describe('Trixta Selectors', () => {
       );
 
       expect(
-        trixtaReactionSelectors.selectTrixtReactionsStateSelector(mockedState),
+        trixtaReactionSelectors.selectTrixtaReactionsStateSelector(mockedState),
       ).toEqual(expectedResult);
     });
 
@@ -70,7 +70,7 @@ describe('Trixta Selectors', () => {
         : undefined;
 
       expect(
-        trixtaReactionSelectors.selectTrixtReactionStateSelector(
+        trixtaReactionSelectors.selectTrixtaReactionStateSelector(
           mockedState,
           props,
         ),
@@ -108,7 +108,7 @@ describe('Trixta Selectors', () => {
           : undefined;
 
       expect(
-        trixtaReactionSelectors.selectTrixtReactionRequestStatusSelector(
+        trixtaReactionSelectors.selectTrixtaReactionRequestStatusSelector(
           mockedState,
           props,
         ),
@@ -118,7 +118,7 @@ describe('Trixta Selectors', () => {
     describe('selectors for TrixtaReaction loading status For Role', () => {
       it('makeSelectIsTrixtaReactionInProgress for existing role', () => {
         const selector = trixtaReactionSelectors.makeSelectIsTrixtaReactionInProgress();
-        const status = trixtaReactionSelectors.selectTrixtReactionRequestStatusSelector(
+        const status = trixtaReactionSelectors.selectTrixtaReactionRequestStatusSelector(
           mockedState,
           props,
         );
@@ -133,7 +133,7 @@ describe('Trixta Selectors', () => {
       it('makeSelectIsTrixtaReactionInProgress for non existing role', () => {
         props.roleName = 'unknown';
         const selector = trixtaReactionSelectors.makeSelectIsTrixtaReactionInProgress();
-        const status = trixtaReactionSelectors.selectTrixtReactionRequestStatusSelector(
+        const status = trixtaReactionSelectors.selectTrixtaReactionRequestStatusSelector(
           mockedState,
           props,
         );
@@ -148,7 +148,7 @@ describe('Trixta Selectors', () => {
 
     it('makesSelectTrixtaReactionForRole', () => {
       const selector = trixtaReactionSelectors.makesSelectTrixtaReactionForRole();
-      const selectedReaction = trixtaReactionSelectors.selectTrixtReactionStateSelector(
+      const selectedReaction = trixtaReactionSelectors.selectTrixtaReactionStateSelector(
         mockedState,
         props,
       );
@@ -161,7 +161,7 @@ describe('Trixta Selectors', () => {
     describe('makesSelectIsTrixtaReactionReadyForRole', () => {
       it('makesSelectIsTrixtaReactionReadyForRole should return true if exists', () => {
         const selector = trixtaReactionSelectors.makesSelectIsTrixtaReactionReadyForRole();
-        const selectedReaction = trixtaReactionSelectors.selectTrixtReactionStateSelector(
+        const selectedReaction = trixtaReactionSelectors.selectTrixtaReactionStateSelector(
           mockedState,
           props,
         );
@@ -173,7 +173,7 @@ describe('Trixta Selectors', () => {
       it('makesSelectIsTrixtaReactionReadyForRole should return false if does not exist', () => {
         const selector = trixtaReactionSelectors.makesSelectIsTrixtaReactionReadyForRole();
         props.reactionName = 'nonense';
-        const selectedReaction = trixtaReactionSelectors.selectTrixtReactionStateSelector(
+        const selectedReaction = trixtaReactionSelectors.selectTrixtaReactionStateSelector(
           mockedState,
           props,
         );
@@ -185,7 +185,7 @@ describe('Trixta Selectors', () => {
 
     it('makeSelectTrixtaReactionCommonForRole', () => {
       const selector = trixtaReactionSelectors.makeSelectTrixtaReactionCommonForRole();
-      const selectedReaction = trixtaReactionSelectors.selectTrixtReactionStateSelector(
+      const selectedReaction = trixtaReactionSelectors.selectTrixtaReactionStateSelector(
         mockedState,
         props,
       );
@@ -224,7 +224,7 @@ describe('Trixta Selectors', () => {
           mockedState,
           props,
         );
-        const selectedReaction = trixtaReactionSelectors.selectTrixtReactionStateSelector(
+        const selectedReaction = trixtaReactionSelectors.selectTrixtaReactionStateSelector(
           mockedState,
           props,
         );
@@ -245,7 +245,7 @@ describe('Trixta Selectors', () => {
           mockedState,
           props,
         );
-        const selectedReaction = trixtaReactionSelectors.selectTrixtReactionStateSelector(
+        const selectedReaction = trixtaReactionSelectors.selectTrixtaReactionStateSelector(
           mockedState,
           props,
         );
@@ -273,7 +273,7 @@ describe('Trixta Selectors', () => {
           mockedState,
           props,
         );
-        const selectedReaction = trixtaReactionSelectors.selectTrixtReactionStateSelector(
+        const selectedReaction = trixtaReactionSelectors.selectTrixtaReactionStateSelector(
           mockedState,
           props,
         );
@@ -298,7 +298,7 @@ describe('Trixta Selectors', () => {
           mockedState,
           props,
         );
-        const selectedReaction = trixtaReactionSelectors.selectTrixtReactionStateSelector(
+        const selectedReaction = trixtaReactionSelectors.selectTrixtaReactionStateSelector(
           mockedState,
           props,
         );

@@ -51,7 +51,7 @@ export const getTrixtaReactionsState = (state: {
   trixta: TrixtaState;
 }): Record<string, TrixtaReaction> => state.trixta.reactions;
 
-export const selectTrixtReactionsStateSelector: OutputSelector<
+export const selectTrixtaReactionsStateSelector: OutputSelector<
   {
     trixta: TrixtaState;
   },
@@ -59,7 +59,7 @@ export const selectTrixtReactionsStateSelector: OutputSelector<
   (res: Record<string, TrixtaReaction>) => Record<string, TrixtaReaction>
 > = createSelector([getTrixtaReactionsState], (reactions) => reactions);
 
-export const selectTrixtReactionStateSelector: ParametricSelector<
+export const selectTrixtaReactionStateSelector: ParametricSelector<
   { trixta: TrixtaState },
   DefaultSelectorProps,
   TrixtaReaction | undefined
@@ -67,7 +67,7 @@ export const selectTrixtReactionStateSelector: ParametricSelector<
   [
     selectTrixtaRoleNameProp,
     selectTrixtaReactionNameProp,
-    selectTrixtReactionsStateSelector,
+    selectTrixtaReactionsStateSelector,
   ],
   (roleName, reactionName, trixtaReactions) => {
     return trixtaReactions[
@@ -80,7 +80,7 @@ export const selectTrixtReactionStateSelector: ParametricSelector<
   },
 );
 
-export const selectTrixtReactionRequestStatusSelector: ParametricSelector<
+export const selectTrixtaReactionRequestStatusSelector: ParametricSelector<
   { trixta: TrixtaState },
   DefaultSelectorProps,
   RequestStatus | undefined
@@ -89,23 +89,21 @@ export const selectTrixtReactionRequestStatusSelector: ParametricSelector<
     selectTrixtaRoleNameProp,
     selectTrixtaReactionNameProp,
     selectTrixtaLoadingStatusRefProp,
-    selectTrixtReactionsStateSelector,
+    selectTrixtaReactionStateSelector,
   ],
-  (roleName, reactionName, loadingStatusRef, trixtaReactions) => {
+  (roleName, reactionName, loadingStatusRef, trixtaReaction) => {
     const requestStatusKey = getRequestStatusKeyName({
       name: reactionName,
       role: roleName,
       loadingStatusRef,
     });
-    const keyName = getReducerKeyName({ name: reactionName, role: roleName });
-    return trixtaReactions[keyName] &&
-      trixtaReactions[keyName].requestStatus[requestStatusKey]
-      ? trixtaReactions[keyName].requestStatus[requestStatusKey]
+    return trixtaReaction && trixtaReaction.requestStatus[requestStatusKey]
+      ? trixtaReaction.requestStatus[requestStatusKey]
       : undefined;
   },
 );
 
-export const selectTrixtReactionLoadingStatusSelector: ParametricSelector<
+export const selectTrixtaReactionLoadingStatusSelector: ParametricSelector<
   { trixta: TrixtaState },
   DefaultSelectorProps,
   TrixtaReaction['loadingStatus'] | undefined
@@ -113,7 +111,7 @@ export const selectTrixtReactionLoadingStatusSelector: ParametricSelector<
   [
     selectTrixtaRoleNameProp,
     selectTrixtaReactionNameProp,
-    selectTrixtReactionsStateSelector,
+    selectTrixtaReactionsStateSelector,
   ],
   (roleName, reactionName, trixtaReactions) => {
     return trixtaReactions[
@@ -214,7 +212,7 @@ export const makeSelectTrixtaReactionResponseInstancesForRole = (): OutputParame
   ) => TrixtaReactionInstance<unknown, unknown, unknown>[]
 > =>
   createSelector(
-    [selectTrixtReactionStateSelector, selectTrixtaReactionTypeProp],
+    [selectTrixtaReactionStateSelector, selectTrixtaReactionTypeProp],
     (selectedReaction, requestForEffect) => {
       return selectedReaction
         ? selectedReaction?.instances[
@@ -242,7 +240,7 @@ export const makesSelectTrixtaReactionResponseInstance = (): OutputParametricSel
 > =>
   createSelector(
     [
-      selectTrixtReactionStateSelector,
+      selectTrixtaReactionStateSelector,
       selectTrixtaReactionTypeProp,
       selectTrixtaReactionInstanceIndexProp,
     ],
@@ -265,7 +263,7 @@ export const makesSelectTrixtaReactionForRole = (): OutputParametricSelector<
   TrixtaReaction | undefined,
   (res: TrixtaReaction | undefined) => TrixtaReaction | undefined
 > =>
-  createSelector([selectTrixtReactionStateSelector], (selectedReaction) => {
+  createSelector([selectTrixtaReactionStateSelector], (selectedReaction) => {
     return selectedReaction;
   });
 
@@ -281,7 +279,7 @@ export const makesSelectIsTrixtaReactionReadyForRole = (): OutputParametricSelec
   boolean,
   (res: TrixtaReaction | undefined) => boolean
 > =>
-  createSelector([selectTrixtReactionStateSelector], (selectedReaction) => {
+  createSelector([selectTrixtaReactionStateSelector], (selectedReaction) => {
     return selectedReaction !== undefined;
   });
 
@@ -296,7 +294,7 @@ export const makeSelectTrixtaReactionCommonForRole = (): OutputParametricSelecto
   TrixtaCommon,
   (res: TrixtaReaction | undefined) => TrixtaCommon
 > =>
-  createSelector([selectTrixtReactionStateSelector], (selectedReaction) => {
+  createSelector([selectTrixtaReactionStateSelector], (selectedReaction) => {
     return get<TrixtaCommon>(selectedReaction, `common`, undefined);
   });
 
@@ -312,7 +310,7 @@ export const makeSelectTrixtaReactionsForRole = (): OutputParametricSelector<
   (res1: Record<string, TrixtaReaction>, res2: string) => TrixtaReaction[]
 > =>
   createSelector(
-    [selectTrixtReactionsStateSelector, selectTrixtaRoleNameProp],
+    [selectTrixtaReactionsStateSelector, selectTrixtaRoleNameProp],
     (trixtaReactions, roleName) => {
       const trixtaReactionsForRole: Record<string, TrixtaReaction> = pickBy(
         trixtaReactions,
@@ -338,7 +336,7 @@ export const makeSelectIsTrixtaReactionInProgress = (): OutputParametricSelector
   boolean,
   (res: RequestStatus | undefined) => boolean
 > =>
-  createSelector([selectTrixtReactionRequestStatusSelector], (status) => {
+  createSelector([selectTrixtaReactionRequestStatusSelector], (status) => {
     return status ? status === RequestStatus.REQUEST : false;
   });
 
@@ -354,7 +352,7 @@ export const makeSelectTrixtaReactionRequestStatus = (): OutputParametricSelecto
   RequestStatus | undefined,
   (res: RequestStatus | undefined) => RequestStatus | undefined
 > =>
-  createSelector([selectTrixtReactionRequestStatusSelector], (status) => {
+  createSelector([selectTrixtaReactionRequestStatusSelector], (status) => {
     return status;
   });
 
@@ -372,7 +370,7 @@ export const makeSelectIsTrixtaReactionLoading = (): OutputParametricSelector<
   (res: TrixtaReaction['loadingStatus']) => boolean | undefined
 > =>
   createSelector(
-    [selectTrixtReactionLoadingStatusSelector],
+    [selectTrixtaReactionLoadingStatusSelector],
     (loadingStatus) => {
       return loadingStatus ? get(loadingStatus, 'status', false) : false;
     },
@@ -412,7 +410,7 @@ export const makeSelectTrixtaReactionListForRole = (): OutputParametricSelector<
 > =>
   // eslint-disable-next-line arrow-body-style
   createSelector(
-    [selectTrixtReactionsStateSelector, selectTrixtaRoleNameProp],
+    [selectTrixtaReactionsStateSelector, selectTrixtaRoleNameProp],
     (trixtaReactions, roleName) => {
       const reactionsForRole = pickBy(
         trixtaReactions,

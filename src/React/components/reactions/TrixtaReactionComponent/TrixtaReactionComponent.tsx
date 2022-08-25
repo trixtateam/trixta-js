@@ -17,6 +17,7 @@ function TrixtaReactionComponent({
   reactionName,
   defaultComponent,
   requestForEffect = false,
+  loadingText,
   errorEvent,
   responseEvent,
   requestEvent,
@@ -61,6 +62,7 @@ ConnectProps & TrixtaReactionComponentProps & Record<string, any>) {
           instanceIndex={index}
           instanceRef={value.instanceKey}
           debugMode={debugMode}
+          loadingText={loadingText}
           {...rest}
         />
       ))}

@@ -7,4 +7,8 @@ export interface TrixtaLoginWidgetProps {
    * If 'true', will render the login response
    */
   renderResponse?: boolean;
+  /**
+   * Text for button while loggging in
+   */
+  loadingText?: string;
 }

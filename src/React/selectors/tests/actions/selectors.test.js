@@ -34,7 +34,7 @@ describe('Trixta Selectors', () => {
       );
 
       expect(
-        trixtaActionSelectors.selectTrixtActionsStateSelector(mockedState),
+        trixtaActionSelectors.selectTrixtaActionsStateSelector(mockedState),
       ).toEqual(expectedResult);
     });
 
@@ -55,7 +55,7 @@ describe('Trixta Selectors', () => {
         mockedState,
         props,
       );
-      const trixtaActions = trixtaActionSelectors.selectTrixtActionsStateSelector(
+      const trixtaActions = trixtaActionSelectors.selectTrixtaActionsStateSelector(
         mockedState,
       );
       const expectedResult = trixtaActions[
@@ -65,7 +65,7 @@ describe('Trixta Selectors', () => {
         : undefined;
 
       expect(
-        trixtaActionSelectors.selectTrixtActionStateSelector(
+        trixtaActionSelectors.selectTrixtaActionStateSelector(
           mockedState,
           props,
         ),
@@ -85,7 +85,7 @@ describe('Trixta Selectors', () => {
         mockedState,
         props,
       );
-      const trixtaActions = trixtaActionSelectors.selectTrixtActionsStateSelector(
+      const trixtaActions = trixtaActionSelectors.selectTrixtaActionsStateSelector(
         mockedState,
       );
 
@@ -103,7 +103,7 @@ describe('Trixta Selectors', () => {
           : undefined;
 
       expect(
-        trixtaActionSelectors.selectTrixtActionRequestStatusSelector(
+        trixtaActionSelectors.selectTrixtaActionRequestStatusSelector(
           mockedState,
           props,
         ),
@@ -113,7 +113,7 @@ describe('Trixta Selectors', () => {
     describe('selectors for TrixtaAction Response Instances For Role', () => {
       it('makeSelectTrixtaActionResponseInstancesForRole for existing role', () => {
         const selector = trixtaActionSelectors.makeSelectTrixtaActionResponseInstancesForRole();
-        const selectedAction = trixtaActionSelectors.selectTrixtActionStateSelector(
+        const selectedAction = trixtaActionSelectors.selectTrixtaActionStateSelector(
           mockedState,
           props,
         );
@@ -125,7 +125,7 @@ describe('Trixta Selectors', () => {
       it('makeSelectTrixtaActionResponseInstancesForRole for non existing role', () => {
         props.roleName = 'unknown';
         const selector = trixtaActionSelectors.makeSelectTrixtaActionResponseInstancesForRole();
-        const selectedAction = trixtaActionSelectors.selectTrixtActionStateSelector(
+        const selectedAction = trixtaActionSelectors.selectTrixtaActionStateSelector(
           mockedState,
           props,
         );
@@ -144,7 +144,7 @@ describe('Trixta Selectors', () => {
           mockedState,
           props,
         );
-        const selectedAction = trixtaActionSelectors.selectTrixtActionStateSelector(
+        const selectedAction = trixtaActionSelectors.selectTrixtaActionStateSelector(
           mockedState,
           props,
         );
@@ -163,7 +163,7 @@ describe('Trixta Selectors', () => {
           mockedState,
           props,
         );
-        const selectedAction = trixtaActionSelectors.selectTrixtActionStateSelector(
+        const selectedAction = trixtaActionSelectors.selectTrixtaActionStateSelector(
           mockedState,
           props,
         );
@@ -189,7 +189,7 @@ describe('Trixta Selectors', () => {
         mockedState,
         props,
       );
-      const trixtaActions = trixtaActionSelectors.selectTrixtActionsStateSelector(
+      const trixtaActions = trixtaActionSelectors.selectTrixtaActionsStateSelector(
         mockedState,
       );
       const trixtaActionsForRole = pickBy(
@@ -206,7 +206,7 @@ describe('Trixta Selectors', () => {
     describe('makeSelectIsTrixtaActionReadyForRole', () => {
       it('makeSelectIsTrixtaActionReadyForRole should return true if exists', () => {
         const selector = trixtaActionSelectors.makeSelectIsTrixtaActionReadyForRole();
-        const selectedAction = trixtaActionSelectors.selectTrixtActionStateSelector(
+        const selectedAction = trixtaActionSelectors.selectTrixtaActionStateSelector(
           mockedState,
           props,
         );
@@ -218,7 +218,7 @@ describe('Trixta Selectors', () => {
       it('makeSelectIsTrixtaActionReadyForRole should return false if does not exist', () => {
         const selector = trixtaActionSelectors.makeSelectIsTrixtaActionReadyForRole();
         props.actionName = 'nonense';
-        const selectedAction = trixtaActionSelectors.selectTrixtActionStateSelector(
+        const selectedAction = trixtaActionSelectors.selectTrixtaActionStateSelector(
           mockedState,
           props,
         );
@@ -231,7 +231,7 @@ describe('Trixta Selectors', () => {
     describe('selectors for TrixtaAction loading status For Role', () => {
       it('makeSelectIsTrixtaActionInProgress for existing role', () => {
         const selector = trixtaActionSelectors.makeSelectIsTrixtaActionInProgress();
-        const status = trixtaActionSelectors.selectTrixtActionRequestStatusSelector(
+        const status = trixtaActionSelectors.selectTrixtaActionRequestStatusSelector(
           mockedState,
           props,
         );
@@ -246,7 +246,7 @@ describe('Trixta Selectors', () => {
       it('makeSelectIsTrixtaActionInProgress for existing role and actionName', () => {
         props.actionName = 'get_profile';
         const selector = trixtaActionSelectors.makeSelectIsTrixtaActionInProgress();
-        const status = trixtaActionSelectors.selectTrixtActionRequestStatusSelector(
+        const status = trixtaActionSelectors.selectTrixtaActionRequestStatusSelector(
           mockedState,
           props,
         );
@@ -262,7 +262,7 @@ describe('Trixta Selectors', () => {
       it('makeSelectIsTrixtaActionInProgress for non existing role', () => {
         props.roleName = 'unknown';
         const selector = trixtaActionSelectors.makeSelectIsTrixtaActionInProgress();
-        const status = trixtaActionSelectors.selectTrixtActionRequestStatusSelector(
+        const status = trixtaActionSelectors.selectTrixtaActionRequestStatusSelector(
           mockedState,
           props,
         );
@@ -276,7 +276,7 @@ describe('Trixta Selectors', () => {
 
     it('makeSelectTrixtaActionCommonForRole', () => {
       const selector = trixtaActionSelectors.makeSelectTrixtaActionCommonForRole();
-      const selectedAction = trixtaActionSelectors.selectTrixtActionStateSelector(
+      const selectedAction = trixtaActionSelectors.selectTrixtaActionStateSelector(
         mockedState,
         props,
       );

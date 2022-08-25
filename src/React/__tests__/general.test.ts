@@ -166,6 +166,49 @@ describe('trixta Tests', () => {
         expect(result).toEqual(undefined);
       });
 
+      it('Should return uiSchema with loadingText with no uiSchema', () => {
+        const requestForEffect = false;
+        let loadingText: string | undefined = undefined;
+        const inComingSchema = {
+          'ui:submitButtonOptions': {
+            submitText: 'Confirm Details',
+            norender: true,
+            props: {
+              disabled: false,
+              className: 'btn btn-info',
+            },
+          },
+        };
+
+        const result = getDefaultUISchema(inComingSchema, requestForEffect);
+        expect(result).toEqual({
+          'ui:submitButtonOptions': {
+            submitText: 'Confirm Details',
+            norender: true,
+            props: {
+              disabled: false,
+              className: 'btn btn-info',
+            },
+          },
+        });
+        loadingText = 'loading';
+        const loadingResult = getDefaultUISchema(
+          inComingSchema,
+          requestForEffect,
+          loadingText,
+        );
+        expect(loadingResult).toEqual({
+          'ui:submitButtonOptions': {
+            submitText: loadingText,
+            norender: true,
+            props: {
+              disabled: false,
+              className: 'btn btn-info',
+            },
+          },
+        });
+      });
+
       it('Should return uiSchema with norender false with uiSchema and norender true', () => {
         const requestForEffect = false;
         const inComingSchema = {

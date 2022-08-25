@@ -1,4 +1,4 @@
-import { FormProps } from '@rjsf/core';
+import { FormProps, UISchemaSubmitButtonOptions } from '@rjsf/core';
 import { nanoid } from 'nanoid';
 import { SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS } from '../React/constants/actions/index';
 import { SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS } from '../React/constants/reactions/index';
@@ -232,22 +232,24 @@ export function getChannelName({ role }: { role: string }): string {
 export function getDefaultUISchema(
   uiSchema: FormProps<unknown>['uiSchema'],
   requestForEffect?: boolean,
+  loadingText?: string,
 ): unknown {
-  if (!requestForEffect) return uiSchema;
+  if (!requestForEffect && !uiSchema) return undefined;
   const updatedSchema = uiSchema ? { ...uiSchema } : {};
-  const submitButtonOptions =
+  const submitButtonOptions: UISchemaSubmitButtonOptions =
     updatedSchema && updatedSchema['ui:submitButtonOptions']
       ? {
           ...updatedSchema['ui:submitButtonOptions'],
         }
       : {
-          'ui:submitButtonOptions': {
-            norender: true,
-          },
+          norender: !!requestForEffect,
+          submitText: 'Submit',
+          props: {},
         };
-  submitButtonOptions['norender'] = true;
+  if (loadingText) submitButtonOptions['submitText'] = loadingText;
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
+  if (requestForEffect) submitButtonOptions['norender'] = true;
   updatedSchema['ui:submitButtonOptions'] = submitButtonOptions;
   return updatedSchema;
 }

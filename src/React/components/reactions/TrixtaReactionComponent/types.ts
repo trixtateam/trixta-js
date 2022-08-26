@@ -46,8 +46,4 @@ export interface TrixtaReactionComponentProps extends TrixtaReactionBaseProps {
    * Default component to render if there are no Trixta reaction response instances
    */
   defaultComponent?: React.ReactNode;
-  /**
-   * Text for submit button if Trixta reaction response is in progress
-   */
-  loadingText?: string;
 }

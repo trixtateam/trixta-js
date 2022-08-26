@@ -1,8 +1,9 @@
 # Documentation
 ## Table of Contents
 - [REACT](react)
-  - [Actions](react/trixta/actions.md)
-  - [Components](react/trixta/components.md)
+  - [Actions](https://trixtateam.github.io/trixta-js/?path=/docs/common-redux-actions-connecttrixta--page)
+  - [Components](https://trixtateam.github.io/trixta-js/?path=/docs/trixta-actions-components-trixtaactioncomponent--default)
+  - [Hooks](https://trixtateam.github.io/trixta-js/?path=/docs/trixta-actions-hooks-usetrixtaaction--default)
   - [Redux](https://trixtateam.github.io/trixta-js/?path=/docs/trixta-redux-store-preview--trixta-state)
   - [Selectors](react/trixta/selectors.md)
   - [Sagas](react/trixta/sagas.md)
@@ -12,11 +13,11 @@
 ### Quickstart
 ## Install
 
-Install the package with npm
+Install the package with npm or yarn
 
-`npm i @trixtateam/trixta-js` or yarn - whichever you prefer
+`npm i @trixtateam/trixta-js @trixtateam/phoenix-to-redux` or yarn - whichever you prefer
 
-`yarn add @trixtateam/trixta-js`
+`yarn add @trixtateam/trixta-js @trixtateam/phoenix-to-redux`
 
 ## 1. Setup Reducer
 
@@ -179,7 +180,7 @@ export default function configureStore() {
 
 ## 4. Connect Trixta
 
-- Not logged In
+#### Not logged In
 ```javascript
 import { put, select, takeLatest, takeEvery, fork } from 'redux-saga/effects';
 import { connectTrixta } from '@trixtateam/trixta-js';
@@ -194,7 +195,7 @@ export default function* rootSaga() {
 }
 ```
 
-- Logged In
+#### Logged In
 ```javascript
 import { put, select, takeLatest, takeEvery, fork } from 'redux-saga/effects';
 import { connectTrixta } from '@trixtateam/trixta-js';

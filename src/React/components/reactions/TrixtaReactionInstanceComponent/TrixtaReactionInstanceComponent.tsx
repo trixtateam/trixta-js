@@ -33,7 +33,6 @@ function TrixtaReactionInstanceComponent({
   isInProgress,
   instanceRef,
   loading,
-  loadingText,
   isReady,
   ...rest
 }: ConnectProps &
@@ -85,7 +84,7 @@ function TrixtaReactionInstanceComponent({
         formData={formData}
         uiSchema={uiSchema}
         schema={schema}
-        loadingText={isInProgress && loadingText ? loadingText : undefined}
+        isInProgress={isInProgress}
         formContext={{ ...rest }}
         idPrefix={`${roleName}-${reactionName}-${instanceRef}`}
         isRequestForEffect={requestForEffect}

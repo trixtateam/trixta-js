@@ -1,3 +1,10 @@
+# [5.5.0](https://github.com/trixtateam/trixta-js/compare/v5.4.0...v5.5.0) (2022-08-26)
+
+
+### Features
+
+* removed loadingText prop and use progressText from Trixta ui:submitButtonOptions ([d64ee26](https://github.com/trixtateam/trixta-js/commit/d64ee26aff2e739fb928a65f19468179679c73f1))
+
 # [5.4.0](https://github.com/trixtateam/trixta-js/compare/v5.3.0...v5.4.0) (2022-08-25)
 
 

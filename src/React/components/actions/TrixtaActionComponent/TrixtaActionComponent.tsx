@@ -29,7 +29,6 @@ function TrixtaActionComponent({
   roleName,
   actionName,
   hasRoleAccess,
-  loadingText,
   renderResponse = false,
   children,
   debugMode = false,
@@ -82,7 +81,7 @@ function TrixtaActionComponent({
         <TrixtaReactJsonSchemaForm
           idPrefix={`${roleName}-${actionName}`}
           schema={schema}
-          loadingText={isInProgress && loadingText ? loadingText : undefined}
+          isInProgress={isInProgress}
           formContext={{ ...rest }}
           formData={formData}
           uiSchema={uiSchema}

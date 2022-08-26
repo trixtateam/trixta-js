@@ -232,7 +232,7 @@ export function getChannelName({ role }: { role: string }): string {
 export function getDefaultUISchema(
   uiSchema: FormProps<unknown>['uiSchema'],
   requestForEffect?: boolean,
-  loadingText?: string,
+  isInProgress?: boolean,
 ): unknown {
   if (!requestForEffect && !uiSchema) return undefined;
   const updatedSchema = uiSchema ? { ...uiSchema } : {};
@@ -246,7 +246,10 @@ export function getDefaultUISchema(
           submitText: 'Submit',
           props: {},
         };
-  if (loadingText) submitButtonOptions['submitText'] = loadingText;
+  if (isInProgress && submitButtonOptions['progressText']) {
+    submitButtonOptions['submitText'] = submitButtonOptions['progressText'];
+  }
+
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   if (requestForEffect) submitButtonOptions['norender'] = true;

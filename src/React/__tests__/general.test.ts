@@ -168,10 +168,11 @@ describe('trixta Tests', () => {
 
       it('Should return uiSchema with loadingText with no uiSchema', () => {
         const requestForEffect = false;
-        let loadingText: string | undefined = undefined;
+        const progressText = 'Confirming..';
         const inComingSchema = {
           'ui:submitButtonOptions': {
             submitText: 'Confirm Details',
+            progressText,
             norender: true,
             props: {
               disabled: false,
@@ -184,6 +185,7 @@ describe('trixta Tests', () => {
         expect(result).toEqual({
           'ui:submitButtonOptions': {
             submitText: 'Confirm Details',
+            progressText,
             norender: true,
             props: {
               disabled: false,
@@ -191,15 +193,16 @@ describe('trixta Tests', () => {
             },
           },
         });
-        loadingText = 'loading';
+
         const loadingResult = getDefaultUISchema(
           inComingSchema,
           requestForEffect,
-          loadingText,
+          true,
         );
         expect(loadingResult).toEqual({
           'ui:submitButtonOptions': {
-            submitText: loadingText,
+            submitText: progressText,
+            progressText,
             norender: true,
             props: {
               disabled: false,

@@ -10,7 +10,7 @@ cd my-example-app
 ```
 ### 2. Install trixta-js
 ```shell
-yarn add @trixtateam/trixta-js @trixtateam/phoenix-to-redux
+yarn add @trixtateam/trixta-js @trixtateam/phoenix-to-redux @rjsf/core@4.2.2
 ```
 
 ### 3. Generate Login Page Example

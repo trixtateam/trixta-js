@@ -1,3 +1,10 @@
+# [5.6.0](https://github.com/trixtateam/trixta-js/compare/v5.5.0...v5.6.0) (2022-08-29)
+
+
+### Features
+
+* useTrixtaSpace hook ([8e0ff6d](https://github.com/trixtateam/trixta-js/commit/8e0ff6d80f959524787411839005ed1b60b3ce1f))
+
 # [5.5.0](https://github.com/trixtateam/trixta-js/compare/v5.4.0...v5.5.0) (2022-08-26)
 
 

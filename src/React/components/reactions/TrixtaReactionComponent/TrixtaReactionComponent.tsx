@@ -11,6 +11,11 @@ import { TrixtaReactionInstanceComponent } from '../TrixtaReactionInstanceCompon
 import { TrixtaState } from './../../../types/common';
 import { TrixtaReactionComponentProps } from './types';
 
+/**
+ * React component used to pass Trixta Reaction Props to your
+ * child component or function. If no child is present, React JSON Scema Form if installed
+ * will attempt to render the form with the json schema provided by Trixta
+ */
 function TrixtaReactionComponent({
   common,
   roleName,

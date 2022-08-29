@@ -7,3 +7,5 @@ export * from '../hooks/use-trixta-auth/types';
 export * from '../hooks/use-trixta-role-unmount/types';
 export * from '../hooks/use-trixta-data/types';
 export * from '../hooks/use-trixta-access/types';
+export * from '../hooks/use-trixta-space/types';
+export * from '../hooks/use-trixta-roles/types';

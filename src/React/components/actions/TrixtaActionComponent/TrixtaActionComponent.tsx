@@ -17,9 +17,9 @@ import { TrixtaActionComponentArgs } from '../types';
 import { TrixtaActionComponentProps } from './types';
 
 /**
- * React component used to either pass Trixta Action Props to your
- * child component or function
- *
+ * React component used to pass Trixta Action Props to your
+ * child component or function. If no child is present, React JSON Scema Form if installed
+ * will attempt to render the form with the json schema provided by Trixta
  */
 function TrixtaActionComponent({
   dispatchSubmitActionResponse,

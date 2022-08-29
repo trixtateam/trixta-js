@@ -750,7 +750,8 @@ function* watchForTrixtaReactionSubmit(): Generator<
 function* connectTrixtaSpace({
   payload,
 }: ConnectTrixtaAction): Generator<PutEffect<any>, void, unknown> {
-  const { space, params } = payload;
+  const { space, params: parameters } = payload;
+  const params = { ...(parameters && parameters) };
   yield put(connectPhoenix({ domainUrl: space, params }));
 }
 
@@ -760,7 +761,7 @@ function* connectTrixtaSpace({
 function* socketConnected({
   params,
 }: {
-  params: { token: string; agentId: string };
+  params: { token: string; agentId: string; roles?: TrixtaRoleParameter[] };
 }): Generator<PutEffect<UpdateTrixtaRolesAction>, void, any> {
   const roles = [{ name: ReservedTrixtaRoles.EVERYONE_ANON }];
   if (params.agentId && params.token) {
@@ -784,7 +785,10 @@ function* loginToTrixtaSpace({
   const space = yield select(selectTrixtaSpace);
   if (space && jwt && agent_id) {
     yield put(
-      connectTrixta({ space, params: { agentId: agent_id, token: jwt } }),
+      connectTrixta({
+        space,
+        params: { agentId: agent_id, token: jwt },
+      }),
     );
   }
 }

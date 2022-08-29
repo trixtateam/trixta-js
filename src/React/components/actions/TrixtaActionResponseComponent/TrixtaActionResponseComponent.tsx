@@ -12,6 +12,10 @@ import { TrixtaState } from '../../../types';
 import { TrixtaActionResponseComponentArgs } from '../types';
 import { TrixtaActionResponseComponentProps } from './types';
 
+/**
+ * React component used to pass Trixta Action Response Props to your
+ * child component or function.
+ */
 function TrixtaActionResponseComponent({
   response,
   actionName,

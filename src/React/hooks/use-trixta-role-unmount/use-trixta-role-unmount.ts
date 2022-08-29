@@ -4,6 +4,10 @@ import { isNullOrEmpty } from '../../../utils';
 import { removeTrixtaRole } from '../../reduxActions';
 import { UseTrixtaRoleUnmountProps } from './types';
 
+/**
+ * A react hook that will attempt to leave the passed roleName,
+ * on unmount of component
+ */
 export const useTrixtaRoleUnmount = ({
   roleName,
 }: UseTrixtaRoleUnmountProps): void => {

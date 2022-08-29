@@ -119,7 +119,7 @@
   },
   "peerDependencies": {
     "@redux-saga/core": "1.0.3",
-    "@rjsf/core": "4.2.0",
+    "@rjsf/core": "4.2.2",
     "@trixtateam/phoenix-to-redux": ">=4.0.6-beta.0",
     "debug": "4.3.1",
     "immer": ">=9.0.6",
@@ -161,7 +161,7 @@
     "@redux-saga/core": "1.0.3",
     "@redux-saga/types": "1.1.0",
     "@reduxjs/toolkit": "^1.6.1",
-    "@rjsf/core": "4.2.0",
+    "@rjsf/core": "4.2.2",
     "@rollup/plugin-babel": "5.2.3",
     "@rollup/plugin-commonjs": "17.1.0",
     "@rollup/plugin-json": "4.1.0",

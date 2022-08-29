@@ -20,6 +20,7 @@ JS
 
 **📚 Documentation:** [Storybook](https://trixtateam.github.io/trixta-js/?path=/docs/introduction--page)
 **📦 Package:** [npm](https://www.npmjs.com/package/@trixtateam/trixta-js)
+
 ## What is trixta-JS?
 
 trixta-js a javascript library to help any organization, easily connect to a
@@ -27,22 +28,27 @@ Trixta space, build front-end components for you application. It leverages
 [phoenix-to-redux](https://github.com/trixtateam/phoenix-to-redux) to
 communicate with Trixta and gives you a variety of tools / utilities to build
 react components.
+
 ## Who is this for?
 
 Any orgranization using Trixta for their javascript application.
 
 ---
+
 ## Install
 ⚠️ Using [Yarn Package Manager](https://yarnpkg.com) is recommended over `npm`.
 
 ```shell
 yarn add @trixtateam/trixta-js @trixtateam/phoenix-to-redux
 ```
+
 or
+
 ```shell
 npm i @trixtateam/trixta-js @trixtateam/phoenix-to-redux
 ```
 ---
+
 ## Quick Start Guides
 * [general guide](docs/guides/general/README.md)
 * [setting up with CRA](docs/guides/cra/README.md)

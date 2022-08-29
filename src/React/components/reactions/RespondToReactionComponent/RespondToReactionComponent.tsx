@@ -9,6 +9,17 @@ import {
 import { DefaultUnknownType, TrixtaState } from './../../../types/common';
 import { RespondToReactionComponentProps } from './types';
 
+/**
+ * React component used to respond to a Trixta reaction effect or response when shouldRespond is true,
+ * by dispatching the response / initialData to actionToDispatch or dispatchResponseTo props.
+ * @param props
+ * @param props.roleName - trixta role name
+ * @param props.reactionName -  trixta reaction name
+ * @param props.actionToDispatch = undefined] props.actionToDispatch - function to dispatch when response from trixta reaction
+ * @param props.dispatchResponseTo - action name to dispatch response from trixta reaction
+ * @param props.requestForEffect = true] props.requestForEffect - determines if trixta reaction is a requestForResponse or requestForEffect
+ *
+ */
 function RespondToReactionComponent<TInitialData = DefaultUnknownType>({
   roleName,
   reactionName,

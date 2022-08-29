@@ -8,3 +8,5 @@ export * from './use-trixta-auth/use-trixta-auth';
 export * from './use-trixta-role-unmount/use-trixta-role-unmount';
 export * from './use-trixta-data/use-trixta-data';
 export * from './use-trixta-access/use-trixta-access';
+export * from './use-trixta-space/use-trixta-space';
+export * from './use-trixta-roles/use-trixta-roles';

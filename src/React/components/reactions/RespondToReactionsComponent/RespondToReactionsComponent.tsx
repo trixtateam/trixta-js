@@ -3,7 +3,8 @@ import { RespondToReactionComponent } from '../RespondToReactionComponent';
 import { RespondToReactionsComponentProps } from './types';
 
 /**
- *
+ * React component used to respond to a Trixta reactions effect or response when shouldRespond is true,
+ * by dispatching the response / initialData to actionToDispatch or dispatchResponseTo props.
  * @param props
  * @param props.roleName - trixta role name
  * @param props.reactions - trixta reactions

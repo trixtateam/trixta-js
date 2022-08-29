@@ -12,7 +12,7 @@ import {
 
 export default {
   title: `${DEFAULT_REACTIONS_COMPONENTS_PATH}RespondToReactionComponent`,
-  component: RespondToReactionComponent.WrappedComponent,
+  component: RespondToReactionComponent,
   argTypes: { ...DEFAULT_REACTION_ARG_TYPE },
   parameters: {
     status: {

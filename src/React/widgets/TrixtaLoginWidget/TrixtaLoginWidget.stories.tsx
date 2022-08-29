@@ -12,7 +12,7 @@ export default {
   component: TrixtaLoginWidget,
   parameters: {
     status: {
-      type: 'released', // 'beta' | 'stable' | 'deprecated'
+      type: 'new', // 'beta' | 'stable' | 'deprecated'
     },
   },
   argTypes: {

@@ -76,7 +76,7 @@ Documentation will be served on [localhost:6006](http://localhost:6006).
 
 [Semantic release](https://github.com/semantic-release/semantic-release) is being used for versioning and packaging purposes.
 
-Make sure commit messages follow the [commit git message syntax](./gitmessage)
+Make sure commit messages follow the [commit git message syntax](https://github.com/trixtateam/trixta-js/blob/master/.gitmessage)
 
 All PR's run a CI check that need to pass and require at least 1 approval. Once approved and merged into master.
 

@@ -1,6 +1,5 @@
 
 import { addons, types } from '@storybook/addons';
-import store from '../src/stories/store/index';
 import {
   ADDON_ID,
   TOOL_ID

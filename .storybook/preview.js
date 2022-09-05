@@ -1,7 +1,7 @@
 import { DocsContainer, DocsPage } from '@storybook/addon-docs';
 import { themes } from '@storybook/theming';
 import "bootstrap/dist/css/bootstrap.min.css";
-import ReduxDecorator from '../src/stories/utils/ReduxDecorator';
+import {withStore} from '../src/stories/utils/ReduxDecorator';
 
 export const parameters = {
   controls: { expanded: true },
@@ -57,4 +57,4 @@ export const parameters = {
     },
   },
 }
-export const decorators = [ReduxDecorator()];
+export const decorators = [withStore];

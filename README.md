@@ -50,10 +50,15 @@ npm i @trixtateam/trixta-js @trixtateam/phoenix-to-redux
 ---
 
 ## Quick Start Guides
-* [general guide](docs/guides/general/README.md)
-* [setting up with CRA](docs/guides/cra/README.md)
+* [general guide](https://github.com/trixtateam/trixta-js/blob/master/docs/guides/general/README.md)
+* [setting up with CRA](https://github.com/trixtateam/trixta-js/blob/master/docs/guides/cra/README.md)
 
-## [Detailed Documentation](docs/README.md)
+## [Detailed Documentation](https://github.com/trixtateam/trixta-js/blob/master/docs/README.md)
+
+## Contributing
+
+Read our [contributors' guide](https://github.com/trixtateam/trixta-js/blob/master/CONTRIBUTING.md) to get started.
+
 ## License
 
 This project is licensed under the MIT license, Copyright (c) 2020 Trixta Inc.

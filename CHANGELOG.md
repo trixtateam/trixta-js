@@ -1,3 +1,5 @@
+## [5.6.1](https://github.com/trixtateam/trixta-js/compare/v5.6.0...v5.6.1) (2022-09-09)
+
 # [5.6.0](https://github.com/trixtateam/trixta-js/compare/v5.5.0...v5.6.0) (2022-08-29)
 
 

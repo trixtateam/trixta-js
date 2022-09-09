@@ -1,3 +1,10 @@
+## [5.6.2](https://github.com/trixtateam/trixta-js/compare/v5.6.1...v5.6.2) (2022-09-09)
+
+
+### Bug Fixes
+
+* make form data method parameter optional ([be52dfc](https://github.com/trixtateam/trixta-js/commit/be52dfc4ae27423058e0da062dff4788abecf0cc))
+
 ## [5.6.1](https://github.com/trixtateam/trixta-js/compare/v5.6.0...v5.6.1) (2022-09-09)
 
 # [5.6.0](https://github.com/trixtateam/trixta-js/compare/v5.5.0...v5.6.0) (2022-08-29)

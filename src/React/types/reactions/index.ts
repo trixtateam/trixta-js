@@ -85,7 +85,17 @@ export interface ClearTrixtaReactionRequestStatus {
   loadingStatusRef?: string;
 }
 
-export interface SubmitTrixtaReactionResponse<TFormData = DefaultUnknownType> {
+type FormData<T = never> = [T] extends [never]
+  ? { formData?: never }
+  : {
+      /**
+       * Data to submit to Trixta
+       */
+      formData: T;
+    };
+export type SubmitTrixtaReactionResponse<TFormData = never> = FormData<
+  TFormData
+> & {
   /**
    * Name of Trixta role
    */
@@ -94,10 +104,6 @@ export interface SubmitTrixtaReactionResponse<TFormData = DefaultUnknownType> {
    * Name of Trixta reaction
    */
   reactionName: string;
-  /**
-   * Data to submit to Trixta
-   */
-  formData: TFormData;
   /**
    * Extra data to pass on and receive in response with the key extraData. This can be used
    * as needed.
@@ -136,7 +142,7 @@ export interface SubmitTrixtaReactionResponse<TFormData = DefaultUnknownType> {
    * If you plan to use the same action / reaction name for the same role, on the same screen, this is when you would make use of this * property
    */
   loadingStatusRef?: string;
-}
+};
 
 export interface TrixtaReaction {
   common: TrixtaCommon;

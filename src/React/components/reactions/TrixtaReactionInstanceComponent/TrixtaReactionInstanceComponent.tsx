@@ -124,7 +124,7 @@ function mapDispatchToProps(
   ownProps: TrixtaReactionInstanceComponentProps,
 ) {
   return {
-    dispatchSubmitReactionResponse: (formData: any) =>
+    dispatchSubmitReactionResponse: (formData?: any) =>
       dispatch(
         submitTrixtaReactionResponse({
           formData,

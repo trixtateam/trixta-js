@@ -2,7 +2,6 @@ import type { FormProps } from '@rjsf/core';
 import * as React from 'react';
 import { config, TrixtaFormProps } from '../../../config';
 import { getDefaultUISchema } from '../../../utils/trixta';
-import { DefaultUnknownType } from '../../types/common';
 
 const withTheme = (props: TrixtaFormProps) => {
   let rjsf = undefined;
@@ -27,7 +26,7 @@ export interface TrixtaReactJsonSchemaFormProps<TFormData>
   isInProgress: boolean;
 }
 
-function TrixtaFormComponent<TFormData = DefaultUnknownType>({
+function TrixtaFormComponent<TFormData = never>({
   isRequestForEffect,
   onSubmit,
   idPrefix,

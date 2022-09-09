@@ -1,10 +1,6 @@
-
-
 import { FormProps, withTheme } from '@rjsf/core';
 import * as React from 'react';
 import { Button } from 'react-bootstrap';
-import { DefaultUnknownType } from '../../React/types/common';
-
 
 const ThemedForm = withTheme({});
 export interface TrixtaReactJsonSchemaFormProps<TFormData>
@@ -12,7 +8,7 @@ export interface TrixtaReactJsonSchemaFormProps<TFormData>
   submittable?: boolean;
 }
 
-function TrixtaFormComponent<TFormData = DefaultUnknownType>({
+function TrixtaFormComponent<TFormData = never>({
   submittable = true,
   onSubmit,
   idPrefix,

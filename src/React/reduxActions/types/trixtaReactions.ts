@@ -73,9 +73,7 @@ export type ClearTrixtaReactionRequestStatusAction = {
   };
 };
 
-export type SubmitTrixtaReactionResponseAction<
-  TFormData = DefaultUnknownType
-> = {
+export type SubmitTrixtaReactionResponseAction<TFormData = never> = {
   type: typeof SUBMIT_TRIXTA_REACTION_RESPONSE;
   payload: {
     formData?: TFormData;

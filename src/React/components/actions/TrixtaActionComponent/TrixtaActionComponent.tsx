@@ -133,7 +133,7 @@ function mapDispatchToProps(
   ownProps: TrixtaActionComponentProps,
 ) {
   return {
-    dispatchSubmitActionResponse: (formData: DefaultUnknownType) =>
+    dispatchSubmitActionResponse: (formData?: DefaultUnknownType) =>
       dispatch(
         submitTrixtaActionResponse({
           extraData: ownProps.extraData,

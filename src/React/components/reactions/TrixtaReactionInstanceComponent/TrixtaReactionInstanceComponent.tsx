@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -21,6 +22,7 @@ import {
   TrixtaState,
 } from './../../../types/common';
 import { TrixtaReactionInstanceComponentProps } from './types';
+
 function TrixtaReactionInstanceComponent({
   dispatchSubmitReactionResponse,
   roleName,
@@ -122,7 +124,7 @@ function mapDispatchToProps(
   ownProps: TrixtaReactionInstanceComponentProps,
 ) {
   return {
-    dispatchSubmitReactionResponse: (formData: unknown) =>
+    dispatchSubmitReactionResponse: (formData: any) =>
       dispatch(
         submitTrixtaReactionResponse({
           formData,

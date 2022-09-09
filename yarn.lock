@@ -10571,10 +10571,10 @@ husky@^4.3.8:
     slash "^3.0.0"
     which-pm-runs "^1.0.0"
 
-husky@^8.0.1:
-  version "8.0.1"
-  resolved "https://registry.yarnpkg.com/husky/-/husky-8.0.1.tgz#511cb3e57de3e3190514ae49ed50f6bc3f50b3e9"
-  integrity sha512-xs7/chUH/CKdOCs7Zy0Aev9e/dKOMZf3K1Az1nar3tzlv0jfqnYtu235bstsWTmXOR0EfINrPa97yy4Lz6RiKw==
+husky@^7.0.2:
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/husky/-/husky-7.0.2.tgz#21900da0f30199acca43a46c043c4ad84ae88dff"
+  integrity sha512-8yKEWNX4z2YsofXAMT7KvA1g8p+GxtB1ffV8XtpAEGuXNAbCV5wdNKH+qTpw8SM9fh4aMPDR+yQuKfgnreyZlg==
 
 iconv-lite@0.4.24:
   version "0.4.24"
@@ -15819,6 +15819,11 @@ redeyed@~2.1.0:
   dependencies:
     esprima "~4.0.0"
 
+redux-listener-middleware@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/redux-listener-middleware/-/redux-listener-middleware-0.2.0.tgz#fe80b6a89583d62d1b5e1d386ae18f9f28284b30"
+  integrity sha512-wLfH18FNx+/mVln7uciP4PGoHgVDJ8L2/xt8AWu2bpkgJA7W179S6CFvef7iELmc/tfO22UoiljmfEf3AcYRIw==
+
 redux-mock-store@^1.5.4:
   version "1.5.4"
   resolved "https://registry.yarnpkg.com/redux-mock-store/-/redux-mock-store-1.5.4.tgz#90d02495fd918ddbaa96b83aef626287c9ab5872"
@@ -17006,6 +17011,13 @@ store2@^2.12.0:
   version "2.12.0"
   resolved "https://registry.yarnpkg.com/store2/-/store2-2.12.0.tgz#e1f1b7e1a59b6083b2596a8d067f6ee88fd4d3cf"
   integrity sha512-7t+/wpKLanLzSnQPX8WAcuLCCeuSHoWdQuh9SB3xD0kNOM38DNf+0Oa+wmvxmYueRzkmh6IcdKFtvTa+ecgPDw==
+
+storybook-addon-redux-listener@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/storybook-addon-redux-listener/-/storybook-addon-redux-listener-0.1.7.tgz#a5299dfdb0f183315673a24677b4dd9d50c679a3"
+  integrity sha512-rV/fPS/E00InE7tLjJktGUjd3V30hBpqHdBoNjo9tymjZ+G/iBsmBJAUxt2VkXh9xy4i04letNGri0JowvVF+Q==
+  dependencies:
+    redux-listener-middleware "^0.2.0"
 
 storybook-addon-toolbar-actions@^0.4.8:
   version "0.4.8"

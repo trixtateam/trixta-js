@@ -21,7 +21,7 @@ export default {
   },
 } as ComponentMeta<typeof TrixtaLoginWidget>;
 
-const Template: ComponentStory<typeof TrixtaLoginWidget> = (args) => (
+const Template: ComponentStory<typeof TrixtaLoginWidget> = (args, globals) => (
   <TrixtaLoginWidget {...args} />
 );
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { renderHook } from '@testing-library/react-hooks';
 import { mockStoreProviderWrapper } from '../../../tests/helpers';
 // eslint-disable-next-line jest/no-mocks-import

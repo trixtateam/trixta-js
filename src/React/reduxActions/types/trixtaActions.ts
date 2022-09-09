@@ -10,6 +10,7 @@ import {
   TrixtaActionDetails,
   TrixtaActionResponseDetails,
 } from '../../types/actions';
+import { DefaultUnknownType } from '../../types/common';
 import {
   SubmitTrixtaActionResponseFailureAction,
   SubmitTrixtaActionResponseSuccessAction,
@@ -53,7 +54,7 @@ export type ClearTrixtaActionRequestStatusAction = {
   };
 };
 
-export type SubmitTrixtaActionResponseAction<TFormData = never> = {
+export type SubmitTrixtaActionResponseAction<TFormData = DefaultUnknownType> = {
   type: typeof SUBMIT_TRIXTA_ACTION_RESPONSE;
   payload: {
     formData?: TFormData;

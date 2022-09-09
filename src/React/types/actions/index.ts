@@ -83,17 +83,7 @@ export interface ClearTrixtaActionRequestStatus {
   loadingStatusRef?: string;
 }
 
-type FormData<T = never> = [T] extends [never]
-  ? { formData?: never }
-  : {
-      /**
-       * Data to submit to Trixta
-       */
-      formData: T;
-    };
-export type SubmitTrixtaActionResponse<TFormData = never> = FormData<
-  TFormData
-> & {
+export interface SubmitTrixtaActionResponse<TFormData = DefaultUnknownType> {
   /**
    * Name of Trixta role
    */
@@ -102,6 +92,10 @@ export type SubmitTrixtaActionResponse<TFormData = never> = FormData<
    * Name of Trixta action
    */
   actionName: string;
+  /**
+   * Data to submit to Trixta
+   */
+  formData: TFormData;
   /**
    * Extra data to pass on and receive in response with the key extraData. This can be used
    * as needed.
@@ -152,7 +146,7 @@ export type SubmitTrixtaActionResponse<TFormData = never> = FormData<
    * If you plan to use the same action / reaction name for the same role, on the same screen, this is when you would make use of this * property
    */
   loadingStatusRef?: string;
-};
+}
 
 export interface TrixtaActionBaseProps extends TrixtaBaseRoleProps {
   /**

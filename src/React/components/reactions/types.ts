@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   TrixtaCommon,
   TrixtaDispatch,
@@ -6,16 +5,16 @@ import {
 } from '../../types';
 import {
   DefaultUnknownType,
-  TrixtaInstanceResponse,
   TrixtaReactionInstanceDetails,
+  TrixtaInstanceResponse,
 } from './../../types/common';
-
 export interface TrixtaReactionComponentArgs<
   TInitialData = DefaultUnknownType,
+  TFormData = DefaultUnknownType,
   TSuccessType = DefaultUnknownType,
   TErrorType = DefaultUnknownType
 > extends TrixtaReactionBaseProps {
-  submit: TrixtaDispatch<any>;
+  submit: TrixtaDispatch<TFormData>;
   common: TrixtaCommon;
   data: TInitialData;
   isInProgress: boolean;

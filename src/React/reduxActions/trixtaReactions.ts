@@ -25,7 +25,7 @@ import {
  * @param params.requestEvent - event for data to dispatch to on trixta reaction before submitting to trixta
  * @param params.errorEvent - event for error to dispatch to on trixta reaction error response
  */
-export function submitTrixtaReactionResponse<TFormData = never>({
+export function submitTrixtaReactionResponse<TFormData extends unknown>({
   responseEvent = undefined,
   requestEvent = undefined,
   errorEvent = undefined,

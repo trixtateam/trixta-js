@@ -29,7 +29,7 @@ import {
  * @param params.requestEvent - event for data to dispatch to on trixta action before submitting to trixta
  * @param params.errorEvent - event for error to dispatch to on trixta action error response
  */
-export function submitTrixtaActionResponse<TFormData = never>({
+export function submitTrixtaActionResponse<TFormData extends unknown>({
   clearResponse = false,
   debugMode = false,
   actionOptions = {},
@@ -41,9 +41,7 @@ export function submitTrixtaActionResponse<TFormData = never>({
     },
   },
   ...rest
-}: SubmitTrixtaActionResponse<TFormData>): SubmitTrixtaActionResponseAction<
-  TFormData
-> {
+}: SubmitTrixtaActionResponse<TFormData>): SubmitTrixtaActionResponseAction {
   return {
     type: SUBMIT_TRIXTA_ACTION_RESPONSE,
     payload: {

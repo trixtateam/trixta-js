@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DefaultUnknownType, TrixtaCommon, TrixtaDispatch } from '../../types';
 import { TrixtaInstanceResponse } from './../../types';
 export interface TrixtaActionComponentArgs<
+  TFormData = DefaultUnknownType,
   TSuccessType = DefaultUnknownType,
   TErrorType = DefaultUnknownType
 > {
@@ -13,7 +13,7 @@ export interface TrixtaActionComponentArgs<
    * Name of Trixta role
    */
   roleName: string;
-  submit: TrixtaDispatch<any>;
+  submit: TrixtaDispatch<TFormData>;
   common: TrixtaCommon;
   isInProgress: boolean;
   response?: TrixtaInstanceResponse<TSuccessType, TErrorType>;

@@ -1,3 +1,10 @@
+## [5.6.3](https://github.com/trixtateam/trixta-js/compare/v5.6.2...v5.6.3) (2022-09-10)
+
+
+### Bug Fixes
+
+* fixed form data types ([cd9e80c](https://github.com/trixtateam/trixta-js/commit/cd9e80c1f48a1d11264f41a7315047e48a424e51))
+
 ## [5.6.2](https://github.com/trixtateam/trixta-js/compare/v5.6.1...v5.6.2) (2022-09-09)
 
 

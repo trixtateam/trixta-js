@@ -12,10 +12,11 @@ import {
 
 export interface TrixtaReactionComponentArgs<
   TInitialData = DefaultUnknownType,
+  TFormData = any,
   TSuccessType = DefaultUnknownType,
   TErrorType = DefaultUnknownType
 > extends TrixtaReactionBaseProps {
-  submit: TrixtaDispatch<any>;
+  submit: TrixtaDispatch<TFormData>;
   common: TrixtaCommon;
   data: TInitialData;
   isInProgress: boolean;

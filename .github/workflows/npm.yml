@@ -5,7 +5,7 @@ name: publish-npm
 # Controls when the workflow will run
 on:
   workflow_run:
-      workflows: ["semantic-release"]
+      workflows: ["publish-release"]
       types:
         - completed
   workflow_dispatch:

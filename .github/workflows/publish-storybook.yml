@@ -8,11 +8,13 @@ jobs:
     name: Publishing latest story
     runs-on: ubuntu-latest
     steps:
+    - name: 🛒 Checkout code
     - uses: actions/checkout@v2
 
-    - name: Install 💿
+    - name: 🧩 Install dependencies
+      if: steps.yarn-cache.outputs.cache-hit != 'true'
       run: yarn install --prefer-offline --frozen-lockfile
-      
+
     - name: Build storybook 📖
       run: yarn build-storybook-docs
 

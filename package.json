@@ -1,6 +1,6 @@
 {
   "name": "@trixtateam/trixta-js",
-  "version": "5.6.5",
+  "version": "5.6.6",
   "description": "Javascript library to integrate Trixta",
   "source": "src/index.ts",
   "main": "dist/@trixtateam/trixta-js.cjs.js",

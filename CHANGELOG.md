@@ -1,3 +1,10 @@
+## [5.6.6](https://github.com/trixtateam/trixta-js/compare/v5.6.5...v5.6.6) (2022-10-10)
+
+
+### Bug Fixes
+
+* missing type import ([6ce068f](https://github.com/trixtateam/trixta-js/commit/6ce068f0e7f485014e6beeacbd8fb1a58f2b495c))
+
 ## [5.6.5](https://github.com/trixtateam/trixta-js/compare/v5.6.4...v5.6.5) (2022-10-10)
 
 

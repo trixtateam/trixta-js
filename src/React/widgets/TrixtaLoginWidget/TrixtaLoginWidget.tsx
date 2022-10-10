@@ -9,7 +9,7 @@ import { TrixtaLoginWidgetProps } from './types';
  */
 const TrixtaLoginWidget = (
   props: TrixtaLoginWidgetProps,
-): JSX.Element | null => {
+): React.ReactElement | null => {
   return (
     <TrixtaActionComponent
       roleName={ReservedTrixtaRoles.EVERYONE_ANON}

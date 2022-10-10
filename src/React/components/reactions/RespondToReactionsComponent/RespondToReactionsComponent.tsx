@@ -16,7 +16,7 @@ import { RespondToReactionsComponentProps } from './types';
 export const RespondToReactionsComponent = ({
   roleName,
   reactions,
-}: RespondToReactionsComponentProps): JSX.Element => (
+}: RespondToReactionsComponentProps): React.ReactElement => (
   <>
     {reactions.map((reaction) => (
       <RespondToReactionComponent

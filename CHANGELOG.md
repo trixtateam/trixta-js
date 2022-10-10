@@ -1,3 +1,10 @@
+## [5.6.5](https://github.com/trixtateam/trixta-js/compare/v5.6.4...v5.6.5) (2022-10-10)
+
+
+### Bug Fixes
+
+* children type props ([477a5ee](https://github.com/trixtateam/trixta-js/commit/477a5eec6adf083453d79a25d9f27f001b13cdfb))
+
 ## [5.6.4](https://github.com/trixtateam/trixta-js/compare/v5.6.3...v5.6.4) (2022-10-10)
 
 

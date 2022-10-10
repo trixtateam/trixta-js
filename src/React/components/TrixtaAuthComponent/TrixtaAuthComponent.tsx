@@ -11,13 +11,22 @@ import { TrixtaAuthProps } from './types';
 const TrixtaAuthComponent = ({
   children,
   roleName,
-}: TrixtaAuthProps): React.ReactElement | null => {
+  ...rest
+}: TrixtaAuthProps & { children: React.ReactNode }): JSX.Element | null => {
   const roleAccessSelector = useMemo(makeSelectHasTrixtaRoleAccessForRole, []);
   const hasRoleAccess = useSelector((state: { trixta: TrixtaState }) =>
     roleAccessSelector(state, { roleName }),
   );
 
   if (!hasRoleAccess) return null;
-  return typeof children === 'function' ? children() : <>{children}</>;
+
+  if (typeof children === 'function') {
+    return children(rest);
+  }
+
+  if (React.isValidElement(children)) {
+    return React.cloneElement(children, rest);
+  }
+  return null;
 };
 export default TrixtaAuthComponent;

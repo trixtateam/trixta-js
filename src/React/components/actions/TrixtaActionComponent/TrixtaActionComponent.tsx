@@ -60,11 +60,11 @@ function TrixtaActionComponent({
   };
 
   if (!renderResponse) {
-    if (typeof children === 'function') {
-      return children({ ...actionProps, ...rest });
-    }
     if (React.isValidElement(children)) {
       return React.cloneElement(children, { ...actionProps, ...rest });
+    }
+    if (typeof children === 'function') {
+      return children({ ...actionProps, ...rest });
     }
 
     if (!children && common) {

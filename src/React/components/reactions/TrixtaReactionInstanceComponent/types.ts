@@ -1,4 +1,5 @@
 import { TrixtaCommon, TrixtaReactionBaseProps } from '../../../types';
+import { TrixtaReactionComponentArgs } from '../types';
 
 export interface TrixtaReactionInstanceComponentProps
   extends TrixtaReactionBaseProps {
@@ -38,9 +39,11 @@ export interface TrixtaReactionInstanceComponentProps
    * Enables Trixta console debbugging. If 'true', open the console and see verbose logging
    */
   debugMode: boolean;
+  instanceRef: string;
   /**
    * Children can be a render props function or a react component
    */
-  children?: React.ReactNode;
-  instanceRef: string;
+  children?:
+    | React.ReactNode
+    | ((props: TrixtaReactionComponentArgs) => React.ReactNode);
 }

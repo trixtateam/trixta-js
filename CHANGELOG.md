@@ -1,3 +1,10 @@
+## [5.6.4](https://github.com/trixtateam/trixta-js/compare/v5.6.3...v5.6.4) (2022-10-10)
+
+
+### Bug Fixes
+
+* children type ([ea8af6e](https://github.com/trixtateam/trixta-js/commit/ea8af6eeaa727ecedc2ab09d67d26e75798b864b))
+
 ## [5.6.3](https://github.com/trixtateam/trixta-js/compare/v5.6.2...v5.6.3) (2022-09-10)
 
 

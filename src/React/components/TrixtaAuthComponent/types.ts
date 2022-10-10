@@ -6,5 +6,5 @@ export interface TrixtaAuthProps {
   /**
    * Children can be a render props function or a react component
    */
-  children?: React.ReactNode;
+  children?: React.ReactNode | (() => React.ReactNode);
 }

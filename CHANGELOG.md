@@ -1,3 +1,10 @@
+## [5.6.7](https://github.com/trixtateam/trixta-js/compare/v5.6.6...v5.6.7) (2022-10-10)
+
+
+### Bug Fixes
+
+* fixed missing reaction type ([98f467e](https://github.com/trixtateam/trixta-js/commit/98f467ec6a5243c9bfadaea04ededa8a7452c68e))
+
 ## [5.6.6](https://github.com/trixtateam/trixta-js/compare/v5.6.5...v5.6.6) (2022-10-10)
 
 

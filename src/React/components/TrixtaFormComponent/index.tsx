@@ -35,7 +35,7 @@ function TrixtaFormComponent<TFormData = never>({
   formData,
   uiSchema,
   formContext,
-}: TrixtaReactJsonSchemaFormProps<TFormData>): React.ReactElement {
+}: TrixtaReactJsonSchemaFormProps<TFormData>): JSX.Element {
   if (ThemedForm) {
     const { formContext: formContextThemeProp, ...formProps } = config.props;
     return (

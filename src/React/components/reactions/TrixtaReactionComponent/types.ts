@@ -39,11 +39,11 @@ export interface TrixtaReactionComponentProps extends TrixtaReactionBaseProps {
    */
   debugMode?: boolean;
   /**
-   * Default component to render if there are no Trixta reaction response instances
-   */
-  defaultComponent?: React.ReactNode;
-  /**
    * Children can be a render props function or a react component
    */
   children?: React.ReactNode;
+  /**
+   * Default component to render if there are no Trixta reaction response instances
+   */
+  defaultComponent?: React.ReactNode;
 }

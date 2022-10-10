@@ -9,5 +9,7 @@ export interface TrixtaActionResponseComponentProps
   /**
    * Children can be a render props function or a react component
    */
-  children?: React.ReactNode;
+  children?:
+    | React.ReactNode
+    | ((props: TrixtaActionResponseComponentArgs) => React.ReactNode);
 }

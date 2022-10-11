@@ -63,5 +63,6 @@ export interface TrixtaActionComponentProps extends TrixtaActionBaseProps {
    */
   children?:
     | React.ReactNode
-    | ((props: TrixtaActionComponentArgs) => React.ReactNode);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    | ((props: TrixtaActionComponentArgs<any, any, any>) => React.ReactNode);
 }

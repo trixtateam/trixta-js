@@ -12,5 +12,6 @@ export interface TrixtaActionResponseComponentProps
    */
   children?:
     | React.ReactNode
-    | ((props: TrixtaActionResponseComponentArgs) => React.ReactNode);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    | ((props: TrixtaActionResponseComponentArgs<any, any>) => React.ReactNode);
 }

@@ -1,5 +1,3 @@
-import { UiSchema } from '@rjsf/core';
-import { JSONSchema7Object } from 'json-schema';
 import {
   SubmitTrixtaActionResponseAction,
   SubmitTrixtaReactionResponseAction,
@@ -152,17 +150,17 @@ export interface TrixtaCommon {
   /**
    * Json schema for React Json Schema Form
    */
-  request_schema: JSONSchema7Object;
+  request_schema: any;
   /**
    * Json schema for React Json Schema Form on response
    */
   // eslint-disable-next-line camelcase
-  response_schema: JSONSchema7Object;
+  response_schema: any;
   /**
    * Ui Schema for React Json Schema Form
    */
   // eslint-disable-next-line camelcase
-  request_settings: UiSchema;
+  request_settings: any;
   handler?: TrixtaActionHandlerType;
   tags: Array<string>;
 }

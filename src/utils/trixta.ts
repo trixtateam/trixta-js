@@ -1,4 +1,4 @@
-import { FormProps, UISchemaSubmitButtonOptions } from '@rjsf/core';
+import { UiSchema, UISchemaSubmitButtonOptions } from '@rjsf/utils';
 import { nanoid } from 'nanoid';
 import { SUBMIT_TRIXTA_ACTION_RESPONSE_SUCCESS } from '../React/constants/actions/index';
 import { SUBMIT_TRIXTA_REACTION_RESPONSE_SUCCESS } from '../React/constants/reactions/index';
@@ -230,7 +230,7 @@ export function getChannelName({ role }: { role: string }): string {
  * Returns a default or updated schema with submitButtonOptions
  */
 export function getDefaultUISchema(
-  uiSchema: FormProps<unknown>['uiSchema'],
+  uiSchema?: UiSchema,
   requestForEffect?: boolean,
   isInProgress?: boolean,
 ): unknown {

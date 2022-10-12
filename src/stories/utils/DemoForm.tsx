@@ -3,7 +3,7 @@ import { TrixtaActionComponentArgs } from "../../React/components/actions/types"
 import { TrixtaReactionComponentArgs } from "../../React/components/reactions/types";
 import { DefaultUnknownType } from "../../React/types/common";
 import TrixtaReactJsonSchemaForm from './FormComponent';
-
+import validator from '@rjsf/validator-ajv6';
 export const DemoChildFormComponent = (props: TrixtaActionComponentArgs|TrixtaReactionComponentArgs): React.ReactElement => {
   if(!props.common) return <></>;
   const formData = props.common.form_data ?? {};
@@ -13,6 +13,7 @@ export const DemoChildFormComponent = (props: TrixtaActionComponentArgs|TrixtaRe
       <TrixtaReactJsonSchemaForm
         idPrefix={`${props.roleName}-${props.common.name}`}
         schema={schema}
+        validator={validator}
         formData={formData}
         uiSchema={uiSchema}
         onSubmit={({ formData }: { formData: DefaultUnknownType }) => {

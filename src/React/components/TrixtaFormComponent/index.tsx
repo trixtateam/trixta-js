@@ -19,9 +19,10 @@ const withTheme = (props: TrixtaFormProps) => {
   return undefined;
 };
 
-const ThemedForm = withTheme(config.props);
+const DefaultForm = withTheme(config.props);
+const _Form = config.form;
 export interface TrixtaReactJsonSchemaFormProps<TFormData>
-  extends FormProps<TFormData> {
+  extends Omit<FormProps<TFormData>, 'validator'> {
   isRequestForEffect?: boolean;
   isInProgress: boolean;
 }
@@ -36,24 +37,20 @@ function TrixtaFormComponent<TFormData = never>({
   uiSchema,
   formContext,
 }: TrixtaReactJsonSchemaFormProps<TFormData>): React.ReactElement {
-  if (ThemedForm) {
-    const { formContext: formContextThemeProp, ...formProps } = config.props;
-    return (
-      <ThemedForm
-        idPrefix={idPrefix}
-        onSubmit={onSubmit}
-        schema={schema}
-        formContext={{ ...formContextThemeProp, ...formContext }}
-        formData={formData}
-        {...formProps}
-        uiSchema={getDefaultUISchema(
-          uiSchema,
-          isRequestForEffect,
-          isInProgress,
-        )}
-      />
-    );
+  const { formContext: formContextThemeProp, ...formProps } = config.props;
+  const Form = _Form || DefaultForm;
+  if (Form) {
+    <Form
+      idPrefix={idPrefix}
+      onSubmit={onSubmit}
+      schema={schema}
+      formContext={{ ...formContextThemeProp, ...formContext }}
+      formData={formData}
+      {...formProps}
+      uiSchema={getDefaultUISchema(uiSchema, isRequestForEffect, isInProgress)}
+    />;
   }
+
   return <>To make use of rsjf, npm install @rsjf/core dependency</>;
 }
 

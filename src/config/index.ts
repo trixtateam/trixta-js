@@ -1,6 +1,8 @@
-import type { ThemeProps } from '@rjsf/core';
+import type { FormProps } from '@rjsf/core';
+import Form from '@rjsf/core';
+import validator from '@rjsf/validator-ajv6';
 export type TrixtaFormProps<T = any> = Omit<
-  ThemeProps<T>,
+  FormProps<T>,
   | 'schema'
   | 'formData'
   | 'onBlur'
@@ -14,13 +16,21 @@ export type TrixtaFormProps<T = any> = Omit<
 >;
 
 const config: {
-  props: TrixtaFormProps;
+  props:
+    | TrixtaFormProps
+    | { validator: FormProps['validator']; formContext: TrixtaFormProps['formContext'] };
+  form: Form | undefined;
 } = {
-  props: {},
+  props: { validator },
+  form: undefined,
 };
 
 export function setJsonSchemaFormProps(props: TrixtaFormProps): void {
   config.props = props;
+}
+
+export function setJsonSchemaForm(form: any): void {
+  config.form = form;
 }
 
 export { config };

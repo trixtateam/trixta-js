@@ -1,3 +1,4 @@
+import validator from '@rjsf/validator-ajv6';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
 import { TrixtaReactionComponent } from '.';
@@ -13,7 +14,11 @@ import {
 } from '../../../../stories/utils/globalsHelper';
 import { JsonViewer } from '../../../../stories/utils/JsonViewer';
 import { TrixtaReactionComponentArgs } from '../types';
-setJsonSchemaFormProps({ liveValidate: false, noHtml5Validate: true });
+setJsonSchemaFormProps({
+  liveValidate: false,
+  noHtml5Validate: true,
+  validator,
+});
 export default {
   title: `${DEFAULT_REACTIONS_COMPONENTS_PATH}TrixtaReactionComponent`,
   component: TrixtaReactionComponent.WrappedComponent,

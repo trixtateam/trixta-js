@@ -3,7 +3,7 @@ import {
   getMessageFromError,
   isNullOrEmpty,
 } from './utils/index';
-export { setJsonSchemaFormProps } from './config/index';
+export { setJsonSchemaFormProps, setJsonSchemaForm } from './config/index';
 export * from './React/components';
 export * from './React/widgets';
 export * from './React/constants';

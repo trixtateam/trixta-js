@@ -1,7 +1,7 @@
 import { FormProps, withTheme } from '@rjsf/core';
 import * as React from 'react';
 import { Button } from 'react-bootstrap';
-
+import validator from '@rjsf/validator-ajv6';
 const ThemedForm = withTheme({});
 export interface TrixtaReactJsonSchemaFormProps<TFormData>
   extends FormProps<TFormData> {
@@ -21,6 +21,7 @@ function TrixtaFormComponent<TFormData = never>({
     return (
       <ThemedForm
         idPrefix={idPrefix}
+        validator={validator}
         onSubmit={onSubmit}
         schema={schema}
         formContext={formContext}

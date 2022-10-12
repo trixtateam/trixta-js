@@ -12,7 +12,7 @@ jobs:
     name: Running release
     if:
       "contains(toJSON(github.event.commits.*.message), 'chore(release):
-      @trixtateam/trixta-js')"
+      @trixtateam/trixta-js-core')"
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -52,24 +52,13 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn
-            
+
       - name: 🧩 Install dependencies
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install --prefer-offline --frozen-lockfile
 
       - name: Build library 🔨
         run: yarn build
-
-      - name: Build storybook 📖
-        run: yarn build-storybook-docs
-
-      - name: Deploy storybook 🚀
-        uses: JamesIves/github-pages-deploy-action@3.6.2
-        with:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: storybook-static
-          CLEAN: true
 
       # Get the tag of the release just created
       - name: 🏷️ Find tag

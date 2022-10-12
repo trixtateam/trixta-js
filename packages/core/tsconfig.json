@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": "src",
+    "declarationDir": "dist/types",
+    "lib": ["ESNext", "DOM"],
+    "outDir": "dist",
+    "sourceMap": true,
+    "target": "ESNext",
+    "types": ["jest", "@testing-library/jest-dom", "node"],
+    "useDefineForClassFields": true
+  },
+  "include": ["src", "src/tests", "../rjsf/src/components/TrixtaActionInstanceComponent"],
+  "exclude": ["node_modules", "dist", "types", "**/*.test.*","**/__mocks__/*"]
+}

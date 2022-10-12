@@ -11,7 +11,7 @@ import {
   PutEffect,
   takeEvery,
 } from 'redux-saga/effects';
-import { listenForTrixtaReactionResponse } from '@trixtateam/trixta-js';
+import { listenForTrixtaReactionResponse } from '@trixtateam/trixta-js-core';
 
 /**
  * Listen for Trixta reaction for params.meta.roleName and params.meta.reactionName
@@ -59,7 +59,7 @@ import {
   PutEffect,
   takeLatest,
 } from 'redux-saga/effects';
-import { respondToTrixtaReactionEffectSaga } from '@trixtateam/trixta-js';
+import { respondToTrixtaReactionEffectSaga } from '@trixtateam/trixta-js-core';
 
 
 export default function* globalSaga() {
@@ -81,7 +81,7 @@ import {
   PutEffect,
   takeLatest,
 } from 'redux-saga/effects';
-import { respondToTrixtaReactionEffectSaga } from '@trixtateam/trixta-js';
+import { respondToTrixtaReactionEffectSaga } from '@trixtateam/trixta-js-core';
 
 
 export default function* globalSaga() {

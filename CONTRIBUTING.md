@@ -29,7 +29,7 @@ yarn lint:ts
 **Build** - This will build all libraries.
 
 ```shell
-yarn build
+yarn build:libs
 ```
 
 **Prettify** - Run prettier formater on all packages.
@@ -65,7 +65,7 @@ All the JavaScript code in this project conforms to the [prettier](https://githu
 We use [storybook](https://storybook.js.org/) to build our documentation. To run documentation locally, run:
 
 ```bash
-yarn build-storybook
+yarn build
 yarn storybook
 ```
 
@@ -81,9 +81,9 @@ Make sure commit messages follow the [commit git message syntax](https://github.
 All PR's run a CI check that need to pass and require at least 1 approval. Once approved and merged into master.
 
 [Semantic release](https://github.com/semantic-release/semantic-release) will check the commit history on the approved PR. When the PR is merged into master, it will determine
-the version based on commit message syntax. 
-- A release/v+.+.+ branch will be created 
-- A github npm package will be published. 
+the version based on commit message syntax.
+- A release/v+.+.+ branch will be created
+- A github npm package will be published.
 - The storybook docs will be deployed and updated.
 - To deploy to npm registry the [npm github action](https://github.com/trixtateam/trixta-js/actions/workflows/npm.yml) must be run manually.
 

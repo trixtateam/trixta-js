@@ -35,7 +35,7 @@ module.exports = {
       {
         assets: ['package.json', 'CHANGELOG.md', 'badges/**/*'],
         message:
-          'chore(release): @trixtateam/trixta-js@v${nextRelease.version}',
+          'chore(release): @trixtateam/trixta-js-core@v${nextRelease.version}',
       },
     ],
   ],

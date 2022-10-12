@@ -1,7 +1,7 @@
 ## Quickstart Guide
 ### 1. Install
 ```shell
-yarn add @trixtateam/trixta-js @trixtateam/phoenix-to-redux
+yarn add @trixtateam/trixta-js-core @trixtateam/phoenix-to-redux
 ```
 ### 2. Setup Reducer
 
@@ -12,7 +12,7 @@ yarn add @trixtateam/trixta-js @trixtateam/phoenix-to-redux
 
 import { combineReducers } from '@reduxjs/toolkit';
 import { phoenixReducer } from '@trixtateam/phoenix-to-redux';
-import { trixtaReducer } from '@trixtateam/trixta-js';
+import { trixtaReducer } from '@trixtateam/trixta-js-core-core';
 export default function createReducer() {
   const rootReducer = combineReducers({
     trixta: trixtaReducer,
@@ -73,7 +73,7 @@ export default function configureStore() {
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { createPhoenixChannelMiddleware } from '@trixtateam/phoenix-to-redux';
 import createSagaMiddleware from 'redux-saga';
-import { setupTrixtaSaga } from '@trixtateam/trixta-js';
+import { setupTrixtaSaga } from '@trixtateam/trixta-js-core';
 import createReducer from './reducers';
 
 export default function configureStore() {
@@ -114,7 +114,7 @@ export default function configureStore() {
 
 ```javascript
 import { put, select, takeLatest, takeEvery, fork } from 'redux-saga/effects';
-import { setupTrixtaSaga } from '@trixtateam/trixta-js';
+import { setupTrixtaSaga } from '@trixtateam/trixta-js-core';
 
 export default function* rootSaga() {
   yield fork(setupTrixtaSaga);
@@ -167,7 +167,7 @@ export default function configureStore() {
 #### Using useTrixtaSpace hook
 ```javascript
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { useTrixtaSpace } from '@trixtateam/trixta-js';
+import { useTrixtaSpace } from '@trixtateam/trixta-js-core';
 import { HomePage } from './pages/HomePage/Loadable';
 import { NotFoundPage } from './pages/NotFoundPage/Loadable';
 export function App() {
@@ -190,7 +190,7 @@ or
 ##### Not logged In
 ```javascript
 import { put, select, takeLatest, takeEvery, fork } from 'redux-saga/effects';
-import { connectTrixta } from '@trixtateam/trixta-js';
+import { connectTrixta } from '@trixtateam/trixta-js-core';
 
 export function* connectTrixtaSaga() {
   yield put(connectTrixta({ space: 'trixta-demo.space.trixta.io'}));
@@ -205,7 +205,7 @@ export default function* rootSaga() {
 ##### Logged In
 ```javascript
 import { put, select, takeLatest, takeEvery, fork } from 'redux-saga/effects';
-import { connectTrixta } from '@trixtateam/trixta-js';
+import { connectTrixta } from '@trixtateam/trixta-js-core';
 
 export function* connectTrixtaSaga() {
   yield put(connectTrixta({ space: 'trixta-demo.space.trixta.io', params : { agentId: 'john@doe.com', token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'  }}));

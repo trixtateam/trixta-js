@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: 🛒 Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           token: ${{ secrets.GH_TOKEN }}
@@ -38,12 +38,10 @@ jobs:
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: 💾 Cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: yarn-cache
         with:
           path: |
-            **/.cache/Cypress
-            **/cypress/cache
             **/node_modules
             ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
@@ -55,19 +53,23 @@ jobs:
         run: yarn install --prefer-offline --frozen-lockfile
 
       - name: 🔨 Build
-        run: yarn build
+        run: yarn build:libs
         env:
           CI: false
 
       - name: ⚙️ Test and Coverage
-        run: |
-          yarn test:coverage
-          yarn coverage-badges
+        run: yarn test:cov-badges
 
       - name: 📦 Release packages
-        run: yarn release --ignore-packages=packages/docs/**
+        run: yarn release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: 🚀 Publish packages
+        continue-on-error: true
+        run: yarn publish:libs
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
       - if: always()
         run: rm .npmrc

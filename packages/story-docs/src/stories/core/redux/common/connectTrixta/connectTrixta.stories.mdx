@@ -1,0 +1,43 @@
+import { ArgsTable, Title, Description } from '@storybook/addon-docs';
+import { Meta } from '@storybook/addon-docs';
+import DocsGenerator from './docs-generator';
+import { DEFAULT_REDUX_ACTIONS_PATH } from '../../../../constants/storybook';
+
+<Meta
+  title={`${DEFAULT_REDUX_ACTIONS_PATH}connectTrixta`}
+  parameters={{
+    status: {
+      type: 'released', // 'beta' | 'stable' | 'deprecated'
+    },
+  }}
+/>
+
+<Title>connectTrixta</Title>
+<Description>
+  This will connect Trixta to the specified space with the optional params. The reserved **everyone_anon** role will be joined.
+  If a valid **token** and **agentId** is specified for the optional params, the reserved **everyone_authed** role will be joined.
+</Description>
+
+# Examples
+
+## Using a saga
+
+```javascript
+import { connectTrixta } from '@trixtateam/trixta-js-core';
+import { put } from 'redux-saga/effects';
+yield put(connectTrixta({space:'trixta-demo.space.trixta.io', params:{} }));
+
+```
+
+## Using useDispatch hook
+
+```javascript
+import { connectTrixta } from '@trixtateam/trixta-js-core';
+import { useDispatch } from 'react-redux';
+
+const dispatch = useDispatch();
+dispatch(connectTrixta({space:'trixta-demo.space.trixta.io', params:{} }))
+
+```
+
+<ArgsTable of={DocsGenerator} />

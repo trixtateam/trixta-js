@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { DefaultUnknownType, TrixtaCommon, TrixtaDispatch } from '../../types';
+import { TrixtaInstance } from '../../types/common';
 import { TrixtaInstanceResponse } from './../../types';
 export interface TrixtaActionComponentArgs<
   TFormData = any,
@@ -14,6 +15,11 @@ export interface TrixtaActionComponentArgs<
    * Name of Trixta role
    */
   roleName: string;
+  /**
+   * Override the initial data for Trixta Action
+   */
+  initialData?: unknown;
+  instances: TrixtaInstance<unknown, unknown>[];
   submit: TrixtaDispatch<TFormData>;
   common: TrixtaCommon;
   isInProgress: boolean;

@@ -1,7 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
 import { TrixtaReactionComponent } from '.';
-import { setJsonSchemaFormProps } from '../../../../config';
 import {
   DEFAULT_REACTIONS_COMPONENTS_PATH,
   DEFAULT_REACTION_ARG_TYPE,
@@ -13,7 +12,7 @@ import {
 } from '../../../../stories/utils/globalsHelper';
 import { JsonViewer } from '../../../../stories/utils/JsonViewer';
 import { TrixtaReactionComponentArgs } from '../types';
-setJsonSchemaFormProps({ liveValidate: false, noHtml5Validate: true });
+
 export default {
   title: `${DEFAULT_REACTIONS_COMPONENTS_PATH}TrixtaReactionComponent`,
   component: TrixtaReactionComponent.WrappedComponent,

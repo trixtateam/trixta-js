@@ -2,6 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import TrixtaReactJsonSchemaForm from '../../../../Form/components/TrixtaFormComponent';
 import { get } from '../../../../utils';
 import { submitTrixtaReactionResponse } from '../../../reduxActions';
 import {
@@ -14,7 +15,6 @@ import {
   TrixtaDebugType,
   trixtaInstanceDebugger,
 } from '../../../TrixtaDebugger';
-import TrixtaReactJsonSchemaForm from '../../TrixtaFormComponent';
 import { TrixtaReactionComponentArgs } from '../types';
 import {
   DefaultUnknownType,

@@ -11,8 +11,6 @@ import {
 } from '../../../selectors';
 import { trixtaDebugger, TrixtaDebugType } from '../../../TrixtaDebugger';
 import { DefaultUnknownType, TrixtaState } from '../../../types/common';
-import TrixtaReactJsonSchemaForm from '../../TrixtaFormComponent';
-import { TrixtaActionInstanceComponent } from '../TrixtaActionInstanceComponent';
 import { TrixtaActionComponentArgs } from '../types';
 import { TrixtaActionComponentProps } from './types';
 
@@ -24,15 +22,13 @@ import { TrixtaActionComponentProps } from './types';
 function TrixtaActionComponent({
   dispatchSubmitActionResponse,
   common,
-  instances,
   isInProgress,
   roleName,
   actionName,
+  instances,
   hasRoleAccess,
-  renderResponse = false,
-  children,
   debugMode = false,
-  initialData = undefined,
+  children,
   ...rest
 }: TrixtaActionComponentProps &
   DispatchProps &
@@ -56,54 +52,17 @@ function TrixtaActionComponent({
     roleName,
     actionName,
     isInProgress,
+    instances,
     response: get(instances, '0.response', { success: false, error: false }),
+    ...rest,
   };
-
-  if (!renderResponse) {
-    if (typeof children === 'function') {
-      return children({ ...actionProps, ...rest });
-    }
-    if (React.isValidElement(children)) {
-      return React.cloneElement(children, { ...actionProps, ...rest });
-    }
-
-    if (!children && common) {
-      const formData =
-        initialData !== undefined
-          ? initialData
-          : common.form_data
-          ? common.form_data
-          : {};
-      const schema = common.request_schema ?? {};
-      const uiSchema = common.request_settings ?? {};
-
-      return (
-        <TrixtaReactJsonSchemaForm
-          idPrefix={`${roleName}-${actionName}`}
-          schema={schema}
-          isInProgress={isInProgress}
-          formContext={{ ...rest }}
-          formData={formData}
-          uiSchema={uiSchema}
-          onSubmit={({ formData }: { formData: DefaultUnknownType }) => {
-            dispatchSubmitActionResponse(formData);
-          }}
-        />
-      );
-    }
+  if (typeof children === 'function') {
+    return children(actionProps);
   }
-
-  return instances.map((_, index) => (
-    <TrixtaActionInstanceComponent
-      key={`${roleName}-${actionName}-${index}`}
-      actionName={actionName}
-      instance={instances[index]}
-      instanceIndex={index}
-      debugMode={debugMode}
-      roleName={roleName}
-      {...rest}
-    />
-  ));
+  if (React.isValidElement(children)) {
+    return React.cloneElement(children, actionProps);
+  }
+  return null;
 }
 
 const makeMapStateToProps = () => {

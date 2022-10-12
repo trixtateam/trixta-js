@@ -1,4 +1,4 @@
-import { UiSchema } from '@rjsf/core';
+import type { UiSchema } from '@rjsf/core';
 import { JSONSchema7Object } from 'json-schema';
 import {
   SubmitTrixtaActionResponseAction,

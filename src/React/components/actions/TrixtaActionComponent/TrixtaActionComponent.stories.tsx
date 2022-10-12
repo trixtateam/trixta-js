@@ -1,6 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
-import { setJsonSchemaFormProps } from '../../../../config';
 import {
   DEFAULT_ACTIONS_COMPONENTS_PATH,
   DEFAULT_ACTION_ARG_TYPE,
@@ -14,7 +13,6 @@ import { JsonViewer } from '../../../../stories/utils/JsonViewer';
 import { TrixtaActionComponentArgs } from '../types';
 import TrixtaActionComponent from './TrixtaActionComponent';
 
-setJsonSchemaFormProps({ liveValidate: false, noHtml5Validate: true });
 export default {
   title: `${DEFAULT_ACTIONS_COMPONENTS_PATH}TrixtaActionComponent`,
   argTypes: { ...DEFAULT_ACTION_ARG_TYPE },

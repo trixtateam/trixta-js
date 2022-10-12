@@ -1,5 +1,5 @@
-import commonjs from '@rollup/plugin-commonjs';
 import { babel } from '@rollup/plugin-babel';
+import commonjs from '@rollup/plugin-commonjs';
 const config = require('kcd-scripts/dist/config/rollup.config.js');
 
 const babelPluginIndex = config.plugins.findIndex(
@@ -16,5 +16,16 @@ config.plugins[babelPluginIndex] = babel({
 config.plugins[cjsPluginIndex] = commonjs({
   include: /node_modules/,
 });
+
+const format = config.output[0].format;
+config.input = {
+  [`trixta-js.${format}`]: config.input,
+  [`rjsf.${format}`]: 'src/rjsf.ts',
+};
+config.output = {
+  ...config.output[0],
+  file: undefined,
+  dir: 'dist',
+};
 
 module.exports = config;

@@ -1,10 +1,10 @@
 {
   "name": "@trixtateam/trixta-js",
-  "version": "5.6.8",
+  "version": "6.0.0-alpha.0",
   "description": "Javascript library to integrate Trixta",
   "source": "src/index.ts",
-  "main": "dist/@trixtateam/trixta-js.cjs.js",
-  "module": "dist/@trixtateam/trixta-js.esm.js",
+  "main": "dist/trixta-js.cjs.js",
+  "module": "dist/trixta-js.es.js",
   "types": "types/index.d.ts",
   "files": [
     "dist",
@@ -41,7 +41,7 @@
   "scripts": {
     "dev": "rollup -c --watch",
     "link:phoenix-to-redux": "npm link @trixtateam/phoenix-to-redux",
-    "build": "kcd-scripts build --bundle 'esm,cjs' --no-clean",
+    "build": "kcd-scripts build --bundle 'esm,cjs'",
     "prebuild": "rimraf dist types && yarn run lint:fix",
     "lint:ts": "tsc --noEmit",
     "lint": "yarn run eslint src",
@@ -55,8 +55,8 @@
     "major": "npm --no-git-tag-version version premajor --preid=beta",
     "patch": "npm --no-git-tag-version version prepatch --preid=beta",
     "minor": "npm --no-git-tag-version version preminor --preid=beta",
-    "test:clean": "rimraf ./coverage",
     "test": "jest",
+    "test:clean": "rimraf ./coverage",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:no-coverage": "jest --coverage=false --watchAll=false",
@@ -131,11 +131,6 @@
     "redux": "~4.1.2",
     "redux-saga": ">=1.1.0",
     "reselect": "~4.0.0"
-  },
-  "peerDependenciesMeta": {
-    "@rjsf/core": {
-      "optional": true
-    }
   },
   "dependencies": {
     "depcheck": "^1.4.2",
@@ -229,7 +224,6 @@
     "jest-cli": "26.6.3",
     "jest-coverage-badges": "^1.1.2",
     "jest-runtime": "^26.6.3",
-    "kcd-scripts": "^8.0.2",
     "lerna-alias": "^3.0.2",
     "npm-run-all": "^4.1.5",
     "pre-commit": "1.2.2",

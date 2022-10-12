@@ -9,8 +9,8 @@ import configureMockStore, { MockStoreEnhanced } from 'redux-mock-store';
 import {
   initialState as defaultTrixtaState,
   trixtaReducer,
-} from '../../React/reducers';
-import { TrixtaState } from '../../React/types/common';
+} from '../../main/React/reducers';
+import { TrixtaState } from '../../main/React/types/common';
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function createReducer() {
   return combineReducers({

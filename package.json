@@ -2,16 +2,22 @@
   "name": "@trixtateam/trixta-js",
   "version": "6.0.0-alpha.1",
   "description": "Javascript library to integrate Trixta",
-  "source": "src/index.ts",
-  "main": "dist/trixta-js.cjs.js",
-  "module": "dist/trixta-js.es.js",
-  "types": "types/index.d.ts",
+  "source": "./src/index.ts",
+  "main": "./dist/trixta-js.cjs.js",
+  "module": "./dist/trixta-js.es.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    "./rjsf": "./dist/rjsf"
+    ".": {
+      "import": "./dist/trixta-js.es.js",
+      "require": "./dist/trixta-js.cjs.js"
+    },
+    "./rjsf": {
+      "import": "./dist/rjsf/index.es.js",
+      "require": "./dist/rjsf/index.cjs.js"
+    }
   },
   "files": [
-    "dist",
-    "types"
+    "dist"
   ],
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
@@ -91,15 +97,10 @@
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!src/**/*/*.d.ts",
-      "!src/**/*/Loadable.{js,jsx,ts,tsx}",
       "!src/**/*/*.stories.{js,jsx,ts,tsx}",
       "!src/**/*/stories/**/*",
-      "!src/**/*/messages.ts",
       "!src/**/*/types.ts",
       "!src/index.tsx",
-      "!src/serviceWorker.ts",
-      "!src/config/**/*",
-      "!src/constants/**/*",
       "!src/**/types/**/*"
     ],
     "coverageReporters": [
@@ -109,7 +110,7 @@
       "text"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!@hookform)"
+      "node_modules"
     ],
     "coverageThreshold": {
       "global": {

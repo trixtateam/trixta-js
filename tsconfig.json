@@ -1,13 +1,11 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "outDir": "dist",
-    "rootDir": "src",
     "strictFunctionTypes": false,
-    "declarationDir": "types",
+    "declarationDir": "dist",
     "noEmit": true,
     "target": "ESNext",
-    "lib": ["dom", "dom.iterable", "ESNext"],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": true,
     "checkJs": false, // typecheck js files
     "noImplicitAny": true,
@@ -17,7 +15,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
@@ -31,19 +29,16 @@
     "downlevelIteration": true,
     "noFallthroughCasesInSwitch": true,
     "jsx": "react",
-    "types": ["jest", "@testing-library/jest-dom", "node"],
-    "typeRoots": [
-      "packages/*/types",
-      "packages/*/src/types",
-      "node_modules/@types"
-    ]
+    "types": ["jest", "@testing-library/jest-dom", "node"]
   },
-  "include": ["src", "types"],
+  "include": ["src"],
   "exclude": [
-    "**/__tests__",
     "node_modules",
     "dist",
-    "**/*.stories.mdx",
-    "*.stories.@(js|jsx|ts|tsx)"
+    "**/tests",
+    "**/stories",
+    "**/__tests__",
+    "**/*.test.*",
+    "**/*.stories.*"
   ]
 }

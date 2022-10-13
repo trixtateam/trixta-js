@@ -35,10 +35,15 @@
     "typeRoots": [
       "packages/*/types",
       "packages/*/src/types",
-      "node_modules/@types",
-    ],
+      "node_modules/@types"
+    ]
   },
   "include": ["src", "types"],
-  "exclude": ["**/__tests__", "node_modules", "dist","**/*.stories.mdx",
-    "*.stories.@(js|jsx|ts|tsx)"]
+  "exclude": [
+    "**/__tests__",
+    "node_modules",
+    "dist",
+    "**/*.stories.mdx",
+    "*.stories.@(js|jsx|ts|tsx)"
+  ]
 }

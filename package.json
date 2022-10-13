@@ -1,11 +1,14 @@
 {
   "name": "@trixtateam/trixta-js",
-  "version": "6.0.0-alpha.0",
+  "version": "6.0.0-alpha.1",
   "description": "Javascript library to integrate Trixta",
   "source": "src/index.ts",
   "main": "dist/trixta-js.cjs.js",
   "module": "dist/trixta-js.es.js",
   "types": "types/index.d.ts",
+  "exports": {
+    "./rjsf": "./dist/rjsf"
+  },
   "files": [
     "dist",
     "types"

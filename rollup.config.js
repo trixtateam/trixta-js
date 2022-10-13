@@ -20,7 +20,7 @@ config.plugins[cjsPluginIndex] = commonjs({
 const format = config.output[0].format;
 config.input = {
   [`trixta-js.${format}`]: config.input,
-  [`rjsf.${format}`]: 'src/rjsf.ts',
+  [`rjsf/index.${format}`]: 'src/rjsf/index.ts',
 };
 config.output = {
   ...config.output[0],

@@ -109,3 +109,4 @@ lib
 
 # react story book files
 storybook-static/
+.node-version

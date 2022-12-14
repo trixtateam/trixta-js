@@ -7,8 +7,6 @@ module.exports = {
     { name: 'beta', prerelease: true },
     { name: 'alpha', prerelease: true },
   ],
-  debug:true,
-  dryRun:true,
   plugins: [
     [
       '@semantic-release/commit-analyzer',

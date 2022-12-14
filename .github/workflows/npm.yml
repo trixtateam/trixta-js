@@ -25,7 +25,7 @@ jobs:
       - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: npm publish --access public
+      - run: yarn publish-libs
       - if: always()
         run: rm .npmrc
 

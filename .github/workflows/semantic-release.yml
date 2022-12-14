@@ -73,3 +73,8 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
       - if: always()
         run: rm .npmrc
+
+  npm-publish-registry-workflow:
+    name: Running workflow to publish to npm registry
+    secrets: inherit
+    uses: ./.github/workflows/npm.yml

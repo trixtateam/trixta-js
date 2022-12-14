@@ -11,8 +11,7 @@ jobs:
   publish-release:
     name: Running release
     if:
-      "contains(toJSON(github.event.commits.*.message), 'chore(release):
-      @trixtateam/trixta-js-core')"
+      "contains(toJSON(github.event.commits.*.message), 'chore(release):')"
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -58,21 +57,21 @@ jobs:
         run: yarn install --prefer-offline --frozen-lockfile
 
       - name: Build library 🔨
-        run: yarn build
+        run: yarn build:libs
 
       # Get the tag of the release just created
-      - name: 🏷️ Find tag
-        id: tagger
-        uses: digital-ai/query-tag-action@v2
-        with:
-          exclude: '*-rc*'
-          commit-ish: 'HEAD'
-          exact-match: 'true'
+      # - name: 🏷️ Find tag
+      #   id: tagger
+      #   uses: digital-ai/query-tag-action@v2
+      #   with:
+      #     exclude: '*-rc*'
+      #     commit-ish: 'HEAD'
+      #     exact-match: 'true'
 
       # Create Release Branch
-      - name: 🌿 Create release branch
-        uses: peterjgrainger/action-create-branch@v2.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          branch: 'release/${{ steps.tagger.outputs.tag }}'
+      # - name: 🌿 Create release branch
+      #   uses: peterjgrainger/action-create-branch@v2.0.1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     branch: 'release/${{ steps.tagger.outputs.tag }}'

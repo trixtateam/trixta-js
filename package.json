@@ -1,11 +1,12 @@
 {
   "name": "@trixtateam/trixta",
-  "version": "6.0.0",
+  "version": "1.0.0",
   "description": "Trixta monorepo",
   "private": true,
   "workspaces": {
     "packages": [
-      "packages/*"
+      "packages/*",
+      "!packages/story-docs/**"
     ]
   },
   "scripts": {

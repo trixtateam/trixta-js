@@ -6777,10 +6777,10 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"
   integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
 
-"@trixtateam/phoenix-to-redux@1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@trixtateam/phoenix-to-redux/-/phoenix-to-redux-1.1.0.tgz#70b8241d11911949793e6c5ae01713bf0bd2cf7c"
-  integrity sha512-u31gBtpw6b/0lICHKVPfLZRqpDzBJ19RSu4Dvo/xWOazSXkFkZm9cM8Ft+ilNJZvOupHGEP/S3ohayTCGcg2lQ==
+"@trixtateam/phoenix-to-redux@1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@trixtateam/phoenix-to-redux/-/phoenix-to-redux-1.1.1.tgz#06556b077c7f42c43a037d77c72075738c3dd017"
+  integrity sha512-7GDFo+EVJxzlMSNbsSF7qx+f3OgXaTaCZKiqZFp4GJVUuPuGlUAz+PEL7TwogW1nSU5GTcuaZYCyp1a2KMJ8vg==
   dependencies:
     immer "~9.0.6"
     phoenix "~1.5.9"

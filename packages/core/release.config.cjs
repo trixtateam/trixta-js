@@ -1,5 +1,14 @@
 module.exports = {
-  branches: ['develop'],
+  branches: [
+    '+([0-9])?(.{+([0-9]),x}).x',
+    'master',
+    'next',
+    'next-major',
+    { name: 'beta', prerelease: true },
+    { name: 'alpha', prerelease: true },
+  ],
+  debug:true,
+  dryRun:true,
   plugins: [
     [
       '@semantic-release/commit-analyzer',
@@ -10,27 +19,25 @@ module.exports = {
           { revert: true, release: 'patch' },
           { type: 'feat', release: 'minor' },
           { type: 'fix', release: 'patch' },
-          { type: 'chore', release: 'patch' },
           { type: 'perf', release: 'patch' },
           { type: 'refactor', release: 'patch' },
           { type: 'style', release: 'patch' },
           { scope: 'no-release', release: false },
         ],
+        "parserOpts": {
+          "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES"]
+        }
       },
     ],
     '@semantic-release/release-notes-generator',
     '@semantic-release/changelog',
-    ['@semantic-release/npm', { npmPublish: false }],
+    ['@semantic-release/npm', { npmPublish: true, }],
     [
       '@semantic-release/git',
       {
-        assets: [
-          'package.json',
-          'CHANGELOG.md',
-          'badges/**/*',
-        ],
+        assets: ['package.json', 'CHANGELOG.md', 'badges/**/*'],
         message:
-          'chore(release): @trixtateam/trixta-js-core@v${nextRelease.version} [skip ci]',
+          'chore(release): @trixtateam/trixta-js-core@v${nextRelease.version}',
       },
     ],
   ],

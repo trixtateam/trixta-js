@@ -11,49 +11,52 @@ JS
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/trixtateam/trixta-js)
 ![GitHub commits since latest release](https://img.shields.io/github/commits-since/trixtateam/trixta-js/latest)
 
-![Coverage statements](https://github.com/trixtateam/trixta-js/blob/master/badges/badge-statements.svg)
-![Coverage branches](https://github.com/trixtateam/trixta-js/blob/master/badges/badge-branches.svg)
-![Coverage functions](https://github.com/trixtateam/trixta-js/blob/master/badges/badge-functions.svg)
-![Coverage lines](https://github.com/trixtateam/trixta-js/blob/master/badges/badge-lines.svg)
-
 ---
 
 **📚 Documentation:** [Storybook](https://trixtateam.github.io/trixta-js/?path=/docs/introduction--page)
-**📦 Package:** [npm](https://www.npmjs.com/package/@trixtateam/trixta-js)
+**📦 Package:** [npm](https://www.npmjs.com/package/@trixtateam/trixta-js-core)
 
-## What is trixta-JS?
+## Table of Contents
 
-trixta-js a javascript library to help any organization, easily connect to a
-Trixta space, build front-end components for you application. It leverages
-[phoenix-to-redux](https://github.com/trixtateam/phoenix-to-redux) to
-communicate with Trixta and gives you a variety of tools / utilities to build
-react components.
+- [📦 Packages](#-packages)
+- [Issues](#issues)
+  - [🐛 Bugs](#-bugs)
+  - [💡 Feature Requests](#-feature-requests)
+  - [❓ Questions](#-questions)
+- [Authors](#authors)
+- [Support](#support)
+- [Contribute](#contribute)
+- [LICENSE](#license)
 
-## Who is this for?
+## 📦 Packages
 
-Any orgranization using Trixta for their javascript application.
+<!-- prettier-ignore-start -->
+<!-- START packages - please keep comment here to allow auto update -->
+- [trixta-js-core](https://github.com/trixtateam/trixta-js/tree/master/packages/core)
+- [trixta-js-rjsf](https://github.com/trixtateam/trixta-js/tree/master/packages/rjsf)
 
----
+<!-- END packages - please keep comment here to allow auto update -->
+<!-- prettier-ignore-end -->
 
-## Install
-⚠️ Using [Yarn Package Manager](https://yarnpkg.com) is recommended over `npm`.
+## Issues
 
-```shell
-yarn add @trixtateam/trixta-js @trixtateam/phoenix-to-redux
-```
+### 🐛 Bugs
 
-or
+Please file an issue for bugs, missing documentation, or unexpected behavior.
 
-```shell
-npm i @trixtateam/trixta-js @trixtateam/phoenix-to-redux
-```
----
+[**See Bugs**][bugs]
 
-## Quick Start Guides
-* [general guide](https://github.com/trixtateam/trixta-js/blob/master/docs/guides/general/README.md)
-* [setting up with CRA](https://github.com/trixtateam/trixta-js/blob/master/docs/guides/cra/README.md)
+### 💡 Feature Requests
 
-## [Detailed Documentation](https://github.com/trixtateam/trixta-js/blob/master/docs/README.md)
+Please file an issue to suggest new features. Vote on feature requests by adding
+a 👍. This helps maintainers prioritize what to work on.
+
+[**See Feature Requests**][requests]
+
+### ❓ Questions
+
+Please file an issue to suggest new questions.
+
 
 ## Contributing
 
@@ -62,4 +65,10 @@ Read our [contributors' guide](https://github.com/trixtateam/trixta-js/blob/mast
 ## License
 
 This project is licensed under the MIT license, Copyright (c) 2020 Trixta Inc.
-For more information see `LICENSE.md`.
+For more information see [`LICENSE.md`](https://github.com/trixtateam/trixta-js/blob/master/LICENSE.md).
+
+<!-- prettier-ignore-start -->
+[bugs]: https://github.com/trixtateam/trixta-js/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Acreated-desc
+[github]: https://github.com/trixtateam/trixta-js
+[requests]: https://github.com/trixtateam/trixta-js/issues?q=is%3Aissue+sort%3Areactions-%2B1-desc+label%3Aenhancement+is%3Aopen
+<!-- prettier-ignore-end -->

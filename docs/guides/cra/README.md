@@ -10,7 +10,7 @@ cd my-example-app
 ```
 ### 2. Install trixta-js
 ```shell
-yarn add @trixtateam/trixta-js @trixtateam/phoenix-to-redux @rjsf/core@4.2.2
+yarn add @trixtateam/trixta-js-core @trixtateam/trixta-js-rjsf @trixtateam/phoenix-to-redux @rjsf/core @rjsf/utils @rjsf/validator-ajv6
 ```
 
 ### 3. Generate Login Page Example
@@ -28,11 +28,13 @@ Replace file contents with below code.
  *
  */
 import {
-  ReservedTrixtaRoles,
+  ReservedTrixtaRoles
+} from '@trixtateam/trixta-js-core';
+import {
   TrixtaActionComponent,
   TrixtaLoginWidget,
   TrixtaReactionComponent,
-} from '@trixtateam/trixta-js';
+} from '@trixtateam/trixta-js-rjsf';
 import { PageWrapper } from '../../components/PageWrapper';
 
 interface Props {}
@@ -89,7 +91,7 @@ Replace file contents with below code.
 
 import { combineReducers } from '@reduxjs/toolkit';
 import { phoenixReducer } from '@trixtateam/phoenix-to-redux';
-import { trixtaReducer } from '@trixtateam/trixta-js';
+import { trixtaReducer } from '@trixtateam/trixta-js-core';
 import { InjectedReducersType } from 'utils/types/injector-typings';
 
 /**
@@ -114,7 +116,7 @@ Create and copy saga file
 ```src\app\sagas\app.ts```
 
 ```javascript
-import { setupTrixtaSaga } from '@trixtateam/trixta-js';
+import { setupTrixtaSaga } from '@trixtateam/trixta-js-core';
 import { fork } from 'redux-saga/effects';
 
 export default function* rootSaga() {
@@ -197,7 +199,7 @@ Replace file contents with below code.
 import { Helmet } from 'react-helmet-async';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { GlobalStyle } from '../styles/global-styles';
-import { useTrixtaSpace } from '@trixtateam/trixta-js';
+import { useTrixtaSpace } from '@trixtateam/trixta-js-core';
 import { useTranslation } from 'react-i18next';
 import { SagaInjectionModes, useInjectSaga } from 'redux-injectors';
 import { HomePage } from './pages/HomePage/Loadable';

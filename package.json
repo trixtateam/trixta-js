@@ -4,8 +4,7 @@
   "description": "Trixta monorepo",
   "private": true,
   "workspaces": {
-    "packages/core/**",
-    "packages/rjsf/**"
+     "packages": ["packages/core","packages/rjsf"]
   },
   "scripts": {
     "dev": "rollup -c --watch",

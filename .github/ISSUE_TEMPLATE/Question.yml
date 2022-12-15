@@ -1,0 +1,21 @@
+name: ❔ Question
+description: Ask a Question
+title: "<title>"
+labels: [question, needs triage]
+assignees:
+  - trixtateam/reviewers
+body:
+- type: dropdown
+  id: package
+  attributes:
+    label: What package are you using?
+    options:
+      - core
+      - rjsf
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: What is your question?
+  validations:
+    required: false

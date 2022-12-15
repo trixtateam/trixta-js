@@ -13,65 +13,42 @@ jobs:
     if:
       "contains(toJSON(github.event.commits.*.message), 'chore(release):')"
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [14]
+    permissions:
+      contents: read
+      packages: write
     env:
       CI: true
-
     steps:
       - name: 🛒 Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_TOKEN }}
 
-      - name: Configure npm 🔑
-        run: |
-          echo "//npm.pkg.github.com/:_authToken=$GH_TOKEN" > .npmrc
-          echo '@trixtateam:registry=https://npm.pkg.github.com' >> .npmrc
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-
-      - name: 💿 Setup Nodejs
+      - name: 🚀 Publish package to GitHub Packages
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '16.x'
           registry-url: 'https://npm.pkg.github.com'
+          # Defaults to the user or organization that owns the workflow file
+          scope: '@trixtateam'
+      - run: yarn
+      - run: yarn publish:libs
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
+      - if: always()
+        run: rm .npmrc
 
-      - name: 💾 Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - name: 💾 Cache
-        uses: actions/cache@v2
-        id: yarn-cache
+      - name: 🚀 Publish package to NPM Registry
+        uses: actions/setup-node@v3
         with:
-          path: |
-            **/.cache/Cypress
-            **/cypress/cache
-            **/node_modules
-            ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn
-
-      - name: 🧩 Install dependencies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn install --prefer-offline --frozen-lockfile
-
-      - name: Build library 🔨
-        run: yarn build:libs
-
-      # Get the tag of the release just created
-      # - name: 🏷️ Find tag
-      #   id: tagger
-      #   uses: digital-ai/query-tag-action@v2
-      #   with:
-      #     exclude: '*-rc*'
-      #     commit-ish: 'HEAD'
-      #     exact-match: 'true'
-
-      # Create Release Branch
-      # - name: 🌿 Create release branch
-      #   uses: peterjgrainger/action-create-branch@v2.0.1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     branch: 'release/${{ steps.tagger.outputs.tag }}'
+          node-version: '16.x'
+          registry-url: 'https://registry.npmjs.org'
+          # Defaults to the user or organization that owns the workflow file
+          scope: '@trixtateam'
+      - run: yarn
+      - run: yarn publish:libs
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - if: always()
+        run: rm .npmrc

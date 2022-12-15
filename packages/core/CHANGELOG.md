@@ -1,4 +1,6 @@
-   ## [5.6.8](https://github.com/trixtateam/trixta-js/compare/v5.6.7...v5.6.8) (2022-10-11)
+# @trixtateam/trixta-js-core 1.0.0 (2022-12-15)
+
+## [5.6.8](https://github.com/trixtateam/trixta-js/compare/v5.6.7...v5.6.8) (2022-10-11)
 
 
 ### Bug Fixes

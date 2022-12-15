@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  semantic-release:
+  semantic-release-version:
     name: Running semantic-release
     if: "!contains(toJSON(github.event.commits.*.message), 'chore(release):')"
     runs-on: ubuntu-latest
@@ -20,13 +20,6 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GH_TOKEN }}
-
-      - name: Configure npm 🔑
-        run: |
-          echo "//npm.pkg.github.com/:_authToken=$GH_TOKEN" > .npmrc
-          echo '@trixtateam:registry=https://npm.pkg.github.com' >> .npmrc
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: 💿 Setup Nodejs
         uses: actions/setup-node@v3
@@ -65,11 +58,46 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  publish-packages:
+    name: Publishing packages
+    needs: semantic-release-version
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    env:
+      CI: true
+    steps:
+      - name: 🛒 Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_TOKEN }}
 
-      - name: 🚀 Publish packages
-        continue-on-error: true
-        run: yarn publish:libs
+      - name: 🚀 Publish package to GitHub Packages
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: 'https://npm.pkg.github.com'
+          # Defaults to the user or organization that owns the workflow file
+          scope: '@trixtateam'
+      - run: yarn
+      - run: yarn publish:libs
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
+      - if: always()
+        run: rm .npmrc
+        
+      - name: 🚀 Publish package to NPM Registry
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: 'https://registry.npmjs.org'
+          # Defaults to the user or organization that owns the workflow file
+          scope: '@trixtateam'
+      - run: yarn
+      - run: yarn publish:libs
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - if: always()
         run: rm .npmrc

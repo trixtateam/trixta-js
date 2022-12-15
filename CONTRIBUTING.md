@@ -32,12 +32,6 @@ yarn lint:ts
 yarn build:libs
 ```
 
-**Prettify** - Run prettier formater on all packages.
-
-```shell
-yarn prettify
-```
-
 **Test** - This will run tests.
 
 ```shell
@@ -60,18 +54,6 @@ yarn test:nocov
 
 All the JavaScript code in this project conforms to the [prettier](https://github.com/prettier/prettier) coding style. Code is automatically prettified upon commit using precommit hooks.
 
-## Documentation
-
-We use [storybook](https://storybook.js.org/) to build our documentation. To run documentation locally, run:
-
-```bash
-yarn build
-yarn storybook
-```
-
-Documentation will be served on [localhost:6006](http://localhost:6006).
-
-
 ## Releasing
 
 [Semantic release](https://github.com/semantic-release/semantic-release) is being used for versioning and packaging purposes.
@@ -82,12 +64,6 @@ All PR's run a CI check that need to pass and require at least 1 approval. Once 
 
 [Semantic release](https://github.com/semantic-release/semantic-release) will check the commit history on the approved PR. When the PR is merged into master, it will determine
 the version based on commit message syntax.
-- A release/v+.+.+ branch will be created
-- A github npm package will be published.
-- The storybook docs will be deployed and updated.
-- To deploy to npm registry the [npm github action](https://github.com/trixtateam/trixta-js/actions/workflows/npm.yml) must be run manually.
-
-### Releasing docs
-
-Docs are automatically published using publish-storybook workflow upon a new Release.
+- A version will be updated for pacakges
+- Packages will be published.
 

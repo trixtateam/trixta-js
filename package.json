@@ -13,7 +13,6 @@
     "lint:ts": "yarn workspaces run tsc --noEmit",
     "lint": "yarn workspaces run lint",
     "lint:fix": "yarn workspaces run lint:fix",
-    "prettify": "prettier --write",
     "prepare": "yarn run build:libs && husky install",
     "clean": "yarn clean:modules && yarn clean:cache",
     "clean:cache": "yarn cache clean",

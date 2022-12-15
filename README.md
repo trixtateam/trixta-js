@@ -1,6 +1,7 @@
 <img src="https://raw.githubusercontent.com/trixtateam/trixta-js/master/docs/images/trixta-logo.png" alt="trixta logo"  />
-JS
-<hr />
+<br />
+
+MONOREPO
 
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
@@ -14,19 +15,18 @@ JS
 ---
 
 **📚 Documentation:** [Storybook](https://trixtateam.github.io/trixta-js/?path=/docs/introduction--page)
-**📦 Package:** [npm](https://www.npmjs.com/package/@trixtateam/trixta-js-core)
+**📦 Main Package:** [npm](https://www.npmjs.com/package/@trixtateam/trixta-js-core)
 
 ## Table of Contents
 
+- [Table of Contents](#table-of-contents)
 - [📦 Packages](#-packages)
 - [Issues](#issues)
   - [🐛 Bugs](#-bugs)
   - [💡 Feature Requests](#-feature-requests)
   - [❓ Questions](#-questions)
-- [Authors](#authors)
-- [Support](#support)
-- [Contribute](#contribute)
-- [LICENSE](#license)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## 📦 Packages
 
@@ -70,5 +70,5 @@ For more information see [`LICENSE.md`](https://github.com/trixtateam/trixta-js/
 <!-- prettier-ignore-start -->
 [bugs]: https://github.com/trixtateam/trixta-js/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Acreated-desc
 [github]: https://github.com/trixtateam/trixta-js
-[requests]: https://github.com/trixtateam/trixta-js/issues?q=is%3Aissue+sort%3Areactions-%2B1-desc+label%3Aenhancement+is%3Aopen
+[requests]: https://github.com/trixtateam/trixta-js/issues?q=is%3Aissue+sort%3Areactions-%2B1-desc+label%3Afeature+is%3Aopen
 <!-- prettier-ignore-end -->

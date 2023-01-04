@@ -45,10 +45,7 @@ npm i @trixtateam/trixta-js-core @trixtateam/phoenix-to-redux
 ```
 ---
 
-## Quick Start Guides
-* [general guide](https://github.com/trixtateam/trixta-js/blob/master/docs/guides/general/README.md)
-
-## [Detailed Documentation](https://github.com/trixtateam/trixta-js/blob/master/docs/README.md)
+## [Detailed Documentation](https://trixtateam.gitbook.io/trixta-js-core)
 
 ## Contributing
 

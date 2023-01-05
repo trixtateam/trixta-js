@@ -54,6 +54,9 @@ yarn test:nocov
 
 All the JavaScript code in this project conforms to the [prettier](https://github.com/prettier/prettier) coding style. Code is automatically prettified upon commit using precommit hooks.
 
+## Documentation
+Our documentation is using [gitbook](https://www.gitbook.com/). If you have been given access as a contributor to the docs, you will have access to this [link](https://app.gitbook.com/o/FwLb6BYpsupuOqpDvFFr/s/k4jk6sVLepIAbWAKjFG6/)
+
 ## Releasing
 
 [Semantic release](https://github.com/semantic-release/semantic-release) is being used for versioning and packaging purposes.

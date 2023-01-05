@@ -14,16 +14,12 @@ JS-RJSF
 
 ---
 
-**📚 Documentation:** [Storybook](https://trixtateam.github.io/trixta-js/?path=/docs/introduction--page)
+**[📚 Documentation](https://trixtateam.gitbook.io/trixta-js-rjsf)**
 **📦 Package:** [npm](https://www.npmjs.com/package/@trixtateam/trixta-js-rjsf)
 
 ## What is trixta-JS-RJSF?
 
-trixta-js-rjsf a javascript library to help any organization, easily connect to a
-Trixta space, build front-end components for you application. It leverages [rjsf](https://github.com/rjsf-team/react-jsonschema-form)
-and [phoenix-to-redux](https://github.com/trixtateam/phoenix-to-redux) to
-communicate with Trixta and gives you a variety of tools / utilities to build
-react components.
+trixta-js-rjsf is an extension of [trixta-js-core](https://trixtateam.gitbook.io/trixta-js-core)  to help any organization, easily connect to a Trixta space, build front-end components for you application. It leverages [rjsf](https://github.com/rjsf-team/react-jsonschema-form) and [phoenix-to-redux](https://trixtateam.gitbook.io/phoenix-to-redux/) to communicate with Trixta and gives you form building capabilities using [rjsf](https://github.com/rjsf-team/react-jsonschema-form).
 
 ## Who is this for?
 
@@ -48,8 +44,8 @@ npm i @trixtateam/trixta-js-core @trixtateam/trixta-js-rjsf @trixtateam/phoenix-
 ## Prerequistes
 * Please be aware that ```@rjsf/core"```, ```"@rjsf/utils"``` packages are required. see [rjsf install docs](https://react-jsonschema-form.readthedocs.io/en/latest/#installation)
 
-## Quick Start Guides
-* [setting up with CRA](https://github.com/trixtateam/trixta-js/blob/master/docs/guides/cra/README.md)
+
+## [Detailed Documentation](https://trixtateam.gitbook.io/trixta-js-rjsf)
 
 ## Contributing
 

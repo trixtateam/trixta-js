@@ -11,10 +11,13 @@ import {
   RequestStatus,
   TrixtaBaseRoleProps,
   TrixtaCommon,
-  TrixtaReactionInstance,
   TrixtaState,
 } from '../types/common';
-import { TrixtaReaction, TrixtaReactionBaseProps } from '../types/reactions';
+import {
+  TrixtaReaction,
+  TrixtaReactionBaseProps,
+  TrixtaReactionInstance,
+} from '../types/reactions';
 import {
   selectTrixtaLoadingStatusRefProp,
   selectTrixtaRoleNameProp,

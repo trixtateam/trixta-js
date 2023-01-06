@@ -7,11 +7,7 @@ import {
   TrixtaActionDetails,
   TrixtaActionHandlerType,
 } from '../actions';
-import {
-  TrixtaReaction,
-  TrixtaReactionDetails,
-  TrixtaReactionType,
-} from '../reactions';
+import { TrixtaReaction, TrixtaReactionDetails } from '../reactions';
 
 export interface LoadingStatus {
   status?: boolean;
@@ -202,32 +198,6 @@ export interface TrixtaInstanceResponse<
   timeStamp?: number;
 }
 
-export interface TrixtaReactionInstanceDetails<
-  TInitialData = DefaultUnknownType
-> extends Record<string, unknown> {
-  // eslint-disable-next-line camelcase
-  /**
-   * Initial Data returned from Trixta for Reaction / Action
-   */
-  initial_data: TInitialData;
-  /**
-   * Type of Trixta reaction if instance of Trixta Reaction
-   */
-  type?: TrixtaReactionType;
-  /**
-   * Status from from Trixta
-   */
-  status?: string;
-  /**
-   * Unique reference no for Trixta to respond for Reaction
-   */
-  ref?: string;
-  /**
-   * Date of when instance created
-   */
-  dateCreated?: string;
-}
-
 export interface TrixtaInstance<
   /**
    * Type of data for Trixta response for Reaction / Action
@@ -239,27 +209,6 @@ export interface TrixtaInstance<
   TErrorType = DefaultUnknownType
 > extends Record<string, unknown> {
   response: TrixtaInstanceResponse<TSuccessType, TErrorType>;
-}
-
-export interface TrixtaReactionInstance<
-  /**
-   * Type of data for initial data from Trixta for Reaction / Action
-   */
-  TInitialData = DefaultUnknownType,
-  /**
-   * Type of data for Trixta response for Reaction / Action
-   */
-  TSuccessType = DefaultUnknownType,
-  /**
-   * Type of data for Trixta error response for Reaction / Action
-   */
-  TErrorType = DefaultUnknownType
-> extends TrixtaInstance<TSuccessType, TErrorType> {
-  details: TrixtaReactionInstanceDetails<TInitialData>;
-  /**
-   * Unique key for each reaction instance component
-   */
-  instanceKey: string;
 }
 
 export type TrixtaDispatch<T = never> = [T] extends [never]

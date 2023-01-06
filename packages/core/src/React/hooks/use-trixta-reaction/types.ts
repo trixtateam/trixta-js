@@ -2,9 +2,11 @@ import {
   DefaultUnknownType,
   SubmitTrixtaFunctionParameters,
   TrixtaInstanceResponse,
-  TrixtaReactionInstance,
 } from '../../types/common';
-import { TrixtaReactionBaseProps } from '../../types/reactions';
+import {
+  TrixtaReactionBaseProps,
+  TrixtaReactionInstance,
+} from '../../types/reactions';
 
 export interface UseTrixtaReactionProps<
   TSuccessType = DefaultUnknownType,

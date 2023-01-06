@@ -46,8 +46,18 @@ export interface TrixtaActionResponseDetails<
 
 export interface TrixtaAction {
   common: TrixtaCommon;
+  /**
+   * Determines how the instances should be handled,
+   * if replaced each time a response is received or accumulate, the default is replace
+   */
   mode: TrixtaInstanceMode;
+  /**
+   * Determines the progress staus when waiting for a response
+   */
   requestStatus: Record<string, RequestStatus>;
+  /**
+   * Response instances for the Trixta Action
+   */
   instances: TrixtaInstance[];
 }
 

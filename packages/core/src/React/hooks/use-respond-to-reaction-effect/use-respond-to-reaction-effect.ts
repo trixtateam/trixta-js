@@ -6,12 +6,11 @@ import {
   makeSelectTrixtaReactionResponseInstancesForRole,
 } from '../../selectors';
 import { trixtaDebugger, TrixtaDebugType } from '../../TrixtaDebugger';
+import { DefaultUnknownType, TrixtaState } from '../../types/common';
 import {
-  DefaultUnknownType,
+  TrixtaReactionBaseProps,
   TrixtaReactionInstance,
-  TrixtaState,
-} from '../../types/common';
-import { TrixtaReactionBaseProps } from '../../types/reactions';
+} from '../../types/reactions';
 import {
   UseRespondToReactionEffectHookReturn,
   UseRespondToReactionEffectProps,

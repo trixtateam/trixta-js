@@ -20,10 +20,12 @@ import {
 import {
   RequestStatus,
   SubmitTrixtaFunctionParameters,
-  TrixtaReactionInstance,
   TrixtaState,
 } from '../../types/common';
-import { TrixtaReactionBaseProps } from '../../types/reactions';
+import {
+  TrixtaReactionBaseProps,
+  TrixtaReactionInstance,
+} from '../../types/reactions';
 import { UseTrixtaReactionHookReturn, UseTrixtaReactionProps } from './types';
 
 export const useTrixtaReaction = <

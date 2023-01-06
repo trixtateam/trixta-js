@@ -5,10 +5,57 @@ import {
   RequestStatus,
   TrixtaBaseRoleProps,
   TrixtaCommon,
+  TrixtaInstance,
   TrixtaInstanceMode,
-  TrixtaReactionInstance,
 } from '../common';
 export type TrixtaReactionType = 'requestForEffect' | 'requestForResponse';
+
+export interface TrixtaReactionInstance<
+  /**
+   * Type of data for initial data from Trixta for Reaction / Action
+   */
+  TInitialData = DefaultUnknownType,
+  /**
+   * Type of data for Trixta response for Reaction / Action
+   */
+  TSuccessType = DefaultUnknownType,
+  /**
+   * Type of data for Trixta error response for Reaction / Action
+   */
+  TErrorType = DefaultUnknownType
+> extends TrixtaInstance<TSuccessType, TErrorType> {
+  details: TrixtaReactionInstanceDetails<TInitialData>;
+  /**
+   * Unique key for each reaction instance component
+   */
+  instanceKey: string;
+}
+
+export interface TrixtaReactionInstanceDetails<
+  TInitialData = DefaultUnknownType
+> extends Record<string, unknown> {
+  // eslint-disable-next-line camelcase
+  /**
+   * Initial Data returned from Trixta for Reaction / Action
+   */
+  initial_data: TInitialData;
+  /**
+   * Type of Trixta reaction if instance of Trixta Reaction
+   */
+  type?: TrixtaReactionType;
+  /**
+   * Status from from Trixta
+   */
+  status?: string;
+  /**
+   * Unique reference no for Trixta to respond for Reaction
+   */
+  ref?: string;
+  /**
+   * Date of when instance created
+   */
+  dateCreated?: string;
+}
 
 export interface TrixtaReactionResponseDetails<
   TInitialData = DefaultUnknownType
@@ -146,9 +193,23 @@ export type SubmitTrixtaReactionResponse<TFormData = never> = FormData<
 
 export interface TrixtaReaction {
   common: TrixtaCommon;
+  /**
+   * Determines how the instances should be handled,
+   * if replaced each time a response is received or accumulate, the default is replace
+   */
   mode: TrixtaInstanceMode;
-  loadingStatus: LoadingStatus;
+  /**
+   * Determines the progress staus when waiting for a response
+   */
   requestStatus: Record<string, RequestStatus>;
+  /**
+   * Determines the progress status of when a reaction is received, will be true
+   * until one is received
+   */
+  loadingStatus: LoadingStatus;
+  /**
+   * Response instances for the Trixta Reaction, requestForEffect and requestForResponse
+   */
   instances: {
     requestForEffect: TrixtaReactionInstance[];
     requestForResponse: TrixtaReactionInstance[];

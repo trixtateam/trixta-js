@@ -36,8 +36,6 @@ jobs:
       - run: yarn publish:libs
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
-      - if: always()
-        run: rm .npmrc
 
       - name: 🚀 Publish package to NPM Registry
         uses: actions/setup-node@v3
@@ -50,5 +48,3 @@ jobs:
       - run: yarn publish:libs
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - if: always()
-        run: rm .npmrc

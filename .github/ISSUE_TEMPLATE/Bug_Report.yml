@@ -3,7 +3,7 @@ description: File a bug/issue
 title: "<title>"
 labels: [bug, needs triage]
 assignees:
-  - @trixtateam/reviewers
+  - trixtateam/reviewers
 body:
 - type: checkboxes
   attributes:

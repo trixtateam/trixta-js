@@ -2,6 +2,7 @@
   "name": "@trixtateam/trixta",
   "version": "1.0.0",
   "description": "Trixta monorepo",
+  "author": "jacqueswho <jacqueswho@gmail.com>",
   "private": true,
   "workspaces": {
      "packages": ["packages/core","packages/rjsf"]

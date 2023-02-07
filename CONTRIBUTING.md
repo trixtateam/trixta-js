@@ -55,6 +55,7 @@ yarn test:nocov
 All the JavaScript code in this project conforms to the [prettier](https://github.com/prettier/prettier) coding style. Code is automatically prettified upon commit using precommit hooks.
 
 ## Documentation
+
 Our documentation is using [gitbook](https://www.gitbook.com/). If you have been given access as a contributor to the docs, you will have access to this [link](https://app.gitbook.com/o/FwLb6BYpsupuOqpDvFFr/s/k4jk6sVLepIAbWAKjFG6/)
 
 ## Releasing
@@ -67,6 +68,6 @@ All PR's run a CI check that need to pass and require at least 1 approval. Once 
 
 [Semantic release](https://github.com/semantic-release/semantic-release) will check the commit history on the approved PR. When the PR is merged into master, it will determine
 the version based on commit message syntax.
-- A version will be updated for pacakges
-- Packages will be published.
 
+- The version will be updated for each package.
+- Packages will be published.

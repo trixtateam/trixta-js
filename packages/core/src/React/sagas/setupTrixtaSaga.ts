@@ -55,6 +55,7 @@ import {
   SubmitTrixtaReactionResponseAction,
   UpdateTrixtaActionDetailsAction,
   updateTrixtaError,
+  updateTrixtaInteraction,
   UpdateTrixtaReactionDetailsAction,
   UpdateTrixtaRoleAction,
   updateTrixtaRoles,
@@ -206,6 +207,17 @@ function* setupRoleSaga({
     if (!isNullOrEmpty(response)) {
       const reactionsForRole = response.contract_reactions ?? [];
       const actionsForRole = response.contract_actions ?? [];
+      if (!['everyone_anon', 'trixta_ide_user'].includes(roleName)) {
+        yield put(
+          updateTrixtaInteraction({
+            roleKey: roleName,
+            interactions: {
+              actions: actionsForRole,
+              reactions: reactionsForRole,
+            },
+          }),
+        );
+      }
       if (!isNullOrEmpty(actionsForRole)) {
         yield all(
           Object.keys(actionsForRole).map((actionName) =>

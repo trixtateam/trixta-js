@@ -21,6 +21,7 @@ export const UPDATE_TRIXTA_ROLE = `${base}/UPDATE_TRIXTA_ROLE`;
 export const JOIN_TRIXTA_ROLE = `${base}/JOIN_TRIXTA_ROLE`;
 export const LEAVE_TRIXTA_ROLE = `${base}/LEAVE_TRIXTA_ROLE`;
 export const REMOVE_TRIXTA_ROLE = `${base}/REMOVE_TRIXTA_ROLE`;
+export const UPDATE_TRIXTA_INTERACTION = `${base}/UPDATE_TRIXTA_INTERACTION`;
 export const SIGN_OUT_TRIXTA = `${base}/SIGN_OUT_TRIXTA`;
 export const CONNECT_TRIXTA = `${base}/CONNECT_TRIXTA`;
 export const UPDATE_TRIXTA_ERROR = `${base}/UPDATE_TRIXTA_ERROR`;

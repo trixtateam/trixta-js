@@ -35,6 +35,7 @@ import {
   UPDATE_DISCONNECTED_ROLES,
   UPDATE_TRIXTA_ACTION,
   UPDATE_TRIXTA_ERROR,
+  UPDATE_TRIXTA_INTERACTION,
   UPDATE_TRIXTA_REACTION,
   UPDATE_TRIXTA_REACTION_RESPONSE,
   UPDATE_TRIXTA_ROLE,
@@ -58,6 +59,7 @@ export const initialState: TrixtaState = {
   agentDetails: {},
   reactions: {},
   actions: {},
+  interactions: {},
   error: false,
 };
 /* eslint-disable default-case, no-param-reassign, consistent-return */
@@ -366,6 +368,20 @@ export const trixtaReducer = (
               keyName,
             });
           }
+        }
+        break;
+      case UPDATE_TRIXTA_INTERACTION:
+        {
+          const interactionDetails = action.payload.interactions;
+          const keyName = action.payload.keyName;
+
+          draft.interactions = {
+            ...state.interactions,
+            [keyName]: {
+              ...state.interactions[keyName],
+              ...interactionDetails,
+            },
+          };
         }
         break;
       case UPDATE_TRIXTA_REACTION:

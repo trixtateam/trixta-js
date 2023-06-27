@@ -18,7 +18,6 @@ import {
   connectPhoenix,
   getPhoenixChannel,
   leavePhoenixChannel,
-  phoenixChannelJoin,
   pushToPhoenixChannel,
   socketActionTypes,
 } from '@trixtateam/phoenix-to-redux';
@@ -207,17 +206,6 @@ function* setupRoleSaga({
     if (!isNullOrEmpty(response)) {
       const reactionsForRole = response.contract_reactions ?? [];
       const actionsForRole = response.contract_actions ?? [];
-      if (!['everyone_anon', 'trixta_ide_user'].includes(roleName)) {
-        yield put(
-          updateTrixtaInteraction({
-            roleKey: roleName,
-            interactions: {
-              actions: actionsForRole,
-              reactions: reactionsForRole,
-            },
-          }),
-        );
-      }
       if (!isNullOrEmpty(actionsForRole)) {
         yield all(
           Object.keys(actionsForRole).map((actionName) =>
@@ -689,6 +677,39 @@ function* handleChannelJoinSaga({
 }) {
   yield fork(setupRoleSaga, { response, channel, additionalData });
 }
+/**
+ * After joining the channel
+ * call setupRoleSaga
+ * @param response
+ * @param additionalData
+ * @param channel
+ * @returns {IterableIterator<*>}
+ */
+function* handleWatchForInteractionAdded({
+  response,
+  additionalData,
+  channel,
+}: {
+  response: TrixtaChannelJoinResponse;
+  channel: Channel;
+  additionalData?: any;
+}) {
+  const roleChannel = get<string>(channel, 'topic');
+  const roleName = roleChannel.split(':')[1];
+  if (!['everyone_anon', 'trixta_ide_user'].includes(roleName)) {
+    const reactionsForRole = response.contract_reactions ?? [];
+    const actionsForRole = response.contract_actions ?? [];
+    yield put(
+      updateTrixtaInteraction({
+        roleKey: roleName,
+        interactions: {
+          actions: actionsForRole,
+          reactions: reactionsForRole,
+        },
+      }),
+    );
+  }
+}
 
 /**
  * After leaving the channel
@@ -755,12 +776,7 @@ function* watchForPhoenixChannelJoined(): Generator<
   void,
   unknown
 > {
-  while (true) {
-    const action: ReturnType<typeof phoenixChannelJoin> = yield take(
-      channelActionTypes.CHANNEL_JOIN,
-    );
-    yield fork(handleChannelJoinSaga, action);
-  }
+  yield takeEvery(channelActionTypes.CHANNEL_JOIN, handleChannelJoinSaga);
 }
 
 function* watchForPhoenixChannelLeft() {
@@ -861,6 +877,7 @@ function* loginToTrixtaSpace({
 
 export function* setupTrixtaSaga(): Generator<unknown, void, unknown> {
   yield all([
+    takeLatest(channelActionTypes.CHANNEL_JOIN, handleWatchForInteractionAdded),
     fork(watchForUpdateTrixtaRoles),
     fork(watchForUpdateTrixtaRole),
     fork(watchForRemoveTrixtaRole),

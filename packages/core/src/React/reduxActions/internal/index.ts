@@ -144,7 +144,7 @@ export function updateTrixtaReaction({
  * @param params.actions - action of role
  * @param params.reactions - name of action
  */
-export function updateTrixtaInteraction({ roleKey, interactions }: any) {
+export function addRoleToInteraction({ roleKey, interactions }: any) {
   return {
     type: UPDATE_TRIXTA_INTERACTION,
     payload: {

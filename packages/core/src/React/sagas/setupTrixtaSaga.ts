@@ -697,22 +697,25 @@ function* handleWatchForInteractionAdded({
   const roleChannel = get<string>(channel, 'topic');
   const roleName = roleChannel.split(':')[1];
   if (!['everyone_anon', 'trixta_ide_user'].includes(roleName)) {
+    const actionsForRole = response.contract_actions
+      ? Object.entries(response.contract_actions).reduce(
+          (acc, [key, value]) => {
+            acc[`${roleName}:${key}`] = value;
+            return acc;
+          },
+          {},
+        )
+      : [];
 
-    const actionsForRole = response.contract_actions ? Object.entries(response.contract_actions).reduce(
-      (acc, [key, value]) => {
-        acc[`${roleName}:${key}`] = value;
-        return acc;
-      },
-      {},
-    ) : [];
-
-    const reactionsForRole = response.contract_reactions ? Object.entries(response.contract_reactions).reduce(
-      (acc, [key, value]) => {
-        acc[`${roleName}:${key}`] = value;
-        return acc;
-      },
-      {},
-    ) : [];
+    const reactionsForRole = response.contract_reactions
+      ? Object.entries(response.contract_reactions).reduce(
+          (acc, [key, value]) => {
+            acc[`${roleName}:${key}`] = value;
+            return acc;
+          },
+          {},
+        )
+      : [];
     yield put(
       addRoleToInteraction({
         roleKey: roleName,

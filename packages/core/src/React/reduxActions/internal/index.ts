@@ -8,7 +8,7 @@ import {
   UPDATE_DISCONNECTED_ROLES,
   UPDATE_TRIXTA_ACTION,
   UPDATE_TRIXTA_ERROR,
-  UPDATE_TRIXTA_INTERACTION,
+  SET_TRIXTA_INTERACTIONS,
   UPDATE_TRIXTA_REACTION,
   UPDATE_TRIXTA_REACTION_RESPONSE,
 } from '../../constants';
@@ -146,7 +146,7 @@ export function updateTrixtaReaction({
  */
 export function addRoleToInteraction({ roleKey, interactions }: any) {
   return {
-    type: UPDATE_TRIXTA_INTERACTION,
+    type: SET_TRIXTA_INTERACTIONS,
     payload: {
       keyName: roleKey,
       interactions: interactions,

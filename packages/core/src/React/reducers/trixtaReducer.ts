@@ -35,11 +35,12 @@ import {
   UPDATE_DISCONNECTED_ROLES,
   UPDATE_TRIXTA_ACTION,
   UPDATE_TRIXTA_ERROR,
-  UPDATE_TRIXTA_INTERACTION,
+  SET_TRIXTA_INTERACTIONS,
   UPDATE_TRIXTA_REACTION,
   UPDATE_TRIXTA_REACTION_RESPONSE,
   UPDATE_TRIXTA_ROLE,
   UPDATE_TRIXTA_ROLES,
+  UPDATE_TRIXTA_INTERACTIONS,
 } from '../constants';
 import { SIGN_OUT_TRIXTA } from '../constants/index';
 import { SUBMIT_TRIXTA_REACTION_TIMEOUT_RESPONSE_FAILURE } from '../constants/reactions/index';
@@ -370,7 +371,7 @@ export const trixtaReducer = (
           }
         }
         break;
-      case UPDATE_TRIXTA_INTERACTION:
+      case SET_TRIXTA_INTERACTIONS:
         {
           const interactionDetails = action.payload.interactions;
 
@@ -384,6 +385,26 @@ export const trixtaReducer = (
               ...interactionDetails['reactions'],
             },
           };
+        }
+        break;
+      case UPDATE_TRIXTA_INTERACTIONS:
+        {
+          const type = action.payload.type;
+          const keyName = action.payload.keyName;
+          if (type === 'action') {
+            draft.interactions['reactions'][keyName] = {
+              ...(state.interactions?.['reactions']?.[keyName] ?? {}),
+              ...action.payload.reaction,
+            };
+          }
+          if (type === 'reaction') {
+            draft.interactions['reactions'][keyName] = {
+              ...(state.interactions?.['reactions']?.[keyName] ?? {}),
+              ...action.payload.reaction,
+            };
+          }
+
+          console.log('here!');
         }
         break;
       case UPDATE_TRIXTA_REACTION:

@@ -149,6 +149,7 @@ export function addRoleToInteraction({ roleKey, interactions }: any) {
     type: SET_TRIXTA_INTERACTIONS,
     payload: {
       keyName: roleKey,
+      isDraft: true,
       interactions: interactions,
     },
   };

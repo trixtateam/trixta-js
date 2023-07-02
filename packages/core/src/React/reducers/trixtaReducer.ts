@@ -389,20 +389,13 @@ export const trixtaReducer = (
         break;
       case UPDATE_TRIXTA_INTERACTIONS:
         {
-          const type = action.payload.type;
           const keyName = action.payload.keyName;
-          if (type === 'action') {
-            draft.interactions['reactions'][keyName] = {
-              ...(state.interactions?.['reactions']?.[keyName] ?? {}),
-              ...action.payload.reaction,
-            };
-          }
-          if (type === 'reaction') {
-            draft.interactions['reactions'][keyName] = {
-              ...(state.interactions?.['reactions']?.[keyName] ?? {}),
-              ...action.payload.reaction,
-            };
-          }
+          const type = action.payload.type;
+
+          draft.interactions[`${type}s`][keyName] = {
+            ...(state.interactions?.[`${type}s`]?.[keyName] ?? {}),
+            ...action.payload[type],
+          };
 
           console.log('here!');
         }

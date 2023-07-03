@@ -374,16 +374,15 @@ export const trixtaReducer = (
       case SET_TRIXTA_INTERACTIONS:
         {
           const interactionDetails = action.payload.interactions;
-          const isDraft = action.payload.isDraft ? 'drafts' : 'final';
-
-          draft.interactions[isDraft].actions = {
-            ...(state.interactions?.[isDraft]?.['actions'] ?? {}),
-            ...interactionDetails[isDraft]['actions'],
+          const setType = action.payload.setType;
+          draft.interactions[setType].actions = {
+            ...(state.interactions?.[setType]?.actions ?? {}),
+            ...interactionDetails['actions'],
           };
 
-          draft.interactions[isDraft].reactions = {
-            ...(state.interactions?.[isDraft]?.['reactions'] ?? {}),
-            ...interactionDetails[isDraft]['reactions'],
+          draft.interactions[setType].reactions = {
+            ...(state.interactions?.[setType]?.reactions ?? {}),
+            ...interactionDetails['reactions'],
           };
         }
         break;
@@ -391,9 +390,12 @@ export const trixtaReducer = (
         {
           const keyName = action.payload.keyName;
           const type = action.payload.type;
-          draft.interactions[`${type}s`]['drafts'] = {
-            ...(state.interactions?.[`${type}s`]?.['drafts'] ?? {}),
-            [keyName]: { ...action.payload[type] },
+          draft.interactions['drafts'] = {
+            ...state.interactions['drafts'],
+            [`${type}s`]: {
+              ...(state.interactions?.['drafts']?.[`${type}s`] ?? {}),
+              [keyName]: { ...action.payload[type] },
+            },
           };
         }
         break;

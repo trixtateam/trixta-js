@@ -375,15 +375,41 @@ export const trixtaReducer = (
         {
           const interactionDetails = action.payload.interactions;
           const setType = action.payload.setType;
-          draft.interactions[setType].actions = {
-            ...(state.interactions?.[setType]?.actions ?? {}),
-            ...interactionDetails['actions'],
-          };
+          let finalActions = {};
+          let finalReactions = {};
 
-          draft.interactions[setType].reactions = {
-            ...(state.interactions?.[setType]?.reactions ?? {}),
-            ...interactionDetails['reactions'],
+          if (
+            interactionDetails?.['actions'] &&
+            interactionDetails?.['actions'] !== undefined
+          ) {
+            finalActions = interactionDetails['actions'];
+          }
+
+          if (
+            interactionDetails?.['reactions'] &&
+            interactionDetails?.['reactions'] !== undefined
+          ) {
+            finalReactions = interactionDetails['reactions'];
+          }
+
+          draft.interactions[setType] = {
+            actions: {
+              ...(state.interactions?.[`actions`]?.[setType] ?? {}),
+              ...finalActions,
+            },
+            reactions: {
+              ...(state.interactions?.[`reactions`]?.[setType] ?? {}),
+              ...finalReactions,
+            },
           };
+          if (setType === 'final') {
+            if (Object.keys(finalReactions).length > 0) {
+              draft.interactions.drafts.reactions = {};
+            }
+            if (Object.keys(finalActions).length > 0) {
+              draft.interactions.drafts.actions = {};
+            }
+          }
         }
         break;
       case UPDATE_TRIXTA_INTERACTIONS:

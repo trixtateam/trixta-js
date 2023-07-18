@@ -2,7 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { get } from '../../../../utils/object';
+import { get } from '../../../../utils';
 import { submitTrixtaReactionResponse } from '../../../reduxActions';
 import {
   makeSelectIsTrixtaReactionInProgress,
@@ -14,26 +14,26 @@ import {
   TrixtaDebugType,
   trixtaInstanceDebugger,
 } from '../../../TrixtaDebugger';
-import { TrixtaInstanceResponse, TrixtaState } from '../../../types/common';
-import { TrixtaReactionComponentArgs } from '../TrixtaReactionComponent/types';
-import { TrixtaReactionInstanceComponentProps } from './types';
+import { TrixtaInstanceResponse, TrixtaState } from '../../../types';
+import { TrixtaInteractionInstanceComponentProps } from './types';
+import { TrixtaReactionComponentArgs } from '../../reactions';
 
-function TrixtaReactionInstanceComponent({
-  dispatchSubmitReactionResponse,
-  roleName,
-  reactionName,
-  requestForEffect,
-  common,
-  debugMode,
-  children,
-  instance,
-  isInProgress,
-  instanceRef,
-  loading,
-  isReady,
-  includeResponse,
-  ...rest
-}: ConnectProps & DispatchProps & TrixtaReactionInstanceComponentProps) {
+function TrixtaInteractionInstanceComponent({
+                                           dispatchSubmitReactionResponse,
+                                           roleName,
+                                           reactionName,
+                                           requestForEffect,
+                                           common,
+                                           debugMode,
+                                           children,
+                                           instance,
+                                           isInProgress,
+                                           instanceRef,
+                                           loading,
+                                           isReady,
+                                           includeResponse,
+                                           ...rest
+                                         }: ConnectProps & DispatchProps & TrixtaInteractionInstanceComponentProps) {
   const response = get<TrixtaInstanceResponse>(instance, 'response', {
     success: false,
     error: false,
@@ -88,7 +88,7 @@ const makeMapStateToProps = () => {
   const getIsTrixtaReactionReady = makesSelectIsTrixtaReactionReadyForRole();
   const mapStateToProps = (
     state: { trixta: TrixtaState },
-    props: TrixtaReactionInstanceComponentProps,
+    props: TrixtaInteractionInstanceComponentProps,
   ) => {
     return {
       instance: getTrixtaReactionResponseInstance(state, props),
@@ -102,7 +102,7 @@ const makeMapStateToProps = () => {
 
 function mapDispatchToProps(
   dispatch: Dispatch,
-  ownProps: TrixtaReactionInstanceComponentProps,
+  ownProps: TrixtaInteractionInstanceComponentProps,
 ) {
   return {
     dispatchSubmitReactionResponse: (formData?: any) =>
@@ -132,10 +132,10 @@ type ConnectProps = ReturnType<ReturnType<typeof makeMapStateToProps>>;
 const connector = connect(makeMapStateToProps, mapDispatchToProps);
 export default connector(
   React.memo(
-    TrixtaReactionInstanceComponent,
+    TrixtaInteractionInstanceComponent,
     (
-      props: TrixtaReactionInstanceComponentProps,
-      nextProps: TrixtaReactionInstanceComponentProps,
+      props: TrixtaInteractionInstanceComponentProps,
+      nextProps: TrixtaInteractionInstanceComponentProps,
     ) => props.instanceRef === nextProps.instanceRef,
   ),
 );

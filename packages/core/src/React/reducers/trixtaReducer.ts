@@ -416,6 +416,16 @@ export const trixtaReducer = (
         {
           const keyName = action.payload.keyName;
           const type = action.payload.type;
+          const finalPayload: any = {
+            details: action.payload[type],
+            keyName,
+            instances: state[`${type}s`]?.[keyName]?.instances ?? undefined,
+          };
+          draft[`${type}s`][keyName] =
+            type === 'action'
+              ? getTrixtaActionReducerStructure(finalPayload)
+              : getTrixtaReactionReducerStructure(finalPayload);
+
           draft.interactions['drafts'] = {
             ...state.interactions['drafts'],
             [`${type}s`]: {
@@ -433,6 +443,7 @@ export const trixtaReducer = (
             draft.reactions[keyName] = getTrixtaReactionReducerStructure({
               details: reactionDetails,
               keyName,
+              instances: undefined,
             });
           }
         }

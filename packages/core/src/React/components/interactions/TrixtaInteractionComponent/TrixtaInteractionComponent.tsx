@@ -15,21 +15,21 @@ import TrixtaInteractionInstanceComponent from './TrixtaInteractionInstanceCompo
  * child component or function.
  */
 function TrixtaInteractionComponent({
-                                      common,
-                                      roleName,
-                                      reactionName,
-                                      defaultComponent,
-                                      requestForEffect = false,
-                                      includeResponse = false,
-                                      errorEvent,
-                                      responseEvent,
-                                      requestEvent,
-                                      hasRoleAccess,
-                                      debugMode = false,
-                                      instances,
-                                      ...rest
-                                    }: // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                      ConnectProps & TrixtaInteractionComponentProps) {
+  common,
+  roleName,
+  reactionName,
+  defaultComponent,
+  requestForEffect = false,
+  includeResponse = false,
+  errorEvent,
+  responseEvent,
+  requestEvent,
+  hasRoleAccess,
+  debugMode = false,
+  instances,
+  ...rest
+}: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+ConnectProps & TrixtaInteractionComponentProps) {
   if (!hasRoleAccess) return null;
   if (isNullOrEmpty(common)) return null;
   if (isNullOrEmpty(instances) || !Array.isArray(instances)) {
@@ -37,7 +37,6 @@ function TrixtaInteractionComponent({
       return React.cloneElement(defaultComponent);
     }
     return null;
-
   }
 
   return (

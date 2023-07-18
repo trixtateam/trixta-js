@@ -19,21 +19,21 @@ import { TrixtaInteractionInstanceComponentProps } from './types';
 import { TrixtaReactionComponentArgs } from '../../reactions';
 
 function TrixtaInteractionInstanceComponent({
-                                           dispatchSubmitReactionResponse,
-                                           roleName,
-                                           reactionName,
-                                           requestForEffect,
-                                           common,
-                                           debugMode,
-                                           children,
-                                           instance,
-                                           isInProgress,
-                                           instanceRef,
-                                           loading,
-                                           isReady,
-                                           includeResponse,
-                                           ...rest
-                                         }: ConnectProps & DispatchProps & TrixtaInteractionInstanceComponentProps) {
+  dispatchSubmitReactionResponse,
+  roleName,
+  reactionName,
+  requestForEffect,
+  common,
+  debugMode,
+  children,
+  instance,
+  isInProgress,
+  instanceRef,
+  loading,
+  isReady,
+  includeResponse,
+  ...rest
+}: ConnectProps & DispatchProps & TrixtaInteractionInstanceComponentProps) {
   const response = get<TrixtaInstanceResponse>(instance, 'response', {
     success: false,
     error: false,

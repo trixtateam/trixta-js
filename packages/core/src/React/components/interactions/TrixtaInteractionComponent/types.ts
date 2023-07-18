@@ -30,7 +30,8 @@ export interface TrixtaInteractionComponentArgs<
   [x: string]: any;
 }
 
-export interface TrixtaInteractionComponentProps extends TrixtaReactionComponentProps {
+export interface TrixtaInteractionComponentProps
+  extends TrixtaReactionComponentProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [x: string]: any;
   /**
@@ -88,7 +89,6 @@ export interface TrixtaInteractionComponentProps extends TrixtaReactionComponent
         props: TrixtaInteractionComponentArgs<any, any, any, any>,
       ) => React.ReactNode);
 }
-
 
 export interface TrixtaInteractionInstanceComponentProps
   extends TrixtaReactionBaseProps {

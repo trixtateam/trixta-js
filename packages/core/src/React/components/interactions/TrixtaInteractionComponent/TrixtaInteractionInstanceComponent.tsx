@@ -130,12 +130,4 @@ type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 type ConnectProps = ReturnType<ReturnType<typeof makeMapStateToProps>>;
 
 const connector = connect(makeMapStateToProps, mapDispatchToProps);
-export default connector(
-  React.memo(
-    TrixtaInteractionInstanceComponent,
-    (
-      props: TrixtaInteractionInstanceComponentProps,
-      nextProps: TrixtaInteractionInstanceComponentProps,
-    ) => props.instanceRef === nextProps.instanceRef,
-  ),
-);
+export default connector(React.memo(TrixtaInteractionInstanceComponent));

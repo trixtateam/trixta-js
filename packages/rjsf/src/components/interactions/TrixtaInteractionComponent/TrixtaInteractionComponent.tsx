@@ -5,10 +5,10 @@ import {
   DefaultUnknownType,
 } from '@trixtateam/trixta-js-core';
 import TrixtaFormComponent from '../../TrixtaFormComponent/TrixtaFormComponent';
-import { TrixtaReactionComponentProps } from './types';
+import { TrixtaInteractionComponentProps } from './types';
 
 function TrixtaInteractionComponent(
-  props: TrixtaReactionComponentProps,
+  props: TrixtaInteractionComponentProps,
 ): React.ReactElement | null {
   return (
     <TRC {...props}>

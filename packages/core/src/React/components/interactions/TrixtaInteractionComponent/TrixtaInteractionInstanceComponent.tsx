@@ -63,6 +63,9 @@ function TrixtaInteractionInstanceComponent({
     instanceRef,
     ...rest,
   };
+
+  console.info('children', hasResponse, includeResponse, children);
+
   if (hasResponse && !includeResponse) return null;
   if (hasResponse && includeResponse) {
     if (typeof children === 'function') {
@@ -79,6 +82,8 @@ function TrixtaInteractionInstanceComponent({
   if (React.isValidElement(children)) {
     return React.cloneElement(children, reactionProps);
   }
+
+  return null;
 }
 
 const makeMapStateToProps = () => {

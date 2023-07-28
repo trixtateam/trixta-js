@@ -137,9 +137,11 @@ function* checkTrixtaRolesSaga({
 > {
   try {
     const spaceStatus = yield select(selectTrixtaSpaceStatus);
+
     if (spaceStatus !== 'connected') {
       yield put(updateDisconnectedTrixtaRoles({ roles }));
     }
+
     if (!isNullOrEmpty(roles) && spaceStatus === 'connected') {
       yield all(
         roles.map((role) =>
@@ -162,6 +164,7 @@ function* checkTrixtaRolesSaga({
 function* checkLoggedInRoleSaga({ role }: { role: TrixtaRoleParameter }) {
   if (!isNullOrEmpty(role)) {
     const channelTopic = getChannelName({ role: role.name });
+
     yield put(
       getPhoenixChannel({
         channelTopic,
@@ -182,7 +185,6 @@ function* checkLoggedInRoleSaga({ role }: { role: TrixtaRoleParameter }) {
  * @returns {IterableIterator<*>}
  */
 function* setupRoleSaga({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   additionalData,
   response,
   channel,
@@ -203,9 +205,11 @@ function* setupRoleSaga({
         connectionId: response.temp_user_id,
       }),
     );
+
     if (!isNullOrEmpty(response)) {
       const reactionsForRole = response.contract_reactions ?? [];
       const actionsForRole = response.contract_actions ?? [];
+
       if (!isNullOrEmpty(actionsForRole)) {
         yield all(
           Object.keys(actionsForRole).map((actionName) =>
@@ -696,36 +700,31 @@ function* handleWatchForInteractionAdded({
 }) {
   const roleChannel = get<string>(channel, 'topic');
   const roleName = roleChannel.split(':')[1];
-  if (!['everyone_anon', 'trixta_ide_user'].includes(roleName)) {
-    const actionsForRole = response.contract_actions
-      ? Object.entries(response.contract_actions).reduce(
-          (acc, [key, value]) => {
-            acc[`${roleName}:${key}`] = value;
-            return acc;
-          },
-          {},
-        )
-      : [];
+  const actionsForRole = response.contract_actions
+    ? Object.entries(response.contract_actions).reduce((acc, [key, value]) => {
+        acc[`${roleName}:${key}`] = value;
+        return acc;
+      }, {})
+    : [];
 
-    const reactionsForRole = response.contract_reactions
-      ? Object.entries(response.contract_reactions).reduce(
-          (acc, [key, value]) => {
-            acc[`${roleName}:${key}`] = value;
-            return acc;
-          },
-          {},
-        )
-      : [];
-    yield put(
-      addRoleToInteraction({
-        roleKey: roleName,
-        interactions: {
-          actions: actionsForRole,
-          reactions: reactionsForRole,
+  const reactionsForRole = response.contract_reactions
+    ? Object.entries(response.contract_reactions).reduce(
+        (acc, [key, value]) => {
+          acc[`${roleName}:${key}`] = value;
+          return acc;
         },
-      }),
-    );
-  }
+        {},
+      )
+    : [];
+  yield put(
+    addRoleToInteraction({
+      roleKey: roleName,
+      interactions: {
+        actions: actionsForRole,
+        reactions: reactionsForRole,
+      },
+    }),
+  );
 }
 
 /**

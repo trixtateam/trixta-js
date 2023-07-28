@@ -65,7 +65,6 @@ export function getReactionDetails({
       type: 'replace',
     },
   );
-  console.log('instances', instances);
   return {
     mode,
     loadingStatus: { status: true },

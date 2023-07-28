@@ -394,11 +394,11 @@ export const trixtaReducer = (
 
           draft.interactions[setType] = {
             actions: {
-              ...(state.interactions?.[`actions`]?.[setType] ?? {}),
+              ...(state.interactions?.[setType]?.[`actions`] ?? {}),
               ...finalActions,
             },
             reactions: {
-              ...(state.interactions?.[`reactions`]?.[setType] ?? {}),
+              ...(state.interactions?.[setType]?.[`reactions`] ?? {}),
               ...finalReactions,
             },
           };

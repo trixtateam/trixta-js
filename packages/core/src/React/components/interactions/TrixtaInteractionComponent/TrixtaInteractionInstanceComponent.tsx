@@ -64,9 +64,6 @@ function TrixtaInteractionInstanceComponent({
     ...rest,
   };
 
-  // TODO check why we would return null here
-  //  console.info('children', hasResponse, includeResponse, children);
-
   if (hasResponse && !includeResponse) return null;
   if (hasResponse && includeResponse) {
     if (typeof children === 'function') {

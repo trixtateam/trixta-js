@@ -40,6 +40,7 @@ ConnectProps & TrixtaReactionComponentProps) {
     instances,
     roleName,
   });
+
   if (!hasRoleAccess) return null;
   if (isNullOrEmpty(common)) return null;
   if (isNullOrEmpty(instances) || !Array.isArray(instances)) {

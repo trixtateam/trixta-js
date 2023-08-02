@@ -63,6 +63,7 @@ function TrixtaReactionInstanceComponent({
     instanceRef,
     ...rest,
   };
+
   if (hasResponse && !includeResponse) return null;
   if (hasResponse && includeResponse) {
     if (typeof children === 'function') {
@@ -79,6 +80,8 @@ function TrixtaReactionInstanceComponent({
   if (React.isValidElement(children)) {
     return React.cloneElement(children, reactionProps);
   }
+
+  return null;
 }
 
 const makeMapStateToProps = () => {

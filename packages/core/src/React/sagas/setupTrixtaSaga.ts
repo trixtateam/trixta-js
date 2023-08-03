@@ -195,6 +195,7 @@ function* setupRoleSaga({
 }) {
   try {
     const roleChannel = get<string>(channel, 'topic');
+
     const details = parseTrixtaChannel(roleChannel);
     const roleName = roleChannel.split(':')[1];
     yield put(
@@ -495,7 +496,7 @@ function* addReactionListenersForRoleChannelSaga({
  * @param {String} params.reactionName
  * @returns {IterableIterator<*>}
  */
-function* addRoleListeningReactionRequestSaga({
+export function* addRoleListeningReactionRequestSaga({
   roleChannel,
   reactionName,
 }: {

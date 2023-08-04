@@ -312,6 +312,7 @@ export const trixtaReducer = (
               reaction,
             });
 
+
             console.info(
               'trixtaReducer::UPDATE_TRIXTA_REACTION_RESPONSE::instance',
               instance,
@@ -323,23 +324,6 @@ export const trixtaReducer = (
 
             switch (mode.type) {
               case 'replace':
-                Object.keys(draft.reactions).forEach((key) => {
-                  if (
-                    !key.startsWith('trixta_ide_user') &&
-                    !key.startsWith('everyone_anon')
-                  ) {
-
-                    console.info(
-                      'trixtaReducer::UPDATE_TRIXTA_REACTION_RESPONSE::clear',
-                      key,
-                    );
-                    draft.reactions[key].instances = {
-                      requestForResponse: [],
-                      requestForEffect: [],
-                    };
-                  }
-                });
-
                 if (isRequestForResponse) {
                   draft.reactions[
                     keyName

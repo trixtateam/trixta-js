@@ -7,6 +7,9 @@ import copy from 'rollup-plugin-copy';
 import path from 'path';
 import pkg from './package.json';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
+import dotenv from 'dotenv';
+
+const config = dotenv.config();
 
 export default {
   input: './src/index.ts',
@@ -47,11 +50,10 @@ export default {
       targets: [
         {
           src: 'dist/',
-          dest:
-            '/home/work/Workspace/Trixta/theia-trixta/theia-trixta-extension/node_modules/@trixtateam/trixta-js-rjsf/',
+          dest: config.parsed.DEST_NODE_MODULES_FOLDER,
         },
       ],
-      hook: 'buildEnd',
+      hook: 'closeBundle',
     }),
   ],
 };

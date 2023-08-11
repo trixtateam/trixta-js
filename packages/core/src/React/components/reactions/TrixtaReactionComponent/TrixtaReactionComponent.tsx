@@ -39,7 +39,6 @@ function TrixtaReactionComponent({
     instances,
     roleName,
   });
-
   if (!hasRoleAccess) return null;
   if (isNullOrEmpty(common)) return null;
   if (isNullOrEmpty(instances) || !Array.isArray(instances)) {
@@ -48,15 +47,6 @@ function TrixtaReactionComponent({
     }
     return null;
   }
-
-  console.info('TrixtaReactionComponent::common', common);
-  console.info('TrixtaReactionComponent::roleName', roleName);
-  console.info('TrixtaReactionComponent::reactionName', reactionName);
-  console.info('TrixtaReactionComponent::errorEvent', errorEvent);
-  console.info('TrixtaReactionComponent::responseEvent', responseEvent);
-  console.info('TrixtaReactionComponent::requestForEffect', requestForEffect);
-  console.info('TrixtaReactionComponent::requestEvent', requestEvent);
-  console.info('TrixtaReactionComponent::instances', instances);
 
   return (
     <>

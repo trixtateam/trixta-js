@@ -301,8 +301,6 @@ export function* setupTrixtaReactionForRole({
 function* submitActionResponseSaga({
   payload,
 }: SubmitTrixtaActionResponseAction) {
-  console.info('submitActionResponseSaga::payload', payload);
-
   try {
     const roleName = payload.roleName;
     const responseEvent = payload.responseEvent;
@@ -335,15 +333,10 @@ function* submitActionResponseSaga({
       ? { debug: true, ...(debugOptions || {}), ...(actionOptions || {}) }
       : { ...(actionOptions || {}) };
 
-    console.info('submitActionResponseSaga::trixtaMeta', trixtaMeta);
-
     const channelTopic = getChannelName({ role: roleName });
     if (requestEvent) {
       yield put({ type: requestEvent, payload });
     }
-
-    console.info('submitActionResponseSaga::channelTopic', channelTopic);
-    console.info('submitActionResponseSaga::requestEvent', requestEvent);
 
     yield put(getPhoenixChannel({ channelTopic }));
     yield put(

@@ -64,6 +64,18 @@ function TrixtaInteractionInstanceComponent({
     ...rest,
   };
 
+  // HACK: this is a temporary fix for the trixta ide views,
+  // because of rjsf the props require formContext and formData but we don't always pass those in,
+  // When getting rid of some of the dependency on rjsf
+  // the requirement of the below code should be reviewed.
+  if (!reactionProps.formData && reactionProps.data) {
+    reactionProps.formData = reactionProps.data;
+  }
+
+  reactionProps.formContext = {
+    ...reactionProps,
+  };
+
   if (hasResponse && !includeResponse) return null;
   if (hasResponse && includeResponse) {
     if (typeof children === 'function') {

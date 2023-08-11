@@ -55,6 +55,7 @@
     "patch": "npm --no-git-tag-version version prepatch --preid=beta",
     "minor": "npm --no-git-tag-version version preminor --preid=beta",
     "test": "jest",
+    "watch": "rollup -c rollup.dev.config.js -w",
     "test:clean": "rimraf ./coverage",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",

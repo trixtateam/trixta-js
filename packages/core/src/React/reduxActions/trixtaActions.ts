@@ -44,7 +44,6 @@ export function submitTrixtaActionResponse<TFormData = never>({
 }: SubmitTrixtaActionResponse<TFormData>): SubmitTrixtaActionResponseAction<
   TFormData
 > {
-
   return {
     type: SUBMIT_TRIXTA_ACTION_RESPONSE,
     payload: {

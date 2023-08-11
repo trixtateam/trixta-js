@@ -34,7 +34,6 @@ function TrixtaReactionInstanceComponent({
   includeResponse,
   ...rest
 }: ConnectProps & DispatchProps & TrixtaReactionInstanceComponentProps) {
-
   const response = get<TrixtaInstanceResponse>(instance, 'response', {
     success: false,
     error: false,

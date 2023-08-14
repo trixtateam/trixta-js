@@ -7,7 +7,7 @@ import {
   TrixtaReactionInstance,
   TrixtaReactionInstanceDetails,
 } from '../../../types';
-import { TrixtaReactionComponentProps } from '../../../../../../../types';
+import { TrixtaReactionComponentProps } from '../../reactions/TrixtaReactionComponent/types';
 import { TrixtaReactionComponentArgs } from '../../reactions';
 
 export interface TrixtaInteractionComponentArgs<

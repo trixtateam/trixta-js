@@ -16,7 +16,7 @@ config.plugins[replacePluginIndex] = babel({
   preventAssignment: true,
 });
 config.plugins[babelPluginIndex] = babel({
-  babelHelpers: 'bundled',
+  babelHelpers: 'runtime',
   extensions: ['.js', '.jsx', '.ts', '.tsx'],
 });
 config.plugins[cjsPluginIndex] = commonjs({

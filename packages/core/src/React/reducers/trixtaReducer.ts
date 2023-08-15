@@ -590,7 +590,6 @@ export const trixtaReducer = (
               RequestStatus.NONE;
           }
 
-
           const mode = get<TrixtaInstanceMode>(
             state.actions,
             `${keyName}.mode`,

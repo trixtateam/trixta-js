@@ -50,7 +50,7 @@ function TrixtaReactionComponent(
           );
         }
 
-          return null;
+        return null;
       }}
     </TRC>
   );

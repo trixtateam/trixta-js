@@ -1,23 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import React from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { get } from '../../../../utils';
+import { submitTrixtaReactionResponse } from '../../../reduxActions';
 import {
-  get,
   makeSelectIsTrixtaReactionInProgress,
   makeSelectIsTrixtaReactionLoading,
   makesSelectIsTrixtaReactionReadyForRole,
   makesSelectTrixtaReactionResponseInstance,
-  submitTrixtaReactionResponse,
+} from '../../../selectors';
+import {
   TrixtaDebugType,
   trixtaInstanceDebugger,
-  TrixtaInstanceResponse,
-  TrixtaReactionComponentArgs,
-  TrixtaState,
-} from '@trixtateam/trixta-js-core';
-import React from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { TrixtaReactionInstanceComponentProps } from './types';
+} from '../../../TrixtaDebugger';
+import { TrixtaInstanceResponse, TrixtaState } from '../../../types';
+import { TrixtaInteractionInstanceComponentProps } from './types';
+import { TrixtaReactionComponentArgs } from '../../reactions';
 
-function TrixtaReactionInstanceComponent({
+function TrixtaInteractionInstanceComponent({
   dispatchSubmitReactionResponse,
   roleName,
   reactionName,
@@ -32,10 +33,7 @@ function TrixtaReactionInstanceComponent({
   isReady,
   includeResponse,
   ...rest
-}: ConnectProps &
-  DispatchProps &
-  TrixtaReactionInstanceComponentProps &
-  Record<string, unknown>) {
+}: ConnectProps & DispatchProps & TrixtaInteractionInstanceComponentProps) {
   const response = get<TrixtaInstanceResponse>(instance, 'response', {
     success: false,
     error: false,
@@ -66,6 +64,18 @@ function TrixtaReactionInstanceComponent({
     ...rest,
   };
 
+  // HACK: this is a temporary fix for the trixta ide views,
+  // because of rjsf the props require formContext and formData but we don't always pass those in,
+  // When getting rid of some of the dependency on rjsf
+  // the requirement of the below code should be reviewed.
+  if (!reactionProps.formData && reactionProps.data) {
+    reactionProps.formData = reactionProps.data;
+  }
+
+  reactionProps.formContext = {
+    ...reactionProps,
+  };
+
   if (hasResponse && !includeResponse) return null;
   if (hasResponse && includeResponse) {
     if (typeof children === 'function') {
@@ -82,6 +92,8 @@ function TrixtaReactionInstanceComponent({
   if (React.isValidElement(children)) {
     return React.cloneElement(children, reactionProps);
   }
+
+  return null;
 }
 
 const makeMapStateToProps = () => {
@@ -91,7 +103,7 @@ const makeMapStateToProps = () => {
   const getIsTrixtaReactionReady = makesSelectIsTrixtaReactionReadyForRole();
   const mapStateToProps = (
     state: { trixta: TrixtaState },
-    props: TrixtaReactionInstanceComponentProps,
+    props: TrixtaInteractionInstanceComponentProps,
   ) => {
     return {
       instance: getTrixtaReactionResponseInstance(state, props),
@@ -105,7 +117,7 @@ const makeMapStateToProps = () => {
 
 function mapDispatchToProps(
   dispatch: Dispatch,
-  ownProps: TrixtaReactionInstanceComponentProps,
+  ownProps: TrixtaInteractionInstanceComponentProps,
 ) {
   return {
     dispatchSubmitReactionResponse: (formData?: any) =>
@@ -133,13 +145,4 @@ type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 type ConnectProps = ReturnType<ReturnType<typeof makeMapStateToProps>>;
 
 const connector = connect(makeMapStateToProps, mapDispatchToProps);
-
-export default connector(
-  React.memo(
-    TrixtaReactionInstanceComponent,
-    (
-      props: TrixtaReactionInstanceComponentProps,
-      nextProps: TrixtaReactionInstanceComponentProps,
-    ) => props.instanceRef === nextProps.instanceRef,
-  ),
-);
+export default connector(React.memo(TrixtaInteractionInstanceComponent));

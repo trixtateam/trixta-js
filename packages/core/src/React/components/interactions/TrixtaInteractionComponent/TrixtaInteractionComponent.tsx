@@ -1,21 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { isNullOrEmpty } from '../../../../utils/validation';
+import { isNullOrEmpty } from '../../../../utils';
 import {
   makeSelectHasTrixtaRoleAccess,
   makeSelectTrixtaReactionCommonForRole,
   makeSelectTrixtaReactionResponseInstancesForRole,
 } from '../../../selectors';
-import { trixtaDebugger, TrixtaDebugType } from '../../../TrixtaDebugger';
-import { TrixtaState } from '../../../types/common';
-import { TrixtaReactionInstanceComponent } from '../TrixtaReactionInstanceComponent';
-import { TrixtaReactionComponentProps } from './types';
+import { TrixtaState } from '../../../types';
+import { TrixtaInteractionComponentProps } from './types';
+import TrixtaInteractionInstanceComponent from './TrixtaInteractionInstanceComponent';
 
 /**
  * React component used to pass Trixta Reaction Props to your
  * child component or function.
  */
-function TrixtaReactionComponent({
+function TrixtaInteractionComponent({
   common,
   roleName,
   reactionName,
@@ -29,16 +28,8 @@ function TrixtaReactionComponent({
   debugMode = false,
   instances,
   ...rest
-}: ConnectProps & TrixtaReactionComponentProps) {
-  trixtaDebugger({
-    type: TrixtaDebugType.Reaction,
-    debugMode,
-    hasRoleAccess,
-    common,
-    name: reactionName,
-    instances,
-    roleName,
-  });
+}: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+ConnectProps & TrixtaInteractionComponentProps) {
   if (!hasRoleAccess) return null;
   if (isNullOrEmpty(common)) return null;
   if (isNullOrEmpty(instances) || !Array.isArray(instances)) {
@@ -51,7 +42,7 @@ function TrixtaReactionComponent({
   return (
     <>
       {instances.map((value, index) => (
-        <TrixtaReactionInstanceComponent
+        <TrixtaInteractionInstanceComponent
           key={`${reactionName}-${value.instanceKey}-instance`}
           includeResponse={includeResponse}
           reactionName={reactionName}
@@ -77,7 +68,7 @@ const makeMapStateToProps = () => {
   const getHasTrixtaRoleAccess = makeSelectHasTrixtaRoleAccess();
   const mapStateToProps = (
     state: { trixta: TrixtaState },
-    props: TrixtaReactionComponentProps,
+    props: TrixtaInteractionComponentProps,
   ) => {
     return {
       common: getTrixtaCommonForRole(state, props),
@@ -91,4 +82,4 @@ const makeMapStateToProps = () => {
 type ConnectProps = ReturnType<ReturnType<typeof makeMapStateToProps>>;
 
 const connector = connect(makeMapStateToProps);
-export default connector(TrixtaReactionComponent);
+export default connector(TrixtaInteractionComponent);

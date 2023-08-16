@@ -5,7 +5,10 @@
   "author": "jacqueswho <jacqueswho@gmail.com>",
   "private": true,
   "workspaces": {
-     "packages": ["packages/core","packages/rjsf"]
+    "packages": [
+      "packages/core",
+      "packages/rjsf"
+    ]
   },
   "scripts": {
     "dev": "rollup -c --watch",
@@ -46,8 +49,8 @@
     "@semantic-release/release-notes-generator": "^10.0.3",
     "husky": "^8.0.0",
     "lerna-alias": "^3.0.2",
-    "npm-run-all": "^4.1.5",
     "multi-semantic-release": "^3.0.1",
+    "npm-run-all": "^4.1.5",
     "pre-commit": "1.2.2",
     "prettier": "2.0.5",
     "react": "^16.14.0",
@@ -59,5 +62,9 @@
     "rimraf": "^3.0.2",
     "semantic-release": "^19.0.5",
     "typescript": "~4.1.5"
+  },
+  "dependencies": {
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-node-polyfills": "^0.2.1"
   }
 }

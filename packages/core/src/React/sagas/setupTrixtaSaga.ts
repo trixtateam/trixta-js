@@ -18,7 +18,6 @@ import {
   connectPhoenix,
   getPhoenixChannel,
   leavePhoenixChannel,
-  phoenixChannelJoin,
   pushToPhoenixChannel,
   socketActionTypes,
 } from '@trixtateam/phoenix-to-redux';
@@ -55,6 +54,7 @@ import {
   SubmitTrixtaReactionResponseAction,
   UpdateTrixtaActionDetailsAction,
   updateTrixtaError,
+  addRoleToInteraction,
   UpdateTrixtaReactionDetailsAction,
   UpdateTrixtaRoleAction,
   updateTrixtaRoles,
@@ -137,9 +137,11 @@ function* checkTrixtaRolesSaga({
 > {
   try {
     const spaceStatus = yield select(selectTrixtaSpaceStatus);
+
     if (spaceStatus !== 'connected') {
       yield put(updateDisconnectedTrixtaRoles({ roles }));
     }
+
     if (!isNullOrEmpty(roles) && spaceStatus === 'connected') {
       yield all(
         roles.map((role) =>
@@ -162,6 +164,7 @@ function* checkTrixtaRolesSaga({
 function* checkLoggedInRoleSaga({ role }: { role: TrixtaRoleParameter }) {
   if (!isNullOrEmpty(role)) {
     const channelTopic = getChannelName({ role: role.name });
+
     yield put(
       getPhoenixChannel({
         channelTopic,
@@ -182,7 +185,6 @@ function* checkLoggedInRoleSaga({ role }: { role: TrixtaRoleParameter }) {
  * @returns {IterableIterator<*>}
  */
 function* setupRoleSaga({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   additionalData,
   response,
   channel,
@@ -193,6 +195,7 @@ function* setupRoleSaga({
 }) {
   try {
     const roleChannel = get<string>(channel, 'topic');
+
     const details = parseTrixtaChannel(roleChannel);
     const roleName = roleChannel.split(':')[1];
     yield put(
@@ -203,9 +206,11 @@ function* setupRoleSaga({
         connectionId: response.temp_user_id,
       }),
     );
+
     if (!isNullOrEmpty(response)) {
       const reactionsForRole = response.contract_reactions ?? [];
       const actionsForRole = response.contract_actions ?? [];
+
       if (!isNullOrEmpty(actionsForRole)) {
         yield all(
           Object.keys(actionsForRole).map((actionName) =>
@@ -323,6 +328,7 @@ function* submitActionResponseSaga({
     const actionOptions = get<
       SubmitTrixtaActionResponseAction['payload']['actionOptions']
     >(payload, 'actionOptions', {});
+
     const options = debugMode
       ? { debug: true, ...(debugOptions || {}), ...(actionOptions || {}) }
       : { ...(actionOptions || {}) };
@@ -331,6 +337,7 @@ function* submitActionResponseSaga({
     if (requestEvent) {
       yield put({ type: requestEvent, payload });
     }
+
     yield put(getPhoenixChannel({ channelTopic }));
     yield put(
       pushToPhoenixChannel({
@@ -491,7 +498,7 @@ function* addReactionListenersForRoleChannelSaga({
  * @param {String} params.reactionName
  * @returns {IterableIterator<*>}
  */
-function* addRoleListeningReactionRequestSaga({
+export function* addRoleListeningReactionRequestSaga({
   roleChannel,
   reactionName,
 }: {
@@ -677,6 +684,51 @@ function* handleChannelJoinSaga({
 }) {
   yield fork(setupRoleSaga, { response, channel, additionalData });
 }
+/**
+ * After joining the channel
+ * call setupRoleSaga
+ * @param response
+ * @param additionalData
+ * @param channel
+ * @returns {IterableIterator<*>}
+ */
+function* handleWatchForInteractionAdded({
+  response,
+  additionalData,
+  channel,
+}: {
+  response: TrixtaChannelJoinResponse;
+  channel: Channel;
+  additionalData?: any;
+}) {
+  const roleChannel = get<string>(channel, 'topic');
+  const roleName = roleChannel.split(':')[1];
+  const actionsForRole = response.contract_actions
+    ? Object.entries(response.contract_actions).reduce((acc, [key, value]) => {
+        acc[`${roleName}:${key}`] = value;
+        return acc;
+      }, {})
+    : [];
+
+  const reactionsForRole = response.contract_reactions
+    ? Object.entries(response.contract_reactions).reduce(
+        (acc, [key, value]) => {
+          acc[`${roleName}:${key}`] = value;
+          return acc;
+        },
+        {},
+      )
+    : [];
+  yield put(
+    addRoleToInteraction({
+      roleKey: roleName,
+      interactions: {
+        actions: actionsForRole,
+        reactions: reactionsForRole,
+      },
+    }),
+  );
+}
 
 /**
  * After leaving the channel
@@ -743,12 +795,7 @@ function* watchForPhoenixChannelJoined(): Generator<
   void,
   unknown
 > {
-  while (true) {
-    const action: ReturnType<typeof phoenixChannelJoin> = yield take(
-      channelActionTypes.CHANNEL_JOIN,
-    );
-    yield fork(handleChannelJoinSaga, action);
-  }
+  yield takeEvery(channelActionTypes.CHANNEL_JOIN, handleChannelJoinSaga);
 }
 
 function* watchForPhoenixChannelLeft() {
@@ -849,6 +896,7 @@ function* loginToTrixtaSpace({
 
 export function* setupTrixtaSaga(): Generator<unknown, void, unknown> {
   yield all([
+    takeLatest(channelActionTypes.CHANNEL_JOIN, handleWatchForInteractionAdded),
     fork(watchForUpdateTrixtaRoles),
     fork(watchForUpdateTrixtaRole),
     fork(watchForRemoveTrixtaRole),

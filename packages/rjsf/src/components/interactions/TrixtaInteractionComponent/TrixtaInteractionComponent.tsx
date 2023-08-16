@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import {
-  TrixtaReactionComponent as TRC,
+  TrixtaInteractionComponent as TRC,
   DefaultUnknownType,
 } from '@trixtateam/trixta-js-core';
 import TrixtaFormComponent from '../../TrixtaFormComponent/TrixtaFormComponent';
-import { TrixtaReactionComponentProps } from './types';
+import { TrixtaInteractionComponentProps } from './types';
 
-function TrixtaReactionComponent(
-  props: TrixtaReactionComponentProps,
+function TrixtaInteractionComponent(
+  props: TrixtaInteractionComponentProps,
 ): React.ReactElement | null {
   return (
     <TRC {...props}>
@@ -49,11 +49,10 @@ function TrixtaReactionComponent(
             />
           );
         }
-
         return null;
       }}
     </TRC>
   );
 }
 
-export default TrixtaReactionComponent;
+export default TrixtaInteractionComponent;

@@ -8,6 +8,7 @@ import {
   TrixtaInstance,
   TrixtaInstanceMode,
 } from '../common';
+import { UPDATE_TRIXTA_INTERACTIONS } from '../../constants';
 export type TrixtaReactionType = 'requestForEffect' | 'requestForResponse';
 
 export interface TrixtaReactionInstance<
@@ -74,6 +75,16 @@ export interface TrixtaReactionResponseDetails<
   dateCreated?: string;
 }
 
+export type UpdateTrixtaInteractionUpdate = {
+  type: typeof UPDATE_TRIXTA_INTERACTIONS;
+  payload: {
+    keyName: string;
+    type: string;
+    role: string;
+    action: object | undefined;
+    reaction: object | undefined;
+  };
+};
 export type TrixtaReactionDetails = TrixtaCommon;
 
 export interface TrixtaReactionDispatch<TInitialData = DefaultUnknownType> {

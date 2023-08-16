@@ -40,10 +40,11 @@
   },
   "homepage": "https://github.com/trixtateam/trixta-js#readme",
   "scripts": {
-    "dev": "rollup -c --watch",
+    "dev": "rollup -c rollup.dev.config.js --w",
     "link:phoenix-to-redux": "npm link @trixtateam/phoenix-to-redux",
     "build": "kcd-scripts build --bundle es,cjs",
     "prebuild": "rimraf dist types && yarn run lint:fix",
+    "watch": "rollup -c rollup.dev.config.js -w",
     "lint:ts": "tsc --noEmit",
     "lint": "yarn run eslint src",
     "lint:fix": "yarn run lint --fix",

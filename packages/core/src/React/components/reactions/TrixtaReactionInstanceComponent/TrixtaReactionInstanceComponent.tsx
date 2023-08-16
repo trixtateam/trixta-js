@@ -38,6 +38,7 @@ function TrixtaReactionInstanceComponent({
     success: false,
     error: false,
   });
+
   trixtaInstanceDebugger({
     debugMode,
     response,
@@ -63,6 +64,7 @@ function TrixtaReactionInstanceComponent({
     instanceRef,
     ...rest,
   };
+
   if (hasResponse && !includeResponse) return null;
   if (hasResponse && includeResponse) {
     if (typeof children === 'function') {
@@ -79,6 +81,8 @@ function TrixtaReactionInstanceComponent({
   if (React.isValidElement(children)) {
     return React.cloneElement(children, reactionProps);
   }
+
+  return null;
 }
 
 const makeMapStateToProps = () => {
@@ -130,13 +134,4 @@ type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 type ConnectProps = ReturnType<ReturnType<typeof makeMapStateToProps>>;
 
 const connector = connect(makeMapStateToProps, mapDispatchToProps);
-
-export default connector(
-  React.memo(
-    TrixtaReactionInstanceComponent,
-    (
-      props: TrixtaReactionInstanceComponentProps,
-      nextProps: TrixtaReactionInstanceComponentProps,
-    ) => props.instanceRef === nextProps.instanceRef,
-  ),
-);
+export default connector(React.memo(TrixtaReactionInstanceComponent));

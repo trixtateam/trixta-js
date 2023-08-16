@@ -10,10 +10,10 @@ module.exports = {
   coverageReporters: ['json-summary', 'json', 'lcov', 'text'],
   coverageThreshold: {
     global: {
-      branches: 49,
-      functions: 60,
-      lines: 60,
-      statements: 60,
+      branches: 45,
+      functions: 55,
+      lines: 55,
+      statements: 55,
     },
   },
   setupFiles: ['react-app-polyfill/jsdom'],

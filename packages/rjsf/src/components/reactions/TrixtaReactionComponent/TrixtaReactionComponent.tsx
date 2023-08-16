@@ -49,7 +49,6 @@ function TrixtaReactionComponent(
             />
           );
         }
-
         return null;
       }}
     </TRC>

@@ -46,17 +46,13 @@ export function getReactionDetails({
  *   store in the reducer
  * @param {Object} params
  * @param {Object} params.details - reaction details
- */ export function getTrixtaReactionReducerStructure({
+ */
+export function getTrixtaReactionReducerStructure({
   details,
   keyName,
-  instances = undefined,
 }: {
   details: TrixtaCommon;
   keyName: string;
-  instances?: {
-    requestForEffect: any[];
-    requestForResponse: any[];
-  };
 }): TrixtaReaction {
   const mode = get<TrixtaInstanceMode>(
     details,
@@ -65,14 +61,12 @@ export function getReactionDetails({
       type: 'replace',
     },
   );
+
   return {
     mode,
     loadingStatus: { status: true },
     requestStatus: { [keyName]: RequestStatus.NONE },
-    instances:
-      instances !== undefined
-        ? instances
-        : { requestForEffect: [], requestForResponse: [] },
+    instances: { requestForEffect: [], requestForResponse: [] },
     common: details,
   };
 }

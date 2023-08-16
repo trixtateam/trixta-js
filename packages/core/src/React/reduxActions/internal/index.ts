@@ -8,7 +8,6 @@ import {
   UPDATE_DISCONNECTED_ROLES,
   UPDATE_TRIXTA_ACTION,
   UPDATE_TRIXTA_ERROR,
-  SET_TRIXTA_INTERACTIONS,
   UPDATE_TRIXTA_REACTION,
   UPDATE_TRIXTA_REACTION_RESPONSE,
 } from '../../constants';
@@ -132,26 +131,6 @@ export function updateTrixtaReaction({
         role,
       }),
       trixtaReaction: trixtaReaction,
-    },
-  };
-}
-
-/**
- *  Updates the TrixtaState actions[role:name] with
- * default reducer structure
- *
- * @param params.roleKey - name of role
- * @param params.actions - action of role
- * @param params.reactions - name of action
- */
-export function addRoleToInteraction({ roleKey, interactions }: any) {
-  return {
-    type: SET_TRIXTA_INTERACTIONS,
-    payload: {
-      keyName: roleKey,
-      setType: 'drafts',
-      locale: 'interactions',
-      interactions: interactions,
     },
   };
 }

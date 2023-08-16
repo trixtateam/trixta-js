@@ -12,6 +12,7 @@ import {
 } from '../../React/reducers';
 import { TrixtaState } from '../../React/types/common';
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function createReducer() {
   return combineReducers({
     trixta: trixtaReducer,

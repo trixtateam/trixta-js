@@ -2,8 +2,7 @@ name: publish-release
 
 on:
   push:
-    branches:
-      - master
+    branches: [master, alpha, beta]
 
   workflow_dispatch:
 

@@ -65,7 +65,6 @@ function TrixtaReactionInstanceComponent({
     instanceRef,
     ...rest,
   };
-
   if (hasResponse && !includeResponse) return null;
   if (hasResponse && includeResponse) {
     if (typeof children === 'function') {

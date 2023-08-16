@@ -110,7 +110,3 @@ lib
 # react story book files
 storybook-static/
 .node-version
-
-
-# IDE project files
-.idea

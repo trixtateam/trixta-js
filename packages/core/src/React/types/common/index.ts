@@ -174,7 +174,6 @@ export type TrixtaState = {
   space?: string;
   status: TrixtaConnectionStatus;
   error: DefaultUnknownType;
-  interactions: any;
   authorizationStarted: boolean;
   authorizingStatus: Record<string, LoadingStatus>;
   agentDetails: Record<string, boolean>;

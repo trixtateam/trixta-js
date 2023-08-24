@@ -55,7 +55,7 @@ jobs:
       - name: 📦 Release packages
         run: |
           npm config set workspaces-update false
-          yarn release
+          npm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

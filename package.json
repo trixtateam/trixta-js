@@ -4,12 +4,10 @@
   "description": "Trixta monorepo",
   "author": "jacqueswho <jacqueswho@gmail.com>",
   "private": true,
-  "workspaces": {
-    "packages": [
-      "packages/core",
-      "packages/rjsf"
-    ]
-  },
+  "workspaces": [
+    "packages/core",
+    "packages/rjsf"
+  ],
   "scripts": {
     "dev": "rollup -c --watch",
     "link:phoenix-to-redux": "npm link @trixtateam/phoenix-to-redux",

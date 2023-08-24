@@ -55,7 +55,7 @@ jobs:
       - name: 📦 Release packages
         run: |
           npm config set workspaces-update false
-          npm run release
+          npm run release -- --sequential-init false
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

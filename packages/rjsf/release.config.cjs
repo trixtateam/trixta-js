@@ -22,14 +22,14 @@ module.exports = {
           { type: 'style', release: 'patch' },
           { scope: 'no-release', release: false },
         ],
-        "parserOpts": {
-          "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES"]
-        }
+        parserOpts: {
+          noteKeywords: ['BREAKING CHANGE', 'BREAKING CHANGES'],
+        },
       },
     ],
     '@semantic-release/release-notes-generator',
     '@semantic-release/changelog',
-    ['@semantic-release/npm', { npmPublish: false, }],
+    ['@semantic-release/npm', { npmPublish: false }],
     [
       '@semantic-release/git',
       {

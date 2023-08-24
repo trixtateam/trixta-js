@@ -593,6 +593,7 @@ function* submitResponseForReactionSaga({
       }),
     );
   } catch (error) {
+    console.error('error', error);
     yield put(updateTrixtaError({ error: error.toString() }));
   }
 }

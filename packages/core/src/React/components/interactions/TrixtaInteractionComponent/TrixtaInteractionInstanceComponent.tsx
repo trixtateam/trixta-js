@@ -120,10 +120,10 @@ function mapDispatchToProps(
   ownProps: TrixtaInteractionInstanceComponentProps,
 ) {
   return {
-    dispatchSubmitReactionResponse: (formData?: any) =>
+    dispatchSubmitReactionResponse: (formContext?: any) =>
       dispatch(
         submitTrixtaReactionResponse({
-          formData,
+          formData: formContext?.formData,
           errorEvent: ownProps.errorEvent,
           extraData: ownProps.extraData,
           timeoutEvent: ownProps.setTimeoutEventAsErrorEvent

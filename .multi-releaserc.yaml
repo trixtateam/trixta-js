@@ -1,3 +1,4 @@
 sequentialInit: true
-sequentialPrepare: false
+sequentialPrepare: true
 debug: true
+logLevel: "trace"

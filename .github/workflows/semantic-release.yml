@@ -53,7 +53,9 @@ jobs:
         run: yarn test:cov-badges
 
       - name: 📦 Release packages
-        run: yarn release
+        run: |
+          npm config set workspaces-update false
+          yarn release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

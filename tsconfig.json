@@ -3,7 +3,7 @@
     "outDir": "dist",
     "strictFunctionTypes": false,
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "downlevelIteration": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
@@ -13,7 +13,11 @@
     "jsx": "react",
     "noEmit": true,
     "target": "ESNext",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
     "allowJs": true,
     "checkJs": false, // typecheck js files
     "noImplicitAny": true,
@@ -29,11 +33,19 @@
     "suppressImplicitAnyIndexErrors": true,
     "resolveJsonModule": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["jest", "@testing-library/jest-dom", "node"],
+    "types": [
+      "jest",
+      "@testing-library/jest-dom",
+      "node"
+    ],
     "typeRoots": [
-      "node_modules/@types"]
+      "node_modules/@types"
+    ]
   },
-  "include": ["packages/*/src", "packages/stories"],
+  "include": [
+    "packages/*/src",
+    "packages/stories"
+  ],
   "exclude": [
     "node_modules",
     "packages/*/node_modules",

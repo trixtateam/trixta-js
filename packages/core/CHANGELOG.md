@@ -1,3 +1,27 @@
+# @trixtateam/trixta-js-core [2.0.0-alpha.1](https://github.com/trixtateam/trixta-js/compare/@trixtateam/trixta-js-core@1.0.0...@trixtateam/trixta-js-core@2.0.0-alpha.1) (2023-08-25)
+
+
+### Bug Fixes
+
+* fix the interactions view ([c31cc2b](https://github.com/trixtateam/trixta-js/commit/c31cc2bbca05eb28cf42710c9b45458093a2b849))
+* **interactions:** fix a bug where the rfr does not work ([96ded5a](https://github.com/trixtateam/trixta-js/commit/96ded5a4083adf6c422486f572f9c5e58a050614))
+* **interactions:** remove code that removes instances of reactions when a flow is run ([3498e65](https://github.com/trixtateam/trixta-js/commit/3498e6500866138dd4b9491fee2f446900975f1a))
+
+
+### chore
+
+* **versioning:** create a build for the first alpha version ([ee8d532](https://github.com/trixtateam/trixta-js/commit/ee8d5328d408c3c8e32cbeeef519e54c148cacf8))
+
+
+### Features
+
+* **instances:** reset instances when a flow runs in the ide ([a6f84bc](https://github.com/trixtateam/trixta-js/commit/a6f84bc7a1d745bf73c36724dc40e82086ffbbf4))
+
+
+### BREAKING CHANGES
+
+* **versioning:** This is to update the sem verion to version 2
+
 # @trixtateam/trixta-js-core 1.0.0 (2022-12-15)
 
 ## [5.6.8](https://github.com/trixtateam/trixta-js/compare/v5.6.7...v5.6.8) (2022-10-11)

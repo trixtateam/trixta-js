@@ -3,7 +3,7 @@
     "outDir": "dist",
     "strictFunctionTypes": false,
     "declaration": true,
-    "declarationMap": false,
+    "declarationMap": true,
     "downlevelIteration": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,

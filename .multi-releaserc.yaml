@@ -1,2 +1,3 @@
 sequentialInit: true
 sequentialPrepare: true
+debug: true

@@ -23,7 +23,7 @@ jobs:
       - name: 💿 Setup Nodejs
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: ${{ matrix.node-version }}
           registry-url: 'https://npm.pkg.github.com'
 
       - name: 💾 Get yarn cache directory path
@@ -55,7 +55,7 @@ jobs:
       - name: 📦 Release packages
         run: |
           npm config set workspaces-update false
-          npm run release -- --sequential-init false
+          yarn release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

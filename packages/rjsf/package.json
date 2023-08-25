@@ -1,6 +1,6 @@
 {
   "name": "@trixtateam/trixta-js-rjsf",
-  "version": "1.0.0",
+  "version": "2.0.0-alpha.1",
   "description": "Javascript library to integrate Trixta with RJSF",
   "source": "src/index.ts",
   "main": "./dist/@trixtateam/trixta-js-rjsf.cjs.js",
@@ -161,7 +161,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/react-hooks": "^7.0.0",
     "@trixtateam/phoenix-to-redux": "1.1.1",
-    "@trixtateam/trixta-js-core": "1.0.0",
+    "@trixtateam/trixta-js-core": "2.0.0-alpha.1",
     "@types/debug": "4.1.5",
     "@types/jest": "^26.0.20",
     "@types/json-schema": "^7.0.4",

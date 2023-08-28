@@ -443,6 +443,7 @@ export const trixtaReducer = (
         {
           const reactionDetails = action.payload.trixtaReaction;
           const keyName = action.payload.keyName;
+
           if (!state.reactions[keyName]) {
             draft.reactions[keyName] = getTrixtaReactionReducerStructure({
               details: reactionDetails,

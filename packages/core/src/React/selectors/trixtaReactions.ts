@@ -199,6 +199,28 @@ export const selectTrixtaReactionResponseInstance = (
       ][props.instanceIndex]
     : undefined;
 
+function getInstanceList(
+  selectedReaction: TrixtaReaction | undefined,
+  requestForEffect: boolean | undefined,
+) {
+  if (requestForEffect) {
+    return selectedReaction
+      ? selectedReaction?.instances[
+          requestForEffect ? 'requestForEffect' : 'requestForResponse'
+        ]
+      : [];
+  } else {
+    if (!selectedReaction?.instances) {
+      return [];
+    }
+    if (selectedReaction?.instances['requestForEffect'].length > 0) {
+      return selectedReaction?.instances['requestForEffect'];
+    } else {
+      return selectedReaction?.instances['requestForResponse'];
+    }
+  }
+}
+
 /**
  * Selects the reactions[props.roleName:props.reactionName].instances
  * for the given props.roleName ,  props.reactionName and returns the reaction instances for requestForEffect or requestForResponse
@@ -216,13 +238,8 @@ export const makeSelectTrixtaReactionResponseInstancesForRole = (): OutputParame
 > =>
   createSelector(
     [selectTrixtaReactionStateSelector, selectTrixtaReactionTypeProp],
-    (selectedReaction, requestForEffect) => {
-      return selectedReaction
-        ? selectedReaction?.instances[
-            requestForEffect ? 'requestForEffect' : 'requestForResponse'
-          ]
-        : [];
-    },
+    (selectedReaction, requestForEffect) =>
+      getInstanceList(selectedReaction, requestForEffect),
   );
 
 /**
@@ -248,9 +265,7 @@ export const makesSelectTrixtaReactionResponseInstance = (): OutputParametricSel
       selectTrixtaReactionInstanceIndexProp,
     ],
     (selectedReaction, requestForEffect, instanceIndex) => {
-      return selectedReaction?.instances[
-        requestForEffect ? 'requestForEffect' : 'requestForResponse'
-      ][instanceIndex];
+      return getInstanceList(selectedReaction, requestForEffect)[instanceIndex];
     },
   );
 

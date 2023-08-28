@@ -28,8 +28,8 @@ function TrixtaInteractionComponent({
   debugMode = false,
   instances,
   ...rest
-}: // eslint-disable-next-line @typescript-eslint/no-explicit-any
-ConnectProps & TrixtaInteractionComponentProps) {
+}:
+  ConnectProps & TrixtaInteractionComponentProps) {
   if (!hasRoleAccess) return null;
   if (isNullOrEmpty(common)) return null;
   if (isNullOrEmpty(instances) || !Array.isArray(instances)) {

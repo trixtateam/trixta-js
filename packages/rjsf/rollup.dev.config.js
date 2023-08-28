@@ -53,7 +53,7 @@ export default {
           dest: config.parsed.DEST_NODE_MODULES_FOLDER,
         },
       ],
-      hook: 'closeBundle',
+      hook: 'buildEnd',
     }),
   ],
 };

@@ -157,7 +157,7 @@
     "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/react-hooks": "^7.0.0",
-    "@trixtateam/phoenix-to-redux": "1.1.1",
+    "@trixtateam/phoenix-to-redux": "1.2.0",
     "@types/debug": "4.1.5",
     "@types/jest": "^26.0.20",
     "@types/json-schema": "^7.0.4",

@@ -44,7 +44,7 @@ export const useTrixtaReaction = <
 >({
   roleName,
   reactionName,
-  requestForEffect = false,
+  requestForEffect,
   debugMode = false,
   loadingStatusRef,
   onSuccess,

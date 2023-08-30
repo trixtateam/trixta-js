@@ -28,8 +28,7 @@ function TrixtaInteractionComponent({
   debugMode = false,
   instances,
   ...rest
-}:
-  ConnectProps & TrixtaInteractionComponentProps) {
+}: ConnectProps & TrixtaInteractionComponentProps) {
   if (!hasRoleAccess) return null;
   if (isNullOrEmpty(common)) return null;
   if (isNullOrEmpty(instances) || !Array.isArray(instances)) {

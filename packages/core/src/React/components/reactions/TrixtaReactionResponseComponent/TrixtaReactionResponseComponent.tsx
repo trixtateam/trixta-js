@@ -20,7 +20,7 @@ function TrixtaReactionResponseComponent({
   roleName,
   reactionName,
   defaultComponent,
-  requestForEffect = false,
+  requestForEffect,
   errorEvent,
   responseEvent,
   requestEvent,

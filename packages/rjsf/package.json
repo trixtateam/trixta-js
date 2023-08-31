@@ -1,6 +1,6 @@
 {
   "name": "@trixtateam/trixta-js-rjsf",
-  "version": "1.0.0",
+  "version": "2.0.0-alpha.1",
   "description": "Javascript library to integrate Trixta with RJSF",
   "source": "src/index.ts",
   "main": "./dist/@trixtateam/trixta-js-rjsf.cjs.js",
@@ -118,7 +118,6 @@
     "react-dom": ">=16.8.0",
     "react-redux": ">=7.2.1",
     "redux": "~4.1.2",
-    "@trixtateam/trixta-js-core": "1.0.0",
     "redux-saga": ">=1.2.1",
     "reselect": "~4.0.0"
   },
@@ -132,6 +131,7 @@
     "@babel/cli": "^7.10.5",
     "@babel/core": "7.12.10",
     "@babel/helpers": "^7.13.0",
+    "@trixtateam/trixta-js-core": "2.0.0-alpha.1",
     "@babel/plugin-transform-react-jsx": "^7.12.17",
     "@babel/plugin-transform-runtime": "^7.13.8",
     "@babel/polyfill": "^7.11.5",

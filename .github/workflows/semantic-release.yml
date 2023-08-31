@@ -23,7 +23,7 @@ jobs:
       - name: 💿 Setup Nodejs
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '16.x'
           registry-url: 'https://npm.pkg.github.com'
 
       - name: 💾 Get yarn cache directory path
